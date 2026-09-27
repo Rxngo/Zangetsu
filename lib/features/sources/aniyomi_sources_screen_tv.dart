@@ -402,7 +402,7 @@ class _AniScreenTvSourceRowState extends State<_AniScreenTvSourceRow> {
                     child: Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 14),
+                          padding: const EdgeInsetsDirectional.only(end: 14),
                           // Bigger than the phone tile — this is read from
                           // across a room.
                           child: SourceIconTile(
@@ -831,7 +831,7 @@ class _AniScreenTvExtensionRowState extends State<_AniScreenTvExtensionRow> {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 14),
+                  padding: const EdgeInsetsDirectional.only(end: 14),
                   child: SourceIconTile(
                     size: 38,
                     name: entry.name,

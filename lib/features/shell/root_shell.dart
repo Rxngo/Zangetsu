@@ -747,7 +747,7 @@ class _ProfileDockItem extends StatelessWidget {
     return Expanded(
       // See [_DockItem]: the name has to survive the label folding away.
       child: Semantics(
-        label: 'Profile',
+        label: context.l10n.profile,
         button: true,
         selected: selected,
         container: true,
@@ -843,7 +843,7 @@ class _ProfileDockItem extends StatelessWidget {
                             child: Opacity(
                               opacity: labelOpacity,
                               child: Text(
-                                'Profile',
+                                context.l10n.profile,
                                 maxLines: 1,
                                 overflow: TextOverflow.clip,
                                 softWrap: false,

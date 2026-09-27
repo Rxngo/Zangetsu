@@ -442,7 +442,7 @@ class _ZInstalledRow extends StatelessWidget {
           // The repo manifest's `logo`, with the install-time snapshot as the
           // offline fallback. Letter tile when neither has one.
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsetsDirectional.only(end: 12),
             child: SourceIconTile(name: name, icon: logo),
           ),
           Expanded(
@@ -803,7 +803,7 @@ class _ZRepoSourceRow extends StatelessWidget {
         children: [
           // The manifest may declare a `logo`, relative to itself.
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsetsDirectional.only(end: 12),
             child: SourceIconTile(
               name: source.name,
               icon: ProviderReposRegistry.resolveLogoUrl(repo, source),

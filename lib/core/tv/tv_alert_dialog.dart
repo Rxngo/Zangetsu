@@ -147,7 +147,7 @@ class _TvAlertDialogState extends State<TvAlertDialog> {
                 ),
                 const SizedBox(height: 32),
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: AlignmentDirectional.centerEnd,
                   child: Wrap(
                     alignment: WrapAlignment.end,
                     spacing: 12,

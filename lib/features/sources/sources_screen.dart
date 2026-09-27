@@ -289,7 +289,7 @@ class _AniSourceRowState extends State<_AniSourceRow> {
       final update = pkg == null ? null : lookup(pkg);
       if (update == null) return const SizedBox.shrink();
       return Padding(
-        padding: const EdgeInsets.only(right: 4),
+        padding: const EdgeInsetsDirectional.only(end: 4),
         child: FilledButton(
           onPressed: _busy ? null : () => _applyUpdate(update),
           style: FilledButton.styleFrom(

@@ -209,12 +209,14 @@ class _TvHeroState extends State<_TvHero> {
                   ),
                   child: _logoUrl != null
                       ? Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: CachedNetworkImage(
                             imageUrl: _logoUrl!,
                             cacheManager: AppImageCache.manager,
                             fit: BoxFit.contain,
-                            alignment: Alignment.centerLeft,
+                            alignment: AlignmentDirectional.centerStart.resolve(
+                              Directionality.of(context),
+                            ),
                             memCacheWidth: memW,
                             fadeInDuration: Duration.zero,
                             errorWidget: (_, _, _) => _titleText(),

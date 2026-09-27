@@ -242,7 +242,7 @@ class _FeaturedBannerPanelsState extends State<FeaturedBannerPanels> {
                     item: item,
                     maxHeight: 26,
                     maxWidthFactor: 0.34,
-                    align: TextAlign.left,
+                    align: TextAlign.start,
                     fontSize: 16,
                     onTap: () => widget.onInfo(item),
                   ),
@@ -251,7 +251,7 @@ class _FeaturedBannerPanelsState extends State<FeaturedBannerPanels> {
                   BannerMetaLine(
                     metaFuture: widget.meta?.call(item),
                     reading: widget.reading,
-                    align: TextAlign.left,
+                    align: TextAlign.start,
                     compact: true,
                   ),
                 ],

@@ -256,7 +256,7 @@ class _SourcePriorityScreenState extends State<SourcePriorityScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 6, 0, 0),
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: _resetButton(ZKind.anime),
               ),
             ),
@@ -485,7 +485,7 @@ class _SourcePriorityScreenState extends State<SourcePriorityScreen> {
                         width: 18,
                         child: Text(
                           '${index + 1}',
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.end,
                           style: AppText.caption.copyWith(
                             color: tried
                                 ? AppColors.textSecondary

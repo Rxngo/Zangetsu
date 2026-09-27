@@ -169,7 +169,7 @@ class _ContinueCardState extends State<ContinueCard> {
                         color: Colors.white.withValues(alpha: 0.25),
                       ),
                       FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         widthFactor: p,
                         child: ColoredBox(color: AppColors.accent),
                       ),

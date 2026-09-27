@@ -265,7 +265,7 @@ class _SectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(left: 4),
+    padding: const EdgeInsetsDirectional.only(start: 4),
     child: Text(text, style: AppText.overline),
   );
 }
@@ -471,7 +471,7 @@ class _EcoRow extends StatelessWidget {
                         ),
                         if (updateCount > 0)
                           Padding(
-                            padding: const EdgeInsets.only(left: 6),
+                            padding: const EdgeInsetsDirectional.only(start: 6),
                             child: Text(
                               '· $updateCount update${updateCount == 1 ? '' : 's'}',
                               style: AppText.caption.copyWith(

@@ -2328,8 +2328,8 @@ class _DetailViewState extends State<_DetailView>
               // content gutter (title/synopsis), and labelPadding(right: 24)
               // spaces the tabs apart while keeping them left-anchored —
               // never centered/spread (matches Sozo Read).
-              padding: const EdgeInsets.only(left: 16),
-              labelPadding: const EdgeInsets.only(right: 24),
+              padding: const EdgeInsetsDirectional.only(start: 16),
+              labelPadding: const EdgeInsetsDirectional.only(end: 24),
               labelColor: AppColors.accent,
               unselectedLabelColor: AppColors.textSecondary,
               indicatorSize: TabBarIndicatorSize.label,
@@ -2340,7 +2340,7 @@ class _DetailViewState extends State<_DetailView>
                 // bottom of that box with a visible gap under the word.
                 // Raising the line rather than shortening the tab keeps the
                 // tap target at its full height.
-                insets: EdgeInsets.only(left: 2, right: 2, bottom: 8),
+                insets: EdgeInsetsDirectional.only(start: 2, end: 2, bottom: 8),
               ),
               // Remove the full-width underline divider under the bar.
               dividerColor: Colors.transparent,

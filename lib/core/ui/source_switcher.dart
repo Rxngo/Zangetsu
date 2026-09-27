@@ -1099,7 +1099,7 @@ class _SourcePickerSheetState extends State<_SourcePickerSheet> {
             Container(
               width: 30,
               height: 30,
-              margin: const EdgeInsets.only(right: 10),
+              margin: const EdgeInsetsDirectional.only(end: 10),
               decoration: BoxDecoration(
                 color: AppColors.accent.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(9),
@@ -1189,7 +1189,7 @@ class _SourcePickerSheetState extends State<_SourcePickerSheet> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Select Source',
                     style: AppText.title.copyWith(color: AppColors.textPrimary),
@@ -1253,8 +1253,8 @@ class _SourcePickerSheetState extends State<_SourcePickerSheet> {
               TabBar(
                 isScrollable: true,
                 tabAlignment: TabAlignment.start,
-                padding: const EdgeInsets.only(left: 16),
-                labelPadding: const EdgeInsets.only(right: 24),
+                padding: const EdgeInsetsDirectional.only(start: 16),
+                labelPadding: const EdgeInsetsDirectional.only(end: 24),
                 labelColor: AppColors.accent,
                 unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.accent,
@@ -1415,7 +1415,7 @@ class _SourceRow extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsetsDirectional.only(end: 10),
               // sourceRowName first: the tag ("CS · ", "Ani · ") is not part
               // of the name, and every CloudStream row would read "C".
               child: SourceIconTile(name: sourceRowName(label), icon: icon),

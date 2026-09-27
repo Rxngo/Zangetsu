@@ -474,7 +474,7 @@ class _RootShellTvState extends State<RootShellTv> with WidgetsBindingObserver {
               key: const ValueKey('tv-rail-wordmark'),
               height: 18,
               fit: BoxFit.contain,
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
             ),
           ),
           const SizedBox(width: 12),
@@ -830,7 +830,7 @@ class _RootShellTvState extends State<RootShellTv> with WidgetsBindingObserver {
                       child: OverflowBox(
                         minWidth: _kNavExpanded,
                         maxWidth: _kNavExpanded,
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         child: SizedBox(
                           width: _kNavExpanded,
                           child: _railColumn(),

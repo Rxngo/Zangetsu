@@ -679,7 +679,7 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(48, 4, 48, 0),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: TvFocusable(
           key: const ValueKey('tv-search-genres'),
           variant: TvFocusVariant.pill,
@@ -929,7 +929,7 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
                 itemBuilder: (context, i) {
                   final item = g.items[i];
                   return Padding(
-                    padding: const EdgeInsets.only(right: 16),
+                    padding: const EdgeInsetsDirectional.only(end: 16),
                     child: SizedBox(
                       width: 130,
                       // First tile of the first row gets autofocus so D-pad DOWN

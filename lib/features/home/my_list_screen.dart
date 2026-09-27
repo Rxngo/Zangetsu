@@ -583,7 +583,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 6),
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(c.name, style: AppText.title),
               ),
             ),

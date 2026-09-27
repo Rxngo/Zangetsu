@@ -671,7 +671,7 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
                             const Padding(
                               padding: EdgeInsets.fromLTRB(8, 4, 12, 0),
                               child: Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: TvBackButton(),
                               ),
                             ),
@@ -924,7 +924,7 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
                                 i++
                               )
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 4),
+                                  padding: const EdgeInsetsDirectional.only(end: 4),
                                   child: TvFocusable(
                                     key: ValueKey('tv-detail-tab-$i'),
                                     variant: TvFocusVariant.pill,
@@ -1356,7 +1356,7 @@ class _TvEpisodeDescriptionDialogState
               ),
               const SizedBox(height: 20),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: AlignmentDirectional.centerEnd,
                 child: TvFocusable(
                   focusNode: _closeFocus,
                   variant: TvFocusVariant.pill,

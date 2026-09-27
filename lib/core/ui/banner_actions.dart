@@ -88,8 +88,10 @@ class _BannerTitleLogoState extends State<BannerTitleLogo> {
             child: CachedNetworkImage(
               imageUrl: _url!,
               fit: BoxFit.contain,
-              alignment: widget.align == TextAlign.left
-                  ? Alignment.centerLeft
+              alignment: widget.align == TextAlign.start
+                  ? AlignmentDirectional.centerStart.resolve(
+                      Directionality.of(context),
+                    )
                   : Alignment.center,
               fadeInDuration: const Duration(milliseconds: 250),
               errorWidget: (_, _, _) => _text(),

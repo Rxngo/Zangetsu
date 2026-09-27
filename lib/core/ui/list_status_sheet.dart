@@ -235,7 +235,7 @@ class ListStatusSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 14, 20, 6),
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text('Add to your list', style: AppText.headline),
                 ),
               ),

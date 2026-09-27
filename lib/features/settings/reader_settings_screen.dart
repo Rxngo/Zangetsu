@@ -143,7 +143,7 @@ class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(title, style: AppText.headline),
               ),
             ),

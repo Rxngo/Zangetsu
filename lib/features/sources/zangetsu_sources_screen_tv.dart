@@ -447,7 +447,7 @@ class _ZTvInstalledRow extends StatelessWidget {
             // The repo manifest's `logo`, falling back to the install-time
             // snapshot. Letter tile when neither has one.
             Padding(
-              padding: const EdgeInsets.only(right: 14),
+              padding: const EdgeInsetsDirectional.only(end: 14),
               child: SourceIconTile(size: 38, name: name, icon: logo),
             ),
             // Source name + meta (non-interactive label).
@@ -938,7 +938,7 @@ class _ZTvRepoSourceRow extends StatelessWidget {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 14),
+            padding: const EdgeInsetsDirectional.only(end: 14),
             child: SourceIconTile(
               size: 38,
               name: source.name,
