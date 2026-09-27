@@ -667,7 +667,7 @@ class _EpisodesHeader extends StatelessWidget {
           // Left: season dropdown pill (multi-season) or a plain label.
           Expanded(
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: hasMultipleSeasons
                   ? Material(
                       color: AppColors.surface2,
@@ -786,7 +786,7 @@ class _SeasonSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(context.l10n.seasons, style: AppText.title),
             ),
           ),
@@ -1195,7 +1195,7 @@ class _ChapterRow extends StatelessWidget {
                     const SizedBox(height: 6),
                     FractionallySizedBox(
                       widthFactor: fraction.clamp(0.0, 1.0),
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Container(
                         height: 2,
                         decoration: BoxDecoration(

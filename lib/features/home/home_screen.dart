@@ -641,7 +641,7 @@ class _HomeViewState extends State<_HomeView>
             // is untouched.
             Expanded(
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => showMetadataSwitchSheet(context),
@@ -2269,7 +2269,7 @@ class _IncognitoChip extends StatelessWidget {
       return Padding(
         // Its own breathing room. The old chip carried a right margin only, so
         // it sat flush against the wordmark.
-        padding: const EdgeInsets.only(left: 10, right: 6),
+        padding: const EdgeInsetsDirectional.only(start: 10, end: 6),
         child: Tooltip(
           message: l10n.incognitoMode,
           child: GestureDetector(

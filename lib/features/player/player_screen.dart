@@ -1826,7 +1826,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       barrierColor: Colors.black54,
       transitionDuration: const Duration(milliseconds: 240),
       pageBuilder: (ctx, _, _) => Align(
-        alignment: Alignment.centerRight,
+        alignment: AlignmentDirectional.centerEnd,
         child: _EpisodesPanel(
           episodes: _c.episodes,
           currentIndex: _c.state.currentIndex,

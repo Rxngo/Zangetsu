@@ -215,7 +215,7 @@ class _DownloadsScreenState extends State<DownloadsScreen>
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(l10n.downloadSettings, style: AppText.title),
                   ),
                 ),

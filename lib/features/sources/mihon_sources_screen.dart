@@ -413,7 +413,7 @@ class _MihonExtensionGroupState extends State<_MihonExtensionGroup> {
                 // Every language of a multi-language extension is one
                 // package, so the whole group shares one icon.
                 Padding(
-                  padding: const EdgeInsets.only(right: 12),
+                  padding: const EdgeInsetsDirectional.only(end: 12),
                   child: SourceIconTile(
                     name: name,
                     icon: SourceIconStore.urlFor(rows.first.pkg),
@@ -634,7 +634,7 @@ class _MihonSourceRowState extends State<_MihonSourceRow> {
       final update = lookup(source.pkg);
       if (update == null) return const SizedBox.shrink();
       return Padding(
-        padding: const EdgeInsets.only(right: 4),
+        padding: const EdgeInsetsDirectional.only(end: 4),
         // Capped width + an ellipsis, because this row also carries a
         // settings, a sign-in and a delete button: the button's full label
         // used to win the width fight outright and the source NAME was what
@@ -681,7 +681,7 @@ class _MihonSourceRowState extends State<_MihonSourceRow> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsetsDirectional.only(end: 12),
               child: SourceIconTile(
                 name: source.displayName,
                 icon: SourceIconStore.urlFor(source.pkg),

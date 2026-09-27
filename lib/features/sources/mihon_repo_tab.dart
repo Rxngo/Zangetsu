@@ -494,7 +494,7 @@ class _MihonRepoSectionState extends State<_MihonRepoSection> {
                         final n = mgr.updatesFor(widget.url).length;
                         if (n == 0) return const SizedBox.shrink();
                         return Padding(
-                          padding: const EdgeInsets.only(right: 2),
+                          padding: const EdgeInsetsDirectional.only(end: 2),
                           child: GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: _updateAll,
@@ -836,7 +836,7 @@ class _MihonExtensionRowState extends State<_MihonExtensionRow> {
           // The index names the icon, so a browse row can show the real logo
           // before anything is installed.
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsetsDirectional.only(end: 12),
             child: SourceIconTile(name: _entry.name, icon: _entry.iconUrl),
           ),
           Expanded(

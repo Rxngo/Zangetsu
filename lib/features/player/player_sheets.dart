@@ -1393,7 +1393,7 @@ class _ColorSheetState extends State<_ColorSheet> {
             children: [
               for (final id in _quick)
                 Padding(
-                  padding: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsetsDirectional.only(end: 8),
                   child: GestureDetector(
                     onTap: () => _applyPreset(ColorProfiles.byId(id)),
                     child: Container(
@@ -1721,7 +1721,7 @@ class _SheetRow extends StatelessWidget {
                       color: AppColors.textSecondary,
                       visualDensity: VisualDensity.compact,
                       constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsetsDirectional.only(start: 8),
                       onPressed: onRemove,
                     ),
                 ],

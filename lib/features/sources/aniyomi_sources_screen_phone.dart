@@ -398,7 +398,7 @@ class _AniSourceRowState extends State<_AniSourceRow> {
       final update = pkg == null ? null : lookup(pkg);
       if (update == null) return const SizedBox.shrink();
       return Padding(
-        padding: const EdgeInsets.only(right: 4),
+        padding: const EdgeInsetsDirectional.only(end: 4),
         // Capped width + an ellipsis, because this row also carries a
         // settings, a sign-in and a delete button: the button's full label
         // used to win the width fight outright and the source NAME was what
@@ -443,7 +443,7 @@ class _AniSourceRowState extends State<_AniSourceRow> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsetsDirectional.only(end: 12),
               child: SourceIconTile(
                 name: source.displayName,
                 icon: aniProvider == null

@@ -44,7 +44,7 @@ Future<String?> showSubtitleLanguagePicker(
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text('Subtitle language', style: AppText.headline),
             ),
           ),

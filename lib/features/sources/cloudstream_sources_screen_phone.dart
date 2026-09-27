@@ -360,7 +360,7 @@ class _CsScreenSourceRow extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsetsDirectional.only(end: 12),
               // A loaded plugin has no icon of its own; the catalog entry it
               // came from does.
               child: SourceIconTile(
@@ -649,7 +649,7 @@ class _CsScreenRepoSectionState extends State<_CsScreenRepoSection> {
                     behavior: HitTestBehavior.opaque,
                     onTap: () => _applyCsRepoUpdates(context, group),
                     child: Container(
-                      margin: const EdgeInsets.only(right: 2),
+                      margin: const EdgeInsetsDirectional.only(end: 2),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 5,
@@ -903,7 +903,7 @@ class _CsScreenPluginRowState extends State<_CsScreenPluginRow> {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsetsDirectional.only(end: 12),
             child: SourceIconTile(
               name: widget.plugin.name,
               icon: widget.plugin.iconUrl,

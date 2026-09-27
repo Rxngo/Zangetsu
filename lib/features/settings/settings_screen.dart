@@ -421,14 +421,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(sheetL10n.dns, style: AppText.headline),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(sheetL10n.dnsBlurb, style: AppText.caption),
                   ),
                 ),
@@ -496,7 +496,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       sheetL10n.searchLayout,
                       style: AppText.headline,
@@ -506,7 +506,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       sheetL10n.searchLayoutBlurb,
                       style: AppText.caption,
@@ -589,7 +589,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       sheetL10n.batchDownloadStyle,
                       style: AppText.headline,
@@ -599,7 +599,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       sheetL10n.batchDownloadStyleBlurb,
                       style: AppText.caption,
@@ -832,7 +832,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: AppColors.settingsCard,
         borderRadius: BorderRadius.circular(13),
       ),
-      padding: const EdgeInsets.only(left: 14, right: 4),
+      padding: const EdgeInsetsDirectional.only(start: 14, end: 4),
       child: Row(
         children: [
           const Icon(
