@@ -49,6 +49,10 @@ Aniyomi / Tachiyomi
   docs/licenses/aniyomi-extensions-lib-NOTICE.md. The full Apache License 2.0
   text is included as LICENSE-Apache-2.0.txt.
 
+  The Mihon manga-source runtime, which lives under that same
+  eu/kanade/tachiyomi/ path, is a separate ecosystem on a separate version
+  line and was not touched by this change.
+
 Other dependencies (Flutter/Dart packages and Android libraries) are used under
 their respective open-source licenses; refer to each package for details.
 
