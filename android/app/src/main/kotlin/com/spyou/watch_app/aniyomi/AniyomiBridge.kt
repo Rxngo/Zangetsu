@@ -262,6 +262,67 @@ class AniyomiBridge(
                     }
                 }
 
+                // extensions-lib 17: ask a source what changed for one anime and forward
+                // the answer to Dart. Kept separate from "getEpisodes" so Dart can
+                // refresh in place without refetching the whole page.
+                "getAnimeEpisodeUpdate" -> {
+                    val sourceId = (call.argument<Number>("sourceId") ?: run {
+                        result.error("BAD_ARGS", "sourceId required", null); return@setMethodCallHandler
+                    }).toLong()
+                    val url = call.argument<String>("url") ?: run {
+                        result.error("BAD_ARGS", "url required", null); return@setMethodCallHandler
+                    }
+                    val fetchDetails = call.argument<Boolean>("fetchDetails") ?: true
+                    val fetchEpisodes = call.argument<Boolean>("fetchEpisodes") ?: true
+                    val src = AniyomiSourceManager.get(sourceId) ?: run {
+                        result.error("NO_SOURCE", "Source $sourceId not found", null)
+                        return@setMethodCallHandler
+                    }
+                    scope.launch(Dispatchers.IO) {
+                        runCatching {
+                            val stub = SAnimeImpl().apply { this.url = url }
+                            // Reading the *existing* list is best-effort: many sources throw
+                            // from getEpisodeList, and failing the whole update because the
+                            // prior state was unreadable would be the wrong trade. Sources that
+                            // don't implement lib-17 hit the v16 default, which throws — that
+                            // surfaces as EPISODE_UPDATE and the caller keeps what it has.
+                            val existing = runCatching { src.getEpisodeList(stub) }.getOrDefault(emptyList())
+                            val update = src.getAnimeEpisodeUpdate(stub, existing, fetchDetails, fetchEpisodes)
+                            AniyomiJson.episodeUpdateToJson(update)
+                        }.fold(
+                            onSuccess = { json -> withContext(Dispatchers.Main) { result.success(json) } },
+                            onFailure = { err -> withContext(Dispatchers.Main) { result.failWith(err, "EPISODE_UPDATE") } },
+                        )
+                    }
+                }
+
+                // extensions-lib 17: the season-list counterpart of the above.
+                "getAnimeSeasonUpdate" -> {
+                    val sourceId = (call.argument<Number>("sourceId") ?: run {
+                        result.error("BAD_ARGS", "sourceId required", null); return@setMethodCallHandler
+                    }).toLong()
+                    val url = call.argument<String>("url") ?: run {
+                        result.error("BAD_ARGS", "url required", null); return@setMethodCallHandler
+                    }
+                    val fetchDetails = call.argument<Boolean>("fetchDetails") ?: true
+                    val fetchSeasons = call.argument<Boolean>("fetchSeasons") ?: true
+                    val src = AniyomiSourceManager.get(sourceId) ?: run {
+                        result.error("NO_SOURCE", "Source $sourceId not found", null)
+                        return@setMethodCallHandler
+                    }
+                    scope.launch(Dispatchers.IO) {
+                        runCatching {
+                            val stub = SAnimeImpl().apply { this.url = url }
+                            val existing = runCatching { src.getSeasonList(stub) }.getOrDefault(listOf(stub))
+                            val update = src.getAnimeSeasonUpdate(stub, existing, fetchDetails, fetchSeasons)
+                            AniyomiJson.seasonUpdateToJson(update)
+                        }.fold(
+                            onSuccess = { json -> withContext(Dispatchers.Main) { result.success(json) } },
+                            onFailure = { err -> withContext(Dispatchers.Main) { result.failWith(err, "SEASON_UPDATE") } },
+                        )
+                    }
+                }
+
                 "getVideoList" -> {
                     val sourceId = (call.argument<Number>("sourceId") ?: run {
                         result.error("BAD_ARGS", "sourceId required", null); return@setMethodCallHandler
