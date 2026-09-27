@@ -1,0 +1,3014 @@
+{
+	"@@locale": "id",
+	"cancel": "Batal",
+	"ok": "OK",
+	"save": "Simpan",
+	"close": "Tutup",
+	"retry": "Coba lagi",
+	"search": "Cari",
+	"off": "Tidak aktif",
+	"on": "Aktif",
+	"done": "Selesai",
+	"next": "Berikutnya",
+	"back": "Kembali",
+	"edit": "Edit",
+	"delete": "Hapus",
+	"share": "Bagikan",
+	"copy": "Salin",
+	"play": "Putar",
+	"pause": "Jeda",
+	"yes": "Ya",
+	"no": "Tidak",
+	"all": "Semua",
+	"none": "Tidak ada",
+	"auto": "Otomatis",
+	"add": "Tambah",
+	"remove": "Buang",
+	"install": "Pasang",
+	"uninstall": "Copot",
+	"reset": "Atur ulang",
+	"clear": "Bersihkan",
+	"resume": "Lanjutkan",
+	"download": "Unduh",
+	"update": "Perbarui",
+	"apply": "Terapkan",
+	"enable": "Aktifkan",
+	"create": "Buat",
+	"rename": "Ganti nama",
+	"move": "Pindahkan",
+	"join": "Gabung",
+	"leave": "Keluar",
+	"skip": "Lewati",
+	"later": "Nanti",
+	"dismiss": "Abaikan",
+	"refresh": "Muat ulang",
+	"more": "Lainnya",
+	"info": "Info",
+	"filter": "Filter",
+	"connect": "Hubungkan",
+	"disconnect": "Putuskan",
+	"signIn": "Masuk",
+	"logOut": "Keluar",
+	"tryAgain": "Coba lagi",
+	"showDetails": "Tampilkan detail",
+	"hideDetails": "Sembunyikan detail",
+	"notNow": "Nanti dulu",
+	"change": "Ubah",
+	"go": "Buka",
+	"read": "Baca",
+	"web": "Web",
+	"live": "Live",
+	"sub": "Sub",
+	"dub": "Dubbing",
+	"nsfw": "NSFW",
+	"system": "Sistem",
+	"custom": "Kustom",
+	"defaultLabel": "Bawaan",
+	"selected": "dipilih",
+	"loading": "Memuat…",
+	"searching": "Mencari",
+	"searchingEllipsis": "mencari…",
+	"downloading": "Mengunduh…",
+	"updating": "Memperbarui…",
+	"testing": "Menguji…",
+	"searchOk": "Pencarian OK",
+	"working": "Berjalan",
+	"dead": "Mati",
+	"error": "Kesalahan",
+	"appLanguage": "Bahasa aplikasi",
+	"appLanguageSubtitle": "Bahasa antarmuka",
+	"appLanguageSystem": "Sistem (otomatis)",
+	"appLanguageSystemSubtitle": "Sistem ({name})",
+	"@appLanguageSystemSubtitle": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"appLanguageKeywords": "bahasa lokal terjemahan i18n antarmuka jepang tiongkok spanyol jerman prancis italia",
+	"settingsTitle": "Pengaturan",
+	"settingsSearchHint": "Cari pengaturan",
+	"settingsNoMatch": "Tidak ada pengaturan yang cocok dengan \"{query}\"",
+	"@settingsNoMatch": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSectionAccount": "Akun & sinkronisasi",
+	"settingsSectionSources": "Sumber",
+	"settingsSectionPlayback": "Pemutaran",
+	"settingsSectionReading": "Membaca",
+	"settingsSectionHistory": "Riwayat",
+	"settingsSectionDownloads": "Unduhan",
+	"settingsSectionInterface": "Antarmuka",
+	"settingsSectionNotifications": "Notifikasi",
+	"settingsSectionAdvanced": "Lanjutan",
+	"settingsSectionAbout": "Tentang",
+	"settingsSectionAccountSummary": "Pelacak, Discord, cadangan, sinkronisasi",
+	"settingsSectionSourcesSummary": "Penyedia, sumber aktif, pembaruan",
+	"settingsSectionPlaybackSummary": "Kualitas, putar otomatis, kecepatan",
+	"settingsSectionReadingSummary": "Bawaan pembaca manga & novel",
+	"settingsSectionHistorySummary": "Serial yang pernah kamu tonton",
+	"settingsSectionDownloadsSummary": "Unduhan, penyimpanan, torrent",
+	"settingsSectionInterfaceSummary": "Tampilan, bahasa, tata letak pencarian",
+	"settingsSectionNotificationsSummary": "Peringatan episode baru",
+	"settingsSectionAdvancedSummary": "DNS, privasi, log",
+	"settingsSectionAboutSummary": "Pembaruan, dukungan, versi",
+	"couldNotExportLogs": "Tidak dapat mengekspor log",
+	"logsShareSubject": "Log Zangetsu",
+	"signInSubtitle": "Sinkronkan daftar, riwayat & melanjutkan menonton",
+	"signInSubtitleTv": "Sinkronkan daftar & melanjutkan menonton",
+	"connections": "Koneksi",
+	"discord": "Discord",
+	"discordSubtitle": "Rich Presence — tampilkan statusmu",
+	"watchParty": "Nonton Bareng",
+	"watchPartySubtitle": "Buat atau gabung nonton bareng dengan teman",
+	"signInToWatchTogether": "Masuk untuk menonton bersama",
+	"syncLibraryToCloud": "Sinkronkan pustaka ke cloud",
+	"syncLibraryToCloudSubtitle": "Unggah ulang riwayat & daftar ke akun ini",
+	"signInFirst": "Masuk dulu",
+	"reconnectToSyncLibrary": "Hubungkan kembali untuk menyinkronkan pustaka.",
+	"syncingLibraryToCloud": "Menyinkronkan pustaka ke cloud…",
+	"backupAndRestore": "Cadangan & Pemulihan",
+	"backupAndRestoreSubtitle": "Simpan sumber, daftar & pengaturan",
+	"providers": "Penyedia",
+	"providersEnabledCount": "{count} aktif",
+	"@providersEnabledCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSource": "Sumber aktif",
+	"streamingServices": "Layanan Streaming",
+	"streamingServicesSubtitle": "Jelajahi apa saja yang tersedia di tiap layanan di tempatmu",
+	"streamingServicesEmpty": "Tidak ada layanan untuk negara ini",
+	"streamingServicesMetadataNote": "Hanya menjelajah — judul tetap diputar dari sumbermu",
+	"pinAsHomeRow": "Sematkan sebagai baris beranda",
+	"unpinHomeRow": "Lepas",
+	"pinLimitReached": "Kamu bisa menyematkan {count} layanan",
+	"@pinLimitReached": { "placeholders": { "count": { "type": "int" } } },
+	"streamingRegion": "Wilayah streaming",
+	"streamingRegionSubtitle": "Katalog negara mana yang ditampilkan",
+	"sourceHealth": "Status sumber",
+	"sourceHealthSubtitle": "Uji sumber mana yang berfungsi",
+	"sourceUpdates": "Pembaruan sumber",
+	"sourceUpdatesSubtitle": "Beri tahu saat sumber terpasang punya pembaruan",
+	"autoUpdateExtensions": "Perbarui ekstensi otomatis",
+	"autoUpdateExtensionsSubtitle": "Perbarui sumber terpasang otomatis saat aplikasi dibuka",
+	"playback": "Pemutaran",
+	"playbackSubtitle": "Kualitas, putar otomatis, kecepatan",
+	"reader": "Pembaca",
+	"readerSubtitle": "Bawaan pembaca manga & novel",
+	"history": "Riwayat",
+	"historySubtitle": "Serial yang pernah kamu tonton",
+	"downloads": "Unduhan",
+	"downloadsSubtitle": "Kelola episode yang kamu unduh",
+	"downloadsSubtitleTv": "Tonton luring",
+	"storage": "Penyimpanan",
+	"storageSubtitle": "Kelola ruang yang dipakai aplikasi",
+	"torrents": "Torrent",
+	"torrentsSubtitle": "Pengaturan streaming & data",
+	"appearance": "Tampilan",
+	"appearanceSubtitle": "Warna aksen, lencana poster",
+	"searchLayout": "Tata letak pencarian",
+	"searchLayoutSubtitle": "Cara hasil lintas sumber ditampilkan",
+	"searchLayoutBlurb": "Cara hasil lintas sumber ditampilkan. Vertikal = kisi per sumber; Horizontal = baris bergulir per sumber.",
+	"searchLayoutVertical": "Vertikal (kisi)",
+	"searchLayoutHorizontal": "Horizontal (baris)",
+	"batchDownloadStyle": "Gaya unduhan massal",
+	"batchDownloadStyleSubtitle": "Tampilan sheet multi-episode",
+	"batchDownloadStyleBlurb": "Sheet yang muncul saat kamu mengunduh satu musim. Keduanya mengunduh hal yang sama persis — hanya pemilihnya yang berbeda.",
+	"batchDownloadClassic": "Klasik",
+	"batchDownloadClassicBlurb": "Sheet lengkap dengan kisi thumbnail per episode.",
+	"batchDownloadMinimal": "Minimal",
+	"batchDownloadMinimalBlurb": "Roda angka — pilih berapa episode yang diambil.",
+	"notifications": "Notifikasi",
+	"notificationsSubtitle": "Peringatan episode baru untuk serial langganan",
+	"dns": "DNS",
+	"dnsSubtitle": "Bypass blokir ISP pada sumber CS",
+	"dnsBlurb": "DNS terenkripsi untuk sumber CloudStream — membantu bypass blokir ISP. Tidak aktif = koneksi normalmu.",
+	"dnsOffTvSubtitle": "Tidak aktif · bypass blokir ISP pada sumber CS",
+	"privacy": "Privasi",
+	"privacySubtitle": "Sumber NSFW",
+	"shareLogs": "Bagikan log",
+	"shareLogsSubtitle": "Kirim log diagnostik untuk membantu memperbaiki masalah",
+	"sendingReport": "Mengirim laporan…",
+	"reportSent": "Laporan terkirim",
+	"reportSentBody": "Terima kasih. Jika kamu memberi tahu kami apa yang terjadi, sebutkan kode ini: {ref}",
+	"@reportSentBody": {
+		"placeholders": {
+			"ref": { "type": "String" }
+		}
+	},
+	"about": "Tentang",
+	"versionLabel": "v{version}",
+	"@versionLabel": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"contributors": "Kontributor",
+	"website": "Situs web",
+	"communityChat": "Obrolan komunitas",
+	"joinTheServer": "Gabung ke server",
+	"viewTheSourceCode": "Lihat kode sumber",
+	"howItWorks": "Cara kerjanya",
+	"howItWorksSubtitle": "Baru di sini? Panduan singkat",
+	"checkForUpdates": "Periksa pembaruan",
+	"checkForUpdatesSubtitle": "Dapatkan versi terbaru dari GitHub",
+	"checkingForUpdates": "Memeriksa pembaruan…",
+	"betaUpdates": "Pembaruan beta",
+	"betaUpdatesSubtitle": "Dapatkan build prarilis lebih awal — mungkin belum stabil",
+	"supportTheApp": "Dukung aplikasinya",
+	"buyMeACoffee": "Traktir saya kopi",
+	"leadDeveloper": "Pengembang Utama",
+	"addCloudStreamRepository": "Tambah repositori CloudStream",
+	"installCloudStreamSources": "Pasang sumber CloudStream",
+	"connectionsTvSubtitle": "AniList, MyAnimeList, Simkl",
+	"profile": "Profil",
+	"home": "Beranda",
+	"myList": "My List",
+	"schedule": "Jadwal",
+	"pressBackAgainToExit": "Tekan BACK lagi untuk keluar",
+	"pressBackAgainToExitTv": "Tekan kembali lagi untuk keluar",
+	"selectSource": "Pilih Sumber",
+	"accentWallpaper": "Wallpaper",
+	"accentCoral": "Koral",
+	"accentBlue": "Biru",
+	"accentViolet": "Ungu",
+	"accentEmerald": "Zamrud",
+	"accentAmber": "Amber",
+	"accentRose": "Mawar",
+	"accentCyan": "Sian",
+	"accentCrimson": "Krimson",
+	"shaderOff": "Tidak aktif",
+	"shaderOffDesc": "Tanpa peningkatan",
+	"shaderSharpen": "Pertajam",
+	"shaderSharpenDesc": "Pulihkan detail — terbaik untuk sumber bersih",
+	"shaderDeblur": "Hilangkan blur",
+	"shaderDeblurDesc": "Pemulihan lebih lembut — untuk sumber buram / lembut",
+	"shaderDenoise": "Kurangi derau",
+	"shaderDenoiseDesc": "Bersihkan grain — untuk sumber terkompresi",
+	"shaderTierHigh": "GPU kelas atas",
+	"shaderTierHighDesc": "Upscaler VL berat + penskalaan HQ — butuh GPU kuat",
+	"shaderTierMid": "GPU kelas menengah",
+	"shaderTierMidDesc": "Upscaler ringan + deband — halus di sebagian besar ponsel",
+	"playerInfoResolution": "Resolusi",
+	"playerInfoSource": "Sumber",
+	"playerInfoQuality": "Kualitas",
+	"playerInfoVideoCodec": "Codec video",
+	"playerInfoAudioCodec": "Codec audio",
+	"playerInfoFrameRate": "Frame rate",
+	"playerInfoVideoBitrate": "Bitrate video",
+	"playerInfoBuffer": "Buffer",
+	"playerInfoDroppedFrames": "Frame yang terlewat",
+	"playerInfoDecoder": "Decoder",
+	"playerInfoSpeed": "Kecepatan",
+	"playerInfoAudioTrack": "Trek audio",
+	"playerInfoSubtitleTrack": "Trek subtitle",
+	"playerInfoAudioBoost": "Penguat audio",
+	"statusPlanToWatch": "Rencana ditonton",
+	"statusWatching": "Sedang ditonton",
+	"statusCompleted": "Selesai",
+	"statusPaused": "Dijeda",
+	"statusDropped": "Berhenti",
+	"statusPlanning": "Merencanakan",
+	"statusReading": "Sedang dibaca",
+	"statusPlanToRead": "Rencana dibaca",
+	"providerHavingAMoment": "{name} sedang bermasalah",
+	"@providerHavingAMoment": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerHavingAMomentBody": "Tidak merespons saat ini. Beri waktu sebentar — atau ganti penyedia metadata di Pengaturan.",
+	"sourceNotAnswering": "{name} tidak merespons",
+	"@sourceNotAnswering": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceNotAnsweringBody": "Mungkin sedang mati atau memblokir permintaan. Coba lagi, atau pindah ke sumber lain dari atas.",
+	"providerNeedsBreather": "{name} perlu istirahat",
+	"@providerNeedsBreather": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerNeedsBreatherBody": "Kami terlalu sering bertanya. Coba lagi dalam {seconds} dtk.",
+	"@providerNeedsBreatherBody": {
+		"placeholders": {
+			"seconds": {
+				"type": "int"
+			}
+		}
+	},
+	"showingWhatWeHave": "Mungkin sedang mati, atau jaringanmu memblokirnya. Ini yang sudah kami punya.",
+	"titleLanguage": "Bahasa judul",
+	"titleLanguageSubtitle": "Cara judul AniList ditampilkan",
+	"titleLanguageNative": "Asli",
+	"homeRowsLayout": "Menyunting",
+	"homeRows": "Atur Beranda",
+	"homeRowsSubtitle": "Pilih apa yang tampil di Beranda",
+	"homeRowsFromYourLists": "Dari daftarmu",
+	"homeRowsDiscover": "Jelajahi",
+	"homeRowsHelp": "Seret untuk mengurutkan. Matikan baris untuk menyembunyikannya.",
+	"homeRowTrackerContinue": "Lanjutkan di {tracker}",
+	"@homeRowTrackerContinue": {
+		"placeholders": {
+			"tracker": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerCaughtUp": "Sudah tertinggal",
+	"homeRowNewEpisodes": "Episode Baru",
+	"modeStreaming": "Streaming",
+	"modeManga": "Manga",
+	"modeNovel": "Novel",
+	"relativeToday": "Hari ini",
+	"relativeYesterday": "Kemarin",
+	"relativeDaysAgo": "{count, plural, one{{count} hari lalu} other{{count} hari lalu}}",
+	"@relativeDaysAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeWeeksAgo": "{count, plural, one{{count} minggu lalu} other{{count} minggu lalu}}",
+	"@relativeWeeksAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeMonthsAgo": "{count, plural, one{{count} bulan lalu} other{{count} bulan lalu}}",
+	"@relativeMonthsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeYearsAgo": "{count, plural, one{{count} tahun lalu} other{{count} tahun lalu}}",
+	"@relativeYearsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"bootErrorTitle": "Zangetsu tidak selesai memulai",
+	"bootErrorBody": "Ada sesuatu yang tersimpan di perangkat ini yang membuatnya tidak bisa terbuka. Tidak ada yang hilang — akunmu dan semua yang tersinkron ke cloud tetap aman.",
+	"resetAppData": "Atur ulang data aplikasi",
+	"resetAppDataTitle": "Atur ulang data aplikasi?",
+	"resetAppDataBody": "Ini menghapus yang tersimpan Zangetsu di perangkat ini agar bisa mulai dari awal.\n\nAkunmu dan yang tersinkron ke cloud tidak disentuh — masuk lagi dan pustakamu kembali.",
+	"resetAppDataDone": "Tutup Zangetsu sepenuhnya lalu buka lagi.",
+	"detailsCopied": "Detail disalin — kirimkan ke kami",
+	"copyDetails": "Salin detail",
+	"goodToHaveYouHere": "Senang kamu di sini.",
+	"onboardingIntro": "Anime, manga dan novel — semua dalam satu aplikasi, diatur sesuai caramu.",
+	"youChooseWhatsInside": "Kamu yang menentukan isinya",
+	"addTheSourcesYouWant": "Tambahkan sumber yang kamu mau — begini caranya.",
+	"openProviders": "Buka Penyedia",
+	"pickStreamingMangaOrNovels": "Pilih streaming, manga atau novel",
+	"pasteInARepositoryLink": "Tempel tautan repositori",
+	"browseAndGrab": "Jelajahi dan ambil yang bagus",
+	"readyWhenYouAre": "Siap kapan pun kamu siap.",
+	"addSourcesNow": "Tambahkan sumber sekarang",
+	"illDoItLater": "Nanti saja",
+	"howToUseTheApp": "Cara memakai aplikasi",
+	"aFewTapsToAnything": "Beberapa ketukan ke apa saja.",
+	"findSomething": "Cari sesuatu",
+	"watchIt": "Tonton",
+	"ifItWontLoad": "Kalau tidak mau terbuka",
+	"saveForOffline": "Simpan untuk luring",
+	"commonQuestions": "Pertanyaan umum",
+	"noCommunityContributorsYet": "Belum ada kontributor komunitas.",
+	"paged": "Berhalaman",
+	"vertical": "Vertikal",
+	"tapZonesReset": "Zona sentuh direset",
+	"noUPIAppFoundUPIIDCopiedPasteItInYourUPIApp": "Tidak ada aplikasi UPI — ID UPI disalin, tempel di aplikasi UPI-mu",
+	"donateWithPayPal": "Donasi dengan PayPal",
+	"payViaUPI": "Bayar via UPI",
+	"copyUPIID": "Salin ID UPI",
+	"readingMode": "Mode baca",
+	"fit": "Pas",
+	"background": "Latar",
+	"colourFilter": "Filter warna",
+	"orientationLock": "Kunci orientasi",
+	"doublePageLandscape": "Dua halaman (landscape)",
+	"pairFacingPagesInALandscapeSpread": "Pasangkan halaman yang berhadapan dalam tata letak landscape",
+	"cropBorders": "Potong tepi",
+	"trimNearUniformEdgeMarginsFromAPage": "Pangkas margin tepi yang hampir seragam dari halaman",
+	"preloadPages": "Muat awal halaman",
+	"keepScreenOn": "Jaga layar tetap menyala",
+	"readerFullscreen": "Layar penuh",
+	"tapZones": "Zona sentuh",
+	"whatTappingEachPartOfThePageDoes": "Fungsi mengetuk tiap bagian halaman",
+	"font": "Font",
+	"addFont": "Tambah font",
+	"couldntAddFont": "Tidak bisa menambahkan font itu",
+	"theme": "Tema",
+	"fontSize": "Ukuran font",
+	"lineHeight": "Tinggi baris",
+	"margin": "Margin",
+	"justifyText": "Ratakan teks",
+	"textDirection": "Arah teks",
+	"paragraphSpacing": "Spasi paragraf",
+	"paginated": "Berhalaman",
+	"bookStylePagesInsteadOfAContinuousScroll": "Halaman bergaya buku, bukan gulir terus",
+	"enableNSFWSources": "Aktifkan sumber NSFW?",
+	"showNSFWAniyomiSources": "Tampilkan sumber NSFW Aniyomi?",
+	"incognitoMode": "Mode penyamaran",
+	"pauseHistoryTrackingDiscordPresence": "Jeda riwayat, pelacakan & Rich Presence Discord",
+	"enableNSFWSources2": "Aktifkan sumber NSFW",
+	"showSourcesMarked18": "Tampilkan sumber bertanda 18+",
+	"showNSFWSources": "Tampilkan sumber NSFW",
+	"adultAniyomiExtensions": "Ekstensi Aniyomi dewasa",
+	"opensubtitlesAPIKey": "Kunci API OpenSubtitles",
+	"pasteYourKey": "Tempel kuncimu",
+	"createAFreeKeyAtOpensubtitlesComConsumers": "Buat kunci gratis di opensubtitles.com → Consumers.",
+	"shaderDownloadFailedCheckNetwork": "Unduhan shader gagal — cek jaringan",
+	"anime4kEnhancement": "Peningkatan Anime4K",
+	"anime4kGPUTier": "Tingkat GPU Anime4K",
+	"cacheCleared": "Cache dibersihkan",
+	"videoBufferSize": "Ukuran buffer video",
+	"videoBufferLength": "Panjang buffer video",
+	"playerInfoOverlay": "Overlay info pemutar",
+	"defaultQuality": "Kualitas bawaan",
+	"videoDecoder": "Decoder video",
+	"videoRenderer": "Renderer video",
+	"defaultAudio": "Audio bawaan",
+	"defaultSpeed": "Kecepatan bawaan",
+	"doubleTapSkip": "Lewati dengan ketuk ganda",
+	"closeConfirmation": "Konfirmasi keluar",
+	"megaskipDuration": "Durasi MegaSkip",
+	"defaultPlayer": "Pemutar bawaan",
+	"defaultAudioAnimeSubDub": "Audio bawaan (sub/dub anime)",
+	"builtIn": "Bawaan",
+	"playerControls": "Kontrol pemutar",
+	"reorderOrHideTheButtonsOnThePlayerBar": "Susun ulang atau sembunyikan tombol di bilah pemutar",
+	"resumePlayback": "Lanjutkan pemutaran",
+	"continueFromWhereYouLeftOff": "Lanjutkan dari tempat kamu berhenti",
+	"askBeforeJumping": "Tanya sebelum melompat",
+	"autoAddToMyList": "Otomatis tambahkan ke My List",
+	"addATitleToMyListWhenYouStartWatchingIt": "Tambahkan judul ke My List saat kamu mulai menonton",
+	"autoTrack": "Pelacakan otomatis",
+	"confirm": "konfirmasi",
+	"autoplayNextEpisode": "Putar episode berikutnya otomatis",
+	"autoSkipFillerEpisodes": "Lewati episode filler otomatis",
+	"autoplayTrailer": "Putar trailer otomatis",
+	"playATitleSTrailerOnItsDetailPage": "Putar trailer sebuah judul di halaman detailnya",
+	"playTrailersInHD": "Putar trailer dalam HD",
+	"skipIntroButton": "Tombol Lewati intro",
+	"showSkipOpeningEndingOnAnimeWhenDetected": "Tampilkan Lewati opening/ending di anime (ketika terdeteksi)",
+	"autoSkipOpening": "Lewati opening otomatis",
+	"jumpPastTheOPOnItsOwnNoTap": "Lompat melewati OP secara otomatis, tanpa ketuk",
+	"autoSkipRecap": "Lewati rekap otomatis",
+	"jumpPastThePreviouslyOnRecapNoTap": "Lompat melewati rekap \"previously on\" secara otomatis, tanpa ketuk",
+	"autoSkipEnding": "Lewati ending otomatis",
+	"jumpPastTheEDOnItsOwnNoTap": "Lompat melewati ED secara otomatis, tanpa ketuk",
+	"megaskipButton": "Tombol MegaSkip",
+	"aJumpForwardButtonInThePlayerAnyVideo": "Tombol lompat maju di pemutar (video apa pun)",
+	"seekButton": "Tampilkan tombol lompat video",
+	"seekButtonDescription": "Tampilkan tombol lompat maju dan mundur di pemutar",
+	"seekButtonDuration": "Durasi Lompat",
+	"selectSeekButtonDurationDescription": "Pilih durasi lompat untuk tombol lompat",
+	"nativeTVPlayer": "Pemutar TV bawaan",
+	"softwareAudioDolbyDTS": "Audio perangkat lunak (Dolby/DTS)",
+	"seekPreviewOnline": "Pratinjau lompat (online)",
+	"thumbnailsWhileScrubbingStreamsCostsExtraData": "Thumbnail saat menggeser streaming — memakai data lebih",
+	"autoPictureInPicture": "Gambar dalam gambar otomatis",
+	"shrinkToAFloatingWindowWhenYouLeaveTheApp": "Perkecil ke jendela mengambang saat kamu keluar dari aplikasi",
+	"showQualityLabel": "Tampilkan label kualitas",
+	"plainQualityTextEG1080pOnTheTopBarRight": "Teks kualitas biasa (mis. 1080p) di kanan bilah atas",
+	"gestureControls": "Kontrol gestur",
+	"swipeLeftForBrightnessRightForVolume": "Geser kiri untuk kecerahan, kanan untuk volume",
+	"swipeToSeek": "Geser untuk melompat",
+	"dragLeftOrRightAcrossTheVideoToScrub": "Seret ke kiri atau kanan di video untuk menggulir",
+	"holdFor2Speed": "Tahan untuk kecepatan 2×",
+	"longPressTheVideoToPlayAt2WhileHeld": "Tekan lama video untuk memutar 2× selama ditahan",
+	"clearImageVideoCache": "Bersihkan cache gambar & video",
+	"styledSubtitlesLibass": "Subtitle bergaya (libass)",
+	"subtitleStyle": "Gaya subtitle",
+	"requiredForOnlineSubtitleSearch": "Wajib untuk pencarian subtitle online",
+	"subtitleLanguage": "Bahasa subtitle",
+	"autoDownloadSubtitles": "Unduh subtitle otomatis",
+	"whenTheSourceHasNoSubtitleInYourLanguage": "Saat sumber tidak punya subtitle dalam bahasamu",
+	"autoTranslateSubtitles": "Terjemahkan subtitle otomatis",
+	"translateToYourLanguageOnPlayWhenTheSourceHasNone": "Terjemahkan ke bahasamu saat diputar (bila sumber tidak punya)",
+	"translateSubtitlesTo": "Terjemahkan subtitle ke",
+	"pickALanguage": "Pilih bahasa",
+	"customColour": "Warna kustom",
+	"materialYou": "Material You",
+	"coloursFromYourWallpaper": "Warna dari wallpaper-mu",
+	"pureBlackBackground": "Latar hitam pekat",
+	"trueBlackForOLED": "Hitam pekat untuk OLED",
+	"posterBadges": "Lencana poster",
+	"qualityAndSubDubBadges": "Lencana skor, kualitas dan Sub/Dub",
+	"animateLists": "Animasi daftar",
+	"cardsFadeInAsYouScroll": "Kartu memudar saat kamu menggulir",
+	"animationStyle": "Gaya animasi",
+	"turnOffMaterialYouToPickAColourYourself": "Matikan Material You untuk memilih warna sendiri",
+	"downloadsZangetsu": "Unduhan › Zangetsu",
+	"removableDrive": "Drive yang bisa dilepas",
+	"chooseFolder": "Pilih folder…",
+	"resetToDefault": "Atur ke bawaan",
+	"connected": "Terhubung",
+	"imageCacheCleared": "Cache gambar dibersihkan",
+	"providerCacheCleared": "Cache penyedia dibersihkan",
+	"clearImageCache": "Bersihkan cache gambar",
+	"clearProviderCache": "Bersihkan cache penyedia",
+	"showTitleE2": "Tampilkan judul · E2",
+	"pinned": "Disematkan",
+	"exoplayerSpikeDev": "Uji ExoPlayer (dev)",
+	"sp0TestSurfaceViewPlaybackSmoothness": "SP0 — uji kelancaran pemutaran SurfaceView",
+	"pasteDiscordToken": "Tempel token Discord",
+	"yourDiscordUserToken": "Token pengguna Discord-mu",
+	"pasteToken": "Tempel token",
+	"useMobileDataForTorrents": "Pakai data seluler untuk torrent",
+	"discordConnected": "Discord terhubung",
+	"disconnectDiscord": "Putuskan Discord?",
+	"notConfigured": "Belum dikonfigurasi",
+	"aDiscordApplicationIDMustBeSetInTheBuildFirst": "ID Aplikasi Discord harus diatur di build terlebih dahulu.",
+	"richPresence": "Rich Presence",
+	"showWhatYouReWatchingOnYourProfile": "Tampilkan yang kamu tonton di profilmu",
+	"signInToLinkYourAccount": "Masuk untuk menautkan akunmu",
+	"autoSync": "Sinkron otomatis",
+	"disconnectingHereOnlySignsThisTrackerOutOnTheTVYourPhoneStaysConnected": "Memutus di sini hanya mengeluarkan pelacak ini dari TV — ponselmu tetap terhubung.",
+	"continueWatching": "Lanjutkan Menonton",
+	"continueReading": "Lanjutkan Membaca",
+	"seeAll": "Lihat semua",
+	"libraryLabel": "Pustaka",
+	"sortBy": "Urutkan berdasarkan",
+	"newCategory": "Kategori baru",
+	"personaGym": "Persona, Gym, …",
+	"deleteCategory": "Hapus kategori",
+	"yourTitlesStayOnlyTheLabelGoes": "Judulmu tetap — hanya labelnya yang hilang",
+	"renameCategory": "Ganti nama kategori",
+	"manageTrackers": "Kelola pelacak",
+	"trackers": "Pelacak",
+	"showLabel": "Tampilkan",
+	"couldnTLoadPullToRefresh": "Tidak bisa memuat — tarik untuk menyegarkan",
+	"noTitlesInThisList": "Tidak ada judul dalam daftar ini",
+	"signInToBuildYourList": "Masuk untuk menyusun daftarmu",
+	"titlesYouAddAppearHere": "Judul yang kamu tambahkan akan muncul di sini",
+	"couldnTLoadTryAgainFromSettings": "Tidak bisa memuat — coba lagi dari Pengaturan",
+	"search2": "Cari…",
+	"voiceSearch": "Pencarian suara",
+	"allSources": "Semua sumber",
+	"currentSource": "Sumber saat ini",
+	"searchFailedTryAgain": "Pencarian gagal — coba lagi",
+	"searchForSomethingToWatch": "Cari sesuatu untuk ditonton",
+	"recentSearches": "Pencarian terakhir",
+	"clearSearchHistory": "Bersihkan riwayat pencarian",
+	"checkTheSpellingOrTryADifferentTitle": "Periksa ejaan atau coba judul lain.",
+	"browseSources": "Jelajahi sumber",
+	"thisSourceHasNoFilters": "Sumber ini tidak punya filter",
+	"searchIn": "Cari di",
+	"filters": "Filter",
+	"sourceFilters": "Filter sumber",
+	"clearFilters": "Bersihkan filter",
+	"topPicks": "Pilihan teratas",
+	"anime": "Anime",
+	"moviesSeries": "Film & Series",
+	"noSourcesInstalled": "Belum ada sumber terpasang",
+	"fromYourResults": "· dari hasilmu",
+	"any": "Apa saja",
+	"someSourcesDonTProvideGenres": "sebagian sumber tidak memberi genre",
+	"searchInSources": "Cari di sumber",
+	"turnAllOff": "Matikan semua",
+	"extensionsUpdated": "Ekstensi diperbarui",
+	"incognito": "Penyamaran",
+	"reconnectToSync": "Hubungkan kembali untuk sinkronkan",
+	"yourSessionExpiredTapToSignInAndSyncYourLibrary": "Sesi kamu habis — ketuk untuk masuk dan sinkronkan pustakamu.",
+	"solveCloudflare": "Selesaikan Cloudflare",
+	"switchSource": "Ganti sumber",
+	"moviesTV": "Film & TV",
+	"couldnTLoadComingSoonPullToRefresh": "Tidak bisa memuat yang akan datang — tarik untuk menyegarkan.",
+	"streamURL": "URL Streaming",
+	"exoplayerSurfaceViewSpikeSP0": "Uji SurfaceView ExoPlayer (SP0)",
+	"episodes": "Episode",
+	"season": "Musim",
+	"jumpToEpisode": "Lompat ke episode…",
+	"preferredLanguage": "Bahasa pilihan…",
+	"searchOnline": "Cari online…",
+	"onlineSubtitles": "Subtitle online",
+	"audioSubs": "Audio & Sub",
+	"nextEpisode": "Episode Berikutnya",
+	"colour": "Warna",
+	"snapshot": "Tangkapan layar",
+	"sleepTimer": "Timer tidur",
+	"pictureInPicture": "Gambar dalam gambar",
+	"cast": "Siaran",
+	"playbackStats": "Statistik pemutaran",
+	"sleepTimerOn": "Timer tidur aktif",
+	"lockControls": "Kunci kontrol",
+	"chat": "Obrolan",
+	"previousEpisode": "Episode sebelumnya",
+	"nextEpisode2": "Episode berikutnya",
+	"translated": "Diterjemahkan",
+	"thisSourceCanTBeCastTryAnotherSource": "Sumber ini tidak bisa disiarkan — coba sumber lain.",
+	"rewind10Seconds": "Mundur 10 detik",
+	"forward10Seconds": "Maju 10 detik",
+	"stopCasting": "Hentikan siaran",
+	"usingTheBuiltInPlayerForThisSource": "Menggunakan pemutar bawaan untuk sumber ini.",
+	"closeVideo": "Tutup video?",
+	"areYouSureYouWantToCloseTheVideo": "Yakin mau menutup video?",
+	"downloadInSettings": "Unduh di Pengaturan",
+	"getTheAnime4KShaders06MBThenTurnItOn": "Ambil shader Anime4K (~0,6 MB), lalu nyalakan",
+	"gpuTIER": "TINGKAT GPU",
+	"endOfEpisode": "Akhir episode",
+	"closeAppWhenTimerEnds": "Tutup aplikasi saat timer selesai",
+	"exitTheAppToSaveBattery": "Keluar dari aplikasi untuk hemat baterai",
+	"playNow": "Putar sekarang",
+	"skipRecap": "Lewati rekap",
+	"unlockControls": "Buka kunci kontrol",
+	"tapToUnlock": "Ketuk untuk membuka kunci",
+	"subtitleDelay": "Jeda subtitle",
+	"audioDelay": "Jeda audio",
+	"androidPlayer": "Pemutar Android (Eksperimental)",
+	"androidPlayerUnavailable": "Pemutar Android tidak bisa dimulai",
+	"audioNormalization": "Normalisasi audio",
+	"searchSubtitlesOnline": "Cari subtitle online",
+	"loadFromFile": "Muat dari file…",
+	"translateSubtitles": "Terjemahkan subtitle…",
+	"language": "Bahasa:",
+	"movieOrShowTitle": "Judul film atau serial",
+	"theQuickBrownFox": "Rubah coklat itu berlari cepat",
+	"seekBar": "Bilah lompat",
+	"autoScrollSettings": "Pengaturan gulir otomatis",
+	"autoScroll": "Gulir otomatis",
+	"touchThePageToPauseItPicksUpAgainWhenYouLetGo": "Sentuh halaman untuk jeda — lanjut lagi saat kamu lepaskan.",
+	"floatingButton": "Tombol mengambang",
+	"nextChapter": "Bab berikutnya",
+	"orKeepPulling": "atau terus menarik",
+	"thatSTheLastChapter": "Itu bab terakhir.",
+	"readerSettings": "Pengaturan pembaca",
+	"noOtherChaptersLoadedYet": "Belum ada bab lain yang dimuat",
+	"chapters": "Bab",
+	"direction": "Arah",
+	"autoWebtoonMode": "Mode webtoon otomatis",
+	"pullToChangeChapter": "Tarik untuk ganti bab",
+	"volumeKeysTurnPages": "Tombol volume mengganti halaman",
+	"invertVolumeKeys": "Balik tombol volume",
+	"brightness": "Kecerahan",
+	"previousChapter": "Bab sebelumnya",
+	"thisTitle": "Judul ini",
+	"nextChapter2": "Bab berikutnya →",
+	"textSize": "Ukuran teks",
+	"appliesStraightAway": "Langsung berlaku",
+	"left": "Kiri",
+	"justify": "Ratakan",
+	"ltr": "LTR",
+	"rtl": "RTL",
+	"letterSpacing": "Spasi huruf",
+	"wordSpacing": "Spasi kata",
+	"alignment": "Perataan",
+	"a": "A",
+	"searchEpisodes": "Cari episode",
+	"titleOrEpisodeNumber": "Judul atau nomor episode",
+	"failedToLoadThisTitle": "Gagal memuat judul ini",
+	"offlineTitle": "Kamu sedang luring",
+	"offlineBody": "Cek koneksimu lalu coba lagi.",
+	"changeStatus": "Ubah status",
+	"tracking": "Pelacakan",
+	"noEpisodesAvailableFromThisSource": "Tidak ada episode dari sumber ini",
+	"noEpisodesMatchYourSearch": "Tidak ada episode yang cocok dengan pencarianmu",
+	"everyChapterIsAlreadyDownloaded": "Semua bab sudah diunduh",
+	"downloadChapters": "Unduh bab",
+	"thisWillTakeAWhileAndUseALotOfStorage": "Ini akan memakan waktu lama dan banyak ruang penyimpanan",
+	"findEpisode": "Cari episode",
+	"refreshChapters": "Muat ulang bab",
+	"refreshEpisodes": "Muat ulang episode",
+	"seasons": "Musim",
+	"goToEpisode": "Ke episode",
+	"episodeNumber": "Nomor episode",
+	"cancelDownload": "Batalkan unduhan",
+	"downloaded": "Terunduh",
+	"downloadChapter": "Unduh bab",
+	"deleteDownload": "Hapus unduhan",
+	"resumeDownload": "Lanjutkan unduhan",
+	"status": "Status",
+	"year": "Tahun",
+	"studio": "Studio",
+	"genres": "Genre",
+	"synopsis": "Sinopsis",
+	"readMore": "Baca selengkapnya",
+	"downloadChooseServer": "Unduh · pilih server",
+	"noDownloadSourcesFound": "Tidak ditemukan sumber unduhan",
+	"audio": "Audio",
+	"noEpisodesMatch": "Tidak ada episode yang cocok",
+	"selectEpisodes": "Pilih episode",
+	"startFrom": "Mulai dari",
+	"jumpToEpisode2": "Lompat ke episode",
+	"downloadEpisodes": "Unduh episode",
+	"noEpisodes": "Tidak ada episode",
+	"dub2": "dub",
+	"autoBestAvailable": "Otomatis · terbaik yang tersedia",
+	"linksReloaded": "Tautan dimuat ulang",
+	"noSourcesFoundForThisEpisode": "Tidak ditemukan sumber untuk episode ini",
+	"starring": "Pemain",
+	"creators": "Kreator",
+	"notify": "Beri tahu",
+	"stopAlerts": "Hentikan peringatan",
+	"trackedEditStatusScoreProgress": "Dilacak — ubah status, skor & progres",
+	"openSourceSite": "Buka situs sumber",
+	"signInToSource": "Masuk",
+	"welcomeBack": "Selamat datang kembali",
+	"signInToSyncYourListAcrossDevices": "Masuk untuk menyinkronkan daftarmu di semua perangkat.",
+	"logIn": "Masuk",
+	"passwordMustBeAtLeast8Characters": "Kata sandi minimal 8 karakter",
+	"createAccount": "Buat akun",
+	"saveYourListAndContinueWatchingAnywhere": "Simpan daftarmu dan lanjutkan menonton di mana saja.",
+	"notSignedIn": "Belum masuk",
+	"haveTheApp": "Punya aplikasinya?",
+	"openZangetsuOnYourNphoneAndScan": "Buka Zangetsu di\\nponselmu dan pindai",
+	"noApp": "Belum punya aplikasi?",
+	"resetPassword": "Atur ulang kata sandi",
+	"youExampleCom": "you@example.com",
+	"sendLink": "Kirim tautan",
+	"email": "Email",
+	"password": "Kata sandi",
+	"forgotPassword": "Lupa kata sandi?",
+	"name": "Nama",
+	"password8Characters": "Kata sandi (8+ karakter)",
+	"editName": "Ubah nama",
+	"yourName": "Namamu",
+	"couldnTUpdateYourName": "Tidak bisa memperbarui namamu",
+	"pairATV": "Pasangkan TV",
+	"addPhoto": "Tambah foto",
+	"backUpBeforeLoggingOut": "Cadangkan sebelum keluar?",
+	"logOutAnyway": "Tetap keluar",
+	"reconnect": "Hubungkan kembali",
+	"signInWithYourPhone": "Masuk dengan ponselmu",
+	"onTheZangetsuAppOnYourPhoneOpenNPairATVAndEnterThisCodeOrScanTheQR": "Di aplikasi Zangetsu di ponselmu, buka\\n\"Pasangkan TV\" lalu masukkan kode ini — atau pindai QR-nya.",
+	"signingIn": "Sedang masuk…",
+	"getANewCode": "Ambil kode baru",
+	"sendTrackers": "Kirim pelacak",
+	"chooseTrackersToSend": "Pilih pelacak yang dikirim",
+	"sendToTV": "Kirim ke TV",
+	"signInToYourAccountFirstNthenPairYourTV": "Masuk ke akunmu dulu,\\nlalu pasangkan TV-mu.",
+	"enterTheCodeFromYourTV": "Masukkan kode dari TV-mu",
+	"openZangetsuOnYourTVAndSignInWithYourPhoneToSeeIt": "Buka Zangetsu di TV-mu dan masuk dengan ponselmu untuk melihatnya.",
+	"abcd2345": "ABCD 2345",
+	"thisTVWillSignIntoYourAccountYouCanSignItOutLater": "TV ini akan masuk ke akunmu. Kamu bisa mengeluarkannya nanti.",
+	"alsoSendYourTrackersAniListMyAnimeListSimkl": "Kirim juga pelacakmu (AniList, MyAnimeList, Simkl)",
+	"yourTVIsSignedIn": "TV-mu sudah masuk",
+	"itShouldSwitchToYourAccountInAMoment": "Seharusnya langsung beralih ke akunmu.",
+	"backedUpToCloud": "Dicadangkan ke cloud",
+	"couldnTSaveTheBackupFileStoragePermissionMayBeNeeded": "Tidak bisa menyimpan file cadangan — mungkin perlu izin penyimpanan.",
+	"noCloudBackupFound": "Tidak ditemukan cadangan cloud",
+	"thatFileIsnTAValidBackup": "File itu bukan cadangan yang valid.",
+	"pickABackup": "Pilih cadangan",
+	"couldnTReadThatBackupFile": "Tidak bisa membaca file cadangan itu.",
+	"restoreComplete": "Pemulihan selesai",
+	"reopenZangetsuToSeeRestoredLibrarySources": "Buka lagi Zangetsu untuk melihat pustaka & sumber yang dipulihkan.",
+	"saveToAFile": "Simpan ke file",
+	"saveABackupFileToYourDownloadsFolder": "Simpan file cadangan ke folder Unduhanmu",
+	"backUpToCloud": "Cadangkan ke cloud",
+	"saveACopyToYourAccountNeedsSignIn": "Simpan salinan ke akunmu · perlu masuk",
+	"restoreFromAFile": "Pulihkan dari file",
+	"pickABackupFileYouSavedEarlier": "Pilih file cadangan yang sebelumnya kamu simpan",
+	"restoreFromCloud": "Pulihkan dari cloud",
+	"bringBackYourLatestCloudBackup": "Kembalikan cadangan cloud terbarumu",
+	"episodesYouDownloadAppearHere": "Episode yang kamu unduh akan muncul di sini",
+	"deleteAllEpisodes": "Hapus semua episode",
+	"deleteAllDownloads": "Hapus semua unduhan?",
+	"deleteAll": "Hapus semua",
+	"changeDownloadFolder": "Ganti folder unduhan",
+	"savingTo": "Menyimpan ke",
+	"needsAFileManagerAppOnTheTV": "Butuh aplikasi pengelola file di TV",
+	"downloadLocation": "Lokasi unduhan",
+	"novelChaptersYouDownloadAppearHere": "Bab novel yang kamu unduh akan muncul di sini",
+	"stopDownloading": "Hentikan unduhan?",
+	"keepGoing": "Lanjutkan saja",
+	"stopAll": "Hentikan semua",
+	"searchDownloads": "Cari unduhan",
+	"deleteAllChapters": "Hapus semua bab",
+	"deleteAllChapters2": "Hapus semua bab?",
+	"chapter": "Bab",
+	"downloadSettings": "Pengaturan unduhan",
+	"parallelDownloads": "Unduhan paralel",
+	"connectionsPerDownload": "Koneksi per unduhan",
+	"novels": "Novel",
+	"noDownloadsMatchYourSearch": "Tidak ada unduhan yang cocok dengan pencarianmu",
+	"collapseAll": "Ciutkan semua",
+	"requestedControl": "Meminta kendali",
+	"noParticipantsYet": "Belum ada peserta",
+	"guest": "Tamu",
+	"wantsControl": "Ingin kendali",
+	"giveControl": "Berikan kendali",
+	"hostControlsPlayback": "Host mengendalikan pemutaran",
+	"requestControl": "Minta kendali",
+	"inviteCopied": "Undangan disalin",
+	"roomChat": "Obrolan Ruang",
+	"noMessagesYet": "Belum ada pesan",
+	"message": "Pesan…",
+	"invite": "Undang",
+	"watchTogether": "Nonton Bersama",
+	"createARoom": "Buat ruang",
+	"joinWithACode": "Gabung dengan kode",
+	"roomNotFound": "Ruang tidak ditemukan",
+	"enterRoomCode": "Masukkan kode ruang",
+	"eGABC234": "mis. ABC234",
+	"hostIsChoosing": "Host sedang memilih…",
+	"youLlStartWatchingAutomaticallyWhenTheHostPlaysSomething": "Kamu akan mulai menonton otomatis saat host memainkan sesuatu.",
+	"participants": "Peserta",
+	"signInToUseWatchParty": "Masuk untuk memakai Nonton Bareng",
+	"youReAlreadyInAParty": "Kamu sudah ada di sebuah sesi",
+	"watchTogether2": "Nonton bersama",
+	"createAPartyAndInviteFriendsOrJoinAnExistingOneWithACode": "Buat sesi lalu undang teman, atau gabung sesi yang ada dengan kode.",
+	"aniyomiIsnTAvailableOnThisDevice": "Aniyomi tidak tersedia di perangkat ini.",
+	"installed": "Terpasang",
+	"repositories": "Repositori",
+	"languages": "Bahasa",
+	"addAniyomiRepo": "Tambah repo Aniyomi",
+	"noAniyomiSourcesInstalled": "Belum ada sumber Aniyomi terpasang.",
+	"removeRepo": "Copot repo?",
+	"noAniyomiReposAddedYetNPressAddAniyomiRepoToAddOne": "Belum ada repo Aniyomi ditambahkan.\\nTekan \"Tambah repo Aniyomi\" untuk menambahnya.",
+	"addRepository": "Tambah repositori",
+	"searchNovelSources": "Cari sumber novel",
+	"noSourcesInstalledYet": "Belum ada sumber terpasang.",
+	"addNovelRepo": "Tambah repo novel",
+	"removeRepository": "Copot repositori",
+	"noSourcesInThisRepo": "Tidak ada sumber di repo ini.",
+	"zangetsuProviders": "Penyedia Zangetsu",
+	"addRepo": "Tambah repo",
+	"noProvidersInstalled": "Belum ada penyedia terpasang.",
+	"noSourcesInThisRepoYet": "Belum ada sumber di repo ini.",
+	"leaveBlankToUseTheRepoSOwnName": "Biarkan kosong untuk memakai nama asli repo",
+	"addCloudStreamRepo": "Tambah repo CloudStream",
+	"noCloudStreamSourcesInstalled": "Belum ada sumber CloudStream terpasang.",
+	"cloudstream": "cloudstream",
+	"sourceSettings": "Pengaturan sumber",
+	"otherSettings": "Pengaturan lain",
+	"otherSettingsSubtitle": "Sumber ini punya pengaturan yang belum bisa ditampilkan di sini",
+	"sourceDomain": "Domain sumber",
+	"sourceDomainHint": "Biarkan kosong untuk memakai domain asli sumber.",
+	"resetSourceDataConfirm": "Atur ulang data tersimpan {name}? Ini menghapus pengaturan, login, dan cookie yang tersimpan. Daftar, riwayat, dan unduhanmu tidak disentuh.",
+	"@resetSourceDataConfirm": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeRepository2": "Copot repositori?",
+	"removeThisRepositoryAndItsSources": "Copot repositori ini dan sumbernya?",
+	"removed": "Dicopot",
+	"alreadyUpToDate": "Sudah terbaru",
+	"removeRepo2": "Copot repo",
+	"noInstallableSourcesFoundInThisRepo": "Tidak ditemukan sumber yang bisa dipasang di repo ini.",
+	"thisRemovesTheSourceFromYourInstalledList": "Ini mencopot sumber dari daftar terpasangmu.",
+	"addCSRepo": "Tambah repo CS",
+	"cloudstreamIsnTAvailableOnThisDevice": "CloudStream tidak tersedia di perangkat ini.",
+	"checkUpdates": "Periksa pembaruan",
+	"pasteACloudStreamRepositoryURL": "Tempel URL repositori CloudStream.",
+	"reTest": "Uji lagi",
+	"noEnabledSourcesToTest": "Tidak ada sumber aktif untuk diuji.",
+	"notSearched": "Belum dicari",
+	"thisSourceHasNoSettings": "Sumber ini tidak punya pengaturan",
+	"resetToDefaults": "Atur ke bawaan",
+	"providerSettings": "Pengaturan penyedia",
+	"openThisSourceSOwnSettingsEGServerLanguage": "Buka pengaturan milik sumber ini (mis. server, bahasa)",
+	"addZangetsuRepo": "Tambah repo Zangetsu",
+	"theProviderWillBeRemovedFromYourInstalledSources": "Penyedia akan dicopot dari sumber terpasangmu.",
+	"addMihonRepo": "Tambah repo Mihon",
+	"noMihonReposAddedYetNTapAddMihonRepoToAddOne": "Belum ada repo Mihon ditambahkan.\\nKetuk \"Tambah repo Mihon\" untuk menambahnya.",
+	"n1Update": "1 pembaruan",
+	"noExtensionsFoundInThisRepo": "Tidak ditemukan ekstensi di repo ini.",
+	"thisRemovesTheExtensionFromYourInstalledSources": "Ini mencopot ekstensi dari sumber terpasangmu.",
+	"noMihonSourcesInstalled": "Belum ada sumber Mihon terpasang.",
+	"noAniyomiReposAddedYetNTapAddAniyomiRepoToAddOne": "Belum ada repo Aniyomi ditambahkan.\\nKetuk \"Tambah repo Aniyomi\" untuk menambahnya.",
+	"clearAll": "Bersihkan semua",
+	"nothingWatchedYet": "Belum ada yang ditonton",
+	"nothingReadYet": "Belum ada yang dibaca",
+	"checkingForNewEpisodes": "Memeriksa episode baru…",
+	"checkNow": "Periksa sekarang",
+	"turnOff": "Matikan",
+	"joinBetaUpdates": "Gabung pembaruan beta?",
+	"joinBeta": "Gabung beta",
+	"whatSNew": "Apa yang baru",
+	"categories": "Kategori",
+	"moviesSeries2": "Film/Series",
+	"longPressASourceToPinItToTheTop": "Tekan lama sumber untuk menyematkannya di atas",
+	"searchSources": "Cari sumber",
+	"justLook": "Sekadar lihat",
+	"moveProgressHere": "Pindahkan progres ke sini",
+	"newAniListList": "Daftar AniList baru",
+	"rewatchingFavourites": "Menonton Ulang, Favorit, …",
+	"anilistCustomLists": "Daftar kustom AniList",
+	"savedToYourAniListAccount": "Disimpan ke akun AniList-mu",
+	"newList": "Daftar baru",
+	"createsItOnAniList": "Membuatnya di AniList",
+	"yourTrackersDisagree": "Pelacakmu tidak cocok",
+	"applyingSetsThemAllToTheNumberBelow": "Menerapkan akan mengubah semuanya ke angka di bawah.",
+	"wrongTitleChangeMatch": "Judul salah? Ubah pencocokan",
+	"searchTheCorrectTitle": "Cari judul yang tepat…",
+	"noMatchesFound": "Tidak ada yang cocok",
+	"removeFromMyList": "Buang dari My List",
+	"details": "Detail",
+	"noDescriptionAvailable": "Deskripsi tidak tersedia.",
+	"playWith": "Putar dengan…",
+	"playMirror": "Putar cermin",
+	"chooseTheSourceBeforeItStarts": "Pilih sumber sebelum mulai",
+	"reloadLinks": "Muat ulang tautan",
+	"fetchFreshStreamsIfPlaybackKeepsFailing": "Ambil streaming baru jika pemutaran terus gagal",
+	"alsoUpdatesYourConnectedTrackers": "Sekaligus memperbarui pelacak yang terhubung",
+	"markThisAndAllAboveAsWatched": "Tandai ini dan semua di atasnya sudah ditonton",
+	"playThisEpisodeWith": "Putar episode ini dengan",
+	"builtInPlayer": "Pemutar bawaan",
+	"otherApps": "Aplikasi lain",
+	"seeAll2": "Lihat Semua",
+	"webView": "WebView",
+	"openInBrowser": "Buka di browser",
+	"markAsRead": "Tandai sudah dibaca",
+	"copyLink": "Salin tautan",
+	"removeTracking": "Hentikan pelacakan",
+	"noTrackersConnectedNConnectOneInSettingsConnections": "Belum ada pelacak terhubung.\\nHubungkan di Pengaturan → Koneksi.",
+	"syncAllAtOnce": "Sinkronkan sekaligus",
+	"addTracking": "Tambahkan pelacakan",
+	"addToYourList": "Tambahkan ke daftarmu",
+	"removeFromList": "Buang dari daftar",
+	"customLists": "Daftar kustom",
+	"notInAny": "Tidak ada",
+	"status2": "STATUS",
+	"applyChanges": "Terapkan perubahan",
+	"navigationBar": "Bilah navigasi",
+	"navigationBarSubtitle": "Tab mana yang tampil, dan urutannya",
+	"connectedCount": "{count} terhubung",
+	"@connectedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"syncLibraryAlreadySynced": "Pustakamu sudah tersinkron ke akun ini.",
+	"syncLibraryPushed": "{history} riwayat + {list} item daftar disinkronkan ke akunmu.",
+	"@syncLibraryPushed": {
+		"placeholders": {
+			"history": {
+				"type": "int"
+			},
+			"list": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsOnBar": "Di bilah · {count}/{max}",
+	"@navTabsOnBar": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"max": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeAirsIn": "Ep {episode} · dalam {when}",
+	"@episodeAirsIn": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			},
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"duration": "Durasi",
+	"score": "Skor",
+	"popularity": "Populeritas",
+	"sourceMaterial": "Materi asal",
+	"country": "Negara",
+	"aired": "Tayang pada",
+	"nativeTitle": "Judul asli",
+	"alsoKnownAs": "Dikenal juga sebagai",
+	"tags": "Tag",
+	"showSpoilerTags": "{count, plural, one{Tampilkan # tag spoiler} other{Tampilkan # tag spoiler}}",
+	"@showSpoilerTags": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsSwitcher": "Pemilih mode",
+	"navTabsSwitcherWhy": "Mengambil slot tengah",
+	"navTabsOpensOn": "Dibuka saat aplikasi dijalankan",
+	"navTabsNotShown": "Tidak ditampilkan",
+	"navTabsEveryTabOnBar": "Semua tab ada di bilah.",
+	"searchMovesToHomeInZMode": "Pencarian pindah ke atas Beranda di Z Mode.",
+	"navTabsHelp": "Seret untuk mengurutkan. {minTabs}–{maxTabs} tab muat di bilah, dengan pemilih mode mengambil slot tengah.\n\nProfil disematkan karena itu satu-satunya jalan ke Pengaturan — menyembunyikannya akan membuat tidak ada jalan kembali ke layar ini. Jadwal hanya muncul di mode Streaming; tidak ada tayangan yang bisa ditampilkan saat kamu membaca.",
+	"@navTabsHelp": {
+		"placeholders": {
+			"minTabs": {
+				"type": "int"
+			},
+			"maxTabs": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsStreamingOnly": "khusus Streaming",
+	"navTabsRemove": "Hapus",
+	"navTabsKeepMinTabs": "Sisakan minimal {min} tab",
+	"@navTabsKeepMinTabs": {
+		"placeholders": {
+			"min": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsAdd": "Tambah",
+	"navTabsBarFull": "Bilah sudah penuh",
+	"filterShowResults": "{count, plural, one{Tampilkan # hasil} other{Tampilkan # hasil}}",
+	"@filterShowResults": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addedCloudStreamSourcesCount": "Ditambahkan — {count} sumber CloudStream tersedia",
+	"@addedCloudStreamSourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"failedToAddRepository": "Gagal menambahkan repositori: {error}",
+	"@failedToAddRepository": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"repositoryUrlLabel": "URL repositori",
+	"noResultsFor": "Tidak ada hasil untuk \"{query}\"",
+	"@noResultsFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"yourSavedTitles": "Judul yang kamu simpan",
+	"myListPlusTrackers": "My List + {count} {count, plural, one{pelacak} other{pelacak}}",
+	"@myListPlusTrackers": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sort": "Urutkan",
+	"giveItAName": "Beri nama",
+	"youAlreadyHaveThatOne": "Kamu sudah punya yang itu",
+	"thatNameIsTaken": "Nama itu sudah dipakai",
+	"notConnected": "Tidak terhubung",
+	"connectedWithViewer": "Terhubung · {name}",
+	"@connectedWithViewer": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"allTypes": "Semua tipe",
+	"nothingHereInThisFilter": "Tidak ada apa-apa di filter ini",
+	"noMangaHereInThisFilter": "Tidak ada manga di filter ini",
+	"noNovelsHereInThisFilter": "Tidak ada novel di filter ini",
+	"mangaYouAddAppearHere": "Manga yang kamu tambahkan akan muncul di sini",
+	"novelsYouAddAppearHere": "Novel yang kamu tambahkan akan muncul di sini",
+	"relations": "Relasi",
+	"characters": "Karakter",
+	"noCastInformation": "Tidak ada informasi pemain",
+	"noRelatedTitles": "Tidak ada judul terkait",
+	"markedAsWatched": "Ditandai sudah ditonton",
+	"markedUnwatched": "Ditandai belum ditonton",
+	"markedEpisodesAsWatched": "{count} episode ditandai sudah ditonton",
+	"@markedEpisodesAsWatched": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"openInBrowser": "Buka di browser",
+	"openInBrowserSubtitle": "Baca bab ini di situs milik sumber",
+	"readingSettings": "Pengaturan baca",
+	"markedAsRead": "Ditandai sudah dibaca",
+	"markedUnread": "Ditandai belum dibaca",
+	"markedChaptersAsRead": "{count} bab ditandai sudah dibaca",
+	"@markedChaptersAsRead": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadChaptersQuestion": "Unduh {count} bab?",
+	"@downloadChaptersQuestion": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"cachedSourceJsFiles": "File .js sumber yang tersimpan",
+	"disconnectTrackerQuestion": "Putuskan {name}?",
+	"@disconnectTrackerQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerDisconnectBody": "Sinkron otomatis akan berhenti. Akun {name}-mu tidak berubah — kamu bisa menghubungkan kembali kapan saja.",
+	"@trackerDisconnectBody": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectedAs": "Terhubung sebagai {name}",
+	"@connectedAs": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerConnectionCanceled": "Koneksi {name} dibatalkan",
+	"@trackerConnectionCanceled": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectTracker": "Hubungkan {name}",
+	"@connectTracker": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectingEllipsis": "Menghubungkan…",
+	"updateTrackerAsYouWatch": "Perbarui {name} saat kamu menonton",
+	"@updateTrackerAsYouWatch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"findingTitle": "Mencari \"{title}\"…",
+	"@findingTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleIsntOnThisSource": "\"{title}\" tidak ada di sumber ini",
+	"@titleIsntOnThisSource": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"couldntOpenTitle": "Tidak bisa membuka \"{title}\"",
+	"@couldntOpenTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"noWebPageForThisSource": "Tidak ada halaman web untuk sumber ini",
+	"couldNotOpenSourceSite": "Tidak bisa membuka situs sumber",
+	"notificationsOffFor": "Notifikasi mati untuk \"{title}\"",
+	"@notificationsOffFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewEpisodesFor": "Kamu akan diberi tahu soal episode baru dari \"{title}\"",
+	"@youllBeNotifiedOfNewEpisodesFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewChaptersFor": "Kamu akan diberi tahu soal bab baru dari \"{title}\"",
+	"@youllBeNotifiedOfNewChaptersFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"external": "Eksternal",
+	"episodeLabel": "Episode {number}",
+	"@episodeLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSeasonEpisode": "Unduh S{season}:E{episode}",
+	"@downloadSeasonEpisode": {
+		"placeholders": {
+			"season": {
+				"type": "int"
+			},
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadEpisodeLabel": "Unduh E{episode}",
+	"@downloadEpisodeLabel": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"continueLabel": "Lanjutkan",
+	"continueEpisode": "Lanjutkan E{episode}",
+	"@continueEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"noEpisodesToDownload": "Tidak ada episode untuk diunduh",
+	"addedToDownloads": "Ditambahkan ke unduhan",
+	"downloadingNEpisodes": "Mengunduh {count} episode",
+	"@downloadingNEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addToMyList": "Tambahkan ke My List",
+	"notifyOnNewChapters": "Beri tahu untuk bab baru",
+	"notifyOnNewEpisodes": "Beri tahu untuk episode baru",
+	"syncStatusScoreProgress": "Sinkronkan status, skor & progres",
+	"seasonCount": "{count} Musim",
+	"@seasonCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeCount": "{count, plural, one{1 Episode} other{{count} Episode}}",
+	"@episodeCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterCount": "{count, plural, one{1 Bab} other{{count} Bab}}",
+	"@chapterCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"thisSourceNeedsSpecialHeadersUsingBuiltIn": "Sumber ini butuh header khusus yang tidak bisa dikirim pemutar eksternal-mu — memakai pemutar bawaan.",
+	"timerMinutes": "{count} menit",
+	"@timerMinutes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"couldNotLoadSubtitle": "Tidak bisa memuat subtitle: {error}",
+	"@couldNotLoadSubtitle": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"speed": "Kecepatan",
+	"styledSubtitlesLibassSubtitle": "Gaya .ass asli — tanda, karaoke. Buka ulang episode untuk menerapkan.",
+	"couldntDownloadFile": "Tidak bisa mengunduh {file}",
+	"@couldntDownloadFile": {
+		"placeholders": {
+			"file": {
+				"type": "String"
+			}
+		}
+	},
+	"audioNormalizationSubtitle": "Meratakan volume — percepat dialog pelan, redam adegan keras",
+	"playbackSpeed": "Kecepatan Pemutaran",
+	"quality": "Kualitas",
+	"sources": "Sumber",
+	"normalSpeed": "Normal",
+	"subtitles": "Subtitle",
+	"preferredLanguageColon": "Bahasa pilihan: {name}",
+	"@preferredLanguageColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"nextCount": "Berikutnya {count}",
+	"@nextCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"allCount": "Semua {count}",
+	"@allCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"notSavedCount": "{count} tidak tersimpan",
+	"@notSavedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"airsIn": "tayang dalam ",
+	"selectAll": "Pilih semua",
+	"best": "Terbaik",
+	"direct": "Langsung",
+	"hls": "HLS",
+	"serverWithHost": "Server {number} · {host}",
+	"@serverWithHost": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"host": {
+				"type": "String"
+			}
+		}
+	},
+	"serverNumber": "Server {number}",
+	"@serverNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadCountEpisodes": "{count, plural, one{Unduh 1 episode} other{Unduh {count} episode}}",
+	"@downloadCountEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterOneAtATimeWarning": "Ini berjalan satu bab sekaligus dan bisa memakan waktu lama. Kamu bisa menghentikannya dari Unduhan.",
+	"queuedChapters": "{count, plural, one{1 bab} other{{count} bab}} dalam antrean",
+	"@queuedChapters": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"seasonNumber": "Musim {number}",
+	"@seasonNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"listView": "Tampilan daftar",
+	"gridView": "Tampilan kisi",
+	"refreshingChapters": "Memuat ulang bab…",
+	"refreshingEpisodes": "Memuat ulang episode…",
+	"chapterLabel": "Bab {number}",
+	"@chapterLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"continueBadge": "LANJUT",
+	"fillerBadge": "FILLER",
+	"downloadUnsupported": "Unduhan tidak didukung",
+	"retryDownload": "Coba lagi unduhnya",
+	"downloadEpisode": "Unduh episode",
+	"pauseDownload": "Jeda unduhan",
+	"fromEpisode": "Dari E{episode}",
+	"@fromEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitle": "E{number}  ·  {title}",
+	"@episodeWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"episodeNumberShort": "E{number}",
+	"@episodeNumberShort": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeRange": "E{first} – E{last}",
+	"@episodeRange": {
+		"placeholders": {
+			"first": {
+				"type": "int"
+			},
+			"last": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemanticWithTitle": "Episode {number}, {title}",
+	"@episodeSemanticWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"searchColon": "Cari: {query}",
+	"@searchColon": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"decoderColon": "Decoder · {label}",
+	"@decoderColon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"megaSkipDuration": "Durasi MegaSkip",
+	"settingsTooltip": "Pengaturan",
+	"episodeCountWithRange": "{count, plural, one{1 episode} other{{count} episode}} · {range}",
+	"@episodeCountWithRange": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"range": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceTimedOut": "Waktu habis",
+	"blockedByTheSite": "Diblokir situs",
+	"sourceCouldntBeReached": "Tidak bisa dicapai",
+	"thatSourceCouldNotBeReached": "Sumber itu tidak bisa dicapai",
+	"noSourceCouldBeReached": "Tidak ada sumber yang bisa dicapai",
+	"andNMore": "dan {count} lainnya",
+	"@andNMore": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"tryClearingYourFiltersOrSearchDifferentTitle": "Coba bersihkan filtermu atau cari judul lain.",
+	"noModeSourcesYet": "Belum ada sumber {mode}",
+	"@noModeSourcesYet": {
+		"placeholders": {
+			"mode": {
+				"type": "String"
+			}
+		}
+	},
+	"browseRepositories": "Jelajahi repositori",
+	"filteredSource": "Difilter · {source}",
+	"@filteredSource": {
+		"placeholders": {
+			"source": {
+				"type": "String"
+			}
+		}
+	},
+	"turnAllOn": "Nyalakan semua",
+	"sortUpper": "URUT",
+	"typeUpper": "TIPE",
+	"audioUpper": "AUDIO",
+	"genreUpper": "GENRE",
+	"movieLabel": "Film",
+	"speakTheTitle": "Ucapkan judulnya",
+	"signedIn": "Sudah masuk",
+	"syncYourListNav": "Sinkronkan daftarmu",
+	"sourceNavLabel": "SUMBER",
+	"activeSourceHint": "saat ini",
+	"clearKindHistoryTitle": "Bersihkan riwayat {kind}?",
+	"@clearKindHistoryTitle": {
+		"placeholders": {
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"clearKindHistoryBody": "Ini menghapus setiap {noun} dari riwayat {kind}-mu. Riwayat, daftar, dan unduhanmu yang lain tidak disentuh.",
+	"@clearKindHistoryBody": {
+		"placeholders": {
+			"noun": {
+				"type": "String"
+			},
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"showsYouWatchWillAppearHere": "Serial yang kamu tonton akan muncul di sini agar kamu bisa melanjutkan dari tempat berhenti.",
+	"mangaYouReadWillAppearHere": "Manga yang kamu baca akan muncul di sini agar kamu bisa melanjutkan dari tempat berhenti.",
+	"novelsYouReadWillAppearHere": "Novel yang kamu baca akan muncul di sini agar kamu bisa melanjutkan dari tempat berhenti.",
+	"episodeWatchedPct": "Episode {number} · {percent}% ditonton",
+	"@episodeWatchedPct": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"percentWatched": "{percent}% ditonton",
+	"@percentWatched": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"addSourceFromProvidersHint": "Tambahkan sumber dari Penyedia dan {content}-mu akan muncul di sini.",
+	"@addSourceFromProvidersHint": {
+		"placeholders": {
+			"content": {
+				"type": "String"
+			}
+		}
+	},
+	"continueDotEpisode": "Lanjutkan · E{episode}",
+	"@continueDotEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceNameItemCount": "{name}  ·  {count}",
+	"@sourceNameItemCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceCountBadge": "{sourceName} {count}",
+	"@sourceCountBadge": {
+		"placeholders": {
+			"sourceName": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"logOutQuestion": "Keluar?",
+	"contentShows": "serial",
+	"contentManga": "manga",
+	"contentNovels": "novel",
+	"historyKindWatch": "tonton",
+	"historyKindManga": "manga",
+	"historyKindNovel": "novel",
+	"historyNounShow": "serial",
+	"historyNounMangaItem": "manga",
+	"historyNounNovelItem": "novel",
+	"qualityAndAudio": "Kualitas & audio",
+	"sectionPlayer": "Pemutar",
+	"sectionGestures": "Gesture",
+	"sectionCache": "Cache",
+	"gestures": "Gesture",
+	"cache": "Cache",
+	"social": "Sosial",
+	"appSection": "Aplikasi",
+	"team": "Tim",
+	"communityContributors": "Kontributor Komunitas",
+	"accentColour": "Warna aksen",
+	"display": "Layar",
+	"appIcon": "Ikon aplikasi",
+	"splashStyle": "Splash",
+	"splashStyleBlurb": "Yang diputar saat aplikasi mulai.",
+	"currentLocation": "Lokasi saat ini",
+	"availableDrives": "Drive yang tersedia",
+	"dataSection": "Data",
+	"modeLabel": "Mode",
+	"tapAZoneToChangeIt": "Ketuk zona untuk mengubahnya",
+	"supportTitle": "Dukungan",
+	"enjoyingApp": "Menikmati {appName}?",
+	"@enjoyingApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"donateBlurb": "{appName} gratis dan tanpa iklan. Kalau ia sudah mendapat tempat di layar berandamu, sedikit tip membuatnya terus berkembang — fitur baru, perbaikan, dan pembaruan lebih cepat. Setiap bantuan sangat berarti. Terima kasih! ♥",
+	"@donateBlurb": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"upiIdCopied": "ID UPI disalin",
+	"upiIndia": "UPI · India",
+	"askBeforeJumpingSubtitle": "Membuka sesuatu yang bukan tempat kamu berhenti menawarkan untuk melihat tanpa menggeser progresmu",
+	"autoTrackSubtitle": "Perbarui AniList, MyAnimeList dan Simkl saat kamu menonton. Mati pun kamu tetap bisa melacak judul secara manual",
+	"closeConfirmationAsk": "Tanya sebelum meninggalkan pemutar",
+	"closeConfirmationDirect": "Langsung keluar",
+	"closeConfirmationDoubleBack": "Tekan kembali dua kali untuk keluar",
+	"autoSkipFillerSubtitle": "Lompat melewati filler saat ke episode berikutnya (anime saja)",
+	"playTrailersInHDSubtitle": "Sampai 1080p bila tersedia — kembali ke standar jika tidak. Memakai data lebih",
+	"nativeTvPlayerSubtitle": "Disarankan. Matikan hanya kalau lebih suka pemutar lama",
+	"softwareAudioSubtitle": "Nyalakan hanya kalau audio Dolby/DTS tidak bersuara — mungkin tidak stabil di sebagian TV",
+	"playerInfoOff": "Tidak aktif",
+	"playerInfoFieldsCount": "{count} kolom (tombol ⓘ)",
+	"@playerInfoFieldsCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadingPercent": "Mengunduh… {percent}%",
+	"@downloadingPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"tapToDownloadShaders": "Ketuk untuk mengunduh shader (~0,8 MB)",
+	"noOtherVideoAppsFound": "Tidak ditemukan aplikasi video lain. Pasang MX Player, VLC, mpv, Just Player atau Next Player.",
+	"externalApp": "Aplikasi eksternal",
+	"noSubsResumeSuffix": " ·  tanpa subtitle/lanjutkan",
+	"pickWhatShowsOverVideo": "Pilih yang ditampilkan di atas video (muncul bersama kontrol). Seperti \"Stats for nerds\" di YouTube.",
+	"styledSubtitlesLibassSubtitlePlayback": "Gaya .ass asli — font, posisi, karaoke, tanda. Terbaik untuk anime. Berlaku mulai episode berikutnya.",
+	"subtitleStyleSubtitle": "Font, warna, garis luar, opasitas, ukuran, posisi — dengan pratinjau langsung",
+	"keySavedOnlineSearchEnabled": "Kunci disimpan — pencarian online aktif",
+	"incognitoModeBlurb": "Selama aktif, pencarian, riwayat tontonan, scrobbling pelacak, dan Rich Presence Discord dijeda — tidak ada yang terekam sampai kamu matikan.",
+	"enableNsfwSourcesBody": "Ini menampilkan sumber bertanda 18+ di daftar dan pemilih sumber. Nyalakan hanya bila kamu ingin konten dewasa.",
+	"showNsfwAniyomiSourcesBody": "Ini menampilkan ekstensi Aniyomi bertanda 18+ di daftar dan pemilih sumber. Nyalakan hanya bila kamu ingin konten dewasa.",
+	"sourcesMarked18Hidden": "Sumber bertanda 18+ tetap tersembunyi dari daftar dan pemilih sumber kecuali ini diaktifkan.",
+	"syncProgressAsYouWatch": "Sinkronkan progres saat kamu menonton",
+	"connectionsBlurb": "Sinkronkan progres tontonan dan status daftar ke akunmu. Anime tersinkron ke ketiganya; film dan series tersinkron ke Simkl.",
+	"connectDiscord": "Hubungkan Discord",
+	"signInSoYourStatusCanShow": "Masuk agar statusmu bisa tampil di profilmu",
+	"disconnectDiscordBody": "Rich Presence berhenti dan tokenmu dihapus dari perangkat ini. Akun Discord-mu tidak berubah — kamu bisa menghubungkan kembali kapan saja.",
+	"discordPresenceBlurb": "Menampilkan \"Menonton <title> • Episode N\" (dan yang sedang kamu jelajahi) di profil Discord selama aplikasi terbuka. Memakai login Discord-mu, disimpan hanya di perangkat ini. Bisa dimatikan kapan saja.",
+	"github": "GitHub",
+	"telegram": "Telegram",
+	"accentColourBlurb": "Warna sorotan yang dipakai di tombol, chip, progres, dan item terpilih.",
+	"appIconBlurb": "Ikon di layar berandamu. Zangetsu menutup diri saat kamu mengubahnya — Android harus mengganti entri launcher.",
+	"useTheIcon": "Pakai ikon {label}?",
+	"@useTheIcon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"useTheIconBody": "Zangetsu akan menutup diri supaya Android bisa menerapkan ikon baru. Buka lagi dari layar berandamu setelahnya.\n\nKalau Zangetsu ada di folder atau dock, kamu mungkin perlu menambahkannya lagi.",
+	"animRise": "Naik",
+	"animRiseDesc": "Naik dan memudar masuk",
+	"animFade": "Fade",
+	"animFadeDesc": "Memudar masuk, tanpa gerak",
+	"animZoom": "Zoom",
+	"animZoomDesc": "Membesar saat muncul",
+	"usedInVerticalMode": "Dipakai di mode vertikal, di mana bab adalah satu strip panjang.",
+	"usedWhenPagesTurn": "Dipakai saat halaman berputar kiri dan kanan. Di mode kanan-ke-kiri, kedua zona halaman bertukar.",
+	"openPullRequestOnGitHub": "Buka pull request di GitHub dan namamu akan muncul di sini otomatis.",
+	"onThisDevice": "Di perangkat ini",
+	"newDownloadsSaveHere": "Unduhan baru disimpan di sini. Unduhan yang sudah selesai tetap di tempat semula.",
+	"torrentsOffWifiBlurb": "Tidak aktif = torrent hanya jalan di Wi-Fi (hemat data seluler). Streaming torrent memakai banyak data.",
+	"everyControlIsOnABar": "Semua kontrol ada di bilah.",
+	"nothingHereMoveControl": "Tidak ada apa-apa di sini — pindahkan kontrol ke sini dengan Pindahkan.",
+	"playerControlsHelp": "Seret untuk mengurutkan di dalam bilah. Gunakan Pindahkan untuk mengirim kontrol ke tempat lain. Kontrol yang disembunyikan tetap tersedia di menu ⋮ Lainnya di dalam pemutar.\n\nKembali, Kunci, dan Pengaturan terkunci di bilah atas, dan judul serial berbagi baris itu — semakin banyak yang kamu taruh di sana, semakin sempit ruang untuk judul.",
+	"topBarFull": "{label} (penuh)",
+	"@topBarFull": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"apiKeyLabel": "Kunci API",
+	"secondsShort": "{count} dtk",
+	"@secondsShort": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"gotIt": "Mengerti",
+	"signInToAction": "Masuk untuk {action}",
+	"@signInToAction": {
+		"placeholders": {
+			"action": {
+				"type": "String"
+			}
+		}
+	},
+	"cloudBackupFailed": "Cadangan cloud gagal. Pastikan kamu online — kalau terus gagal, penyimpanan cadangan cloud mungkin belum disiapkan.",
+	"savedToDownloadsZangetsu": "Disimpan ke Unduhan › Zangetsu",
+	"restoreFailed": "Pemulihan gagal: {error}",
+	"@restoreFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noBackupFilesOnDevice": "Tidak ditemukan file cadangan di perangkat ini. Simpan dulu, atau pakai \"Pulihkan dari cloud\".",
+	"backupScreenBlurb": "Simpan sumber, daftar, dan pengaturanmu — ke file di perangkatmu atau ke akun Zangetsu-mu. Pemulihan hanya menambahkan kembali; tidak pernah menghapus yang sudah kamu punya.",
+	"includeInTheBackup": "Masukkan ke cadangan",
+	"sourcesAndRepos": "Sumber & repo",
+	"installedSourcesAndRepoLinks": "Sumber terpasang dan tautan repo-nya",
+	"libraryBundle": "Pustaka",
+	"myListAndContinueWatching": "My List dan Lanjutkan Menonton",
+	"appSettingsBundle": "Pengaturan aplikasi",
+	"playerSubtitlesQualityPreferences": "Pemutar, subtitle, kualitas, dan preferensi",
+	"lastCloudBackup": "Cadangan cloud terakhir: {when}",
+	"@lastCloudBackup": {
+		"placeholders": {
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"never": "tidak pernah",
+	"restoredColon": "Dipulihkan: {names}.",
+	"@restoredColon": {
+		"placeholders": {
+			"names": {
+				"type": "String"
+			}
+		}
+	},
+	"couldnTReinstall": "Tidak bisa memasang ulang:\n{failures}",
+	"@couldnTReinstall": {
+		"placeholders": {
+			"failures": {
+				"type": "String"
+			}
+		}
+	},
+	"onLatestVersion": "Kamu sudah memakai versi terbaru{versionSuffix}.",
+	"@onLatestVersion": {
+		"placeholders": {
+			"versionSuffix": {
+				"type": "String"
+			}
+		}
+	},
+	"joinBetaUpdatesBody": "Kamu akan mendapat build prarilis lebih awal. Build ini bisa tidak stabil — kalau ada yang bermasalah, matikan saja dan kamu kembali ke stabil pada pembaruan berikutnya. Bisa keluar kapan saja.",
+	"betaUpdateAvailable": "Pembaruan beta tersedia",
+	"updateAvailable": "Pembaruan tersedia",
+	"startingInstaller": "Memulai installer…",
+	"couldnTOpenInstaller": "Tidak bisa membuka installer. Aktifkan \"Pasang aplikasi tidak dikenal\" untuk Zangetsu di pengaturan sistem, lalu coba lagi.",
+	"downloadFailedCheckConnection": "Unduhan gagal — cek koneksimu lalu coba lagi.",
+	"libraryIsntSavedReconnect": "Pustakamu belum tersimpan ke cloud, jadi keluar akan menghapusnya dari perangkat ini. Hubungkan kembali untuk mencadangkan dulu?",
+	"sessionExpiredEnterPassword": "Sesimu habis. Masukkan kata sandimu untuk menghubungkan kembali {account} dan menyinkronkan pustakamu.",
+	"@sessionExpiredEnterPassword": {
+		"placeholders": {
+			"account": {
+				"type": "String"
+			}
+		}
+	},
+	"yourAccount": "akunmu",
+	"reconnecting": "Menghubungkan kembali…",
+	"wrongPassword": "Kata sandi salah",
+	"trackersSynced": "Pelacak tersinkron: {list}",
+	"@trackersSynced": {
+		"placeholders": {
+			"list": {
+				"type": "String"
+			}
+		}
+	},
+	"signInOnDevice": "Masuk di {device}?",
+	"@signInOnDevice": {
+		"placeholders": {
+			"device": {
+				"type": "String"
+			}
+		}
+	},
+	"thisTV": "TV ini",
+	"announcements": "Pengumuman",
+	"subscribedShows": "Serial langganan",
+	"noNotificationsYet": "Belum ada notifikasi.\nKetuk lonceng pada sebuah serial untuk diberi tahu saat episode baru keluar.",
+	"hostBadge": "HOST",
+	"controlGivenTo": "Kendali diberikan ke {name}",
+	"@controlGivenTo": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"youReTheHost": "Kamu adalah host",
+	"couldnTCreateParty": "Tidak bisa membuat sesi: {error}",
+	"@couldnTCreateParty": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"series": "Series",
+	"movie": "Film",
+	"epWithTime": "Ep {episode} · {time}",
+	"@epWithTime": {
+		"placeholders": {
+			"episode": {
+				"type": "String"
+			},
+			"time": {
+				"type": "String"
+			}
+		}
+	},
+	"chooseChapterSemantic": "{title}, {subtitle}. Pilih bab",
+	"@chooseChapterSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"subtitle": {
+				"type": "String"
+			}
+		}
+	},
+	"chapterProgress": "Bab {current} / {total}",
+	"@chapterProgress": {
+		"placeholders": {
+			"current": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterNumber": "Bab {number}",
+	"@chapterNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSourceColon": "Sumber aktif: {name}",
+	"@activeSourceColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSemantic": "{name}, pengaturan",
+	"@settingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"enterTheCodeShownOnTV": "Masukkan kode yang tampil di TV-mu.",
+	"codeNotFoundExpired": "Kode itu tidak ditemukan — mungkin sudah kedaluwarsa.",
+	"alsoSendTrackers": "Kirim juga pelacakmu (AniList, MyAnimeList, Simkl)",
+	"scrollRowsOrSearch": "Gulir baris di Beranda, atau ketuk Cari di bawah.",
+	"openTitleAndPlay": "Buka sebuah judul lalu ketuk Putar. Untuk series, pilih episode dulu.",
+	"switchSourceAtTop": "Ketuk nama sumber di atas lalu pindah ke sumber lain.",
+	"tapDownloadForOffline": "Di sebuah judul, ketuk Unduh — tonton nanti di Unduhan.",
+	"faqSourceNotWorkingQ": "Sumber tidak berfungsi?",
+	"faqSourceNotWorkingA": "Sumber datang dan pergi. Ganti sumber dari atas, atau cek Pengaturan → Status sumber.",
+	"faqSubOrDubQ": "Sub atau Dub?",
+	"faqSubOrDubA": "Pakai tombol Sub / Dub di judul anime.",
+	"faqDownloadsQ": "Di mana unduhanku?",
+	"faqDownloadsA": "Pengaturan → Unduhan — tonton luring kapan saja.",
+	"resetPasswordBody": "Masukkan email akunmu dan kami akan mengirim tautan untuk membuat kata sandi baru.",
+	"couldnTSignIn": "Tidak bisa masuk",
+	"aniyomi": "Aniyomi",
+	"mihon": "Mihon",
+	"lnreader": "LNReader",
+	"zangetsu": "Zangetsu",
+	"cloudStream": "CloudStream",
+	"installedCount": "{count} terpasang",
+	"@installedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"installedName": "{name} terpasang",
+	"@installedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstalledName": "{name} dicopot",
+	"@uninstalledName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removedName": "{name} dicopot",
+	"@removedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updatedName": "{name} diperbarui",
+	"@updatedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"installFailed": "Pasang gagal: {error}",
+	"@installFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallFailed": "Copot gagal: {error}",
+	"@uninstallFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeFailed": "Buang gagal: {error}",
+	"@removeFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"updateFailed": "Perbarui gagal: {error}",
+	"@updateFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"checkFailed": "Pemeriksaan gagal: {error}",
+	"@checkFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"failedToAddRepo": "Gagal menambahkan repo: {error}",
+	"@failedToAddRepo": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallNameQuestion": "Copot {name}?",
+	"@uninstallNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeNameQuestion": "Buang {name}?",
+	"@removeNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updateNameToVersion": "{name}, perbarui ke v{version}",
+	"@updateNameToVersion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"updateArrowVersion": "Perbarui → v{version}",
+	"@updateArrowVersion": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"repoBaseUrl": "URL dasar repo",
+	"repoBaseUrlHint": "https://.../repo",
+	"pluginIndexUrl": "URL indeks plugin",
+	"pluginIndexUrlHint": "https://.../plugins.min.json",
+	"manifestUrl": "URL manifest",
+	"manifestUrlHint": "https://.../index.json",
+	"repoUrl": "URL repo",
+	"repoUrlHint": "https://.../repo.json",
+	"customNameOptional": "Nama kustom (opsional)",
+	"leaveBlankToUseRepo": "Biarkan kosong untuk memakai repo",
+	"alreadyInstalledSourcesStay": "Sumber dari repo ini yang sudah terpasang tetap terpasang. ",
+	"alreadyInstalledExtensionsStay": "Ekstensi dari repo ini yang sudah terpasang tetap terpasang. ",
+	"updateAllCount": "Perbarui semua ({count})",
+	"@updateAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"updatedSourcesCount": "{done} sumber diperbarui{suffix}",
+	"@updatedSourcesCount": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"suffix": {
+				"type": "String"
+			}
+		}
+	},
+	"slow": "Lambat",
+	"noResults": "Tidak ada hasil",
+	"timedOut": "Waktu habis",
+	"blocked": "Diblokir",
+	"notUsable": "Tidak bisa dipakai",
+	"openThisSource": "Buka sumber ini",
+	"nameRemovedFromSearch": "{name} dibuang dari pencarian",
+	"@nameRemovedFromSearch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectLabel": "Hubungkan {label}",
+	"@connectLabel": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"scanToLogInWith": "Pindai untuk masuk dengan\n{label} di browser-mu",
+	"@scanToLogInWith": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"anilist": "AniList",
+	"myAnimeList": "MyAnimeList",
+	"simkl": "Simkl",
+	"code": "KODE",
+	"signInToBackUpToCloud": "mencadangkan ke cloud",
+	"signInToRestoreFromCloud": "memulihkan dari cloud",
+	"signInToUseThis": "memakai ini",
+	"enabled": "aktif",
+	"disabled": "tidak aktif",
+	"sourcesCount": "{count} sumber",
+	"@sourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"removeRepoSemantic": "{name}, copot repo",
+	"@removeRepoSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoDisplaySemantic": "{name}, ",
+	"@repoDisplaySemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"entryInstalledSemantic": "{name}, {state}",
+	"@entryInstalledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"repoSourcesCount": "{name}, {count} sumber",
+	"@repoSourcesCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRefreshSemantic": "{name}, muat ulang",
+	"@repoRefreshSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoUpdateAllSemantic": "{name}, perbarui semua ({count})",
+	"@repoUpdateAllSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRemoveSemantic": "{name}, copot",
+	"@repoRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUpdateSemantic": "{name}, perbarui",
+	"@sourceUpdateSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUninstallSemantic": "{name}, copot",
+	"@sourceUninstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceInstallSemantic": "{name}, pasang",
+	"@sourceInstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceSettingsSemantic": "{name}, pengaturan",
+	"@sourceSettingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceRemoveSemantic": "{name}, buang",
+	"@sourceRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceEnabledSemantic": "{name}, {state}",
+	"@sourceEnabledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"titleInstalledCount": "{title}, {count} terpasang",
+	"@titleInstalledCount": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"titleCheckUpdatesSemantic": "{title}, periksa pembaruan",
+	"@titleCheckUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleRemoveRepoSemantic": "{title}, copot repo",
+	"@titleRemoveRepoSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleApplyUpdatesSemantic": "{title}, terapkan {what}",
+	"@titleApplyUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"what": {
+				"type": "String"
+			}
+		}
+	},
+	"oneUpdate": "1 pembaruan",
+	"nUpdates": "{count} pembaruan",
+	"@nUpdates": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"percentRead": "{percent}% dibaca",
+	"@percentRead": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"couldntLoadDownloadOptions": "Tidak bisa memuat opsi unduhan",
+	"selectedEpisodesOfTotal": "{selected} dari {total} episode",
+	"@selectedEpisodesOfTotal": {
+		"placeholders": {
+			"selected": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemantic": "Episode {number}",
+	"@episodeSemantic": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"textColour": "Warna teks",
+	"textOpacity": "Opasitas teks",
+	"outlineStyle": "Gaya garis luar",
+	"ownStylingKept": "Subtitle dengan gaya sendiri tetap memakai gayanya selama subtitle bergaya aktif",
+	"outlineColour": "Warna garis luar",
+	"outlineWidth": "Lebar garis luar",
+	"positionTop": "Atas",
+	"positionBottom": "Bawah",
+	"subtitleSize": "Ukuran",
+	"colourWhite": "Putih",
+	"colourYellow": "Kuning",
+	"colourGreen": "Hijau",
+	"colourRed": "Merah",
+	"colourBlack": "Hitam",
+	"tapToDownloadFont": "Ketuk untuk mengunduh",
+	"subtitleOutlineNone": "Tidak ada",
+	"subtitleOutlineSoft": "Bayangan lembut",
+	"subtitleOutlineOutline": "Garis luar",
+	"subtitleOutlineBold": "Garis luar tebal",
+	"subtitleOutlineShadow": "Bayangan jatuh",
+	"subtitleOutlineGlow": "Cahaya",
+	"noSubtitlesFoundFor": "Tidak ditemukan subtitle untuk \"{query}\".",
+	"@noSubtitlesFoundFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"searchFailedWithError": "Pencarian gagal: {error}",
+	"@searchFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadFailedWithError": "Unduhan gagal: {error}",
+	"@downloadFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"decreaseDelay": "Kurangi {label}",
+	"@decreaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"increaseDelay": "Tambah {label}",
+	"@increaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"alignedDelay": "Selaras {offset}",
+	"@alignedDelay": {
+		"placeholders": {
+			"offset": {
+				"type": "String"
+			}
+		}
+	},
+	"subtitleSyncVoiceCaptured": "Suara tertangkap ✓ — putar sampai subtitle muncul, lalu ketuk Subtitle terlihat. (Kamu bisa menutup sheet ini sambil menunggu.)",
+	"subtitleSyncTextCaptured": "Subtitle tertangkap ✓ — sekarang ketuk Suara terdengar saat kamu mendengar kalimatnya.",
+	"subtitleSyncHint": "Sinkron otomatis: ketuk saat kamu MENDENGAR sebuah kalimat, lalu saat SUBTITLE-nya muncul.",
+	"voiceHeard": "Suara terdengar",
+	"subtitleSeen": "Subtitle terlihat",
+	"contrast": "Kontras",
+	"saturation": "Saturasi",
+	"gamma": "Gamma",
+	"hue": "Rona",
+	"drm": "DRM",
+	"sourceFallback": "Sumber",
+	"expandAll": "Bentangkan semua",
+	"downloadedSummary": "{count} terunduh · {size}",
+	"@downloadedSummary": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"ofTotalDownloaded": "{done} dari {total}",
+	"@ofTotalDownloaded": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodesDownloadedOfTotal": "{done} dari {total} terunduh",
+	"@episodesDownloadedOfTotal": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"removeAllEpisodesOfShow": "Hapus semua {count, plural, one{1 episode} other{{count} episode}} dari \"{title}\" di perangkat ini?",
+	"@removeAllEpisodesOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaChaptersYouDownloadAppearHere": "Bab manga yang kamu unduh akan muncul di sini",
+	"parallelDownloadsSubtitle": "Berapa episode yang diunduh sekaligus. Bab selalu diunduh satu per satu.",
+	"connectionsPerDownloadSubtitle": "Koneksi segmen yang dipakai satu episode, dan halaman yang diambil sekaligus dalam satu bab. Makin tinggi = makin cepat, datanya sekaligus makin banyak.",
+	"savingToYourFolder": "Menyimpan ke foldermu…",
+	"notAvailableOfflineYet": "Belum tersedia luring",
+	"downloadQueued": "Dalam antrean",
+	"downloadPreparing": "Menyiapkan…",
+	"downloadFinalizing": "Memproses…",
+	"downloadPausedProgress": "Dijeda · {percent}%",
+	"@downloadPausedProgress": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercent": "{percent}%",
+	"@downloadProgressPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercentOfSize": "{percent}% dari {size}",
+	"@downloadProgressPercentOfSize": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadCanceled": "Dibatalkan",
+	"downloadFailedStatus": "Gagal",
+	"peerCount": "{count, plural, one{1 peer} other{{count} peer}}",
+	"@peerCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSpeedMbps": "{speed} MB/s",
+	"@downloadSpeedMbps": {
+		"placeholders": {
+			"speed": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadSpeedKbps": "{speed} KB/s",
+	"@downloadSpeedKbps": {
+		"placeholders": {
+			"speed": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitleDot": "E{number} · {title}",
+	"@episodeWithTitleDot": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaDownloads": "Unduhan manga",
+	"novelDownloads": "Unduhan novel",
+	"downloadingSection": "Mengunduh",
+	"stopAllCount": "Hentikan semua ({count})",
+	"@stopAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearFailedCount": "Bersihkan yang gagal ({count})",
+	"@clearFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"stopDownloadingBody": "Batalkan {count, plural, one{1 bab dalam antrean} other{{count} bab dalam antrean}}. Bab yang sudah diunduh tetap disimpan.",
+	"@stopDownloadingBody": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearedFailedCount": "{count} yang gagal dibersihkan",
+	"@clearedFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterPagesProgress": "{done}/{total} halaman",
+	"@chapterPagesProgress": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"showTitleQueued": "{title} · Dalam antrean",
+	"@showTitleQueued": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleDownloading": "{title} · Mengunduh…",
+	"@showTitleDownloading": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleWithError": "{title} · {error}",
+	"@showTitleWithError": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeAllChaptersOfShow": "Hapus semua {count, plural, one{1 bab} other{{count} bab}} dari \"{title}\" di perangkat ini?",
+	"@removeAllChaptersOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"chaptersWithSize": "{count, plural, one{1 bab} other{{count} bab}} · {size}",
+	"@chaptersWithSize": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"deleteAllEpisodesTooltip": "Hapus semua episode",
+	"deleteAllChaptersTooltip": "Hapus semua bab",
+	"cancelDownloadTooltip": "Batal",
+	"removeDownloadTooltip": "Buang",
+	"positionLabel": "Posisi",
+	"relativeTomorrow": "Besok",
+	"scheduleSlotMorning": "PAGI",
+	"scheduleSlotAfternoon": "SIANG",
+	"scheduleSlotEvening": "SORE",
+	"scheduleSlotLateNight": "MALAM HARI",
+	"nothingAiringOnThisDay": "Tidak ada tayangan di hari ini.",
+	"nothingReleasingOnThisDay": "Tidak ada rilis di hari ini.",
+	"noneOfFollowedAirOnThisDay": "Tidak ada anime yang kamu ikuti yang tayang di hari ini.",
+	"scheduleAired": "Tayang",
+	"scheduleLive": "● LIVE",
+	"scheduleSoon": "Segera",
+	"scheduleInHours": "dalam {hours} j",
+	"@scheduleInHours": {
+		"placeholders": {
+			"hours": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleInDays": "dalam {days} h",
+	"@scheduleInDays": {
+		"placeholders": {
+			"days": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleCountDot": "· {count} {noun}",
+	"@scheduleCountDot": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"noun": {
+				"type": "String"
+			}
+		}
+	},
+	"scheduleNounAiring": "tayang",
+	"scheduleNounReleasing": "rilis",
+	"seriesWithDate": "Series · {date}",
+	"@seriesWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"movieWithDate": "Film · {date}",
+	"@movieWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"todayWithDate": "Hari ini, {date}",
+	"@todayWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"extensionCount": "{count, plural, one{1 ekstensi} other{{count} ekstensi}}",
+	"@extensionCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"pasteRepoBaseUrlMihon": "Tempel URL dasar repo — aplikasinya mencari file indeksnya sendiri. Tautan langsung ke index.pb atau index.json juga bisa.",
+	"pasteRepoBaseUrlAniyomi": "Tempel URL dasar repo — aplikasinya otomatis menambahkan \"/index.min.json\".",
+	"pasteRepoBaseUrlAniyomiTv": "Tempel URL dasar repo — aplikasinya otomatis menambahkan \"/index.min.json\".",
+	"pasteRepoIndexJsonUrl": "Tempel URL index.json repo — file JSON yang mendaftarkan setiap sumber di repo itu, bukan satu URL .js penyedia.",
+	"pasteRepoIndexJsonUrlShort": "Tempel URL index.json repo.",
+	"pasteCloudStreamRepoUrlFull": "Tempel URL repositori CloudStream — aplikasinya memuat setiap sumber yang terdaftar.",
+	"youCanAddRepoBackLater": "Kamu bisa menambahkan repo itu lagi nanti.",
+	"failedToLoad": "Gagal memuat",
+	"failedToLoadError": "Gagal memuat: {error}",
+	"@failedToLoadError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noSourceLoaded": "Tidak ada sumber yang termuat — ekstensinya mungkin tidak kompatibel atau unduhannya gagal.",
+	"repoAdded": "Repo ditambahkan.",
+	"repoAddedWithSources": "Repo ditambahkan — {count} {count, plural, one{sumber} other{sumber}}",
+	"@repoAddedWithSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoAddedWithSourcesAvailable": "Repo ditambahkan — {count} {count, plural, one{sumber} other{sumber}} tersedia. Pasang yang kamu mau.",
+	"@repoAddedWithSourcesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"upToDate": "Sudah terbaru",
+	"updatedNSources": "{count} sumber diperbarui",
+	"@updatedNSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"enterManifestUrl": "Masukkan URL manifest.",
+	"approve": "Setujui",
+	"changePhoto": "Ubah foto",
+	"typingIsAPain": "Susah mengetik?",
+	"dontHaveAnAccount": "Belum punya akun?",
+	"signUp": "Daftar",
+	"resetLinkSent": "Tautan reset terkirim — cek emailmu (dan spam).",
+	"codeExpired": "Kode kedaluwarsa",
+	"somethingWentWrong": "Terjadi kesalahan",
+	"pairingCodeTimedOut": "Kode penyandingan kedaluwarsa. Ambil yang baru.",
+	"couldntStartPairing": "Tidak bisa memulai penyandingan — cek koneksimu.",
+	"approvalFailed": "Persetujuan gagal. Coba lagi.",
+	"pickAtLeastOneTracker": "Pilih minimal satu pelacak yang terhubung.",
+	"sendFailedTryAgain": "Pengiriman gagal. Coba lagi.",
+	"signUpFailed": "Pendaftaran gagal",
+	"invalidEmailOrPassword": "Email atau kata sandi tidak valid",
+	"authenticationFailed": "Autentikasi gagal",
+	"couldNotReconnect": "Tidak bisa menghubungkan kembali",
+	"couldntUpdatePhoto": "Tidak bisa memperbarui foto",
+	"welcomeToApp": "Selamat datang di {appName}",
+	"@welcomeToApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingTvSubtitle": "{appName} datang tanpa sumber bawaan — kamu menambahkan sendiri. Tambahkan repositori dan pilih apa yang dipasang, kapan saja dari Pengaturan → Penyedia.",
+	"@onboardingTvSubtitle": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingPickEcosystem": "Pilih ekosistem — Streaming, Manga atau Novel",
+	"onboardingAddRepository": "Tambahkan repositori dengan menempelkan URL-nya",
+	"onboardingBrowseAndInstall": "Jelajahi lalu pasang yang kamu mau",
+	"providersWaitingInSettings": "Tambahkan sumber sekarang, atau lihat-lihat dulu — Penyedia selalu menunggumu di Pengaturan.",
+	"bufferSizeLow": "Rendah (32 MB) — RAM rendah / TV",
+	"bufferSizeDefault": "Bawaan (128 MB)",
+	"bufferSizeHigh": "Tinggi (512 MB) — lebih halus",
+	"bufferLengthLow": "Rendah (15 dtk) — RAM rendah / TV",
+	"bufferLengthDefault": "Bawaan (60 dtk)",
+	"bufferLengthHigh": "Tinggi (120 dtk) — lebih halus",
+	"bufferLengthMax": "Maks (300 dtk) — terlama",
+	"nUpdatesAvailable": "{count, plural, one{1 pembaruan tersedia} other{{count} pembaruan tersedia}}",
+	"@nUpdatesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"languageCount": "{count, plural, one{1 bahasa} other{{count} bahasa}}",
+	"@languageCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"noExtensionsMatchQuery": "Tidak ada ekstensi yang cocok dengan \"{query}\".",
+	"@noExtensionsMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetTap": "Belum ada repo CloudStream ditambahkan.\nKetuk {add} untuk menambahnya.",
+	"@noCloudStreamReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetPress": "Belum ada repo CloudStream ditambahkan.\nTekan {add} untuk menambahnya.",
+	"@noCloudStreamReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noProvidersMatchQuery": "Tidak ada penyedia yang cocok dengan \"{query}\".",
+	"@noProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noInstalledProvidersMatchQuery": "Tidak ada penyedia terpasang yang cocok dengan \"{query}\".",
+	"@noInstalledProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetTap": "Belum ada repo ditambahkan.\nKetuk {add} untuk menambahnya.",
+	"@noReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetPress": "Belum ada repo ditambahkan.\nTekan {add} untuk menambahnya.",
+	"@noReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"showingEveryInstalledProvider": "Menampilkan semua penyedia terpasang",
+	"showingMangaNovelProviders": "Menampilkan penyedia manga & novel",
+	"mangaNovelOnly": "Manga & Novel saja",
+	"showAllProviders": "Tampilkan semua",
+	"noMangaNovelProvidersInstalled": "Belum ada penyedia manga/novel terpasang.",
+	"alreadyInstalledSourcesFromRepoStay": "Sumber dari \"{name}\" yang sudah terpasang tetap terpasang. ",
+	"@alreadyInstalledSourcesFromRepoStay": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"pluginIndexPasteHelp": "Tempel URL indeks plugin — array JSON berisi entri plugin (id, name, site, lang, version, url, iconUrl).",
+	"loadingTrailer": "Memuat trailer…",
+	"trailerUnavailable": "Trailer tidak tersedia",
+	"decoderHardwareRecommended": "Hardware+ (disarankan)",
+	"decoderHardwareFaster": "Hardware (lebih cepat)",
+	"decoderSoftwareCompatible": "Software (paling kompatibel)",
+	"decoderAuto": "Otomatis",
+	"rendererAutoRecommended": "Otomatis (disarankan)",
+	"rendererGpuStandard": "GPU — renderer standar",
+	"rendererGpuNextExperimental": "GPU Next — Vulkan, eksperimental",
+	"rendererMediacodecEmbed": "MediaCodec Embed — memperbaiki video hitam",
+	"shaderStyleSharpenClean": "Pertajam — sumber 1080p bersih",
+	"shaderStyleDeblurSoft": "Hilangkan blur — sumber buram / lembut",
+	"shaderStyleDenoiseGrainy": "Kurangi derau — grainy / terkompresi",
+	"shaderTierMidLight": "GPU kelas menengah — ringan, halus",
+	"shaderTierHighHeavy": "GPU kelas atas — lebih berat, paling tajam",
+	"closeConfirmDoubleBackLabel": "Kembali dua kali — tekan kembali dua kali untuk keluar",
+	"closeConfirmAskLabel": "Konfirmasi keluar — tanya sebelum meninggalkan",
+	"closeConfirmExitImmediatelyLabel": "Tutup langsung — keluar seketika",
+	"zMode": "Z Mode",
+	"zModeSubtitle": "Jelajahi dari AniList dan TMDb, putar dari sumbermu",
+	"metadata": "Metadata",
+	"metadataSubtitle": "Cover, judul, dan deskripsi",
+	"animeMetadata": "Metadata anime",
+	"animeMetadataSubtitle": "Asal informasi anime dan manga",
+	"videoMetadata": "Metadata film & TV",
+	"videoMetadataSubtitle": "Asal informasi film dan series",
+	"malLoginForLists": "Masuk ke MyAnimeList di Pelacak untuk menyinkronkan daftarmu",
+	"zModeExperimental": "Eksperimental",
+	"modeAnime": "Anime",
+	"modeMovieTv": "Film/TV",
+	"sourceLabel": "Sumber: {name}",
+	"@sourceLabel": {"placeholders": {"name": {"type": "String"}}},
+	"wrongTitle": "Judul salah?",
+	"noSourceHasThisYet": "Belum ada sumber yang punya ini",
+  "checkedTopSources": "Sumber teratasmu sudah dicek — tidak satu pun punya ini",
+	"pickTheRightTitle": "Pilih judul yang tepat",
+	"searchThisSource": "Cari di sumber ini",
+	"matchSaved": "Tersimpan. Sekarang cocok dengan {name}.",
+	"@matchSaved": {"placeholders": {"name": {"type": "String"}}},
+	"chooseSource": "Pilih sumber",
+	"whichOneIsIt": "Yang mana?",
+	"searchingSourceShort": "Mencari {name}",
+	"@searchingSourceShort": {"placeholders": {"name": {"type": "String"}}},
+	"matchResultCount": "{count, plural, one{1 hasil} other{{count} hasil}}",
+	"@matchResultCount": {"placeholders": {"count": {"type": "int"}}},
+	"nothingOnSource": "Tidak ada di {name}",
+	"@nothingOnSource": {"placeholders": {"name": {"type": "String"}}},
+	"sourceMayNotCarryIt": "Sumber ini mungkin tidak mempunya. Coba yang lain.",
+	"currentMatchBadge": "SEKARANG",
+	"scheduleAndLists": "Jadwal & daftar",
+	"scheduleHubDesc": "Apa yang tayang, hari demi hari",
+	"trackerCoversVideo": "Film dan series",
+	"listKindManga": "Manga",
+	"listKindNovel": "Novel",
+	"listKindAnimeDesc": "Menonton, selesai, merencanakan",
+	"listKindMangaDesc": "Membaca, selesai, merencanakan",
+	"listKindNovelDesc": "Light novel di akun ini",
+	"sortPopularity": "Populer",
+	"sortScore": "Rating tertinggi",
+	"sortTrending": "Sedang tren",
+	"sortNewest": "Terbaru",
+	"sortTitle": "A-Z",
+	"filtersNeedProvider": "Filter butuh {provider}. Ganti di Pengaturan.",
+	"@filtersNeedProvider": {"placeholders": {"provider": {"type": "String"}}},
+	"format": "Format",
+	"minimumScore": "Skor minimum",
+	"searchAnime": "Cari anime",
+	"searchMoviesTv": "Cari film & TV",
+	"searchManga": "Cari manga",
+	"searchNovels": "Cari novel",
+	"adultCatalogue": "Judul dewasa di katalog",
+	"adultCatalogueSubtitle": "Biarkan AniList, MyAnimeList dan TMDb mengembalikan hasil 18+",
+	"enableAdultCatalogue": "Tampilkan judul dewasa?",
+	"enableAdultCatalogueBody": "Pencarian dan penjelajahan mungkin mengembalikan judul 18+ dari penyedia metadata-mu. Simkl tidak punya pengaturan seperti ini dan tidak terpengaruh.",
+	"adultOnly": "Dewasa",
+	"yourSavedAnimeList": "Daftar anime yang kamu simpan",
+	"yourSavedMangaList": "Daftar manga yang kamu simpan",
+	"yourSavedNovelList": "Daftar novel yang kamu simpan",
+	"epub": "EPUB",
+	"exportAsEpub": "Ekspor sebagai EPUB",
+	"chaptersDownloadedCount": "{done} dari {total} bab terunduh",
+	"@chaptersDownloadedCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"noChaptersDownloadedToExport": "Belum ada bab terunduh — unduh dulu beberapa.",
+	"allChapters": "Semua bab",
+	"startChapter": "Awal",
+	"endChapter": "Akhir",
+	"includeChapterNumber": "Sertakan nomor bab",
+	"includeChapterNumberSubtitle": "\"Bab 5: Judul\" alih-alih hanya \"Judul\"",
+	"fileNameLabel": "Nama file",
+	"folderLabel": "Folder",
+	"exportingChapterProgress": "Bab {done} dari {total}",
+	"@exportingChapterProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"exportedToFolder": "Diekspor ke {folder}",
+	"@exportedToFolder": {"placeholders": {"folder": {"type": "String"}}},
+	"epubExportFailed": "Tidak bisa menyimpan EPUB",
+	"export": "Ekspor",
+	"keepDownloadsPrivate": "Jaga unduhan tetap privat",
+	"keepDownloadsPrivateSubtitle": "Unduhan video baru tetap di dalam Zangetsu, bukan di folder Unduhan. Unduhan itu dihapus saat kamu mencopot Zangetsu. Bab dan hasil ekspor tidak terpengaruh."
+}

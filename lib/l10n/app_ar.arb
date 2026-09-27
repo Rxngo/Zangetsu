@@ -1,0 +1,3014 @@
+{
+	"@@locale": "ar",
+	"cancel": "إلغاء",
+	"ok": "موافق",
+	"save": "حفظ",
+	"close": "إغلاق",
+	"retry": "إعادة المحاولة",
+	"search": "بحث",
+	"off": "معطّل",
+	"on": "مفعّل",
+	"done": "تم",
+	"next": "التالي",
+	"back": "رجوع",
+	"edit": "تعديل",
+	"delete": "حذف",
+	"share": "مشاركة",
+	"copy": "نسخ",
+	"play": "تشغيل",
+	"pause": "إيقاف مؤقت",
+	"yes": "نعم",
+	"no": "لا",
+	"all": "الكل",
+	"none": "لا شيء",
+	"auto": "تلقائي",
+	"add": "إضافة",
+	"remove": "إزالة",
+	"install": "تثبيت",
+	"uninstall": "إلغاء التثبيت",
+	"reset": "إعادة تعيين",
+	"clear": "مسح",
+	"resume": "متابعة",
+	"download": "تنزيل",
+	"update": "تحديث",
+	"apply": "تطبيق",
+	"enable": "تفعيل",
+	"create": "إنشاء",
+	"rename": "إعادة تسمية",
+	"move": "نقل",
+	"join": "انضمام",
+	"leave": "مغادرة",
+	"skip": "تخطَّ",
+	"later": "لاحقًا",
+	"dismiss": "تجاهل",
+	"refresh": "تحديث",
+	"more": "المزيد",
+	"info": "معلومات",
+	"filter": "تصفية",
+	"connect": "اتصال",
+	"disconnect": "قطع الاتصال",
+	"signIn": "تسجيل الدخول",
+	"logOut": "تسجيل الخروج",
+	"tryAgain": "إعادة المحاولة",
+	"showDetails": "عرض التفاصيل",
+	"hideDetails": "إخفاء التفاصيل",
+	"notNow": "ليس الآن",
+	"change": "تغيير",
+	"go": "انتقال",
+	"read": "قراءة",
+	"web": "الويب",
+	"live": "مباشر",
+	"sub": "مترجم",
+	"dub": "مدبلج",
+	"nsfw": "محتوى بالغين",
+	"system": "النظام",
+	"custom": "مخصص",
+	"defaultLabel": "الافتراضي",
+	"selected": "محدَّد",
+	"loading": "جارٍ التحميل…",
+	"searching": "جارٍ البحث",
+	"searchingEllipsis": "جارٍ البحث…",
+	"downloading": "جارٍ التنزيل…",
+	"updating": "جارٍ التحديث…",
+	"testing": "جارٍ الاختبار…",
+	"searchOk": "البحث ناجح",
+	"working": "تعمل",
+	"dead": "معطّلة",
+	"error": "خطأ",
+	"appLanguage": "لغة التطبيق",
+	"appLanguageSubtitle": "لغة الواجهة",
+	"appLanguageSystem": "النظام (تلقائي)",
+	"appLanguageSystemSubtitle": "النظام ({name})",
+	"@appLanguageSystemSubtitle": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"appLanguageKeywords": "لغة locale ترجمة i18n واجهة عربية إنجليزية يابانية صينية إسبانية ألمانية فرنسية إيطالية",
+	"settingsTitle": "الإعدادات",
+	"settingsSearchHint": "ابحث في الإعدادات",
+	"settingsNoMatch": "لا توجد إعدادات تطابق \"{query}\"",
+	"@settingsNoMatch": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSectionAccount": "الحساب والمزامنة",
+	"settingsSectionSources": "المصادر",
+	"settingsSectionPlayback": "التشغيل",
+	"settingsSectionReading": "القراءة",
+	"settingsSectionHistory": "السجل",
+	"settingsSectionDownloads": "التنزيلات",
+	"settingsSectionInterface": "الواجهة",
+	"settingsSectionNotifications": "الإشعارات",
+	"settingsSectionAdvanced": "متقدم",
+	"settingsSectionAbout": "حول",
+	"settingsSectionAccountSummary": "المتتبعات وDiscord والنسخ الاحتياطي والمزامنة",
+	"settingsSectionSourcesSummary": "المزوّدات والمصدر النشط والتحديثات",
+	"settingsSectionPlaybackSummary": "الجودة والتشغيل التلقائي والسرعة",
+	"settingsSectionReadingSummary": "إعدادات القارئ الافتراضية للمانغا والروايات",
+	"settingsSectionHistorySummary": "العروض التي شاهدتها",
+	"settingsSectionDownloadsSummary": "التنزيلات والتخزين والتورنت",
+	"settingsSectionInterfaceSummary": "المظهر واللغة وتخطيط البحث",
+	"settingsSectionNotificationsSummary": "تنبيهات الحلقات الجديدة",
+	"settingsSectionAdvancedSummary": "DNS والخصوصية والسجلات",
+	"settingsSectionAboutSummary": "التحديثات والدعم والإصدار",
+	"couldNotExportLogs": "تعذّر تصدير السجلات",
+	"logsShareSubject": "سجلات Zangetsu",
+	"signInSubtitle": "زامن قائمتك وسجلك ومتابعة المشاهدة",
+	"signInSubtitleTv": "زامن قائمتك ومتابعة المشاهدة",
+	"connections": "الاتصالات",
+	"discord": "Discord",
+	"discordSubtitle": "الحضور الغني — اعرض حالتك",
+	"watchParty": "المشاهدة الجماعية",
+	"watchPartySubtitle": "أنشئ جلسة مشاهدة جماعية أو انضم إلى واحدة مع أصدقائك",
+	"signInToWatchTogether": "سجّل الدخول للمشاهدة معًا",
+	"syncLibraryToCloud": "مزامنة المكتبة مع السحابة",
+	"syncLibraryToCloudSubtitle": "أعد رفع السجل والقائمة إلى هذا الحساب",
+	"signInFirst": "سجّل الدخول أولًا",
+	"reconnectToSyncLibrary": "أعد الاتصال لمزامنة مكتبتك.",
+	"syncingLibraryToCloud": "جارٍ مزامنة مكتبتك مع السحابة…",
+	"backupAndRestore": "النسخ الاحتياطي والاستعادة",
+	"backupAndRestoreSubtitle": "احفظ مصادرك وقائمتك وإعداداتك",
+	"providers": "المزوّدات",
+	"providersEnabledCount": "{count} مفعّلة",
+	"@providersEnabledCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSource": "المصدر النشط",
+	"streamingServices": "خدمات البث",
+	"streamingServicesSubtitle": "تصفّح ما تقدّمه كل خدمة في منطقتك",
+	"streamingServicesEmpty": "لا توجد خدمات مدرجة لهذا البلد",
+	"streamingServicesMetadataNote": "للتصفّح فقط — تظل العروض تُشغَّل عبر مصادرك",
+	"pinAsHomeRow": "تثبيت كصف في الرئيسية",
+	"unpinHomeRow": "إلغاء التثبيت",
+	"pinLimitReached": "يمكنك تثبيت {count} خدمة كحد أقصى",
+	"@pinLimitReached": { "placeholders": { "count": { "type": "int" } } },
+	"streamingRegion": "منطقة البث",
+	"streamingRegionSubtitle": "كتالوج أي بلد تريد عرضه",
+	"sourceHealth": "حالة المصادر",
+	"sourceHealthSubtitle": "اختبر المصادر التي تعمل",
+	"sourceUpdates": "تحديثات المصادر",
+	"sourceUpdatesSubtitle": "أعلم عند توفر تحديثات للمصادر المثبّتة",
+	"autoUpdateExtensions": "تحديث الإضافات تلقائيًا",
+	"autoUpdateExtensionsSubtitle": "حدّث المصادر المثبّتة تلقائيًا عند تشغيل التطبيق",
+	"playback": "التشغيل",
+	"playbackSubtitle": "الجودة والتشغيل التلقائي والسرعة",
+	"reader": "القارئ",
+	"readerSubtitle": "إعدادات القراءة الافتراضية للمانغا والروايات",
+	"history": "السجل",
+	"historySubtitle": "العروض التي شاهدتها",
+	"downloads": "التنزيلات",
+	"downloadsSubtitle": "أدر حلقاتك المنزّلة",
+	"downloadsSubtitleTv": "شاهد بدون اتصال",
+	"storage": "التخزين",
+	"storageSubtitle": "أدر المساحة التي يستخدمها التطبيق",
+	"torrents": "التورنت",
+	"torrentsSubtitle": "إعدادات البث والبيانات",
+	"appearance": "المظهر",
+	"appearanceSubtitle": "لون التمييز وشارات الأغلفة",
+	"searchLayout": "تخطيط البحث",
+	"searchLayoutSubtitle": "كيف تُعرض نتائج البحث عبر المصادر",
+	"searchLayoutBlurb": "كيف تُعرض نتائج البحث عبر المصادر. عمودي = شبكة لكل مصدر؛ أفقي = صف قابل للتمرير لكل مصدر.",
+	"searchLayoutVertical": "عمودي (شبكة)",
+	"searchLayoutHorizontal": "أفقي (صفوف)",
+	"batchDownloadStyle": "نمط التنزيل بالجملة",
+	"batchDownloadStyleSubtitle": "كيف تبدو لوحة اختيار الحلقات المتعددة",
+	"batchDownloadStyleBlurb": "اللوحة التي تظهر عند تنزيل موسم كامل. كلاهما ينزّل المحتوى نفسه تمامًا — الفرق في شكل أداة الاختيار فقط.",
+	"batchDownloadClassic": "كلاسيكي",
+	"batchDownloadClassicBlurb": "اللوحة الكاملة مع شبكة صور مصغّرة لكل حلقة.",
+	"batchDownloadMinimal": "مبسّط",
+	"batchDownloadMinimalBlurb": "عجلة رقمية — حدّد عدد الحلقات المطلوب تنزيلها.",
+	"notifications": "الإشعارات",
+	"notificationsSubtitle": "تنبيهات الحلقات الجديدة للعروض المتابَعة",
+	"dns": "DNS",
+	"dnsSubtitle": "تجاوز حجب مزوّدي الخدمة على مصادر CS",
+	"dnsBlurb": "‏DNS مشفّر لمصادر CloudStream — يساعد في تجاوز حجب مزوّدي الخدمة. معطّل = اتصالك المعتاد.",
+	"dnsOffTvSubtitle": "معطّل · تجاوز حجب مزوّدي الخدمة على مصادر CS",
+	"privacy": "الخصوصية",
+	"privacySubtitle": "مصادر محتوى البالغين",
+	"shareLogs": "مشاركة السجلات",
+	"shareLogsSubtitle": "أرسل سجل تشخيصي للمساعدة في حل المشكلة",
+	"sendingReport": "جارٍ إرسال التقرير…",
+	"reportSent": "تم إرسال التقرير",
+	"reportSentBody": "شكرًا لك. إن أخبرتنا بما حدث، فاذكر هذا الرمز: {ref}",
+	"@reportSentBody": {
+		"placeholders": {
+			"ref": { "type": "String" }
+		}
+	},
+	"about": "حول",
+	"versionLabel": "v{version}",
+	"@versionLabel": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"contributors": "المساهمون",
+	"website": "الموقع الإلكتروني",
+	"communityChat": "دردشة المجتمع",
+	"joinTheServer": "انضم إلى الخادم",
+	"viewTheSourceCode": "عرض الشيفرة المصدرية",
+	"howItWorks": "كيف يعمل",
+	"howItWorksSubtitle": "جديد هنا؟ دليل سريع",
+	"checkForUpdates": "التحقق من التحديثات",
+	"checkForUpdatesSubtitle": "احصل على أحدث إصدار من GitHub",
+	"checkingForUpdates": "جارٍ التحقق من التحديثات…",
+	"betaUpdates": "تحديثات تجريبية",
+	"betaUpdatesSubtitle": "احصل على إصدارات ما قبل الإصدار مبكرًا — قد تكون غير مستقرة",
+	"supportTheApp": "ادعم التطبيق",
+	"buyMeACoffee": "اشترِ لي فنجان قهوة",
+	"leadDeveloper": "المطوّر الرئيسي",
+	"addCloudStreamRepository": "إضافة مستودع CloudStream",
+	"installCloudStreamSources": "تثبيت مصادر CloudStream",
+	"connectionsTvSubtitle": "‏AniList وMyAnimeList وSimkl",
+	"profile": "الملف الشخصي",
+	"home": "الرئيسية",
+	"myList": "My List",
+	"schedule": "جدول البث",
+	"pressBackAgainToExit": "اضغط زر الرجوع مرة أخرى للخروج",
+	"pressBackAgainToExitTv": "اضغط رجوع مرة أخرى للخروج",
+	"selectSource": "اختر المصدر",
+	"accentWallpaper": "الخلفية",
+	"accentCoral": "مرجاني",
+	"accentBlue": "أزرق",
+	"accentViolet": "بنفسجي",
+	"accentEmerald": "زمردي",
+	"accentAmber": "كهرماني",
+	"accentRose": "وردي",
+	"accentCyan": "سماوي",
+	"accentCrimson": "قرمزي",
+	"shaderOff": "معطّل",
+	"shaderOffDesc": "بلا تحسين",
+	"shaderSharpen": "حدّة",
+	"shaderSharpenDesc": "استعادة التفاصيل — الأفضل للمصادر النظيفة",
+	"shaderDeblur": "إزالة الضبابية",
+	"shaderDeblurDesc": "استعادة أنعم — للمصادر الضبابية أو الناعمة",
+	"shaderDenoise": "تقليل التشويش",
+	"shaderDenoiseDesc": "تنقية الحبيبات — للمصادر المضغوطة",
+	"shaderTierHigh": "‏GPU رائدة",
+	"shaderTierHighDesc": "معالجات رفع دقة أثقل + تكبير عالي الجودة — تحتاج بطاقة GPU قوية",
+	"shaderTierMid": "‏GPU متوسطة الفئة",
+	"shaderTierMidDesc": "معالجات رفع دقة خفيفة + إزالة التشريط — سلس على معظم الهواتف",
+	"playerInfoResolution": "الدقة",
+	"playerInfoSource": "المصدر",
+	"playerInfoQuality": "الجودة",
+	"playerInfoVideoCodec": "ترميز الفيديو",
+	"playerInfoAudioCodec": "ترميز الصوت",
+	"playerInfoFrameRate": "معدل الإطارات",
+	"playerInfoVideoBitrate": "معدل بت الفيديو",
+	"playerInfoBuffer": "التخزين المؤقت",
+	"playerInfoDroppedFrames": "إطارات مفقودة",
+	"playerInfoDecoder": "وحدة فك الترميز",
+	"playerInfoSpeed": "السرعة",
+	"playerInfoAudioTrack": "المسار الصوتي",
+	"playerInfoSubtitleTrack": "مسار الترجمة",
+	"playerInfoAudioBoost": "تعزيز الصوت",
+	"statusPlanToWatch": "مخطط للمشاهدة",
+	"statusWatching": "أشاهد",
+	"statusCompleted": "مكتمل",
+	"statusPaused": "متوقف مؤقتًا",
+	"statusDropped": "متروك",
+	"statusPlanning": "مخطط",
+	"statusReading": "أقرأ",
+	"statusPlanToRead": "مخطط للقراءة",
+	"providerHavingAMoment": "لدى {name} مشكلة مؤقتة",
+	"@providerHavingAMoment": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerHavingAMomentBody": "لا يستجيب الآن. امنحه دقيقة — أو بدّل مزوّد البيانات الوصفية في الإعدادات.",
+	"sourceNotAnswering": "لا يستجيب {name}",
+	"@sourceNotAnswering": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceNotAnsweringBody": "قد يكون معطّلًا أو يحجب الطلبات. أعد المحاولة، أو بدّل إلى مصدر آخر من الأعلى.",
+	"providerNeedsBreather": "يحتاج {name} إلى استراحة",
+	"@providerNeedsBreather": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerNeedsBreatherBody": "طلبنا كثيرًا في وقت قصير. أعد المحاولة بعد {seconds} ثانية.",
+	"@providerNeedsBreatherBody": {
+		"placeholders": {
+			"seconds": {
+				"type": "int"
+			}
+		}
+	},
+	"showingWhatWeHave": "ربما يكون معطّلًا، أو تحجب شبكتك الوصول إليه. إليك ما كان لدينا بالفعل.",
+	"titleLanguage": "لغة العنوان",
+	"titleLanguageSubtitle": "كيف تُعرض عناوين AniList",
+	"titleLanguageNative": "الأصلية",
+	"homeRowsLayout": "تحرير",
+	"homeRows": "تخصيص الرئيسية",
+	"homeRowsSubtitle": "اختر ما يظهر في الرئيسية",
+	"homeRowsFromYourLists": "من قوائمك",
+	"homeRowsDiscover": "اكتشف",
+	"homeRowsHelp": "اسحب لإعادة الترتيب. أطفئ الصف لإخفائه.",
+	"homeRowTrackerContinue": "تابع على {tracker}",
+	"@homeRowTrackerContinue": {
+		"placeholders": {
+			"tracker": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerCaughtUp": "على اطلاع",
+	"homeRowNewEpisodes": "حلقات جديدة",
+	"modeStreaming": "بث",
+	"modeManga": "مانغا",
+	"modeNovel": "رواية",
+	"relativeToday": "اليوم",
+	"relativeYesterday": "أمس",
+	"relativeDaysAgo": "{count, plural, zero{مضى {count} يوم} one{مضى {count} يوم} two{مضى يومان} few{مضى {count} أيام} many{مضى {count} يومًا} other{مضى {count} يوم}}",
+	"@relativeDaysAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeWeeksAgo": "{count, plural, zero{مضى {count} أسبوع} one{مضى {count} أسبوع} two{مضى أسبوعان} few{مضى {count} أسابيع} many{مضى {count} أسبوعًا} other{مضى {count} أسبوع}}",
+	"@relativeWeeksAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeMonthsAgo": "{count, plural, zero{مضى {count} شهر} one{مضى {count} شهر} two{مضى شهران} few{مضى {count} أشهر} many{مضى {count} شهرًا} other{مضى {count} شهر}}",
+	"@relativeMonthsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeYearsAgo": "{count, plural, zero{مضى {count} سنة} one{مضى {count} سنة} two{مضى سنتان} few{مضى {count} سنوات} many{مضى {count} سنة} other{مضى {count} سنة}}",
+	"@relativeYearsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"bootErrorTitle": "لم يكتمل تشغيل Zangetsu",
+	"bootErrorBody": "هناك شيء محفوظ على هذا الجهاز يمنع فتحه. لا شيء ضائع — حسابك وكل ما زُمن إلى السحابة بأمان.",
+	"resetAppData": "إعادة تعيين بيانات التطبيق",
+	"resetAppDataTitle": "إعادة تعيين بيانات التطبيق؟",
+	"resetAppDataBody": "سيؤدي هذا إلى مسح ما حفظه Zangetsu على هذا الجهاز ليبدأ من جديد.\n\nلن يُمس حسابك ولا ما زُمن إلى السحابة — سجّل الدخول من جديد وستعود مكتبتك.",
+	"resetAppDataDone": "أغلق Zangetsu تمامًا ثم افتحه من جديد.",
+	"detailsCopied": "نُسخت التفاصيل — أرسلها إلينا",
+	"copyDetails": "نسخ التفاصيل",
+	"goodToHaveYouHere": "سعداء بوجودك هنا.",
+	"onboardingIntro": "أنمي ومانغا وروايات — كل ذلك في تطبيق واحد، اضبطه كما تريد.",
+	"youChooseWhatsInside": "أنت تختار ما بداخله",
+	"addTheSourcesYouWant": "أضف المصادر التي تريد — إليك الطريقة.",
+	"openProviders": "افتح المزوّدات",
+	"pickStreamingMangaOrNovels": "اختر البث أو المانغا أو الروايات",
+	"pasteInARepositoryLink": "الصق رابط مستودع",
+	"browseAndGrab": "تصفّحه والتقط ما يعجبك",
+	"readyWhenYouAre": "جاهز عندما تكون مستعدًا.",
+	"addSourcesNow": "أضف المصادر الآن",
+	"illDoItLater": "سأفعل ذلك لاحقًا",
+	"howToUseTheApp": "كيفية استخدام التطبيق",
+	"aFewTapsToAnything": "بضع نقرات تصلك بكل شيء.",
+	"findSomething": "اعثر على شيء",
+	"watchIt": "شاهده",
+	"ifItWontLoad": "إذا لم يُحمَّل",
+	"saveForOffline": "احفظ للعرض بدون اتصال",
+	"commonQuestions": "الأسئلة الشائعة",
+	"noCommunityContributorsYet": "لا يوجد مساهمون من المجتمع بعد.",
+	"paged": "مقسّم إلى صفحات",
+	"vertical": "عمودي",
+	"tapZonesReset": "إعادة تعيين مناطق اللمس",
+	"noUPIAppFoundUPIIDCopiedPasteItInYourUPIApp": "لم يُعثر على تطبيق UPI — نُسخ معرّف UPI، الصقه في تطبيق UPI لديك",
+	"donateWithPayPal": "تبرّع عبر PayPal",
+	"payViaUPI": "ادفع عبر UPI",
+	"copyUPIID": "نسخ معرّف UPI",
+	"readingMode": "وضع القراءة",
+	"fit": "ملاءمة",
+	"background": "الخلفية",
+	"colourFilter": "مرشّح الألوان",
+	"orientationLock": "قفل الاتجاه",
+	"doublePageLandscape": "صفحتان متجاورتان (أفقي)",
+	"pairFacingPagesInALandscapeSpread": "اقتران الصفحات المتقابلة في عرض أفقي",
+	"cropBorders": "قصّ الحدود",
+	"trimNearUniformEdgeMarginsFromAPage": "اقتطاع هوامش الحواف المتشابهة من الصفحة",
+	"preloadPages": "تحميل الصفحات مسبقًا",
+	"keepScreenOn": "إبقاء الشاشة مضاءة",
+	"readerFullscreen": "ملء الشاشة",
+	"tapZones": "مناطق اللمس",
+	"whatTappingEachPartOfThePageDoes": "وظيفة اللمس على كل جزء من الصفحة",
+	"font": "الخط",
+	"addFont": "إضافة خط",
+	"couldntAddFont": "تعذّرت إضافة هذا الخط",
+	"theme": "السمة",
+	"fontSize": "حجم الخط",
+	"lineHeight": "ارتفاع السطر",
+	"margin": "الهامش",
+	"justifyText": "ضبط النص",
+	"textDirection": "اتجاه النص",
+	"paragraphSpacing": "تباعد الفقرات",
+	"paginated": "مقسّم إلى صفحات",
+	"bookStylePagesInsteadOfAContinuousScroll": "صفحات بأسلوب الكتاب بدل التمرير المتصل",
+	"enableNSFWSources": "تفعيل مصادر محتوى البالغين؟",
+	"showNSFWAniyomiSources": "إظهار مصادر Aniyomi المحتوىية للبالغين؟",
+	"incognitoMode": "وضع التصفح الخفي",
+	"pauseHistoryTrackingDiscordPresence": "إيقاف السجل والتتبّع وحضور Discord مؤقتًا",
+	"enableNSFWSources2": "تفعيل مصادر محتوى البالغين",
+	"showSourcesMarked18": "إظهار المصادر المصنّفة 18+",
+	"showNSFWSources": "إظهار مصادر محتوى البالغين",
+	"adultAniyomiExtensions": "إضافات Aniyomi للبالغين",
+	"opensubtitlesAPIKey": "مفتاح OpenSubtitles API",
+	"pasteYourKey": "الصق مفتاحك",
+	"createAFreeKeyAtOpensubtitlesComConsumers": "أنشئ مفتاحًا مجانيًا في opensubtitles.com ← Consumers.",
+	"shaderDownloadFailedCheckNetwork": "فشل تنزيل الشيدر — تحقق من الشبكة",
+	"anime4kEnhancement": "تحسين Anime4K",
+	"anime4kGPUTier": "مستوى بطاقة GPU في Anime4K",
+	"cacheCleared": "تم مسح ذاكرة التخزين المؤقت",
+	"videoBufferSize": "حجم التخزين المؤقت للفيديو",
+	"videoBufferLength": "مدة التخزين المؤقت للفيديو",
+	"playerInfoOverlay": "طبقة معلومات المشغّل",
+	"defaultQuality": "الجودة الافتراضية",
+	"videoDecoder": "وحدة فك ترميز الفيديو",
+	"videoRenderer": "عارض الفيديو",
+	"defaultAudio": "الصوت الافتراضي",
+	"defaultSpeed": "السرعة الافتراضية",
+	"doubleTapSkip": "التخطي بالنقر المزدوج",
+	"closeConfirmation": "تأكيد قبل الخروج",
+	"megaskipDuration": "مدة التخطي السريع",
+	"defaultPlayer": "المشغّل الافتراضي",
+	"defaultAudioAnimeSubDub": "الصوت الافتراضي (أنمي مترجم/مدبلج)",
+	"builtIn": "مدمج",
+	"playerControls": "عناصر تحكم المشغّل",
+	"reorderOrHideTheButtonsOnThePlayerBar": "أعد ترتيب أزرار شريط المشغّل أو أخفها",
+	"resumePlayback": "استئناف التشغيل",
+	"continueFromWhereYouLeftOff": "تابع من حيث توقفت",
+	"askBeforeJumping": "اسأل قبل الانتقال",
+	"autoAddToMyList": "الإضافة التلقائية إلى My List",
+	"addATitleToMyListWhenYouStartWatchingIt": "أضف العرض إلى My List عند بدء مشاهدته",
+	"autoTrack": "تتبّع تلقائي",
+	"confirm": "تأكيد",
+	"autoplayNextEpisode": "تشغيل الحلقة التالية تلقائيًا",
+	"autoSkipFillerEpisodes": "تخطّي حلقات الحشو تلقائيًا",
+	"autoplayTrailer": "تشغيل التريلر تلقائيًا",
+	"playATitleSTrailerOnItsDetailPage": "تشغيل تريلر العرض في صفحة تفاصيله",
+	"playTrailersInHD": "تشغيل التريلرات بدقة HD",
+	"skipIntroButton": "زر تخطّي المقدمة",
+	"showSkipOpeningEndingOnAnimeWhenDetected": "إظهار زر تخطّي المقدمة/النهاية في الأنمي (عند التعرّف عليها)",
+	"autoSkipOpening": "تخطّي المقدمة تلقائيًا",
+	"jumpPastTheOPOnItsOwnNoTap": "تخطّي المقدمة تلقائيًا دون لمس",
+	"autoSkipRecap": "تخطّي الملخص تلقائيًا",
+	"jumpPastThePreviouslyOnRecapNoTap": "تخطّي ملخص «ماذا سبق» تلقائيًا دون لمس",
+	"autoSkipEnding": "تخطّي النهاية تلقائيًا",
+	"jumpPastTheEDOnItsOwnNoTap": "تخطّي النهاية تلقائيًا دون لمس",
+	"megaskipButton": "زر التخطي السريع",
+	"aJumpForwardButtonInThePlayerAnyVideo": "زر تقديم داخل المشغّل (أي فيديو)",
+	"seekButton": "إظهار أزرار الانتقال في الفيديو",
+	"seekButtonDescription": "إظهار أزرار التقديم والرجوع في المشغّل",
+	"seekButtonDuration": "مدة الانتقال",
+	"selectSeekButtonDurationDescription": "حدّد مدة الانتقال لأزرار الانتقال",
+	"nativeTVPlayer": "مشغّل التلفاز الأصلي",
+	"softwareAudioDolbyDTS": "صوت برمجي (Dolby/DTS)",
+	"seekPreviewOnline": "معاينة الانتقال (أونلاين)",
+	"thumbnailsWhileScrubbingStreamsCostsExtraData": "صور مصغّرة أثناء التصفّح في البث — تستهلك بيانات إضافية",
+	"autoPictureInPicture": "صورة داخل صورة تلقائيًا",
+	"shrinkToAFloatingWindowWhenYouLeaveTheApp": "تصغيره إلى نافذة عائمة عند مغادرة التطبيق",
+	"showQualityLabel": "إظهار شارة الجودة",
+	"plainQualityTextEG1080pOnTheTopBarRight": "نص الجودة المجرّد (مثل 1080p) في الطرف الأيمن من الشريط العلوي",
+	"gestureControls": "التحكم بالإيماءات",
+	"swipeLeftForBrightnessRightForVolume": "اسحب لليسار للسطوع، ولليمين لمستوى الصوت",
+	"swipeToSeek": "اسحب للانتقال",
+	"dragLeftOrRightAcrossTheVideoToScrub": "اسحب يمينًا أو يسارًا فوق الفيديو للتنقل داخله",
+	"holdFor2Speed": "اضغط مطولًا لسرعة ×2",
+	"longPressTheVideoToPlayAt2WhileHeld": "اضغط مطولًا على الفيديو للتشغيل بسرعة ×2 أثناء الضغط",
+	"clearImageVideoCache": "مسح ذاكرة تخزين الصور والفيديو المؤقتة",
+	"styledSubtitlesLibass": "ترجمة منسّقة (libass)",
+	"subtitleStyle": "نمط الترجمة",
+	"requiredForOnlineSubtitleSearch": "مطلوب للبحث عن الترجمة عبر الإنترنت",
+	"subtitleLanguage": "لغة الترجمة",
+	"autoDownloadSubtitles": "تنزيل الترجمة تلقائيًا",
+	"whenTheSourceHasNoSubtitleInYourLanguage": "عندما لا تتوفّر في المصدر ترجمة بلغتك",
+	"autoTranslateSubtitles": "ترجمة الترجمة تلقائيًا",
+	"translateToYourLanguageOnPlayWhenTheSourceHasNone": "ترجمة إلى لغتك عند التشغيل (عندما لا تتوفّر في المصدر)",
+	"translateSubtitlesTo": "ترجمة الترجمة إلى",
+	"pickALanguage": "اختر لغة",
+	"customColour": "لون مخصص",
+	"materialYou": "Material You",
+	"coloursFromYourWallpaper": "ألوان من خلفيتك",
+	"pureBlackBackground": "خلفية سوداء تمامًا",
+	"trueBlackForOLED": "سواد تام لأجهزة OLED",
+	"posterBadges": "شارات الأغلفة",
+	"qualityAndSubDubBadges": "شارات التقييم والجودة ومترجم/مدبلج",
+	"animateLists": "تحريك القوائم",
+	"cardsFadeInAsYouScroll": "تتلاشى البطاقات للداخل أثناء التمرير",
+	"animationStyle": "نمط الحركة",
+	"turnOffMaterialYouToPickAColourYourself": "أوقف Material You لتختار اللون بنفسك",
+	"downloadsZangetsu": "التنزيلات › Zangetsu",
+	"removableDrive": "وحدة تخزين قابلة للإزالة",
+	"chooseFolder": "اختر مجلدًا…",
+	"resetToDefault": "إعادة التعيين إلى الافتراضي",
+	"connected": "متصل",
+	"imageCacheCleared": "تم مسح ذاكرة صور التخزين المؤقت",
+	"providerCacheCleared": "تم مسح ذاكرة تخزين المزوّد المؤقتة",
+	"clearImageCache": "مسح ذاكرة الصور المؤقتة",
+	"clearProviderCache": "مسح ذاكرة المزوّد المؤقتة",
+	"showTitleE2": "عنوان العرض · الحلقة 2",
+	"pinned": "مثبَّت",
+	"exoplayerSpikeDev": "تجربة ExoPlayer (تطوير)",
+	"sp0TestSurfaceViewPlaybackSmoothness": "SP0 — اختبار سلاسة التشغيل عبر SurfaceView",
+	"pasteDiscordToken": "الصق رمز Discord",
+	"yourDiscordUserToken": "رمز مستخدم Discord الخاص بك",
+	"pasteToken": "الصق الرمز",
+	"useMobileDataForTorrents": "استخدام بيانات الجوال للتورنت",
+	"discordConnected": "تم اتصال Discord",
+	"disconnectDiscord": "قطع اتصال Discord؟",
+	"notConfigured": "غير مُهيّأ",
+	"aDiscordApplicationIDMustBeSetInTheBuildFirst": "يجب ضبط معرّف تطبيق Discord في النسخة أولًا.",
+	"richPresence": "الحضور الغني",
+	"showWhatYouReWatchingOnYourProfile": "اعرض ما تشاهده في ملفك الشخصي",
+	"signInToLinkYourAccount": "سجّل الدخول لربط حسابك",
+	"autoSync": "مزامنة تلقائية",
+	"disconnectingHereOnlySignsThisTrackerOutOnTheTVYourPhoneStaysConnected": "قطع الاتصال من هنا يُخرج هذا المتتبع من التلفاز فقط — يبقى هاتفك متصلًا.",
+	"continueWatching": "متابعة المشاهدة",
+	"continueReading": "متابعة القراءة",
+	"seeAll": "عرض الكل",
+	"libraryLabel": "المكتبة",
+	"sortBy": "ترتيب حسب",
+	"newCategory": "فئة جديدة",
+	"personaGym": "شخصيات، صالات رياضية، …",
+	"deleteCategory": "حذف الفئة",
+	"yourTitlesStayOnlyTheLabelGoes": "عناوينك تبقى — التسمية وحدها هي التي تُحذف",
+	"renameCategory": "إعادة تسمية الفئة",
+	"manageTrackers": "إدارة المتتبعات",
+	"trackers": "المتتبعات",
+	"showLabel": "إظهار",
+	"couldnTLoadPullToRefresh": "تعذّر التحميل — اسحب للتحديث",
+	"noTitlesInThisList": "لا توجد عناوين في هذه القائمة",
+	"signInToBuildYourList": "سجّل الدخول لبناء قائمتك",
+	"titlesYouAddAppearHere": "العناوين التي تضيفها تظهر هنا",
+	"couldnTLoadTryAgainFromSettings": "تعذّر التحميل — أعد المحاولة من الإعدادات",
+	"search2": "بحث…",
+	"voiceSearch": "البحث الصوتي",
+	"allSources": "كل المصادر",
+	"currentSource": "المصدر الحالي",
+	"searchFailedTryAgain": "فشل البحث — أعد المحاولة",
+	"searchForSomethingToWatch": "ابحث عن شيء لمشاهدته",
+	"recentSearches": "عمليات البحث الأخيرة",
+	"clearSearchHistory": "مسح سجل البحث",
+	"checkTheSpellingOrTryADifferentTitle": "تحقق من الإملاء أو جرّب عنوانًا مختلفًا.",
+	"browseSources": "تصفح المصادر",
+	"thisSourceHasNoFilters": "لا يحتوي هذا المصدر على عوامل تصفية",
+	"searchIn": "البحث في",
+	"filters": "عوامل التصفية",
+	"sourceFilters": "تصفية المصدر",
+	"clearFilters": "مسح عوامل التصفية",
+	"topPicks": "الاختيار الأفضل",
+	"anime": "أنمي",
+	"moviesSeries": "أفلام ومسلسلات",
+	"noSourcesInstalled": "لا توجد مصادر مثبّتة",
+	"fromYourResults": "· من نتائجك",
+	"any": "أي",
+	"someSourcesDonTProvideGenres": "بعض المصادر لا توفّر التصنيفات",
+	"searchInSources": "البحث في المصادر",
+	"turnAllOff": "إيقاف الكل",
+	"extensionsUpdated": "تم تحديث الإضافات",
+	"incognito": "تصفّح خفي",
+	"reconnectToSync": "أعد الاتصال للمزامنة",
+	"yourSessionExpiredTapToSignInAndSyncYourLibrary": "انتهت جلستك — اضغط لتسجيل الدخول ومزامنة مكتبتك.",
+	"solveCloudflare": "حل تحدي Cloudflare",
+	"switchSource": "تبديل المصدر",
+	"moviesTV": "أفلام وتلفاز",
+	"couldnTLoadComingSoonPullToRefresh": "تعذّر تحميل «قريبًا» — اسحب للتحديث.",
+	"streamURL": "رابط البث",
+	"exoplayerSurfaceViewSpikeSP0": "تجربة ExoPlayer مع SurfaceView (SP0)",
+	"episodes": "الحلقات",
+	"season": "الموسم",
+	"jumpToEpisode": "انتقل إلى الحلقة…",
+	"preferredLanguage": "اللغة المفضّلة…",
+	"searchOnline": "بحث عبر الإنترنت…",
+	"onlineSubtitles": "ترجمة عبر الإنترنت",
+	"audioSubs": "الصوت والترجمة",
+	"nextEpisode": "الحلقة التالية",
+	"colour": "اللون",
+	"snapshot": "لقطة شاشة",
+	"sleepTimer": "مؤقّت النوم",
+	"pictureInPicture": "صورة داخل صورة",
+	"cast": "البث",
+	"playbackStats": "إحصاءات التشغيل",
+	"sleepTimerOn": "مؤقّت النوم مُفعّل",
+	"lockControls": "قفل عناصر التحكم",
+	"chat": "الدردشة",
+	"previousEpisode": "الحلقة السابقة",
+	"nextEpisode2": "الحلقة التالية",
+	"translated": "مترجمة",
+	"thisSourceCanTBeCastTryAnotherSource": "لا يمكن بث هذا المصدر — جرّب مصدرًا آخر.",
+	"rewind10Seconds": "رجوع 10 ثوانٍ",
+	"forward10Seconds": "تقديم 10 ثوانٍ",
+	"stopCasting": "إيقاف البث",
+	"usingTheBuiltInPlayerForThisSource": "يجري استخدام المشغّل المدمج لهذا المصدر.",
+	"closeVideo": "إغلاق الفيديو؟",
+	"areYouSureYouWantToCloseTheVideo": "هل أنت متأكد من إغلاق الفيديو؟",
+	"downloadInSettings": "التنزيل في الإعدادات",
+	"getTheAnime4KShaders06MBThenTurnItOn": "احصل على ملفات Anime4K (~0.6 ميغابايت) ثم فعّلها",
+	"gpuTIER": "مستوى GPU",
+	"endOfEpisode": "نهاية الحلقة",
+	"closeAppWhenTimerEnds": "إغلاق التطبيق عند انتهاء المؤقّت",
+	"exitTheAppToSaveBattery": "اخرج من التطبيق لتوفير البطارية",
+	"playNow": "شغّل الآن",
+	"skipRecap": "تخطَّ الملخص",
+	"unlockControls": "فتح قفل عناصر التحكم",
+	"tapToUnlock": "اضغط لفتح القفل",
+	"subtitleDelay": "تأخير الترجمة",
+	"audioDelay": "تأخير الصوت",
+	"androidPlayer": "مشغّل Android (تجريبي)",
+	"androidPlayerUnavailable": "تعذّر تشغيل مشغّل Android",
+	"audioNormalization": "تطبيع الصوت",
+	"searchSubtitlesOnline": "ابحث عن ترجمة عبر الإنترنت",
+	"loadFromFile": "تحميل من ملف…",
+	"translateSubtitles": "ترجمة إلى…",
+	"language": "اللغة:",
+	"movieOrShowTitle": "عنوان الفيلم أو المسلسل",
+	"theQuickBrownFox": "الثعلب البني السريع",
+	"seekBar": "شريط الانتقال",
+	"autoScrollSettings": "إعدادات التمرير التلقائي",
+	"autoScroll": "تمرير تلقائي",
+	"touchThePageToPauseItPicksUpAgainWhenYouLetGo": "المس الصفحة للإيقاف المؤقت — ويستأنف عند رفع إصبعك.",
+	"floatingButton": "الزر العائم",
+	"nextChapter": "الفصل التالي",
+	"orKeepPulling": "أو اسحب مجددًا",
+	"thatSTheLastChapter": "هذا هو الفصل الأخير.",
+	"readerSettings": "إعدادات القارئ",
+	"noOtherChaptersLoadedYet": "لم تُحمَّل فصول أخرى بعد",
+	"chapters": "الفصول",
+	"direction": "الاتجاه",
+	"autoWebtoonMode": "وضع الويبتون التلقائي",
+	"pullToChangeChapter": "اسحب لتغيير الفصل",
+	"volumeKeysTurnPages": "أزرار الصوت تقلّب الصفحات",
+	"invertVolumeKeys": "عكس أزرار الصوت",
+	"brightness": "السطوع",
+	"previousChapter": "الفصل السابق",
+	"thisTitle": "هذا العنوان",
+	"nextChapter2": "الفصل التالي →",
+	"textSize": "حجم النص",
+	"appliesStraightAway": "يُطبَّق فورًا",
+	"left": "اليسار",
+	"justify": "ضبط",
+	"ltr": "LTR",
+	"rtl": "RTL",
+	"letterSpacing": "تباعد الأحرف",
+	"wordSpacing": "تباعد الكلمات",
+	"alignment": "المحاذاة",
+	"a": "A",
+	"searchEpisodes": "ابحث في الحلقات",
+	"titleOrEpisodeNumber": "العنوان أو رقم الحلقة",
+	"failedToLoadThisTitle": "تعذّر تحميل هذا العنوان",
+	"offlineTitle": "أنت غير متصل",
+	"offlineBody": "تحقق من اتصالك وأعد المحاولة.",
+	"changeStatus": "تغيير الحالة",
+	"tracking": "التتبّع",
+	"noEpisodesAvailableFromThisSource": "لا توجد حلقات متاحة من هذا المصدر",
+	"noEpisodesMatchYourSearch": "لا توجد حلقات تطابق بحثك",
+	"everyChapterIsAlreadyDownloaded": "كل الفصول منزّلة بالفعل",
+	"downloadChapters": "تنزيل الفصول",
+	"thisWillTakeAWhileAndUseALotOfStorage": "سيستغرق هذا وقتًا طويلًا ويستهلك مساحة تخزين كبيرة",
+	"findEpisode": "ابحث عن حلقة",
+	"refreshChapters": "تحديث الفصول",
+	"refreshEpisodes": "تحديث الحلقات",
+	"seasons": "المواسم",
+	"goToEpisode": "اذهب إلى الحلقة",
+	"episodeNumber": "رقم الحلقة",
+	"cancelDownload": "إلغاء التنزيل",
+	"downloaded": "تم التنزيل",
+	"downloadChapter": "تنزيل الفصل",
+	"deleteDownload": "حذف التنزيل",
+	"resumeDownload": "استئناف التنزيل",
+	"status": "الحالة",
+	"year": "السنة",
+	"studio": "الاستوديو",
+	"genres": "التصنيفات",
+	"synopsis": "نبذة",
+	"readMore": "اقرأ المزيد",
+	"downloadChooseServer": "تنزيل · اختر خادمًا",
+	"noDownloadSourcesFound": "لم يُعثر على مصادر للتنزيل",
+	"audio": "الصوت",
+	"noEpisodesMatch": "لا توجد حلقات مطابقة",
+	"selectEpisodes": "اختر الحلقات",
+	"startFrom": "ابدأ من",
+	"jumpToEpisode2": "انتقل إلى الحلقة",
+	"downloadEpisodes": "تنزيل الحلقات",
+	"noEpisodes": "لا توجد حلقات",
+	"dub2": "مدبلج",
+	"autoBestAvailable": "تلقائي · الأفضل المتاح",
+	"linksReloaded": "أُعيد تحميل الروابط",
+	"noSourcesFoundForThisEpisode": "لم يُعثر على مصادر لهذه الحلقة",
+	"starring": "طاقم العمل",
+	"creators": "صنّاع العمل",
+	"notify": "إشعار",
+	"stopAlerts": "إيقاف التنبيهات",
+	"trackedEditStatusScoreProgress": "متتبَّع — عدّل الحالة والتقييم والتقدّم",
+	"openSourceSite": "فتح موقع المصدر",
+	"signInToSource": "تسجيل الدخول",
+	"welcomeBack": "مرحبًا بعودتك",
+	"signInToSyncYourListAcrossDevices": "سجّل الدخول لمزامنة قائمتك عبر أجهزتك.",
+	"logIn": "تسجيل الدخول",
+	"passwordMustBeAtLeast8Characters": "يجب أن تتكوّن كلمة المرور من 8 أحرف على الأقل",
+	"createAccount": "إنشاء حساب",
+	"saveYourListAndContinueWatchingAnywhere": "احفظ قائمتك وتابع المشاهدة من أي مكان.",
+	"notSignedIn": "غير مسجّل الدخول",
+	"haveTheApp": "لديك التطبيق؟",
+	"openZangetsuOnYourNphoneAndScan": "افتح Zangetsu على\nهاتفك وامسح الرمز",
+	"noApp": "ليس لديك التطبيق؟",
+	"resetPassword": "إعادة تعيين كلمة المرور",
+	"youExampleCom": "you@example.com",
+	"sendLink": "إرسال الرابط",
+	"email": "البريد الإلكتروني",
+	"password": "كلمة المرور",
+	"forgotPassword": "نسيت كلمة المرور؟",
+	"name": "الاسم",
+	"password8Characters": "كلمة المرور (8 أحرف فأكثر)",
+	"editName": "تعديل الاسم",
+	"yourName": "اسمك",
+	"couldnTUpdateYourName": "تعذّر تحديث اسمك",
+	"pairATV": "إقران تلفاز",
+	"addPhoto": "إضافة صورة",
+	"backUpBeforeLoggingOut": "هل تريد إنشاء نسخة احتياطية قبل تسجيل الخروج؟",
+	"logOutAnyway": "سجّل الخروج على أي حال",
+	"reconnect": "إعادة الاتصال",
+	"signInWithYourPhone": "سجّل الدخول بهاتفك",
+	"onTheZangetsuAppOnYourPhoneOpenNPairATVAndEnterThisCodeOrScanTheQR": "في تطبيق Zangetsu على هاتفك، افتح\n«إقران تلفاز» وأدخل هذا الرمز — أو امسح رمز QR.",
+	"signingIn": "جارٍ تسجيل الدخول…",
+	"getANewCode": "احصل على رمز جديد",
+	"sendTrackers": "إرسال المتتبعات",
+	"chooseTrackersToSend": "اختر المتتبعات المراد إرسالها",
+	"sendToTV": "إرسال إلى التلفاز",
+	"signInToYourAccountFirstNthenPairYourTV": "سجّل الدخول إلى حسابك أولًا،\nثم أقرن تلفازك.",
+	"enterTheCodeFromYourTV": "أدخل الرمز الظاهر على تلفازك",
+	"openZangetsuOnYourTVAndSignInWithYourPhoneToSeeIt": "افتح Zangetsu على تلفازك وسجّل الدخول بهاتفك لتظهر له.",
+	"abcd2345": "ABCD 2345",
+	"thisTVWillSignIntoYourAccountYouCanSignItOutLater": "سيُسجَّل هذا التلفاز في حسابك. ويمكنك إخراجه لاحقًا.",
+	"alsoSendYourTrackersAniListMyAnimeListSimkl": "إرسال متتبعاتك أيضًا (AniList، MyAnimeList، Simkl)",
+	"yourTVIsSignedIn": "تلفازك مسجّل الدخول",
+	"itShouldSwitchToYourAccountInAMoment": "سيتحوّل إلى حسابك بعد لحظات.",
+	"backedUpToCloud": "تم إنشاء نسخة احتياطية في السحابة",
+	"couldnTSaveTheBackupFileStoragePermissionMayBeNeeded": "تعذّر حفظ ملف النسخة الاحتياطية — قد يلزم إذن التخزين.",
+	"noCloudBackupFound": "لم يُعثر على نسخة احتياطية في السحابة",
+	"thatFileIsnTAValidBackup": "هذا الملف ليس نسخة احتياطية صالحة.",
+	"pickABackup": "اختر نسخة احتياطية",
+	"couldnTReadThatBackupFile": "تعذّرت قراءة ملف النسخة الاحتياطية.",
+	"restoreComplete": "اكتملت الاستعادة",
+	"reopenZangetsuToSeeRestoredLibrarySources": "أعد فتح Zangetsu لرؤية المكتبة والمصادر المستعادة.",
+	"saveToAFile": "حفظ في ملف",
+	"saveABackupFileToYourDownloadsFolder": "احفظ ملف نسخة احتياطية في مجلد التنزيلات",
+	"backUpToCloud": "إنشاء نسخة احتياطية في السحابة",
+	"saveACopyToYourAccountNeedsSignIn": "احفظ نسخة في حسابك · يتطلب تسجيل الدخول",
+	"restoreFromAFile": "استعادة من ملف",
+	"pickABackupFileYouSavedEarlier": "اختر ملف نسخة احتياطية حفظته سابقًا",
+	"restoreFromCloud": "استعادة من السحابة",
+	"bringBackYourLatestCloudBackup": "استعد آخر نسخة احتياطية في السحابة",
+	"episodesYouDownloadAppearHere": "الحلقات التي تنزّلها تظهر هنا",
+	"deleteAllEpisodes": "حذف كل الحلقات",
+	"deleteAllDownloads": "حذف كل التنزيلات؟",
+	"deleteAll": "حذف الكل",
+	"changeDownloadFolder": "تغيير مجلد التنزيل",
+	"savingTo": "يُحفظ في",
+	"needsAFileManagerAppOnTheTV": "يتطلب تطبيق إدارة ملفات على التلفاز",
+	"downloadLocation": "موقع التنزيل",
+	"novelChaptersYouDownloadAppearHere": "فصول الروايات التي تنزّلها تظهر هنا",
+	"stopDownloading": "إيقاف التنزيل؟",
+	"keepGoing": "متابعة",
+	"stopAll": "إيقاف الكل",
+	"searchDownloads": "ابحث في التنزيلات",
+	"deleteAllChapters": "حذف كل الفصول",
+	"deleteAllChapters2": "حذف كل الفصول؟",
+	"chapter": "الفصل",
+	"downloadSettings": "إعدادات التنزيل",
+	"parallelDownloads": "تنزيلات متوازية",
+	"connectionsPerDownload": "الاتصالات لكل تنزيل",
+	"novels": "الروايات",
+	"noDownloadsMatchYourSearch": "لا توجد تنزيلات تطابق بحثك",
+	"collapseAll": "طيّ الكل",
+	"requestedControl": "طُلب التحكم",
+	"noParticipantsYet": "لا يوجد مشاركون بعد",
+	"guest": "ضيف",
+	"wantsControl": "يطلب التحكم",
+	"giveControl": "منح التحكم",
+	"hostControlsPlayback": "المضيف يتحكم في التشغيل",
+	"requestControl": "طلب التحكم",
+	"inviteCopied": "نُسخت الدعوة",
+	"roomChat": "دردشة الغرفة",
+	"noMessagesYet": "لا توجد رسائل بعد",
+	"message": "رسالة…",
+	"invite": "دعوة",
+	"watchTogether": "المشاهدة معًا",
+	"createARoom": "إنشاء غرفة",
+	"joinWithACode": "الانضمام برمز",
+	"roomNotFound": "لم يُعثر على الغرفة",
+	"enterRoomCode": "أدخل رمز الغرفة",
+	"eGABC234": "مثال: ABC234",
+	"hostIsChoosing": "المضيف يختار…",
+	"youLlStartWatchingAutomaticallyWhenTheHostPlaysSomething": "ستبدأ المشاهدة تلقائيًا عندما يشغّل المضيف شيئًا.",
+	"participants": "المشاركون",
+	"signInToUseWatchParty": "سجّل الدخول لاستخدام المشاهدة الجماعية",
+	"youReAlreadyInAParty": "أنت بالفعل داخل جلسة",
+	"watchTogether2": "شاهد معًا",
+	"createAPartyAndInviteFriendsOrJoinAnExistingOneWithACode": "أنشئ جلسة وادعُ أصدقاءك، أو انضم إلى جلسة موجودة برمز.",
+	"aniyomiIsnTAvailableOnThisDevice": "Aniyomi غير متاح على هذا الجهاز.",
+	"installed": "مثبَّتة",
+	"repositories": "المستودعات",
+	"languages": "اللغات",
+	"addAniyomiRepo": "إضافة مستودع Aniyomi",
+	"noAniyomiSourcesInstalled": "لا توجد مصادر Aniyomi مثبّتة.",
+	"removeRepo": "إزالة المستودع؟",
+	"noAniyomiReposAddedYetNPressAddAniyomiRepoToAddOne": "لم تُضَف أي مستودعات Aniyomi بعد.\nاضغط «إضافة مستودع Aniyomi» لإضافة واحد.",
+	"addRepository": "إضافة مستودع",
+	"searchNovelSources": "ابحث في مصادر الروايات",
+	"noSourcesInstalledYet": "لا توجد مصادر مثبّتة بعد.",
+	"addNovelRepo": "إضافة مستودع روايات",
+	"removeRepository": "إزالة المستودع",
+	"noSourcesInThisRepo": "لا توجد مصادر في هذا المستودع.",
+	"zangetsuProviders": "مزوّدات Zangetsu",
+	"addRepo": "إضافة مستودع",
+	"noProvidersInstalled": "لا توجد مزوّدات مثبّتة.",
+	"noSourcesInThisRepoYet": "لا توجد مصادر في هذا المستودع بعد.",
+	"leaveBlankToUseTheRepoSOwnName": "اتركه فارغًا لاستخدام اسم المستودع نفسه",
+	"addCloudStreamRepo": "إضافة مستودع CloudStream",
+	"noCloudStreamSourcesInstalled": "لا توجد مصادر CloudStream مثبّتة.",
+	"cloudstream": "cloudstream",
+	"sourceSettings": "إعدادات المصدر",
+	"otherSettings": "إعدادات أخرى",
+	"otherSettingsSubtitle": "لهذا المصدر إعدادات لا يمكننا عرضها هنا بعد",
+	"sourceDomain": "نطاق المصدر",
+	"sourceDomainHint": "اتركه فارغًا لاستخدام نطاق المصدر نفسه.",
+	"resetSourceDataConfirm": "إعادة تعيين البيانات المحفوظة لـ {name}؟ سيؤدي هذا إلى مسح إعداداته المحفوظة وتسجيل دخوله وملفات تعريف الارتباط. تبقى قائمتك وسجلك وتنزيلاتك دون مساس.",
+	"@resetSourceDataConfirm": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeRepository2": "إزالة المستودع؟",
+	"removeThisRepositoryAndItsSources": "إزالة هذا المستودع ومصادره؟",
+	"removed": "تمت الإزالة",
+	"alreadyUpToDate": "محدَّث بالفعل",
+	"removeRepo2": "إزالة المستودع",
+	"noInstallableSourcesFoundInThisRepo": "لم يُعثر على مصادر قابلة للتثبيت في هذا المستودع.",
+	"thisRemovesTheSourceFromYourInstalledList": "سيؤدي هذا إلى إزالة المصدر من قائمة المصادر المثبّتة لديك.",
+	"addCSRepo": "إضافة مستودع CS",
+	"cloudstreamIsnTAvailableOnThisDevice": "CloudStream غير متاح على هذا الجهاز.",
+	"checkUpdates": "التحقق من التحديثات",
+	"pasteACloudStreamRepositoryURL": "الصق رابط مستودع CloudStream.",
+	"reTest": "إعادة الاختبار",
+	"noEnabledSourcesToTest": "لا توجد مصادر مفعّلة للاختبار.",
+	"notSearched": "لم يُبحث",
+	"thisSourceHasNoSettings": "لا إعدادات لهذا المصدر",
+	"resetToDefaults": "إعادة التعيين إلى الافتراضيات",
+	"providerSettings": "إعدادات المزوّد",
+	"openThisSourceSOwnSettingsEGServerLanguage": "افتح إعدادات هذا المصدر الخاصة (مثل الخادم واللغة)",
+	"addZangetsuRepo": "إضافة مستودع Zangetsu",
+	"theProviderWillBeRemovedFromYourInstalledSources": "سيُزال المزوّد من مصادرك المثبّتة.",
+	"addMihonRepo": "إضافة مستودع Mihon",
+	"noMihonReposAddedYetNTapAddMihonRepoToAddOne": "لم تُضَف أي مستودعات Mihon بعد.\nاضغط «إضافة مستودع Mihon» لإضافة واحد.",
+	"n1Update": "تحديث واحد",
+	"noExtensionsFoundInThisRepo": "لم يُعثر على إضافات في هذا المستودع.",
+	"thisRemovesTheExtensionFromYourInstalledSources": "سيؤدي هذا إلى إزالة الإضافة من مصادرك المثبّتة.",
+	"noMihonSourcesInstalled": "لا توجد مصادر Mihon مثبّتة.",
+	"noAniyomiReposAddedYetNTapAddAniyomiRepoToAddOne": "لم تُضَف أي مستودعات Aniyomi بعد.\nاضغط «إضافة مستودع Aniyomi» لإضافة واحد.",
+	"clearAll": "مسح الكل",
+	"nothingWatchedYet": "لم تشاهد شيئًا بعد",
+	"nothingReadYet": "لم تقرأ شيئًا بعد",
+	"checkingForNewEpisodes": "جارٍ البحث عن حلقات جديدة…",
+	"checkNow": "تحقّق الآن",
+	"turnOff": "إيقاف",
+	"joinBetaUpdates": "الانضمام إلى التحديثات التجريبية؟",
+	"joinBeta": "انضم إلى النسخة التجريبية",
+	"whatSNew": "ما الجديد",
+	"categories": "الفئات",
+	"moviesSeries2": "أفلام/مسلسلات",
+	"longPressASourceToPinItToTheTop": "اضغط مطولًا على مصدر لتثبيته في الأعلى",
+	"searchSources": "ابحث في المصادر",
+	"justLook": "مجرد معاينة",
+	"moveProgressHere": "انقل التقدّم إلى هنا",
+	"newAniListList": "قائمة AniList جديدة",
+	"rewatchingFavourites": "إعادة المشاهدة، المفضلة، …",
+	"anilistCustomLists": "قوائم AniList المخصّصة",
+	"savedToYourAniListAccount": "حُفظ في حساب AniList الخاص بك",
+	"newList": "قائمة جديدة",
+	"createsItOnAniList": "ينشئها على AniList",
+	"yourTrackersDisagree": "متتبعاتك غير متفقة",
+	"applyingSetsThemAllToTheNumberBelow": "سيضبط التطبيق جميعها على الرقم أدناه.",
+	"wrongTitleChangeMatch": "عنوان خاطئ؟ غيّر المطابقة",
+	"searchTheCorrectTitle": "ابحث عن العنوان الصحيح…",
+	"noMatchesFound": "لم يُعثر على مطابقات",
+	"removeFromMyList": "إزالة من My List",
+	"details": "التفاصيل",
+	"noDescriptionAvailable": "لا يتوفّر وصف.",
+	"playWith": "التشغيل باستخدام…",
+	"playMirror": "تشغيل المرآة",
+	"chooseTheSourceBeforeItStarts": "اختر المصدر قبل بدء التشغيل",
+	"reloadLinks": "إعادة تحميل الروابط",
+	"fetchFreshStreamsIfPlaybackKeepsFailing": "اجلب بثودًا جديدة إذا فشل التشغيل一再ًا",
+	"alsoUpdatesYourConnectedTrackers": "يحدّث متتبعاتك المتصلة أيضًا",
+	"markThisAndAllAboveAsWatched": "ضع علامة «تمت مشاهدته» لهذه الحلقة وما فوقها",
+	"playThisEpisodeWith": "تشغيل هذه الحلقة باستخدام",
+	"builtInPlayer": "المشغّل المدمج",
+	"otherApps": "تطبيقات أخرى",
+	"seeAll2": "عرض الكل",
+	"webView": "WebView",
+	"openInBrowser": "فتح في المتصفّح",
+	"markAsRead": "وضع علامة مقروء",
+	"copyLink": "نسخ الرابط",
+	"removeTracking": "إزالة التتبّع",
+	"noTrackersConnectedNConnectOneInSettingsConnections": "لا يوجد متتبعات متصلة.\nوصّل واحدًا في الإعدادات ← الاتصالات.",
+	"syncAllAtOnce": "مزامنة الكل دفعة واحدة",
+	"addTracking": "إضافة تتبّع",
+	"addToYourList": "إضافة إلى قائمتك",
+	"removeFromList": "إزالة من القائمة",
+	"customLists": "قوائم مخصّصة",
+	"notInAny": "ليس في أيٍّ منها",
+	"status2": "الحالة",
+	"applyChanges": "تطبيق التغييرات",
+	"navigationBar": "شريط التنقل",
+	"navigationBarSubtitle": "علامات التبويب المعروضة وترتيبها",
+	"connectedCount": "{count} متصلة",
+	"@connectedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"syncLibraryAlreadySynced": "مكتبتك متزامنة بالفعل مع هذا الحساب.",
+	"syncLibraryPushed": "زُمن {history} من السجل + {list} عنصر قائمة إلى حسابك.",
+	"@syncLibraryPushed": {
+		"placeholders": {
+			"history": {
+				"type": "int"
+			},
+			"list": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsOnBar": "على الشريط · {count}/{max}",
+	"@navTabsOnBar": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"max": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeAirsIn": "الحلقة {episode} · {when}",
+	"@episodeAirsIn": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			},
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"duration": "المدة",
+	"score": "التقييم",
+	"popularity": "الشعبية",
+	"sourceMaterial": "العمل الأصلي",
+	"country": "البلد",
+	"aired": "بُث في",
+	"nativeTitle": "العنوان الأصلي",
+	"alsoKnownAs": "معروف أيضًا بـ",
+	"tags": "الوسوم",
+	"showSpoilerTags": "{count, plural, zero{إظهار # وسم حرق} one{إظهار # وسم حرق} two{إظهار # وسمَي حرق} few{إظهار # وسوم حرق} many{إظهار # وسم حرق} other{إظهار # وسم حرق}}",
+	"@showSpoilerTags": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsSwitcher": "مبدّل الوضع",
+	"navTabsSwitcherWhy": "يأخذ المقعد الأوسط",
+	"navTabsOpensOn": "يُفتح عند بدء التشغيل",
+	"navTabsNotShown": "غير معروض",
+	"navTabsEveryTabOnBar": "كل علامات التبويب موجودة على الشريط.",
+	"searchMovesToHomeInZMode": "ينتقل البحث إلى أعلى الرئيسية في Z Mode.",
+	"navTabsHelp": "اسحب لإعادة الترتيب. تتّسع {minTabs}–{maxTabs} من علامات التبويب على الشريط، مع أخذ مبدّل الوضع المقعد الأوسط.\n\nالملف الشخصي مثبَّت لأنه المدخل الوحيد إلى الإعدادات — وإخفاؤه سيتركك دون طريق للعودة إلى هذه الشاشة. ويظهر جدول البث في وضع البث فقط؛ فليس هناك مواعيد بث تُعرض أثناء القراءة.",
+	"@navTabsHelp": {
+		"placeholders": {
+			"minTabs": {
+				"type": "int"
+			},
+			"maxTabs": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsStreamingOnly": "وضع البث فقط",
+	"navTabsRemove": "إزالة",
+	"navTabsKeepMinTabs": "أبقِ {min} من علامات التبويب على الأقل",
+	"@navTabsKeepMinTabs": {
+		"placeholders": {
+			"min": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsAdd": "إضافة",
+	"navTabsBarFull": "الشريط ممتلئ",
+	"filterShowResults": "{count, plural, zero{إظهار # نتيجة} one{إظهار # نتيجة} two{إظهار # نتيجتين} few{إظهار # نتائج} many{إظهار # نتيجة} other{إظهار # نتيجة}}",
+	"@filterShowResults": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addedCloudStreamSourcesCount": "تمت الإضافة — {count} مصدر CloudStream متاح",
+	"@addedCloudStreamSourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"failedToAddRepository": "تعذّرت إضافة المستودع: {error}",
+	"@failedToAddRepository": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"repositoryUrlLabel": "رابط المستودع",
+	"noResultsFor": "لا نتائج لـ «{query}»",
+	"@noResultsFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"yourSavedTitles": "عناوينك المحفوظة",
+	"myListPlusTrackers": "My List + {count} {count, plural, zero{متتبع} one{متتبع} two{متتبعين} few{متتبعات} many{متتبعًا} other{متتبع}}",
+	"@myListPlusTrackers": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sort": "ترتيب",
+	"giveItAName": "امنحها اسمًا",
+	"youAlreadyHaveThatOne": "لديك واحد بهذا الاسم بالفعل",
+	"thatNameIsTaken": "هذا الاسم محجوز",
+	"notConnected": "غير متصل",
+	"connectedWithViewer": "متصل · {name}",
+	"@connectedWithViewer": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"allTypes": "كل الأنواع",
+	"nothingHereInThisFilter": "لا شيء هنا ضمن هذا التصفية",
+	"noMangaHereInThisFilter": "لا مانغا هنا ضمن هذا التصفية",
+	"noNovelsHereInThisFilter": "لا روايات هنا ضمن هذا التصفية",
+	"mangaYouAddAppearHere": "المانغا التي تضيفها تظهر هنا",
+	"novelsYouAddAppearHere": "الروايات التي تضيفها تظهر هنا",
+	"relations": "العلاقات",
+	"characters": "الشخصيات",
+	"noCastInformation": "لا توجد معلومات عن طاقم العمل",
+	"noRelatedTitles": "لا توجد عناوين ذات صلة",
+	"markedAsWatched": "وُضعت علامة «تمت المشاهدة»",
+	"markedUnwatched": "أُزيلت علامة المشاهدة",
+	"markedEpisodesAsWatched": "وُضعت علامة «تمت المشاهدة» على {count} حلقة",
+	"@markedEpisodesAsWatched": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"openInBrowser": "فتح في المتصفّح",
+	"openInBrowserSubtitle": "اقرأ هذا الفصل على موقع المصدر نفسه",
+	"readingSettings": "إعدادات القراءة",
+	"markedAsRead": "وُضعت علامة «مقروء»",
+	"markedUnread": "أُزيلت علامة القراءة",
+	"markedChaptersAsRead": "وُضعت علامة «مقروء» على {count} فصل",
+	"@markedChaptersAsRead": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadChaptersQuestion": "تنزيل {count} فصل؟",
+	"@downloadChaptersQuestion": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"cachedSourceJsFiles": "ملفات .js للمصادر المخزّنة مؤقتًا",
+	"disconnectTrackerQuestion": "قطع اتصال {name}؟",
+	"@disconnectTrackerQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerDisconnectBody": "ستتوقف المزامنة التلقائية. لن يتغيّر حسابك في {name} — ويمكنك إعادة الاتصال في أي وقت.",
+	"@trackerDisconnectBody": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectedAs": "متصل باسم {name}",
+	"@connectedAs": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerConnectionCanceled": "أُلغي الاتصال بـ {name}",
+	"@trackerConnectionCanceled": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectTracker": "اتصال {name}",
+	"@connectTracker": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectingEllipsis": "جارٍ الاتصال…",
+	"updateTrackerAsYouWatch": "حدّث {name} أثناء المشاهدة",
+	"@updateTrackerAsYouWatch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"findingTitle": "جارٍ البحث عن «{title}»…",
+	"@findingTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleIsntOnThisSource": "«{title}» غير متاح في هذا المصدر",
+	"@titleIsntOnThisSource": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"couldntOpenTitle": "تعذّر فتح «{title}»",
+	"@couldntOpenTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"noWebPageForThisSource": "لا توجد صفحة ويب لهذا المصدر",
+	"couldNotOpenSourceSite": "تعذّر فتح موقع المصدر",
+	"notificationsOffFor": "الإشعارات موقوفة لـ «{title}»",
+	"@notificationsOffFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewEpisodesFor": "سيصلك إشعار بالحلقات الجديدة لـ «{title}»",
+	"@youllBeNotifiedOfNewEpisodesFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewChaptersFor": "سيصلك إشعار بالفصول الجديدة لـ «{title}»",
+	"@youllBeNotifiedOfNewChaptersFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"external": "خارجي",
+	"episodeLabel": "الحلقة {number}",
+	"@episodeLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSeasonEpisode": "تنزيل S{season}:E{episode}",
+	"@downloadSeasonEpisode": {
+		"placeholders": {
+			"season": {
+				"type": "int"
+			},
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadEpisodeLabel": "تنزيل E{episode}",
+	"@downloadEpisodeLabel": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"continueLabel": "متابعة",
+	"continueEpisode": "متابعة E{episode}",
+	"@continueEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"noEpisodesToDownload": "لا توجد حلقات للتنزيل",
+	"addedToDownloads": "أُضيفت إلى التنزيلات",
+	"downloadingNEpisodes": "جارٍ تنزيل {count} حلقة",
+	"@downloadingNEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addToMyList": "إضافة إلى My List",
+	"notifyOnNewChapters": "إشعار عند الفصول الجديدة",
+	"notifyOnNewEpisodes": "إشعار عند الحلقات الجديدة",
+	"syncStatusScoreProgress": "مزامنة الحالة والتقييم والتقدّم",
+	"seasonCount": "{count} مواسم",
+	"@seasonCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeCount": "{count, plural, zero{{count} حلقة} one{{count} حلقة} two{حلقتان} few{{count} حلقات} many{{count} حلقة} other{{count} حلقة}}",
+	"@episodeCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterCount": "{count, plural, zero{{count} فصل} one{{count} فصل} two{فصلان} few{{count} فصول} many{{count} فصلًا} other{{count} فصل}}",
+	"@chapterCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"thisSourceNeedsSpecialHeadersUsingBuiltIn": "يحتاج هذا المصدر إلى ترويسات خاصة لا يستطيع مشغّلك الخارجي إرسالها — يجري استخدام المشغّل المدمج.",
+	"timerMinutes": "{count} دقيقة",
+	"@timerMinutes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"couldNotLoadSubtitle": "تعذّر تحميل الترجمة: {error}",
+	"@couldNotLoadSubtitle": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"speed": "السرعة",
+	"styledSubtitlesLibassSubtitle": "تنسيق .ass أصلي — لافتات وكار يونغ. أعد فتح الحلقة لتطبيقه.",
+	"couldntDownloadFile": "تعذّر تنزيل {file}",
+	"@couldntDownloadFile": {
+		"placeholders": {
+			"file": {
+				"type": "String"
+			}
+		}
+	},
+	"audioNormalizationSubtitle": "يوازن مستوى الصوت — يعزّز الحوار الهادئ ويخفّض المشاهد الصاخبة",
+	"playbackSpeed": "سرعة التشغيل",
+	"quality": "الجودة",
+	"sources": "المصادر",
+	"normalSpeed": "عادية",
+	"subtitles": "الترجمة",
+	"preferredLanguageColon": "اللغة المفضّلة: {name}",
+	"@preferredLanguageColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"nextCount": "التالي {count}",
+	"@nextCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"allCount": "الكل {count}",
+	"@allCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"notSavedCount": "{count} غير محفوظ",
+	"@notSavedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"airsIn": "يُعرض بعد ",
+	"selectAll": "تحديد الكل",
+	"best": "الأفضل",
+	"direct": "مستقيم",
+	"hls": "HLS",
+	"serverWithHost": "خادم {number} · {host}",
+	"@serverWithHost": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"host": {
+				"type": "String"
+			}
+		}
+	},
+	"serverNumber": "خادم {number}",
+	"@serverNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadCountEpisodes": "{count, plural, zero{تنزيل {count} حلقة} one{تنزيل حلقة واحدة} two{تنزيل حلقتين} few{تنزيل {count} حلقات} many{تنزيل {count} حلقة} other{تنزيل {count} حلقة}}",
+	"@downloadCountEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterOneAtATimeWarning": "يعمل هذا فصلًا واحدًا في كل مرة وقد يستغرق وقتًا طويلًا. يمكنك إيقافه من التنزيلات.",
+	"queuedChapters": "في قائمة الانتظار: {count, plural, zero{{count} فصل} one{{count} فصل} two{فصلان} few{{count} فصول} many{{count} فصلًا} other{{count} فصل}}",
+	"@queuedChapters": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"seasonNumber": "الموسم {number}",
+	"@seasonNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"listView": "عرض قائمة",
+	"gridView": "عرض شبكي",
+	"refreshingChapters": "جارٍ تحديث الفصول…",
+	"refreshingEpisodes": "جارٍ تحديث الحلقات…",
+	"chapterLabel": "الفصل {number}",
+	"@chapterLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"continueBadge": "متابعة",
+	"fillerBadge": "حشو",
+	"downloadUnsupported": "التنزيل غير مدعوم",
+	"retryDownload": "إعادة محاولة التنزيل",
+	"downloadEpisode": "تنزيل الحلقة",
+	"pauseDownload": "إيقاف التنزيل مؤقتًا",
+	"fromEpisode": "من E{episode}",
+	"@fromEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitle": "E{number}  ·  {title}",
+	"@episodeWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"episodeNumberShort": "E{number}",
+	"@episodeNumberShort": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeRange": "E{first} – E{last}",
+	"@episodeRange": {
+		"placeholders": {
+			"first": {
+				"type": "int"
+			},
+			"last": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemanticWithTitle": "الحلقة {number}، {title}",
+	"@episodeSemanticWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"searchColon": "بحث: {query}",
+	"@searchColon": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"decoderColon": "وحدة فك الترميز · {label}",
+	"@decoderColon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"megaSkipDuration": "مدة التخطي السريع",
+	"settingsTooltip": "الإعدادات",
+	"episodeCountWithRange": "{count, plural, zero{{count} حلقة} one{{count} حلقة} two{حلقتان} few{{count} حلقات} many{{count} حلقة} other{{count} حلقة}} · {range}",
+	"@episodeCountWithRange": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"range": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceTimedOut": "انتهت المهلة",
+	"blockedByTheSite": "محظور من الموقع",
+	"sourceCouldntBeReached": "تعذّر الوصول إليه",
+	"thatSourceCouldNotBeReached": "تعذّر الوصول إلى ذلك المصدر",
+	"noSourceCouldBeReached": "تعذّر الوصول إلى أي مصدر",
+	"andNMore": "و{count} أخرى",
+	"@andNMore": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"tryClearingYourFiltersOrSearchDifferentTitle": "جرّب مسح عوامل التصفية أو البحث عن عنوان مختلف.",
+	"noModeSourcesYet": "لا توجد مصادر {mode} بعد",
+	"@noModeSourcesYet": {
+		"placeholders": {
+			"mode": {
+				"type": "String"
+			}
+		}
+	},
+	"browseRepositories": "تصفح المستودعات",
+	"filteredSource": "مفلتر · {source}",
+	"@filteredSource": {
+		"placeholders": {
+			"source": {
+				"type": "String"
+			}
+		}
+	},
+	"turnAllOn": "تشغيل الكل",
+	"sortUpper": "ترتيب",
+	"typeUpper": "النوع",
+	"audioUpper": "الصوت",
+	"genreUpper": "التصنيف",
+	"movieLabel": "فيلم",
+	"speakTheTitle": "انطق العنوان",
+	"signedIn": "مسجّل الدخول",
+	"syncYourListNav": "زامن قائمتك",
+	"sourceNavLabel": "المصدر",
+	"activeSourceHint": "الحالي",
+	"clearKindHistoryTitle": "مسح سجل {kind}؟",
+	"@clearKindHistoryTitle": {
+		"placeholders": {
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"clearKindHistoryBody": "سيؤدي هذا إلى إزالة كل {noun} من سجل {kind}. ويبقى سجلك الآخر وقائمتك وتنزيلاتك دون مساس.",
+	"@clearKindHistoryBody": {
+		"placeholders": {
+			"noun": {
+				"type": "String"
+			},
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"showsYouWatchWillAppearHere": "العروض التي تشاهدها تظهر هنا لتتابع من حيث توقفت.",
+	"mangaYouReadWillAppearHere": "المانغا التي تقرأها تظهر هنا لتتابع من حيث توقفت.",
+	"novelsYouReadWillAppearHere": "الروايات التي تقرأها تظهر هنا لتتابع من حيث توقفت.",
+	"episodeWatchedPct": "الحلقة {number} · تمت مشاهدة {percent}%",
+	"@episodeWatchedPct": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"percentWatched": "تمت مشاهدة {percent}%",
+	"@percentWatched": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"addSourceFromProvidersHint": "أضف مصدرًا من المزوّدات وسيظهر {content} هنا.",
+	"@addSourceFromProvidersHint": {
+		"placeholders": {
+			"content": {
+				"type": "String"
+			}
+		}
+	},
+	"continueDotEpisode": "متابعة · E{episode}",
+	"@continueDotEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceNameItemCount": "{name}  ·  {count}",
+	"@sourceNameItemCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceCountBadge": "{sourceName} {count}",
+	"@sourceCountBadge": {
+		"placeholders": {
+			"sourceName": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"logOutQuestion": "تسجيل الخروج؟",
+	"contentShows": "عروض",
+	"contentManga": "مانغا",
+	"contentNovels": "روايات",
+	"historyKindWatch": "المشاهدة",
+	"historyKindManga": "المانغا",
+	"historyKindNovel": "الرواية",
+	"historyNounShow": "عرض",
+	"historyNounMangaItem": "مانغا",
+	"historyNounNovelItem": "رواية",
+	"qualityAndAudio": "الجودة والصوت",
+	"sectionPlayer": "المشغّل",
+	"sectionGestures": "الإيماءات",
+	"sectionCache": "ذاكرة التخزين المؤقت",
+	"gestures": "الإيماءات",
+	"cache": "ذاكرة التخزين المؤقت",
+	"social": "الاجتماعي",
+	"appSection": "التطبيق",
+	"team": "الفريق",
+	"communityContributors": "المساهمون من المجتمع",
+	"accentColour": "لون التمييز",
+	"display": "الشاشة",
+	"appIcon": "أيقونة التطبيق",
+	"splashStyle": "شاشة البداية",
+	"splashStyleBlurb": "ما يُعرض أثناء بدء تشغيل التطبيق.",
+	"currentLocation": "الموقع الحالي",
+	"availableDrives": "وحدات التخزين المتاحة",
+	"dataSection": "البيانات",
+	"modeLabel": "الوضع",
+	"tapAZoneToChangeIt": "اضغط على منطقة لتغييرها",
+	"supportTitle": "الدعم",
+	"enjoyingApp": "هل تستمتع بـ {appName}؟",
+	"@enjoyingApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"donateBlurb": "{appName} مجاني وخالٍ من الإعلانات. إن استحق مكانًا على شاشتك الرئيسية، فتبرّع صغيرًا يبقيه ينمو — ميزات جديدة وإصلاحات وتحديثات أسرع. كل مساهمة تفيد فعلًا. شكرًا لك! ♥",
+	"@donateBlurb": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"upiIdCopied": "نُسخ معرّف UPI",
+	"upiIndia": "UPI · الهند",
+	"askBeforeJumpingSubtitle": "فتح عنصر غير ذاك الذي توقفت عنده يعرض عليك المشاهدة دون تحريك تقدّمك",
+	"autoTrackSubtitle": "حدّث AniList وMyAnimeList وSimkl أثناء مشاهدتك. وحتى مع الإيقاف يمكنك تتبّع عنوان يدويًا",
+	"closeConfirmationAsk": "اسأل قبل مغادرة المشغّل",
+	"closeConfirmationDirect": "اخرج فورًا",
+	"closeConfirmationDoubleBack": "اضغط رجوع مرتين للخروج",
+	"autoSkipFillerSubtitle": "تخطَّ حلقات الحشو عند الانتقال إلى الحلقة التالية (للأنمي فقط)",
+	"playTrailersInHDSubtitle": "حتى 1080p عند التوفّر — ويرجع إلى الجودة القياسية عند عدمه. يستهلك بيانات أكثر",
+	"nativeTvPlayerSubtitle": "موصى به. أوقفه فقط إن كنت تفضّل المشغّل القديم",
+	"softwareAudioSubtitle": "شغّله فقط إذا كان صوت Dolby/DTS صامتًا — قد يكون غير مستقر على بعض أجهزة التلفاز",
+	"playerInfoOff": "معطّل",
+	"playerInfoFieldsCount": "{count} حقلًا (زر ⓘ)",
+	"@playerInfoFieldsCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadingPercent": "جارٍ التنزيل… {percent}%",
+	"@downloadingPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"tapToDownloadShaders": "اضغط لتنزيل ملفات الشيدر (~0.8 ميغابايت)",
+	"noOtherVideoAppsFound": "لم يُعثر على تطبيقات فيديو أخرى. ثبّت MX Player أو VLC أو mpv أو Just Player أو Next Player.",
+	"externalApp": "تطبيق خارجي",
+	"noSubsResumeSuffix": " ·  بلا ترجمة/استئناف",
+	"pickWhatShowsOverVideo": "اختر ما يظهر فوق الفيديو (يظهر مع عناصر التحكم). مثل خاصية «الإحصاءات المتقدّمة» في YouTube.",
+	"styledSubtitlesLibassSubtitlePlayback": "تنسيق .ass أصلي — خطوط ومواضع وكار يونغ ولافتات. الأفضل للأنمي. ويُطبَّق من الحلقة التالية.",
+	"subtitleStyleSubtitle": "الخط واللون والمحدّد والشفافية والحجم والموضع — مع معاينة مباشرة",
+	"keySavedOnlineSearchEnabled": "حُفظ المفتاح — البحث عبر الإنترنت مُفعّل",
+	"incognitoModeBlurb": "أثناء تفعيله تتوقف عمليات البحث وسجل المشاهدة وتسجيل التتبّع في المتتبعات وحضور Discord — ولا يُسجَّل أي شيء حتى تعطّله.",
+	"enableNsfwSourcesBody": "يعرض هذا المصادر المصنّفة 18+ في قائمة المصادر ومبدّلها. لا تفعّله إلا إذا كنت تريد محتوى للبالغين.",
+	"showNsfwAniyomiSourcesBody": "يعرض هذا إضافات Aniyomi المصنّفة 18+ في قائمة المصادر ومبدّلها. لا تفعّله إلا إذا كنت تريد محتوى للبالغين.",
+	"sourcesMarked18Hidden": "تبقى المصادر المصنّفة 18+ مخفية في قائمة المصادر ومبدّلها ما لم يكن هذا مُفعّلًا.",
+	"syncProgressAsYouWatch": "زامن التقدّم أثناء المشاهدة",
+	"connectionsBlurb": "زامن تقدّم المشاهدة وحالة القوائم مع حساباتك. يُزامن الأنمي مع الثلاثة كلها؛ أما الأفلام والمسلسلات فتُزامن مع Simkl.",
+	"connectDiscord": "اتصال Discord",
+	"signInSoYourStatusCanShow": "سجّل الدخول ليظهر حالتك في ملفك الشخصي",
+	"disconnectDiscordBody": "يتوقف الحضور الغني ويُزال رمزك من هذا الجهاز. ولن يتغيّر حسابك في Discord — ويمكنك إعادة الاتصال في أي وقت.",
+	"discordPresenceBlurb": "يعرض «تشاهد <title> • الحلقة N» (وما تتصفّحه) في ملف Discord الخاص بك أثناء فتح التطبيق. ويستخدم تسجيل دخول Discord، ويُخزَّن على هذا الجهاز فقط. ويمكنك إيقافه في أي وقت.",
+	"github": "GitHub",
+	"telegram": "Telegram",
+	"accentColourBlurb": "لون التمييز المستخدم في الأزرار والرقائق وأشرطة التقدّم والعناصر المحدّدة.",
+	"appIconBlurb": "الأيقونة على شاشتك الرئيسية. يُغلق Zangetsu عند تغييرها — لأن Android يحتاج إلى تبديل مُشغّل التطبيقات.",
+	"useTheIcon": "استخدام أيقونة {label}؟",
+	"@useTheIcon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"useTheIconBody": "سيُغلق Zangetsu ليطبّق Android الأيقونة الجديدة. افتحه مجددًا من شاشتك الرئيسية بعد ذلك.\n\nإذا كان Zangetsu داخل مجلد أو على شريط التحميل، فقد تحتاج إلى إضافته من جديد.",
+	"animRise": "صعود",
+	"animRiseDesc": "يرتفع ويظهر تدريجيًا",
+	"animFade": "تلاشٍ",
+	"animFadeDesc": "يظهر تدريجيًا بلا حركة",
+	"animZoom": "تكبير",
+	"animZoomDesc": "يكبر أثناء ظهوره",
+	"usedInVerticalMode": "يُستخدم في الوضع العمودي، حيث يكون الفصل شريطًا متصلًا واحدًا.",
+	"usedWhenPagesTurn": "يُستخدم عند تقليب الصفحات يمينًا ويسارًا. وفي وضع من اليمين إلى اليسار تتبادل منطقتا التقليب مكانهما.",
+	"openPullRequestOnGitHub": "افتح طلب سحب على GitHub وسيظهر اسمك هنا تلقائيًا.",
+	"onThisDevice": "على هذا الجهاز",
+	"newDownloadsSaveHere": "تُحفظ التنزيلات الجديدة هنا. وتبقى التنزيلات التي اكتملت في مكانها.",
+	"torrentsOffWifiBlurb": "معطّل = لا يعمل التورنت إلا على Wi-Fi (يوفّر بيانات الجوال). وبثّ التورنت يستهلك بيانات كثيرة.",
+	"everyControlIsOnABar": "كل عناصر التحكم موجودة على شريط.",
+	"nothingHereMoveControl": "لا شيء هنا — انقل عنصر تحكم إلى هنا باستخدام «نقل».",
+	"playerControlsHelp": "اسحب لإعادة الترتيب داخل الشريط. واستخدم «نقل» لإرسال عنصر تحكم إلى مكان آخر. وتظل عناصر التحكم المخفية متاحة في قائمة ⋮ المزيد داخل المشغّل.\n\n«رجوع» و«قفل» و«الإعدادات» ثابتة في الشريط العلوي، ويشارك عنوان العرض الصف نفسه — كلما زاد ما تضعه هناك، قلّت المساحة المتاحة للعنوان.",
+	"topBarFull": "{label} (ممتلئ)",
+	"@topBarFull": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"apiKeyLabel": "مفتاح API",
+	"secondsShort": "{count} ث",
+	"@secondsShort": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"gotIt": "فهمت",
+	"signInToAction": "سجّل الدخول لـ {action}",
+	"@signInToAction": {
+		"placeholders": {
+			"action": {
+				"type": "String"
+			}
+		}
+	},
+	"cloudBackupFailed": "فشل النسخ الاحتياطي في السحابة. تحقق من اتصالك — إن استمر الفشل، فقد لا يكون مخزن النسخ الاحتياطي في السحابة مُهيّأً بعد.",
+	"savedToDownloadsZangetsu": "حُفظ في التنزيلات › Zangetsu",
+	"restoreFailed": "فشلت الاستعادة: {error}",
+	"@restoreFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noBackupFilesOnDevice": "لم يُعثر على ملفات نسخ احتياطية على هذا الجهاز. احفظ واحدة أولًا، أو استخدم «الاستعادة من السحابة».",
+	"backupScreenBlurb": "احفظ مصادرك وقائمتك وإعداداتك — في ملف على جهازك أو في حساب Zangetsu. والاستعادة تضيف العناصر المفقودة فقط؛ ولا تحذف ما لديك إطلاقًا.",
+	"includeInTheBackup": "تضمين في النسخة الاحتياطية",
+	"sourcesAndRepos": "المصادر والمستودعات",
+	"installedSourcesAndRepoLinks": "المصادر المثبّتة وروابط مستودعاتها",
+	"libraryBundle": "المكتبة",
+	"myListAndContinueWatching": "My List ومتابعة المشاهدة",
+	"appSettingsBundle": "إعدادات التطبيق",
+	"playerSubtitlesQualityPreferences": "المشغّل والترجمة والجودة والتفضيلات",
+	"lastCloudBackup": "آخر نسخة احتياطية في السحابة: {when}",
+	"@lastCloudBackup": {
+		"placeholders": {
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"never": "أبدًا",
+	"restoredColon": "تمت الاستعادة: {names}.",
+	"@restoredColon": {
+		"placeholders": {
+			"names": {
+				"type": "String"
+			}
+		}
+	},
+	"couldnTReinstall": "تعذّرت إعادة التثبيت:\n{failures}",
+	"@couldnTReinstall": {
+		"placeholders": {
+			"failures": {
+				"type": "String"
+			}
+		}
+	},
+	"onLatestVersion": "أنت على أحدث إصدار{versionSuffix}.",
+	"@onLatestVersion": {
+		"placeholders": {
+			"versionSuffix": {
+				"type": "String"
+			}
+		}
+	},
+	"joinBetaUpdatesBody": "ستحصل على إصدارات ما قبل الإصدار مبكرًا. وقد تكون غير مستقرة — إن وُجد خلل في أحدها، فأوقف هذا الخيار وستعود إلى الإصدار المستقر عند التحديث التالي. ويمكنك الانسحاب في أي وقت.",
+	"betaUpdateAvailable": "يتوفر تحديث تجريبي",
+	"updateAvailable": "يتوفر تحديث",
+	"startingInstaller": "جارٍ بدء المُثبِّت…",
+	"couldnTOpenInstaller": "تعذّر فتح المُثبِّت. فعّل «تثبيت التطبيقات غير المعروفة» لـ Zangetsu في إعدادات النظام ثم أعد المحاولة.",
+	"downloadFailedCheckConnection": "فشل التنزيل — تحقق من اتصالك وأعد المحاولة.",
+	"libraryIsntSavedReconnect": "لم تُحفظ مكتبتك في السحابة بعد، لذا سيؤدي تسجيل الخروج إلى إزالتها من هذا الجهاز. هل تريد إعادة الاتصال لإنشاء نسخة احتياطية أولًا؟",
+	"sessionExpiredEnterPassword": "انتهت جلستك. أدخل كلمة المرور لإعادة الاتصال بـ {account} ومزامنة مكتبتك.",
+	"@sessionExpiredEnterPassword": {
+		"placeholders": {
+			"account": {
+				"type": "String"
+			}
+		}
+	},
+	"yourAccount": "حسابك",
+	"reconnecting": "جارٍ إعادة الاتصال…",
+	"wrongPassword": "كلمة مرور خاطئة",
+	"trackersSynced": "تمت مزامنة المتتبعات: {list}",
+	"@trackersSynced": {
+		"placeholders": {
+			"list": {
+				"type": "String"
+			}
+		}
+	},
+	"signInOnDevice": "تسجيل الدخول على {device}؟",
+	"@signInOnDevice": {
+		"placeholders": {
+			"device": {
+				"type": "String"
+			}
+		}
+	},
+	"thisTV": "هذا التلفاز",
+	"announcements": "الإعلانات",
+	"subscribedShows": "العروض المتابَعة",
+	"noNotificationsYet": "لا توجد إشعارات بعد.\nاضغط الجرس على أي عرض لتصلك تنبيهات عند صدور حلقة جديدة.",
+	"hostBadge": "مضيف",
+	"controlGivenTo": "مُنح التحكم إلى {name}",
+	"@controlGivenTo": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"youReTheHost": "أنت المضيف",
+	"couldnTCreateParty": "تعذّر إنشاء الجلسة: {error}",
+	"@couldnTCreateParty": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"series": "مسلسل",
+	"movie": "فيلم",
+	"epWithTime": "الحلقة {episode} · {time}",
+	"@epWithTime": {
+		"placeholders": {
+			"episode": {
+				"type": "String"
+			},
+			"time": {
+				"type": "String"
+			}
+		}
+	},
+	"chooseChapterSemantic": "{title}، {subtitle}. اختر الفصل",
+	"@chooseChapterSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"subtitle": {
+				"type": "String"
+			}
+		}
+	},
+	"chapterProgress": "الفصل {current} / {total}",
+	"@chapterProgress": {
+		"placeholders": {
+			"current": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterNumber": "الفصل {number}",
+	"@chapterNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSourceColon": "المصدر النشط: {name}",
+	"@activeSourceColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSemantic": "{name}، الإعدادات",
+	"@settingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"enterTheCodeShownOnTV": "أدخل الرمز الظاهر على تلفازك.",
+	"codeNotFoundExpired": "لم يُعثر على هذا الرمز — ربما انتهت صلاحيته.",
+	"alsoSendTrackers": "إرسال متتبعاتك أيضًا (AniList، MyAnimeList، Simkl)",
+	"scrollRowsOrSearch": "مرّر الصفوف في الرئيسية، أو اضغط «بحث» في الأسفل.",
+	"openTitleAndPlay": "افتح عنوانًا واضغط «تشغيل». أما المسلسل فاختر حلقة أولًا.",
+	"switchSourceAtTop": "اضغط اسم المصدر في الأعلى وبدّل إلى مصدر آخر.",
+	"tapDownloadForOffline": "في صفحة أي عرض، اضغط «تنزيل» — وشاهده لاحقًا من التنزيلات.",
+	"faqSourceNotWorkingQ": "أحد المصادر لا يعمل؟",
+	"faqSourceNotWorkingA": "المصادر تظهر وتختفي. بدّل المصدر من الأعلى، أو تحقق من الإعدادات ← حالة المصادر.",
+	"faqSubOrDubQ": "مترجم أم مدبلج؟",
+	"faqSubOrDubA": "استخدم مبدّل مترجم/مدبلج في صفحة أي عمل أنمي.",
+	"faqDownloadsQ": "أين تنزيلاتي؟",
+	"faqDownloadsA": "الإعدادات ← التنزيلات — شاهدها بدون اتصال في أي وقت.",
+	"resetPasswordBody": "أدخل بريد حسابك الإلكتروني وسنرسل لك رابطًا لتعيين كلمة مرور جديدة.",
+	"couldnTSignIn": "تعذّر تسجيل الدخول",
+	"aniyomi": "Aniyomi",
+	"mihon": "Mihon",
+	"lnreader": "LNReader",
+	"zangetsu": "Zangetsu",
+	"cloudStream": "CloudStream",
+	"installedCount": "{count} مثبَّتة",
+	"@installedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"installedName": "تم تثبيت {name}",
+	"@installedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstalledName": "تم إلغاء تثبيت {name}",
+	"@uninstalledName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removedName": "تمت إزالة {name}",
+	"@removedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updatedName": "تم تحديث {name}",
+	"@updatedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"installFailed": "فشل التثبيت: {error}",
+	"@installFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallFailed": "فشل إلغاء التثبيت: {error}",
+	"@uninstallFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeFailed": "فشلت الإزالة: {error}",
+	"@removeFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"updateFailed": "فشل التحديث: {error}",
+	"@updateFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"checkFailed": "فشل الفحص: {error}",
+	"@checkFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"failedToAddRepo": "تعذّرت إضافة المستودع: {error}",
+	"@failedToAddRepo": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallNameQuestion": "إلغاء تثبيت {name}؟",
+	"@uninstallNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeNameQuestion": "إزالة {name}؟",
+	"@removeNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updateNameToVersion": "{name}، تحديث إلى v{version}",
+	"@updateNameToVersion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"updateArrowVersion": "تحديث → v{version}",
+	"@updateArrowVersion": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"repoBaseUrl": "الرابط الأساسي للمستودع",
+	"repoBaseUrlHint": "https://.../repo",
+	"pluginIndexUrl": "رابط فهرس الإضافات",
+	"pluginIndexUrlHint": "https://.../plugins.min.json",
+	"manifestUrl": "رابط البيان",
+	"manifestUrlHint": "https://.../index.json",
+	"repoUrl": "رابط المستودع",
+	"repoUrlHint": "https://.../repo.json",
+	"customNameOptional": "اسم مخصّص (اختياري)",
+	"leaveBlankToUseRepo": "اتركه فارغًا لاستخدام اسم المستودع",
+	"alreadyInstalledSourcesStay": "تبقى المصادر المثبّتة مسبقًا من هذا المستودع مثبّتة. ",
+	"alreadyInstalledExtensionsStay": "تبقى الإضافات المثبّتة مسبقًا من هذا المستودع مثبّتة. ",
+	"updateAllCount": "تحديث الكل ({count})",
+	"@updateAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"updatedSourcesCount": "تم تحديث {done} مصدر{suffix}",
+	"@updatedSourcesCount": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"suffix": {
+				"type": "String"
+			}
+		}
+	},
+	"slow": "بطيء",
+	"noResults": "لا نتائج",
+	"timedOut": "انتهت المهلة",
+	"blocked": "محظور",
+	"notUsable": "غير قابل للاستخدام",
+	"openThisSource": "افتح هذا المصدر",
+	"nameRemovedFromSearch": "تمت إزالة {name} من البحث",
+	"@nameRemovedFromSearch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectLabel": "اتصال {label}",
+	"@connectLabel": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"scanToLogInWith": "امسح الرمز لتسجيل الدخول عبر\n{label} في متصفّحك",
+	"@scanToLogInWith": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"anilist": "AniList",
+	"myAnimeList": "MyAnimeList",
+	"simkl": "Simkl",
+	"code": "الرمز",
+	"signInToBackUpToCloud": "إنشاء نسخة احتياطية في السحابة",
+	"signInToRestoreFromCloud": "استعادة من السحابة",
+	"signInToUseThis": "استخدام هذا",
+	"enabled": "مفعّل",
+	"disabled": "معطّل",
+	"sourcesCount": "{count} مصدر",
+	"@sourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"removeRepoSemantic": "{name}، إزالة المستودع",
+	"@removeRepoSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoDisplaySemantic": "{name}، ",
+	"@repoDisplaySemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"entryInstalledSemantic": "{name}، {state}",
+	"@entryInstalledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"repoSourcesCount": "{name}، {count} مصدر",
+	"@repoSourcesCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRefreshSemantic": "{name}، تحديث",
+	"@repoRefreshSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoUpdateAllSemantic": "{name}، تحديث الكل ({count})",
+	"@repoUpdateAllSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRemoveSemantic": "{name}، إزالة",
+	"@repoRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUpdateSemantic": "{name}، تحديث",
+	"@sourceUpdateSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUninstallSemantic": "{name}، إلغاء التثبيت",
+	"@sourceUninstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceInstallSemantic": "{name}، تثبيت",
+	"@sourceInstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceSettingsSemantic": "{name}، الإعدادات",
+	"@sourceSettingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceRemoveSemantic": "{name}، إزالة",
+	"@sourceRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceEnabledSemantic": "{name}، {state}",
+	"@sourceEnabledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"titleInstalledCount": "{title}، {count} مثبَّتة",
+	"@titleInstalledCount": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"titleCheckUpdatesSemantic": "{title}، التحقق من التحديثات",
+	"@titleCheckUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleRemoveRepoSemantic": "{title}، إزالة المستودع",
+	"@titleRemoveRepoSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleApplyUpdatesSemantic": "{title}، تطبيق {what}",
+	"@titleApplyUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"what": {
+				"type": "String"
+			}
+		}
+	},
+	"oneUpdate": "تحديث واحد",
+	"nUpdates": "{count} تحديثًا",
+	"@nUpdates": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"percentRead": "تمت قراءة {percent}%",
+	"@percentRead": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"couldntLoadDownloadOptions": "تعذّر تحميل خيارات التنزيل",
+	"selectedEpisodesOfTotal": "{selected} من {total} حلقة",
+	"@selectedEpisodesOfTotal": {
+		"placeholders": {
+			"selected": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemantic": "الحلقة {number}",
+	"@episodeSemantic": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"textColour": "لون النص",
+	"textOpacity": "شفافية النص",
+	"outlineStyle": "نمط المحدّد",
+	"ownStylingKept": "الترجمات ذات التنسيق الخاص تحتفظ به ما دامت الترجمة المنسّقة مُفعّلة",
+	"outlineColour": "لون المحدّد",
+	"outlineWidth": "سماكة المحدّد",
+	"positionTop": "الأعلى",
+	"positionBottom": "الأسفل",
+	"subtitleSize": "الحجم",
+	"colourWhite": "أبيض",
+	"colourYellow": "أصفر",
+	"colourGreen": "أخضر",
+	"colourRed": "أحمر",
+	"colourBlack": "أسود",
+	"tapToDownloadFont": "اضغط للتنزيل",
+	"subtitleOutlineNone": "بلا",
+	"subtitleOutlineSoft": "ظل ناعم",
+	"subtitleOutlineOutline": "محدّد",
+	"subtitleOutlineBold": "محدّد سميك",
+	"subtitleOutlineShadow": "ظل إسقاطي",
+	"subtitleOutlineGlow": "توهّج",
+	"noSubtitlesFoundFor": "لم يُعثر على ترجمة لـ «{query}».",
+	"@noSubtitlesFoundFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"searchFailedWithError": "فشل البحث: {error}",
+	"@searchFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadFailedWithError": "فشل التنزيل: {error}",
+	"@downloadFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"decreaseDelay": "تقليل {label}",
+	"@decreaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"increaseDelay": "زيادة {label}",
+	"@increaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"alignedDelay": "مُحاذى {offset}",
+	"@alignedDelay": {
+		"placeholders": {
+			"offset": {
+				"type": "String"
+			}
+		}
+	},
+	"subtitleSyncVoiceCaptured": "تم التقاط الصوت ✓ — شغّل حتى تظهر الترجمة، ثم اضغط «ظهرت الترجمة». (يمكنك إغلاق هذه اللوحة في الأثناء.)",
+	"subtitleSyncTextCaptured": "تم التقاط الترجمة ✓ — اضغط الآن «سمعت الصوت» عندما تسمع السطر.",
+	"subtitleSyncHint": "مزامنة تلقائية: اضغط عندما تسمع السطر، ثم عندما تظهر ترجمته.",
+	"voiceHeard": "سمعت الصوت",
+	"subtitleSeen": "ظهرت الترجمة",
+	"contrast": "التباين",
+	"saturation": "التشبّع",
+	"gamma": "غاما",
+	"hue": "درجة اللون",
+	"drm": "DRM",
+	"sourceFallback": "المصدر",
+	"expandAll": "توسيع الكل",
+	"downloadedSummary": "{count} منزّلة · {size}",
+	"@downloadedSummary": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"ofTotalDownloaded": "{done} من {total}",
+	"@ofTotalDownloaded": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodesDownloadedOfTotal": "{done} من {total} منزّلة",
+	"@episodesDownloadedOfTotal": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"removeAllEpisodesOfShow": "إزالة كل {count, plural, zero{{count} حلقة} one{{count} حلقة} two{حلقتين} few{{count} حلقات} many{{count} حلقة} other{{count} حلقة}} من «{title}» من هذا الجهاز؟",
+	"@removeAllEpisodesOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaChaptersYouDownloadAppearHere": "فصول المانغا التي تنزّلها تظهر هنا",
+	"parallelDownloadsSubtitle": "عدد الحلقات التي تُنزَّل في وقت واحد. وتُنزَّل الفصول دائمًا واحدًا تلو الآخر.",
+	"connectionsPerDownloadSubtitle": "عدد اتصالات المقاطع التي تستخدمها الحلقة، وعدد الصفحات التي تُجلب دفعة واحدة في الفصل. القيمة الأعلى = أسرع، مع بيانات أكثر دفعة واحدة.",
+	"savingToYourFolder": "جارٍ الحفظ في مجلدك…",
+	"notAvailableOfflineYet": "غير متاح بدون اتصال بعد",
+	"downloadQueued": "في قائمة الانتظار",
+	"downloadPreparing": "جارٍ التحضير…",
+	"downloadFinalizing": "جارٍ المعالجة…",
+	"downloadPausedProgress": "متوقف مؤقتًا · {percent}%",
+	"@downloadPausedProgress": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercent": "{percent}%",
+	"@downloadProgressPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercentOfSize": "{percent}% من {size}",
+	"@downloadProgressPercentOfSize": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadCanceled": "أُلغي",
+	"downloadFailedStatus": "فشل",
+	"peerCount": "{count, plural, zero{{count} طرف} one{{count} طرف} two{طرفان} few{{count} أطراف} many{{count} طرفًا} other{{count} طرف}}",
+	"@peerCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSpeedMbps": "{speed} ميغابايت/ث",
+	"@downloadSpeedMbps": {
+		"placeholders": {
+			"speed": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadSpeedKbps": "{speed} كيلوبايت/ث",
+	"@downloadSpeedKbps": {
+		"placeholders": {
+			"speed": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitleDot": "E{number} · {title}",
+	"@episodeWithTitleDot": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaDownloads": "تنزيلات المانغا",
+	"novelDownloads": "تنزيلات الروايات",
+	"downloadingSection": "قيد التنزيل",
+	"stopAllCount": "إيقاف الكل ({count})",
+	"@stopAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearFailedCount": "مسح الفاشل ({count})",
+	"@clearFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"stopDownloadingBody": "إلغاء {count, plural, zero{{count} فصل في قائمة الانتظار} one{فصل واحد في قائمة الانتظار} two{فصلين في قائمة الانتظار} few{{count} فصول في قائمة الانتظار} many{{count} فصلًا في قائمة الانتظار} other{{count} فصل في قائمة الانتظار}}. الفصول المنزّلة بالفعل محفوظة.",
+	"@stopDownloadingBody": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearedFailedCount": "تم مسح {count} فاشل",
+	"@clearedFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterPagesProgress": "{done}/{total} صفحة",
+	"@chapterPagesProgress": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"showTitleQueued": "{title} · في قائمة الانتظار",
+	"@showTitleQueued": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleDownloading": "{title} · جارٍ التنزيل…",
+	"@showTitleDownloading": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleWithError": "{title} · {error}",
+	"@showTitleWithError": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeAllChaptersOfShow": "إزالة كل {count, plural, zero{{count} فصل} one{{count} فصل} two{فصلين} few{{count} فصول} many{{count} فصلًا} other{{count} فصل}} من «{title}» من هذا الجهاز؟",
+	"@removeAllChaptersOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"chaptersWithSize": "{count, plural, zero{{count} فصل} one{{count} فصل} two{فصلان} few{{count} فصول} many{{count} فصلًا} other{{count} فصل}} · {size}",
+	"@chaptersWithSize": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"deleteAllEpisodesTooltip": "حذف كل الحلقات",
+	"deleteAllChaptersTooltip": "حذف كل الفصول",
+	"cancelDownloadTooltip": "إلغاء",
+	"removeDownloadTooltip": "إزالة",
+	"positionLabel": "الموضع",
+	"relativeTomorrow": "غدًا",
+	"scheduleSlotMorning": "الصباح",
+	"scheduleSlotAfternoon": "بعد الظهر",
+	"scheduleSlotEvening": "المساء",
+	"scheduleSlotLateNight": "وقت متأخر من الليل",
+	"nothingAiringOnThisDay": "لا شيء يُعرض في هذا اليوم.",
+	"nothingReleasingOnThisDay": "لا شيء يُنشر في هذا اليوم.",
+	"noneOfFollowedAirOnThisDay": "لا شيء من الأنمي الذي تتابعه يُعرض في هذا اليوم.",
+	"scheduleAired": "بُث",
+	"scheduleLive": "● مباشر",
+	"scheduleSoon": "قريبًا",
+	"scheduleInHours": "خلال {hours} س",
+	"@scheduleInHours": {
+		"placeholders": {
+			"hours": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleInDays": "خلال {days} يوم",
+	"@scheduleInDays": {
+		"placeholders": {
+			"days": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleCountDot": "· {count} {noun}",
+	"@scheduleCountDot": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"noun": {
+				"type": "String"
+			}
+		}
+	},
+	"scheduleNounAiring": "يُعرض",
+	"scheduleNounReleasing": "يُنشر",
+	"seriesWithDate": "مسلسل · {date}",
+	"@seriesWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"movieWithDate": "فيلم · {date}",
+	"@movieWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"todayWithDate": "اليوم، {date}",
+	"@todayWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"extensionCount": "{count, plural, zero{{count} إضافة} one{{count} إضافة} two{إضافتان} few{{count} إضافات} many{{count} إضافة} other{{count} إضافة}}",
+	"@extensionCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"pasteRepoBaseUrlMihon": "الصق الرابط الأساسي للمستودع — يبحث التطبيق عن ملف الفهرس بنفسه. والرابط المباشر إلى index.pb أو index.json يعمل أيضًا.",
+	"pasteRepoBaseUrlAniyomi": "الصق الرابط الأساسي للمستودع — يضيف التطبيق «/index.min.json» تلقائيًا.",
+	"pasteRepoBaseUrlAniyomiTv": "الصق الرابط الأساسي للمستودع — يضيف التطبيق «/index.min.json» تلقائيًا.",
+	"pasteRepoIndexJsonUrl": "الصق رابط index.json للمستودع — ملف JSON الذي يسرد كل مصدر في المستودع، وليس رابط ملف .js واحدًا.",
+	"pasteRepoIndexJsonUrlShort": "الصق رابط index.json للمستودع.",
+	"pasteCloudStreamRepoUrlFull": "الصق رابط مستودع CloudStream — يحمّل التطبيق كل المصادر التي يسردها.",
+	"youCanAddRepoBackLater": "يمكنك إعادة إضافة المستودع لاحقًا.",
+	"failedToLoad": "تعذّر التحميل",
+	"failedToLoadError": "تعذّر التحميل: {error}",
+	"@failedToLoadError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noSourceLoaded": "لم يُحمَّل أي مصدر — قد تكون الإضافة غير متوافقة أو فشل التنزيل.",
+	"repoAdded": "تمت إضافة المستودع.",
+	"repoAddedWithSources": "تمت إضافة المستودع — {count} {count, plural, zero{مصدر} one{مصدر} two{مصدرين} few{مصادر} many{مصدرًا} other{مصدر}}",
+	"@repoAddedWithSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoAddedWithSourcesAvailable": "تمت إضافة المستودع — {count} {count, plural, zero{مصدر متاح} one{مصدر متاح} two{مصدرين متاحين} few{مصادر متاحة} many{مصدرًا متاحًا} other{مصدر متاح}}. ثبّت ما تريد منها.",
+	"@repoAddedWithSourcesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"upToDate": "محدَّث",
+	"updatedNSources": "تم تحديث {count} مصدر",
+	"@updatedNSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"enterManifestUrl": "أدخل رابط البيان.",
+	"approve": "موافقة",
+	"changePhoto": "تغيير الصورة",
+	"typingIsAPain": "الكتابة مرهقة؟",
+	"dontHaveAnAccount": "ليس لديك حساب؟",
+	"signUp": "إنشاء حساب",
+	"resetLinkSent": "أُرسل رابط إعادة التعيين — تحقّق من بريدك الإلكتروني (ومجلد الرسائل غير المرغوبة).",
+	"codeExpired": "انتهت صلاحية الرمز",
+	"somethingWentWrong": "حدث خطأ ما",
+	"pairingCodeTimedOut": "انتهت مهلة رمز الإقران. احصل على رمز جديد.",
+	"couldntStartPairing": "تعذّر بدء الإقران — تحقق من اتصالك.",
+	"approvalFailed": "فشلت الموافقة. أعد المحاولة.",
+	"pickAtLeastOneTracker": "اختر متتبعًا متصلًا واحدًا على الأقل.",
+	"sendFailedTryAgain": "فشل الإرسال. أعد المحاولة.",
+	"signUpFailed": "فشل إنشاء الحساب",
+	"invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صالحة",
+	"authenticationFailed": "فشل المصادقة",
+	"couldNotReconnect": "تعذّرت إعادة الاتصال",
+	"couldntUpdatePhoto": "تعذّر تحديث الصورة",
+	"welcomeToApp": "مرحبًا بك في {appName}",
+	"@welcomeToApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingTvSubtitle": "لا يأتي {appName} بمصادر مدمجة — أنت تضيف مصادرك. أضف مستودعًا واختر ما تريد تثبيته، في أي وقت من الإعدادات ← المزوّدات.",
+	"@onboardingTvSubtitle": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingPickEcosystem": "اختر نظامًا — البث أو المانغا أو الرواية",
+	"onboardingAddRepository": "أضف مستودعًا بلصق رابطه",
+	"onboardingBrowseAndInstall": "تصفّحه وثبّت ما تريد",
+	"providersWaitingInSettings": "أضف مصدرًا الآن، أو تصفّح قليلًا أولًا — المزوّدات تنتظرك دائمًا في الإعدادات.",
+	"bufferSizeLow": "منخفض (32 ميغابايت) — أجهزة منخفضة الذاكرة / التلفاز",
+	"bufferSizeDefault": "الافتراضي (128 ميغابايت)",
+	"bufferSizeHigh": "مرتفع (512 ميغابايت) — أنعم",
+	"bufferLengthLow": "منخفض (15 ثانية) — أجهزة منخفضة الذاكرة / التلفاز",
+	"bufferLengthDefault": "الافتراضي (60 ثانية)",
+	"bufferLengthHigh": "مرتفع (120 ثانية) — أنعم",
+	"bufferLengthMax": "الأقصى (300 ثانية) — الأطول",
+	"nUpdatesAvailable": "{count, plural, zero{{count} تحديث متاح} one{{count} تحديث متاح} two{تحديثان متاحان} few{{count} تحديثات متاحة} many{{count} تحديثًا متاحًا} other{{count} تحديث متاح}}",
+	"@nUpdatesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"languageCount": "{count, plural, zero{{count} لغة} one{{count} لغة} two{لغتان} few{{count} لغات} many{{count} لغة} other{{count} لغة}}",
+	"@languageCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"noExtensionsMatchQuery": "لا توجد إضافات تطابق «{query}».",
+	"@noExtensionsMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetTap": "لم تُضَف أي مستودعات CloudStream بعد.\nاضغط {add} لإضافة واحد.",
+	"@noCloudStreamReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetPress": "لم تُضَف أي مستودعات CloudStream بعد.\nاضغط {add} لإضافة واحد.",
+	"@noCloudStreamReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noProvidersMatchQuery": "لا توجد مزوّدات تطابق «{query}».",
+	"@noProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noInstalledProvidersMatchQuery": "لا توجد مزوّدات مثبّتة تطابق «{query}».",
+	"@noInstalledProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetTap": "لم تُضَف أي مستودعات بعد.\nاضغط {add} لإضافة واحد.",
+	"@noReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetPress": "لم تُضَف أي مستودعات بعد.\nاضغط {add} لإضافة واحد.",
+	"@noReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"showingEveryInstalledProvider": "عرض كل مزوّد مثبَّت",
+	"showingMangaNovelProviders": "عرض مزوّدات المانغا والروايات",
+	"mangaNovelOnly": "المانغا والروايات فقط",
+	"showAllProviders": "عرض الكل",
+	"noMangaNovelProvidersInstalled": "لا توجد مزوّدات مانغا/روايات مثبّتة.",
+	"alreadyInstalledSourcesFromRepoStay": "تبقى المصادر المثبّتة مسبقًا من «{name}» مثبّتة. ",
+	"@alreadyInstalledSourcesFromRepoStay": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"pluginIndexPasteHelp": "الصق رابط فهرس إضافات — مصفوفة JSON من مدخلات الإضافات (id، name، site، lang، version، url، iconUrl).",
+	"loadingTrailer": "جارٍ تحميل التريلر…",
+	"trailerUnavailable": "التريلر غير متاح",
+	"decoderHardwareRecommended": "العتادي+ (موصى به)",
+	"decoderHardwareFaster": "العتادي (أسرع)",
+	"decoderSoftwareCompatible": "البرمجي (الأكثر توافقًا)",
+	"decoderAuto": "تلقائي",
+	"rendererAutoRecommended": "تلقائي (موصى به)",
+	"rendererGpuStandard": "GPU — العارض القياسي",
+	"rendererGpuNextExperimental": "GPU Next — Vulkan، تجريبي",
+	"rendererMediacodecEmbed": "MediaCodec Embed — يعالج الفيديو الأسود",
+	"shaderStyleSharpenClean": "حدّة — مصادر 1080p نظيفة",
+	"shaderStyleDeblurSoft": "إزالة الضبابية — مصادر ضبابية أو ناعمة",
+	"shaderStyleDenoiseGrainy": "تقليل التشويش — مصادر حبيبية أو مضغوطة",
+	"shaderTierMidLight": "GPU متوسطة الفئة — خفيف وسلس",
+	"shaderTierHighHeavy": "GPU رائدة — أثقل وأحدّ",
+	"closeConfirmDoubleBackLabel": "نقر مزدوج — اضغط رجوع مرتين للخروج",
+	"closeConfirmAskLabel": "تأكيد قبل الخروج — اسأل قبل المغادرة",
+	"closeConfirmExitImmediatelyLabel": "إغلاق مباشر — اخرج فورًا",
+	"zMode": "Z Mode",
+	"zModeSubtitle": "تصفّح من AniList وTMDB، وشغّل من مصادرك",
+	"metadata": "البيانات الوصفية",
+	"metadataSubtitle": "الأغلفة والعناوين والأوصاف",
+	"animeMetadata": "بيانات الأنمي الوصفية",
+	"animeMetadataSubtitle": "مصدر معلومات الأنمي والمانغا",
+	"videoMetadata": "بيانات الأفلام والتلفاز الوصفية",
+	"videoMetadataSubtitle": "مصدر معلومات الأفلام والمسلسلات",
+	"malLoginForLists": "سجّل الدخول إلى MyAnimeList من المتتبعات لمزامنة قوائمك",
+	"zModeExperimental": "تجريبي",
+	"modeAnime": "أنمي",
+	"modeMovieTv": "فيلم/تلفاز",
+	"sourceLabel": "المصدر: {name}",
+	"@sourceLabel": {"placeholders": {"name": {"type": "String"}}},
+	"wrongTitle": "عنوان خاطئ؟",
+	"noSourceHasThisYet": "لا يوجد مصدر يملك هذا بعد",
+  "checkedTopSources": "فحصنا أفضل مصادرك — ولم يكن أي منها يملكه",
+	"pickTheRightTitle": "اختر العنوان الصحيح",
+	"searchThisSource": "ابحث في هذا المصدر",
+	"matchSaved": "حُفظ. تمت المطابقة مع {name} الآن.",
+	"@matchSaved": {"placeholders": {"name": {"type": "String"}}},
+	"chooseSource": "اختر مصدرًا",
+	"whichOneIsIt": "أيّها هو؟",
+	"searchingSourceShort": "جارٍ البحث في {name}",
+	"@searchingSourceShort": {"placeholders": {"name": {"type": "String"}}},
+	"matchResultCount": "{count, plural, zero{{count} نتيجة} one{{count} نتيجة} two{نتيجتان} few{{count} نتائج} many{{count} نتيجة} other{{count} نتيجة}}",
+	"@matchResultCount": {"placeholders": {"count": {"type": "int"}}},
+	"nothingOnSource": "لا شيء في {name}",
+	"@nothingOnSource": {"placeholders": {"name": {"type": "String"}}},
+	"sourceMayNotCarryIt": "قد لا يحتوي هذا المصدر عليه. جرّب مصدرًا آخر.",
+	"currentMatchBadge": "الحالي",
+	"scheduleAndLists": "جدول البث والقوائم",
+	"scheduleHubDesc": "ما يُعرض يومًا بيوم",
+	"trackerCoversVideo": "الأفلام والمسلسلات",
+	"listKindManga": "مانغا",
+	"listKindNovel": "رواية",
+	"listKindAnimeDesc": "أشاهد، مكتمل، مخطط",
+	"listKindMangaDesc": "أقرأ، مكتمل، مخطط",
+	"listKindNovelDesc": "روايات خفيفة في هذا الحساب",
+	"sortPopularity": "الأكثر شعبية",
+	"sortScore": "الأعلى تقييمًا",
+	"sortTrending": "الرائج",
+	"sortNewest": "الأحدث",
+	"sortTitle": "أ-ي",
+	"filtersNeedProvider": "تحتاج عوامل التصفية إلى {provider}. بدّله في الإعدادات.",
+	"@filtersNeedProvider": {"placeholders": {"provider": {"type": "String"}}},
+	"format": "الصيغة",
+	"minimumScore": "الحد الأدنى للتقييم",
+	"searchAnime": "ابحث في الأنمي",
+	"searchMoviesTv": "ابحث في الأفلام والتلفاز",
+	"searchManga": "ابحث في المانغا",
+	"searchNovels": "ابحث في الروايات",
+	"adultCatalogue": "عناوين للبالغين في الكتالوج",
+	"adultCatalogueSubtitle": "اسمح لـ AniList وMyAnimeList وTMDB بإرجاع نتائج 18+",
+	"enableAdultCatalogue": "إظهار عناوين للبالغين؟",
+	"enableAdultCatalogueBody": "قد يُرجع البحث والتصفّح عناوين 18+ من مزوّد البيانات الوصفية لديك. ولا يملك Simkl هذا الإعداد ولا يتأثر به.",
+	"adultOnly": "للبالغين",
+	"yourSavedAnimeList": "قائمة الأنمي المحفوظة لديك",
+	"yourSavedMangaList": "قائمة المانغا المحفوظة لديك",
+	"yourSavedNovelList": "قائمة الروايات المحفوظة لديك",
+	"epub": "EPUB",
+	"exportAsEpub": "تصدير بصيغة EPUB",
+	"chaptersDownloadedCount": "{done} من {total} فصلًا منزّلًا",
+	"@chaptersDownloadedCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"noChaptersDownloadedToExport": "لم تُنزَّل فصول بعد — نزّل بعضها أولًا.",
+	"allChapters": "كل الفصول",
+	"startChapter": "البداية",
+	"endChapter": "النهاية",
+	"includeChapterNumber": "تضمين رقم الفصل",
+	"includeChapterNumberSubtitle": "«الفصل 5: العنوان» بدل «العنوان» فقط",
+	"fileNameLabel": "اسم الملف",
+	"folderLabel": "المجلد",
+	"exportingChapterProgress": "الفصل {done} من {total}",
+	"@exportingChapterProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"exportedToFolder": "صُدِّر إلى {folder}",
+	"@exportedToFolder": {"placeholders": {"folder": {"type": "String"}}},
+	"epubExportFailed": "تعذّر حفظ ملف EPUB",
+	"export": "تصدير",
+	"keepDownloadsPrivate": "إبقاء التنزيلات خاصة",
+	"keepDownloadsPrivateSubtitle": "تبقى تنزيلات الفيديو الجديدة داخل Zangetsu بدل مجلد التنزيلات. وتُحذف عند إلغاء تثبيت Zangetsu. أما الفصول والملفات المصدَّرة فلا تتأثر."
+}

@@ -1,0 +1,3014 @@
+{
+	"@@locale": "pt",
+	"cancel": "Cancelar",
+	"ok": "OK",
+	"save": "Salvar",
+	"close": "Fechar",
+	"retry": "Tentar novamente",
+	"search": "Pesquisar",
+	"off": "Desligado",
+	"on": "Ligado",
+	"done": "Pronto",
+	"next": "Próximo",
+	"back": "Voltar",
+	"edit": "Editar",
+	"delete": "Excluir",
+	"share": "Compartilhar",
+	"copy": "Copiar",
+	"play": "Reproduzir",
+	"pause": "Pausar",
+	"yes": "Sim",
+	"no": "Não",
+	"all": "Todos",
+	"none": "Nenhum",
+	"auto": "Automático",
+	"add": "Adicionar",
+	"remove": "Remover",
+	"install": "Instalar",
+	"uninstall": "Desinstalar",
+	"reset": "Redefinir",
+	"clear": "Limpar",
+	"resume": "Retomar",
+	"download": "Baixar",
+	"update": "Atualizar",
+	"apply": "Aplicar",
+	"enable": "Ativar",
+	"create": "Criar",
+	"rename": "Renomear",
+	"move": "Mover",
+	"join": "Entrar",
+	"leave": "Sair",
+	"skip": "Pular",
+	"later": "Mais tarde",
+	"dismiss": "Dispensar",
+	"refresh": "Atualizar",
+	"more": "Mais",
+	"info": "Info",
+	"filter": "Filtro",
+	"connect": "Conectar",
+	"disconnect": "Desconectar",
+	"signIn": "Entrar",
+	"logOut": "Sair",
+	"tryAgain": "Tentar novamente",
+	"showDetails": "Mostrar detalhes",
+	"hideDetails": "Ocultar detalhes",
+	"notNow": "Agora não",
+	"change": "Alterar",
+	"go": "Ir",
+	"read": "Ler",
+	"web": "Web",
+	"live": "Ao vivo",
+	"sub": "Legendado",
+	"dub": "Dublado",
+	"nsfw": "NSFW",
+	"system": "Sistema",
+	"custom": "Personalizado",
+	"defaultLabel": "Padrão",
+	"selected": "selecionado",
+	"loading": "Carregando…",
+	"searching": "Pesquisando",
+	"searchingEllipsis": "pesquisando…",
+	"downloading": "Baixando…",
+	"updating": "Atualizando…",
+	"testing": "Testando…",
+	"searchOk": "Pesquisa OK",
+	"working": "Funcionando",
+	"dead": "Fora do ar",
+	"error": "Erro",
+	"appLanguage": "Idioma do app",
+	"appLanguageSubtitle": "Idioma da interface",
+	"appLanguageSystem": "Sistema (automático)",
+	"appLanguageSystemSubtitle": "Sistema ({name})",
+	"@appLanguageSystemSubtitle": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"appLanguageKeywords": "idioma locale tradução i18n interface português japonês chinês espanhol alemão francês italiano",
+	"settingsTitle": "Configurações",
+	"settingsSearchHint": "Pesquisar configurações",
+	"settingsNoMatch": "Nenhuma configuração corresponde a \"{query}\"",
+	"@settingsNoMatch": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSectionAccount": "Conta e sincronização",
+	"settingsSectionSources": "Fontes",
+	"settingsSectionPlayback": "Reprodução",
+	"settingsSectionReading": "Leitura",
+	"settingsSectionHistory": "Histórico",
+	"settingsSectionDownloads": "Downloads",
+	"settingsSectionInterface": "Interface",
+	"settingsSectionNotifications": "Notificações",
+	"settingsSectionAdvanced": "Avançado",
+	"settingsSectionAbout": "Sobre",
+	"settingsSectionAccountSummary": "Rastreadores, Discord, backup, sincronização",
+	"settingsSectionSourcesSummary": "Provedores, fonte ativa, atualizações",
+	"settingsSectionPlaybackSummary": "Qualidade, reprodução automática, velocidade",
+	"settingsSectionReadingSummary": "Padrões de leitura de mangá e novelas",
+	"settingsSectionHistorySummary": "Séries que você assistiu",
+	"settingsSectionDownloadsSummary": "Downloads, armazenamento, torrents",
+	"settingsSectionInterfaceSummary": "Aparência, idioma, layout da pesquisa",
+	"settingsSectionNotificationsSummary": "Alertas de novos episódios",
+	"settingsSectionAdvancedSummary": "DNS, privacidade, logs",
+	"settingsSectionAboutSummary": "Atualizações, suporte, versão",
+	"couldNotExportLogs": "Não foi possível exportar os logs",
+	"logsShareSubject": "Logs do Zangetsu",
+	"signInSubtitle": "Sincronize sua lista, histórico e continuar assistindo",
+	"signInSubtitleTv": "Sincronize sua lista e continuar assistindo",
+	"connections": "Conexões",
+	"discord": "Discord",
+	"discordSubtitle": "Rich Presence — mostre seu status",
+	"watchParty": "Assistir juntos",
+	"watchPartySubtitle": "Crie ou entre em uma sessão com amigos",
+	"signInToWatchTogether": "Entre para ver juntos",
+	"syncLibraryToCloud": "Sincronizar biblioteca com a nuvem",
+	"syncLibraryToCloudSubtitle": "Reenviar histórico e lista para esta conta",
+	"signInFirst": "Entre primeiro",
+	"reconnectToSyncLibrary": "Reconecte para sincronizar sua biblioteca.",
+	"syncingLibraryToCloud": "Sincronizando sua biblioteca com a nuvem…",
+	"backupAndRestore": "Backup e restauração",
+	"backupAndRestoreSubtitle": "Salve suas fontes, lista e configurações",
+	"providers": "Provedores",
+	"providersEnabledCount": "{count} ativados",
+	"@providersEnabledCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSource": "Fonte ativa",
+	"streamingServices": "Serviços de streaming",
+	"streamingServicesSubtitle": "Veja o que cada serviço oferece onde você está",
+	"streamingServicesEmpty": "Nenhum serviço listado para este país",
+	"streamingServicesMetadataNote": "Apenas navegação — os títulos continuam sendo reproduzidos pelas suas próprias fontes",
+	"pinAsHomeRow": "Fixar como linha do início",
+	"unpinHomeRow": "Desafixar",
+	"pinLimitReached": "Você pode fixar até {count} serviços",
+	"@pinLimitReached": { "placeholders": { "count": { "type": "int" } } },
+	"streamingRegion": "Região de streaming",
+	"streamingRegionSubtitle": "Catálogo de qual país exibir",
+	"sourceHealth": "Estado das fontes",
+	"sourceHealthSubtitle": "Teste quais fontes estão funcionando",
+	"sourceUpdates": "Atualizações das fontes",
+	"sourceUpdatesSubtitle": "Avise quando as fontes instaladas tiverem atualizações",
+	"autoUpdateExtensions": "Atualizar extensões automaticamente",
+	"autoUpdateExtensionsSubtitle": "Atualize as fontes instaladas automaticamente ao abrir",
+	"playback": "Reprodução",
+	"playbackSubtitle": "Qualidade, reprodução automática, velocidade",
+	"reader": "Leitor",
+	"readerSubtitle": "Padrões de leitura de mangá e novelas",
+	"history": "Histórico",
+	"historySubtitle": "Séries que você assistiu",
+	"downloads": "Downloads",
+	"downloadsSubtitle": "Gerencie seus episódios baixados",
+	"downloadsSubtitleTv": "Assista offline",
+	"storage": "Armazenamento",
+	"storageSubtitle": "Gerencie o espaço usado pelo app",
+	"torrents": "Torrents",
+	"torrentsSubtitle": "Configurações de streaming e dados",
+	"appearance": "Aparência",
+	"appearanceSubtitle": "Cor de destaque, selos nos pôsteres",
+	"searchLayout": "Layout da pesquisa",
+	"searchLayoutSubtitle": "Como os resultados entre fontes são exibidos",
+	"searchLayoutBlurb": "Como os resultados entre fontes são exibidos. Vertical = uma grade por fonte; Horizontal = uma linha rolável por fonte.",
+	"searchLayoutVertical": "Vertical (grade)",
+	"searchLayoutHorizontal": "Horizontal (linhas)",
+	"batchDownloadStyle": "Estilo do download em lote",
+	"batchDownloadStyleSubtitle": "Como fica a tela de vários episódios",
+	"batchDownloadStyleBlurb": "A tela mostrada quando você baixa uma temporada inteira. Os dois baixam exatamente o mesmo — só o seletor tem um visual diferente.",
+	"batchDownloadClassic": "Clássico",
+	"batchDownloadClassicBlurb": "A tela completa com uma grade de miniaturas por episódio.",
+	"batchDownloadMinimal": "Mínimo",
+	"batchDownloadMinimalBlurb": "Um seletor de número — escolha quantos episódios baixar.",
+	"notifications": "Notificações",
+	"notificationsSubtitle": "Alertas de novos episódios para séries acompanhadas",
+	"dns": "DNS",
+	"dnsSubtitle": "Contornar bloqueios do provedor de internet nas fontes CS",
+	"dnsBlurb": "DNS criptografado para fontes CloudStream — ajuda a contornar bloqueios do provedor de internet. Desligado = sua conexão normal.",
+	"dnsOffTvSubtitle": "Desligado · contornar bloqueios nas fontes CS",
+	"privacy": "Privacidade",
+	"privacySubtitle": "Fontes NSFW",
+	"shareLogs": "Compartilhar logs",
+	"shareLogsSubtitle": "Envie um log de diagnóstico para ajudar a corrigir um problema",
+	"sendingReport": "Enviando relatório…",
+	"reportSent": "Relatório enviado",
+	"reportSentBody": "Obrigado. Se você nos contar o que aconteceu, cite este código: {ref}",
+	"@reportSentBody": {
+		"placeholders": {
+			"ref": { "type": "String" }
+		}
+	},
+	"about": "Sobre",
+	"versionLabel": "v{version}",
+	"@versionLabel": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"contributors": "Colaboradores",
+	"website": "Site",
+	"communityChat": "Chat da comunidade",
+	"joinTheServer": "Entrar no servidor",
+	"viewTheSourceCode": "Ver o código-fonte",
+	"howItWorks": "Como funciona",
+	"howItWorksSubtitle": "Novo por aqui? Um guia rápido",
+	"checkForUpdates": "Verificar atualizações",
+	"checkForUpdatesSubtitle": "Obtenha a última versão no GitHub",
+	"checkingForUpdates": "Verificando atualizações…",
+	"betaUpdates": "Atualizações beta",
+	"betaUpdatesSubtitle": "Receba versões preliminares antes — podem ser instáveis",
+	"supportTheApp": "Apoie o app",
+	"buyMeACoffee": "Me pague um café",
+	"leadDeveloper": "Desenvolvedor principal",
+	"addCloudStreamRepository": "Adicionar repositório CloudStream",
+	"installCloudStreamSources": "Instalar fontes CloudStream",
+	"connectionsTvSubtitle": "AniList, MyAnimeList, Simkl",
+	"profile": "Perfil",
+	"home": "Início",
+	"myList": "Minha lista",
+	"schedule": "Agenda",
+	"pressBackAgainToExit": "Pressione VOLTAR novamente para sair",
+	"pressBackAgainToExitTv": "Pressione voltar novamente para sair",
+	"selectSource": "Selecionar fonte",
+	"accentWallpaper": "Papel de parede",
+	"accentCoral": "Coral",
+	"accentBlue": "Azul",
+	"accentViolet": "Violeta",
+	"accentEmerald": "Esmeralda",
+	"accentAmber": "Âmbar",
+	"accentRose": "Rosa",
+	"accentCyan": "Ciano",
+	"accentCrimson": "Carmesim",
+	"shaderOff": "Desligado",
+	"shaderOffDesc": "Sem realce",
+	"shaderSharpen": "Nitidez",
+	"shaderSharpenDesc": "Recupera detalhes — melhor para fontes limpas",
+	"shaderDeblur": "Desfocar",
+	"shaderDeblurDesc": "Recuperação suave — para fontes desfocadas",
+	"shaderDenoise": "Reduzir ruído",
+	"shaderDenoiseDesc": "Limpa o granulado — para fontes comprimidas",
+	"shaderTierHigh": "GPU de alto desempenho",
+	"shaderTierHighDesc": "Upscalers VL pesados + escala HQ — exige uma GPU forte",
+	"shaderTierMid": "GPU intermediária",
+	"shaderTierMidDesc": "Upscalers leves + deband — suave na maioria dos celulares",
+	"playerInfoResolution": "Resolução",
+	"playerInfoSource": "Fonte",
+	"playerInfoQuality": "Qualidade",
+	"playerInfoVideoCodec": "Codec de vídeo",
+	"playerInfoAudioCodec": "Codec de áudio",
+	"playerInfoFrameRate": "Taxa de quadros",
+	"playerInfoVideoBitrate": "Taxa de bits do vídeo",
+	"playerInfoBuffer": "Buffer",
+	"playerInfoDroppedFrames": "Quadros perdidos",
+	"playerInfoDecoder": "Decodificador",
+	"playerInfoSpeed": "Velocidade",
+	"playerInfoAudioTrack": "Faixa de áudio",
+	"playerInfoSubtitleTrack": "Faixa de legenda",
+	"playerInfoAudioBoost": "Reforço de áudio",
+	"statusPlanToWatch": "Planejar assistir",
+	"statusWatching": "Assistindo",
+	"statusCompleted": "Concluído",
+	"statusPaused": "Pausado",
+	"statusDropped": "Abandonado",
+	"statusPlanning": "Planejando",
+	"statusReading": "Lendo",
+	"statusPlanToRead": "Planejar ler",
+	"providerHavingAMoment": "{name} está de mau humor",
+	"@providerHavingAMoment": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerHavingAMomentBody": "Não está respondendo agora. Dê um minuto — ou troque o provedor de metadados nas Configurações.",
+	"sourceNotAnswering": "{name} não está respondendo",
+	"@sourceNotAnswering": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceNotAnsweringBody": "Pode estar fora do ar ou bloqueando requisições. Tente de novo ou troque de fonte pelo menu do topo.",
+	"providerNeedsBreather": "{name} precisa de uma pausa",
+	"@providerNeedsBreather": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerNeedsBreatherBody": "Pedimos vezes demais. Tente de novo em {seconds}s.",
+	"@providerNeedsBreatherBody": {
+		"placeholders": {
+			"seconds": {
+				"type": "int"
+			}
+		}
+	},
+	"showingWhatWeHave": "Pode estar fora do ar, ou sua rede está bloqueando. Aqui está o que já tínhamos.",
+	"titleLanguage": "Idioma dos títulos",
+	"titleLanguageSubtitle": "Como os títulos do AniList são exibidos",
+	"titleLanguageNative": "Original",
+	"homeRowsLayout": "Editando",
+	"homeRows": "Personalizar o Início",
+	"homeRowsSubtitle": "Escolha o que aparece no Início",
+	"homeRowsFromYourLists": "Das suas listas",
+	"homeRowsDiscover": "Descobrir",
+	"homeRowsHelp": "Arraste para reordenar. Desligue uma linha para ocultá-la.",
+	"homeRowTrackerContinue": "Continuar no {tracker}",
+	"@homeRowTrackerContinue": {
+		"placeholders": {
+			"tracker": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerCaughtUp": "Em dia",
+	"homeRowNewEpisodes": "Novos episódios",
+	"modeStreaming": "Streaming",
+	"modeManga": "Mangá",
+	"modeNovel": "Novela",
+	"relativeToday": "Hoje",
+	"relativeYesterday": "Ontem",
+	"relativeDaysAgo": "{count, plural, one{há {count} dia} other{há {count} dias}}",
+	"@relativeDaysAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeWeeksAgo": "{count, plural, one{há {count} semana} other{há {count} semanas}}",
+	"@relativeWeeksAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeMonthsAgo": "{count, plural, one{há {count} mês} other{há {count} meses}}",
+	"@relativeMonthsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeYearsAgo": "{count, plural, one{há {count} ano} other{há {count} anos}}",
+	"@relativeYearsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"bootErrorTitle": "O Zangetsu não terminou de iniciar",
+	"bootErrorBody": "Algo salvo neste dispositivo está impedindo que ele abra. Nada foi perdido — sua conta e o que está sincronizado na nuvem estão seguros.",
+	"resetAppData": "Redefinir dados do app",
+	"resetAppDataTitle": "Redefinir dados do app?",
+	"resetAppDataBody": "Isso apaga o que o Zangetsu salvou neste dispositivo para que ele comece do zero.\n\nSua conta e o que está sincronizado na nuvem não são afetados — entre novamente e sua biblioteca volta.",
+	"resetAppDataDone": "Feche o Zangetsu completamente e abra de novo.",
+	"detailsCopied": "Detalhes copiados — envie para nós",
+	"copyDetails": "Copiar detalhes",
+	"goodToHaveYouHere": "Que bom ter você aqui.",
+	"onboardingIntro": "Anime, mangá e novelas — tudo em um app, do seu jeito.",
+	"youChooseWhatsInside": "Você escolhe o que tem dentro",
+	"addTheSourcesYouWant": "Adicione as fontes que quiser — veja como.",
+	"openProviders": "Abrir Provedores",
+	"pickStreamingMangaOrNovels": "Escolha streaming, mangá ou novelas",
+	"pasteInARepositoryLink": "Cole um link de repositório",
+	"browseAndGrab": "Navegue e escolha o que quiser",
+	"readyWhenYouAre": "Pronto quando você estiver.",
+	"addSourcesNow": "Adicionar fontes agora",
+	"illDoItLater": "Vou fazer depois",
+	"howToUseTheApp": "Como usar o app",
+	"aFewTapsToAnything": "Poucos toques até qualquer coisa.",
+	"findSomething": "Encontrar algo",
+	"watchIt": "Assistir",
+	"ifItWontLoad": "Se não carregar",
+	"saveForOffline": "Salvar para offline",
+	"commonQuestions": "Perguntas comuns",
+	"noCommunityContributorsYet": "Nenhum colaborador da comunidade ainda.",
+	"paged": "Paginado",
+	"vertical": "Vertical",
+	"tapZonesReset": "Zonas de toque redefinidas",
+	"noUPIAppFoundUPIIDCopiedPasteItInYourUPIApp": "Nenhum app UPI encontrado — ID UPI copiado, cole no seu app UPI",
+	"donateWithPayPal": "Doar com PayPal",
+	"payViaUPI": "Pagar via UPI",
+	"copyUPIID": "Copiar ID UPI",
+	"readingMode": "Modo de leitura",
+	"fit": "Ajustar",
+	"background": "Fundo",
+	"colourFilter": "Filtro de cor",
+	"orientationLock": "Bloquear orientação",
+	"doublePageLandscape": "Página dupla (paisagem)",
+	"pairFacingPagesInALandscapeSpread": "Parear páginas opostas em uma diagramação paisagem",
+	"cropBorders": "Cortar bordas",
+	"trimNearUniformEdgeMarginsFromAPage": "Remover margens laterais quase uniformes de uma página",
+	"preloadPages": "Pré-carregar páginas",
+	"keepScreenOn": "Manter a tela ligada",
+	"readerFullscreen": "Tela cheia",
+	"tapZones": "Zonas de toque",
+	"whatTappingEachPartOfThePageDoes": "O que cada parte da página faz ao toque",
+	"font": "Tipo de letra",
+	"addFont": "Adicionar tipo de letra",
+	"couldntAddFont": "Não foi possível adicionar esse tipo de letra",
+	"theme": "Tema",
+	"fontSize": "Tamanho da letra",
+	"lineHeight": "Altura da linha",
+	"margin": "Margem",
+	"justifyText": "Justificar texto",
+	"textDirection": "Direção do texto",
+	"paragraphSpacing": "Espaçamento entre parágrafos",
+	"paginated": "Paginado",
+	"bookStylePagesInsteadOfAContinuousScroll": "Páginas em estilo de livro em vez de rolagem contínua",
+	"enableNSFWSources": "Ativar fontes NSFW?",
+	"showNSFWAniyomiSources": "Mostrar fontes NSFW do Aniyomi?",
+	"incognitoMode": "Modo incógnito",
+	"pauseHistoryTrackingDiscordPresence": "Pausar histórico, rastreamento e Rich Presence do Discord",
+	"enableNSFWSources2": "Ativar fontes NSFW",
+	"showSourcesMarked18": "Mostrar fontes marcadas como 18+",
+	"showNSFWSources": "Mostrar fontes NSFW",
+	"adultAniyomiExtensions": "Extensões adultas do Aniyomi",
+	"opensubtitlesAPIKey": "Chave de API do OpenSubtitles",
+	"pasteYourKey": "Cole sua chave",
+	"createAFreeKeyAtOpensubtitlesComConsumers": "Crie uma chave gratuita em opensubtitles.com → Consumers.",
+	"shaderDownloadFailedCheckNetwork": "Falha ao baixar o shader — verifique a rede",
+	"anime4kEnhancement": "Realce Anime4K",
+	"anime4kGPUTier": "Nível da GPU para Anime4K",
+	"cacheCleared": "Cache limpo",
+	"videoBufferSize": "Tamanho do buffer de vídeo",
+	"videoBufferLength": "Duração do buffer de vídeo",
+	"playerInfoOverlay": "Painel de informações do player",
+	"defaultQuality": "Qualidade padrão",
+	"videoDecoder": "Decodificador de vídeo",
+	"videoRenderer": "Renderizador de vídeo",
+	"defaultAudio": "Áudio padrão",
+	"defaultSpeed": "Velocidade padrão",
+	"doubleTapSkip": "Pular com dois toques",
+	"closeConfirmation": "Confirmação de saída",
+	"megaskipDuration": "Duração do MegaSkip",
+	"defaultPlayer": "Player padrão",
+	"defaultAudioAnimeSubDub": "Áudio padrão (legendado/dublado de anime)",
+	"builtIn": "Integrado",
+	"playerControls": "Controles do player",
+	"reorderOrHideTheButtonsOnThePlayerBar": "Reordene ou oculte os botões na barra do player",
+	"resumePlayback": "Retomar reprodução",
+	"continueFromWhereYouLeftOff": "Continuar de onde você parou",
+	"askBeforeJumping": "Perguntar antes de pular",
+	"autoAddToMyList": "Adicionar automaticamente à Minha lista",
+	"addATitleToMyListWhenYouStartWatchingIt": "Adicionar um título à Minha lista quando você começar a assistir",
+	"autoTrack": "Rastreamento automático",
+	"confirm": "confirmar",
+	"autoplayNextEpisode": "Reproduzir o próximo episódio automaticamente",
+	"autoSkipFillerEpisodes": "Pular episódios de filler automaticamente",
+	"autoplayTrailer": "Reproduzir trailer automaticamente",
+	"playATitleSTrailerOnItsDetailPage": "Reproduzir o trailer de um título na página de detalhes",
+	"playTrailersInHD": "Reproduzir trailers em HD",
+	"skipIntroButton": "Botão de pular abertura",
+	"showSkipOpeningEndingOnAnimeWhenDetected": "Mostrar Pular abertura/encerramento em anime (quando detectado)",
+	"autoSkipOpening": "Pular abertura automaticamente",
+	"jumpPastTheOPOnItsOwnNoTap": "Pular a abertura sozinha, sem tocar",
+	"autoSkipRecap": "Pular resumo automaticamente",
+	"jumpPastThePreviouslyOnRecapNoTap": "Pular o resumo \"anteriormente\", sem tocar",
+	"autoSkipEnding": "Pular encerramento automaticamente",
+	"jumpPastTheEDOnItsOwnNoTap": "Pular o encerramento sozinho, sem tocar",
+	"megaskipButton": "Botão MegaSkip",
+	"aJumpForwardButtonInThePlayerAnyVideo": "Um botão de avançar no player (qualquer vídeo)",
+	"seekButton": "Mostrar botões de avanço do vídeo",
+	"seekButtonDescription": "Mostrar botões de avançar e voltar no player",
+	"seekButtonDuration": "Duração do avanço",
+	"selectSeekButtonDurationDescription": "Escolha a duração do avanço para os botões",
+	"nativeTVPlayer": "Player nativo da TV",
+	"softwareAudioDolbyDTS": "Áudio por software (Dolby/DTS)",
+	"seekPreviewOnline": "Prévia do avanço (online)",
+	"thumbnailsWhileScrubbingStreamsCostsExtraData": "Miniaturas ao arrastar a reprodução — gasta mais dados",
+	"autoPictureInPicture": "Picture-in-picture automático",
+	"shrinkToAFloatingWindowWhenYouLeaveTheApp": "Reduzir a uma janela flutuante quando você sair do app",
+	"showQualityLabel": "Mostrar rótulo de qualidade",
+	"plainQualityTextEG1080pOnTheTopBarRight": "Texto de qualidade simples (ex.: 1080p) à direita na barra superior",
+	"gestureControls": "Controles por gestos",
+	"swipeLeftForBrightnessRightForVolume": "Deslize para a esquerda para o brilho, para a direita para o volume",
+	"swipeToSeek": "Deslize para avançar",
+	"dragLeftOrRightAcrossTheVideoToScrub": "Arraste para a esquerda ou direita no vídeo para navegar",
+	"holdFor2Speed": "Segure para velocidade 2×",
+	"longPressTheVideoToPlayAt2WhileHeld": "Toque e segure o vídeo para reproduzir em 2× enquanto mantiver pressionado",
+	"clearImageVideoCache": "Limpar cache de imagens e vídeos",
+	"styledSubtitlesLibass": "Legendas estilizadas (libass)",
+	"subtitleStyle": "Estilo das legendas",
+	"requiredForOnlineSubtitleSearch": "Necessário para pesquisar legendas online",
+	"subtitleLanguage": "Idioma das legendas",
+	"autoDownloadSubtitles": "Baixar legendas automaticamente",
+	"whenTheSourceHasNoSubtitleInYourLanguage": "Quando a fonte não tiver legenda no seu idioma",
+	"autoTranslateSubtitles": "Traduzir legendas automaticamente",
+	"translateToYourLanguageOnPlayWhenTheSourceHasNone": "Traduzir para o seu idioma ao reproduzir (quando a fonte não tiver)",
+	"translateSubtitlesTo": "Traduzir legendas para",
+	"pickALanguage": "Escolha um idioma",
+	"customColour": "Cor personalizada",
+	"materialYou": "Material You",
+	"coloursFromYourWallpaper": "Cores do seu papel de parede",
+	"pureBlackBackground": "Fundo totalmente preto",
+	"trueBlackForOLED": "Preto puro para OLED",
+	"posterBadges": "Selos nos pôsteres",
+	"qualityAndSubDubBadges": "Selos de nota, qualidade e Legendado/Dublado",
+	"animateLists": "Animar listas",
+	"cardsFadeInAsYouScroll": "Os cartões aparecem suavemente ao rolar",
+	"animationStyle": "Estilo de animação",
+	"turnOffMaterialYouToPickAColourYourself": "Desligue o Material You para escolher uma cor manualmente",
+	"downloadsZangetsu": "Downloads › Zangetsu",
+	"removableDrive": "Unidade removível",
+	"chooseFolder": "Escolher pasta…",
+	"resetToDefault": "Redefinir para o padrão",
+	"connected": "Conectado",
+	"imageCacheCleared": "Cache de imagens limpo",
+	"providerCacheCleared": "Cache do provedor limpo",
+	"clearImageCache": "Limpar cache de imagens",
+	"clearProviderCache": "Limpar cache do provedor",
+	"showTitleE2": "Mostrar título · E2",
+	"pinned": "Fixado",
+	"exoplayerSpikeDev": "Teste do ExoPlayer (dev)",
+	"sp0TestSurfaceViewPlaybackSmoothness": "SP0 — testar a suavidade da reprodução com SurfaceView",
+	"pasteDiscordToken": "Cole o token do Discord",
+	"yourDiscordUserToken": "Seu token de usuário do Discord",
+	"pasteToken": "Cole o token",
+	"useMobileDataForTorrents": "Usar dados móveis para torrents",
+	"discordConnected": "Discord conectado",
+	"disconnectDiscord": "Desconectar o Discord?",
+	"notConfigured": "Não configurado",
+	"aDiscordApplicationIDMustBeSetInTheBuildFirst": "Um Discord Application ID precisa ser definido na compilação primeiro.",
+	"richPresence": "Rich Presence",
+	"showWhatYouReWatchingOnYourProfile": "Mostre no seu perfil o que você está assistindo",
+	"signInToLinkYourAccount": "Entre para vincular sua conta",
+	"autoSync": "Sincronização automática",
+	"disconnectingHereOnlySignsThisTrackerOutOnTheTVYourPhoneStaysConnected": "Desconectar aqui só desloga este rastreador na TV — seu celular continua conectado.",
+	"continueWatching": "Continuar assistindo",
+	"continueReading": "Continuar lendo",
+	"seeAll": "Ver tudo",
+	"libraryLabel": "Biblioteca",
+	"sortBy": "Ordenar por",
+	"newCategory": "Nova categoria",
+	"personaGym": "Persona, Gym, …",
+	"deleteCategory": "Excluir categoria",
+	"yourTitlesStayOnlyTheLabelGoes": "Seus títulos permanecem — só o rótulo sai",
+	"renameCategory": "Renomear categoria",
+	"manageTrackers": "Gerenciar rastreadores",
+	"trackers": "Rastreadores",
+	"showLabel": "Mostrar",
+	"couldnTLoadPullToRefresh": "Não foi possível carregar — puxe para atualizar",
+	"noTitlesInThisList": "Nenhum título nesta lista",
+	"signInToBuildYourList": "Entre para montar sua lista",
+	"titlesYouAddAppearHere": "Os títulos que você adicionar aparecem aqui",
+	"couldnTLoadTryAgainFromSettings": "Não foi possível carregar — tente de novo nas Configurações",
+	"search2": "Pesquisar…",
+	"voiceSearch": "Pesquisa por voz",
+	"allSources": "Todas as fontes",
+	"currentSource": "Fonte atual",
+	"searchFailedTryAgain": "A pesquisa falhou — tente de novo",
+	"searchForSomethingToWatch": "Procure algo para assistir",
+	"recentSearches": "Pesquisas recentes",
+	"clearSearchHistory": "Limpar histórico de pesquisa",
+	"checkTheSpellingOrTryADifferentTitle": "Confira a grafia ou tente outro título.",
+	"browseSources": "Navegar pelas fontes",
+	"thisSourceHasNoFilters": "Esta fonte não tem filtros",
+	"searchIn": "Pesquisar em",
+	"filters": "Filtros",
+	"sourceFilters": "Filtros da fonte",
+	"clearFilters": "Limpar filtros",
+	"topPicks": "Melhores escolhas",
+	"anime": "Anime",
+	"moviesSeries": "Filmes e séries",
+	"noSourcesInstalled": "Nenhuma fonte instalada",
+	"fromYourResults": "· dos seus resultados",
+	"any": "Qualquer",
+	"someSourcesDonTProvideGenres": "algumas fontes não informam gêneros",
+	"searchInSources": "Pesquisar nas fontes",
+	"turnAllOff": "Desligar tudo",
+	"extensionsUpdated": "Extensões atualizadas",
+	"incognito": "Incógnito",
+	"reconnectToSync": "Reconecte para sincronizar",
+	"yourSessionExpiredTapToSignInAndSyncYourLibrary": "Sua sessão expirou — toque para entrar e sincronizar sua biblioteca.",
+	"solveCloudflare": "Resolver Cloudflare",
+	"switchSource": "Trocar de fonte",
+	"moviesTV": "Filmes e TV",
+	"couldnTLoadComingSoonPullToRefresh": "Não foi possível carregar os próximos — puxe para atualizar.",
+	"streamURL": "URL do stream",
+	"exoplayerSurfaceViewSpikeSP0": "Teste do ExoPlayer com SurfaceView (SP0)",
+	"episodes": "Episódios",
+	"season": "Temporada",
+	"jumpToEpisode": "Ir para o episódio…",
+	"preferredLanguage": "Idioma preferido…",
+	"searchOnline": "Pesquisar online…",
+	"onlineSubtitles": "Legendas online",
+	"audioSubs": "Áudio e legendas",
+	"nextEpisode": "Próximo episódio",
+	"colour": "Cor",
+	"snapshot": "Captura",
+	"sleepTimer": "Temporizador de sono",
+	"pictureInPicture": "Picture-in-picture",
+	"cast": "Transmitir",
+	"playbackStats": "Estatísticas de reprodução",
+	"sleepTimerOn": "Temporizador de sono ativado",
+	"lockControls": "Bloquear controles",
+	"chat": "Chat",
+	"previousEpisode": "Episódio anterior",
+	"nextEpisode2": "Próximo episódio",
+	"translated": "Traduzido",
+	"thisSourceCanTBeCastTryAnotherSource": "Não é possível transmitir esta fonte — tente outra.",
+	"rewind10Seconds": "Voltar 10 segundos",
+	"forward10Seconds": "Avançar 10 segundos",
+	"stopCasting": "Parar transmissão",
+	"usingTheBuiltInPlayerForThisSource": "Usando o player integrado para esta fonte.",
+	"closeVideo": "Fechar o vídeo?",
+	"areYouSureYouWantToCloseTheVideo": "Tem certeza de que deseja fechar o vídeo?",
+	"downloadInSettings": "Baixar nas Configurações",
+	"getTheAnime4KShaders06MBThenTurnItOn": "Baixe os shaders Anime4K (~0,6 MB) e depois ative",
+	"gpuTIER": "NÍVEL DA GPU",
+	"endOfEpisode": "Fim do episódio",
+	"closeAppWhenTimerEnds": "Fechar o app quando o tempo terminar",
+	"exitTheAppToSaveBattery": "Saia do app para economizar bateria",
+	"playNow": "Assistir agora",
+	"skipRecap": "Pular resumo",
+	"unlockControls": "Desbloquear controles",
+	"tapToUnlock": "Toque para desbloquear",
+	"subtitleDelay": "Atraso da legenda",
+	"audioDelay": "Atraso do áudio",
+	"androidPlayer": "Player do Android (experimental)",
+	"androidPlayerUnavailable": "O Player do Android não pôde iniciar",
+	"audioNormalization": "Normalização de áudio",
+	"searchSubtitlesOnline": "Pesquisar legendas online",
+	"loadFromFile": "Carregar de um arquivo…",
+	"translateSubtitles": "Traduzir legendas…",
+	"language": "Idioma:",
+	"movieOrShowTitle": "Título do filme ou da série",
+	"theQuickBrownFox": "A rápida raposa marrom",
+	"seekBar": "Barra de avanço",
+	"autoScrollSettings": "Configurações de rolagem automática",
+	"autoScroll": "Rolagem automática",
+	"touchThePageToPauseItPicksUpAgainWhenYouLetGo": "Toque na página para pausar — ela retoma quando você soltar.",
+	"floatingButton": "Botão flutuante",
+	"nextChapter": "Próximo capítulo",
+	"orKeepPulling": "ou continue arrastando",
+	"thatSTheLastChapter": "Este é o último capítulo.",
+	"readerSettings": "Configurações do leitor",
+	"noOtherChaptersLoadedYet": "Nenhum outro capítulo carregado ainda",
+	"chapters": "Capítulos",
+	"direction": "Direção",
+	"autoWebtoonMode": "Modo webtoon automático",
+	"pullToChangeChapter": "Puxe para trocar de capítulo",
+	"volumeKeysTurnPages": "Os botões de volume viram páginas",
+	"invertVolumeKeys": "Inverter os botões de volume",
+	"brightness": "Brilho",
+	"previousChapter": "Capítulo anterior",
+	"thisTitle": "Este título",
+	"nextChapter2": "Próximo capítulo →",
+	"textSize": "Tamanho do texto",
+	"appliesStraightAway": "Aplicado na hora",
+	"left": "Esquerda",
+	"justify": "Justificar",
+	"ltr": "LTR",
+	"rtl": "RTL",
+	"letterSpacing": "Espaçamento entre letras",
+	"wordSpacing": "Espaçamento entre palavras",
+	"alignment": "Alinhamento",
+	"a": "A",
+	"searchEpisodes": "Pesquisar episódios",
+	"titleOrEpisodeNumber": "Título ou número do episódio",
+	"failedToLoadThisTitle": "Falha ao carregar este título",
+	"offlineTitle": "Você está offline",
+	"offlineBody": "Verifique sua conexão e tente de novo.",
+	"changeStatus": "Alterar status",
+	"tracking": "Rastreamento",
+	"noEpisodesAvailableFromThisSource": "Nenhum episódio disponível nesta fonte",
+	"noEpisodesMatchYourSearch": "Nenhum episódio corresponde à sua pesquisa",
+	"everyChapterIsAlreadyDownloaded": "Todos os capítulos já foram baixados",
+	"downloadChapters": "Baixar capítulos",
+	"thisWillTakeAWhileAndUseALotOfStorage": "Isso vai demorar e usar bastante armazenamento",
+	"findEpisode": "Encontrar episódio",
+	"refreshChapters": "Atualizar capítulos",
+	"refreshEpisodes": "Atualizar episódios",
+	"seasons": "Temporadas",
+	"goToEpisode": "Ir para o episódio",
+	"episodeNumber": "Número do episódio",
+	"cancelDownload": "Cancelar download",
+	"downloaded": "Baixado",
+	"downloadChapter": "Baixar capítulo",
+	"deleteDownload": "Excluir download",
+	"resumeDownload": "Retomar download",
+	"status": "Status",
+	"year": "Ano",
+	"studio": "Estúdio",
+	"genres": "Gêneros",
+	"synopsis": "Sinopse",
+	"readMore": "Ler mais",
+	"downloadChooseServer": "Baixar · escolher servidor",
+	"noDownloadSourcesFound": "Nenhuma fonte de download encontrada",
+	"audio": "Áudio",
+	"noEpisodesMatch": "Nenhum episódio corresponde",
+	"selectEpisodes": "Selecionar episódios",
+	"startFrom": "Começar a partir de",
+	"jumpToEpisode2": "Ir para o episódio",
+	"downloadEpisodes": "Baixar episódios",
+	"noEpisodes": "Nenhum episódio",
+	"dub2": "dublado",
+	"autoBestAvailable": "Automático · melhor disponível",
+	"linksReloaded": "Links recarregados",
+	"noSourcesFoundForThisEpisode": "Nenhuma fonte encontrada para este episódio",
+	"starring": "Elenco",
+	"creators": "Criadores",
+	"notify": "Avisar",
+	"stopAlerts": "Parar alertas",
+	"trackedEditStatusScoreProgress": "Rastreado — editar status, nota e progresso",
+	"openSourceSite": "Abrir o site da fonte",
+	"signInToSource": "Entrar",
+	"welcomeBack": "Bem-vindo de volta",
+	"signInToSyncYourListAcrossDevices": "Entre para sincronizar sua lista entre dispositivos.",
+	"logIn": "Entrar",
+	"passwordMustBeAtLeast8Characters": "A senha deve ter pelo menos 8 caracteres",
+	"createAccount": "Criar conta",
+	"saveYourListAndContinueWatchingAnywhere": "Salve sua lista e continue assistindo em qualquer lugar.",
+	"notSignedIn": "Não conectado",
+	"haveTheApp": "Tem o app?",
+	"openZangetsuOnYourNphoneAndScan": "Abra o Zangetsu no seu\\ncelular e escaneie",
+	"noApp": "Sem o app?",
+	"resetPassword": "Redefinir senha",
+	"youExampleCom": "you@example.com",
+	"sendLink": "Enviar link",
+	"email": "E-mail",
+	"password": "Senha",
+	"forgotPassword": "Esqueceu a senha?",
+	"name": "Nome",
+	"password8Characters": "Senha (8+ caracteres)",
+	"editName": "Editar nome",
+	"yourName": "Seu nome",
+	"couldnTUpdateYourName": "Não foi possível atualizar seu nome",
+	"pairATV": "Parear uma TV",
+	"addPhoto": "Adicionar foto",
+	"backUpBeforeLoggingOut": "Fazer backup antes de sair?",
+	"logOutAnyway": "Sair mesmo assim",
+	"reconnect": "Reconectar",
+	"signInWithYourPhone": "Entrar com seu celular",
+	"onTheZangetsuAppOnYourPhoneOpenNPairATVAndEnterThisCodeOrScanTheQR": "No app Zangetsu no seu celular, abra\\n\"Parear uma TV\" e digite este código — ou escaneie o QR.",
+	"signingIn": "Entrando…",
+	"getANewCode": "Obter um novo código",
+	"sendTrackers": "Enviar rastreadores",
+	"chooseTrackersToSend": "Escolha os rastreadores a enviar",
+	"sendToTV": "Enviar para a TV",
+	"signInToYourAccountFirstNthenPairYourTV": "Entre na sua conta primeiro,\\ndepois pareie sua TV.",
+	"enterTheCodeFromYourTV": "Digite o código da sua TV",
+	"openZangetsuOnYourTVAndSignInWithYourPhoneToSeeIt": "Abra o Zangetsu na sua TV e entre com o celular para vê-lo.",
+	"abcd2345": "ABCD 2345",
+	"thisTVWillSignIntoYourAccountYouCanSignItOutLater": "Esta TV vai entrar na sua conta. Você pode desconectá-la depois.",
+	"alsoSendYourTrackersAniListMyAnimeListSimkl": "Enviar também seus rastreadores (AniList, MyAnimeList, Simkl)",
+	"yourTVIsSignedIn": "Sua TV está conectada",
+	"itShouldSwitchToYourAccountInAMoment": "Ela deve mudar para a sua conta em instantes.",
+	"backedUpToCloud": "Backup salvo na nuvem",
+	"couldnTSaveTheBackupFileStoragePermissionMayBeNeeded": "Não foi possível salvar o arquivo de backup — talvez seja preciso permissão de armazenamento.",
+	"noCloudBackupFound": "Nenhum backup na nuvem encontrado",
+	"thatFileIsnTAValidBackup": "Esse arquivo não é um backup válido.",
+	"pickABackup": "Escolha um backup",
+	"couldnTReadThatBackupFile": "Não foi possível ler esse arquivo de backup.",
+	"restoreComplete": "Restauração concluída",
+	"reopenZangetsuToSeeRestoredLibrarySources": "Abra o Zangetsu de novo para ver a biblioteca e as fontes restauradas.",
+	"saveToAFile": "Salvar em um arquivo",
+	"saveABackupFileToYourDownloadsFolder": "Salve um arquivo de backup na sua pasta Downloads",
+	"backUpToCloud": "Fazer backup na nuvem",
+	"saveACopyToYourAccountNeedsSignIn": "Salvar uma cópia na sua conta · precisa entrar",
+	"restoreFromAFile": "Restaurar de um arquivo",
+	"pickABackupFileYouSavedEarlier": "Escolha um arquivo de backup salvo antes",
+	"restoreFromCloud": "Restaurar da nuvem",
+	"bringBackYourLatestCloudBackup": "Recupere seu backup mais recente da nuvem",
+	"episodesYouDownloadAppearHere": "Os episódios que você baixar aparecem aqui",
+	"deleteAllEpisodes": "Excluir todos os episódios",
+	"deleteAllDownloads": "Excluir todos os downloads?",
+	"deleteAll": "Excluir tudo",
+	"changeDownloadFolder": "Mudar a pasta de download",
+	"savingTo": "Salvando em",
+	"needsAFileManagerAppOnTheTV": "Precisa de um app gerenciador de arquivos na TV",
+	"downloadLocation": "Local dos downloads",
+	"novelChaptersYouDownloadAppearHere": "Os capítulos de novela que você baixar aparecem aqui",
+	"stopDownloading": "Parar os downloads?",
+	"keepGoing": "Continuar",
+	"stopAll": "Parar tudo",
+	"searchDownloads": "Pesquisar downloads",
+	"deleteAllChapters": "Excluir todos os capítulos",
+	"deleteAllChapters2": "Excluir todos os capítulos?",
+	"chapter": "Capítulo",
+	"downloadSettings": "Configurações de download",
+	"parallelDownloads": "Downloads paralelos",
+	"connectionsPerDownload": "Conexões por download",
+	"novels": "Novelas",
+	"noDownloadsMatchYourSearch": "Nenhum download corresponde à sua pesquisa",
+	"collapseAll": "Recolher tudo",
+	"requestedControl": "Controle solicitado",
+	"noParticipantsYet": "Nenhum participante ainda",
+	"guest": "Convidado",
+	"wantsControl": "Quer o controle",
+	"giveControl": "Dar o controle",
+	"hostControlsPlayback": "O anfitrião controla a reprodução",
+	"requestControl": "Solicitar controle",
+	"inviteCopied": "Convite copiado",
+	"roomChat": "Chat da sala",
+	"noMessagesYet": "Nenhuma mensagem ainda",
+	"message": "Mensagem…",
+	"invite": "Convidar",
+	"watchTogether": "Ver juntos",
+	"createARoom": "Criar uma sala",
+	"joinWithACode": "Entrar com um código",
+	"roomNotFound": "Sala não encontrada",
+	"enterRoomCode": "Digite o código da sala",
+	"eGABC234": "ex.: ABC234",
+	"hostIsChoosing": "O anfitrião está escolhendo…",
+	"youLlStartWatchingAutomaticallyWhenTheHostPlaysSomething": "Você começa a assistir automaticamente quando o anfitrião tocar alguma coisa.",
+	"participants": "Participantes",
+	"signInToUseWatchParty": "Entre para usar o Assistir juntos",
+	"youReAlreadyInAParty": "Você já está em uma sessão",
+	"watchTogether2": "ver juntos",
+	"createAPartyAndInviteFriendsOrJoinAnExistingOneWithACode": "Crie uma sessão e convide amigos, ou entre em uma existente com um código.",
+	"aniyomiIsnTAvailableOnThisDevice": "O Aniyomi não está disponível neste dispositivo.",
+	"installed": "Instalado",
+	"repositories": "Repositórios",
+	"languages": "Idiomas",
+	"addAniyomiRepo": "Adicionar repo do Aniyomi",
+	"noAniyomiSourcesInstalled": "Nenhuma fonte do Aniyomi instalada.",
+	"removeRepo": "Remover repo?",
+	"noAniyomiReposAddedYetNPressAddAniyomiRepoToAddOne": "Nenhum repo do Aniyomi adicionado ainda.\\nPressione \"Adicionar repo do Aniyomi\" para adicionar um.",
+	"addRepository": "Adicionar repositório",
+	"searchNovelSources": "Pesquisar fontes de novelas",
+	"noSourcesInstalledYet": "Nenhuma fonte instalada ainda.",
+	"addNovelRepo": "Adicionar repo de novelas",
+	"removeRepository": "Remover repositório",
+	"noSourcesInThisRepo": "Nenhuma fonte neste repo.",
+	"zangetsuProviders": "Provedores do Zangetsu",
+	"addRepo": "Adicionar repo",
+	"noProvidersInstalled": "Nenhum provedor instalado.",
+	"noSourcesInThisRepoYet": "Ainda não há fontes neste repo.",
+	"leaveBlankToUseTheRepoSOwnName": "Deixe em branco para usar o nome do próprio repo",
+	"addCloudStreamRepo": "Adicionar repo do CloudStream",
+	"noCloudStreamSourcesInstalled": "Nenhuma fonte do CloudStream instalada.",
+	"cloudstream": "cloudstream",
+	"sourceSettings": "Configurações da fonte",
+	"otherSettings": "Outras configurações",
+	"otherSettingsSubtitle": "Esta fonte tem configurações que ainda não conseguimos mostrar aqui",
+	"sourceDomain": "Domínio da fonte",
+	"sourceDomainHint": "Deixe em branco para usar o domínio da própria fonte.",
+	"resetSourceDataConfirm": "Redefinir os dados salvos de {name}? Isso apaga as configurações, o login e os cookies salvos. Sua lista, histórico e downloads ficam intactos.",
+	"@resetSourceDataConfirm": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeRepository2": "Remover repositório?",
+	"removeThisRepositoryAndItsSources": "Remover este repositório e suas fontes?",
+	"removed": "Removido",
+	"alreadyUpToDate": "Já está atualizado",
+	"removeRepo2": "Remover repo",
+	"noInstallableSourcesFoundInThisRepo": "Nenhuma fonte instalável encontrada neste repo.",
+	"thisRemovesTheSourceFromYourInstalledList": "Isso remove a fonte da sua lista de instaladas.",
+	"addCSRepo": "Adicionar repo do CS",
+	"cloudstreamIsnTAvailableOnThisDevice": "O CloudStream não está disponível neste dispositivo.",
+	"checkUpdates": "Verificar atualizações",
+	"pasteACloudStreamRepositoryURL": "Cole a URL de um repositório CloudStream.",
+	"reTest": "Testar de novo",
+	"noEnabledSourcesToTest": "Nenhuma fonte ativada para testar.",
+	"notSearched": "Não pesquisada",
+	"thisSourceHasNoSettings": "Esta fonte não tem configurações",
+	"resetToDefaults": "Redefinir para os padrões",
+	"providerSettings": "Configurações do provedor",
+	"openThisSourceSOwnSettingsEGServerLanguage": "Abrir as configurações próprias desta fonte (ex.: servidor, idioma)",
+	"addZangetsuRepo": "Adicionar repo do Zangetsu",
+	"theProviderWillBeRemovedFromYourInstalledSources": "O provedor será removido das suas fontes instaladas.",
+	"addMihonRepo": "Adicionar repo do Mihon",
+	"noMihonReposAddedYetNTapAddMihonRepoToAddOne": "Nenhum repo do Mihon adicionado ainda.\\nToque em \"Adicionar repo do Mihon\" para adicionar um.",
+	"n1Update": "1 atualização",
+	"noExtensionsFoundInThisRepo": "Nenhuma extensão encontrada neste repo.",
+	"thisRemovesTheExtensionFromYourInstalledSources": "Isso remove a extensão das suas fontes instaladas.",
+	"noMihonSourcesInstalled": "Nenhuma fonte do Mihon instalada.",
+	"noAniyomiReposAddedYetNTapAddAniyomiRepoToAddOne": "Nenhum repo do Aniyomi adicionado ainda.\\nToque em \"Adicionar repo do Aniyomi\" para adicionar um.",
+	"clearAll": "Limpar tudo",
+	"nothingWatchedYet": "Nada assistido ainda",
+	"nothingReadYet": "Nada lido ainda",
+	"checkingForNewEpisodes": "Verificando novos episódios…",
+	"checkNow": "Verificar agora",
+	"turnOff": "Desligar",
+	"joinBetaUpdates": "Entrar nas atualizações beta?",
+	"joinBeta": "Entrar no beta",
+	"whatSNew": "Novidades",
+	"categories": "Categorias",
+	"moviesSeries2": "Filmes/Séries",
+	"longPressASourceToPinItToTheTop": "Toque e segure uma fonte para fixá-la no topo",
+	"searchSources": "Pesquisar fontes",
+	"justLook": "Só olhar",
+	"moveProgressHere": "Mover o progresso para cá",
+	"newAniListList": "Nova lista do AniList",
+	"rewatchingFavourites": "Revendo, Favoritos, …",
+	"anilistCustomLists": "Listas personalizadas do AniList",
+	"savedToYourAniListAccount": "Salvo na sua conta do AniList",
+	"newList": "Nova lista",
+	"createsItOnAniList": "Cria no AniList",
+	"yourTrackersDisagree": "Seus rastreadores discordam",
+	"applyingSetsThemAllToTheNumberBelow": "Aplicar define todos com o número abaixo.",
+	"wrongTitleChangeMatch": "Título errado? Mude a correspondência",
+	"searchTheCorrectTitle": "Pesquisar o título correto…",
+	"noMatchesFound": "Nenhuma correspondência encontrada",
+	"removeFromMyList": "Remover da Minha lista",
+	"details": "Detalhes",
+	"noDescriptionAvailable": "Nenhuma descrição disponível.",
+	"playWith": "Reproduzir com…",
+	"playMirror": "Reproduzir pelo espelho",
+	"chooseTheSourceBeforeItStarts": "Escolha a fonte antes de iniciar",
+	"reloadLinks": "Recarregar links",
+	"fetchFreshStreamsIfPlaybackKeepsFailing": "Buscar streams novos se a reprodução continuar falhando",
+	"alsoUpdatesYourConnectedTrackers": "Também atualiza seus rastreadores conectados",
+	"markThisAndAllAboveAsWatched": "Marcar este e todos acima como assistido",
+	"playThisEpisodeWith": "Reproduzir este episódio com",
+	"builtInPlayer": "Player integrado",
+	"otherApps": "Outros apps",
+	"seeAll2": "Ver tudo",
+	"webView": "WebView",
+	"openInBrowser": "Abrir no navegador",
+	"markAsRead": "Marcar como lido",
+	"copyLink": "Copiar link",
+	"removeTracking": "Remover rastreamento",
+	"noTrackersConnectedNConnectOneInSettingsConnections": "Nenhum rastreador conectado.\\nConecte um nas Configurações → Conexões.",
+	"syncAllAtOnce": "Sincronizar tudo de uma vez",
+	"addTracking": "Adicionar rastreamento",
+	"addToYourList": "Adicionar à sua lista",
+	"removeFromList": "Remover da lista",
+	"customLists": "Listas personalizadas",
+	"notInAny": "Em nenhuma",
+	"status2": "STATUS",
+	"applyChanges": "Aplicar alterações",
+	"navigationBar": "Barra de navegação",
+	"navigationBarSubtitle": "Quais abas aparecem e em que ordem",
+	"connectedCount": "{count} conectados",
+	"@connectedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"syncLibraryAlreadySynced": "Sua biblioteca já está sincronizada com esta conta.",
+	"syncLibraryPushed": "Sincronizado com a sua conta: {history} de histórico + {list} da lista.",
+	"@syncLibraryPushed": {
+		"placeholders": {
+			"history": {
+				"type": "int"
+			},
+			"list": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsOnBar": "Na barra · {count}/{max}",
+	"@navTabsOnBar": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"max": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeAirsIn": "Ep {episode} · em {when}",
+	"@episodeAirsIn": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			},
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"duration": "Duração",
+	"score": "Nota",
+	"popularity": "Popularidade",
+	"sourceMaterial": "Material de origem",
+	"country": "País",
+	"aired": "Transmitido em",
+	"nativeTitle": "Título original",
+	"alsoKnownAs": "Também conhecido como",
+	"tags": "Tags",
+	"showSpoilerTags": "{count, plural, one{Mostrar # tag de spoiler} other{Mostrar # tags de spoiler}}",
+	"@showSpoilerTags": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsSwitcher": "Seletor de modo",
+	"navTabsSwitcherWhy": "Ocupa o slot do meio",
+	"navTabsOpensOn": "Abre ao iniciar",
+	"navTabsNotShown": "Não aparece",
+	"navTabsEveryTabOnBar": "Todas as abas já estão na barra.",
+	"searchMovesToHomeInZMode": "A pesquisa vai para o topo do Início no Z Mode.",
+	"navTabsHelp": "Arraste para reordenar. Cabem {minTabs}–{maxTabs} abas na barra, com o seletor de modo ocupando o slot do meio.\n\nO Perfil fica fixo porque é o único caminho para as Configurações — ocultá-lo deixaria esta tela sem volta. A Agenda aparece apenas no modo Streaming; não há grade de exibição para mostrar enquanto você está lendo.",
+	"@navTabsHelp": {
+		"placeholders": {
+			"minTabs": {
+				"type": "int"
+			},
+			"maxTabs": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsStreamingOnly": "Somente Streaming",
+	"navTabsRemove": "Remover",
+	"navTabsKeepMinTabs": "Mantenha pelo menos {min} abas",
+	"@navTabsKeepMinTabs": {
+		"placeholders": {
+			"min": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsAdd": "Adicionar",
+	"navTabsBarFull": "A barra está cheia",
+	"filterShowResults": "{count, plural, one{Mostrar # resultado} other{Mostrar # resultados}}",
+	"@filterShowResults": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addedCloudStreamSourcesCount": "Adicionado — {count} fonte(s) do CloudStream disponível(is)",
+	"@addedCloudStreamSourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"failedToAddRepository": "Falha ao adicionar o repositório: {error}",
+	"@failedToAddRepository": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"repositoryUrlLabel": "URL do repositório",
+	"noResultsFor": "Nenhum resultado para \"{query}\"",
+	"@noResultsFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"yourSavedTitles": "Seus títulos salvos",
+	"myListPlusTrackers": "Minha lista + {count} {count, plural, one{rastreador} other{rastreadores}}",
+	"@myListPlusTrackers": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sort": "Ordenar",
+	"giveItAName": "Dê um nome",
+	"youAlreadyHaveThatOne": "Você já tem esse",
+	"thatNameIsTaken": "Esse nome já está em uso",
+	"notConnected": "Não conectado",
+	"connectedWithViewer": "Conectado · {name}",
+	"@connectedWithViewer": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"allTypes": "Todos os tipos",
+	"nothingHereInThisFilter": "Nada aqui neste filtro",
+	"noMangaHereInThisFilter": "Nenhum mangá neste filtro",
+	"noNovelsHereInThisFilter": "Nenhuma novela neste filtro",
+	"mangaYouAddAppearHere": "Os mangás que você adicionar aparecem aqui",
+	"novelsYouAddAppearHere": "As novelas que você adicionar aparecem aqui",
+	"relations": "Relacionados",
+	"characters": "Personagens",
+	"noCastInformation": "Nenhuma informação sobre o elenco",
+	"noRelatedTitles": "Nenhum título relacionado",
+	"markedAsWatched": "Marcado como assistido",
+	"markedUnwatched": "Marcado como não assistido",
+	"markedEpisodesAsWatched": "{count} episódios marcados como assistidos",
+	"@markedEpisodesAsWatched": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"openInBrowser": "Abrir no navegador",
+	"openInBrowserSubtitle": "Leia este capítulo no site da própria fonte",
+	"readingSettings": "Configurações de leitura",
+	"markedAsRead": "Marcado como lido",
+	"markedUnread": "Marcado como não lido",
+	"markedChaptersAsRead": "{count} capítulos marcados como lidos",
+	"@markedChaptersAsRead": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadChaptersQuestion": "Baixar {count} capítulos?",
+	"@downloadChaptersQuestion": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"cachedSourceJsFiles": "Arquivos .js de fontes em cache",
+	"disconnectTrackerQuestion": "Desconectar {name}?",
+	"@disconnectTrackerQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerDisconnectBody": "A sincronização automática vai parar. Sua conta do {name} não muda — você pode reconectar quando quiser.",
+	"@trackerDisconnectBody": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectedAs": "Conectado como {name}",
+	"@connectedAs": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerConnectionCanceled": "Conexão do {name} cancelada",
+	"@trackerConnectionCanceled": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectTracker": "Conectar {name}",
+	"@connectTracker": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectingEllipsis": "Conectando…",
+	"updateTrackerAsYouWatch": "Atualizar o {name} enquanto você assiste",
+	"@updateTrackerAsYouWatch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"findingTitle": "Procurando \"{title}\"…",
+	"@findingTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleIsntOnThisSource": "\"{title}\" não está nesta fonte",
+	"@titleIsntOnThisSource": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"couldntOpenTitle": "Não foi possível abrir \"{title}\"",
+	"@couldntOpenTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"noWebPageForThisSource": "Nenhuma página para esta fonte",
+	"couldNotOpenSourceSite": "Não foi possível abrir o site da fonte",
+	"notificationsOffFor": "Notificações desativadas para \"{title}\"",
+	"@notificationsOffFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewEpisodesFor": "Você será avisado de novos episódios de \"{title}\"",
+	"@youllBeNotifiedOfNewEpisodesFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewChaptersFor": "Você será avisado de novos capítulos de \"{title}\"",
+	"@youllBeNotifiedOfNewChaptersFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"external": "Externo",
+	"episodeLabel": "Episódio {number}",
+	"@episodeLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSeasonEpisode": "Baixar S{season}:E{episode}",
+	"@downloadSeasonEpisode": {
+		"placeholders": {
+			"season": {
+				"type": "int"
+			},
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadEpisodeLabel": "Baixar E{episode}",
+	"@downloadEpisodeLabel": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"continueLabel": "Continuar",
+	"continueEpisode": "Continuar E{episode}",
+	"@continueEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"noEpisodesToDownload": "Nenhum episódio para baixar",
+	"addedToDownloads": "Adicionado aos downloads",
+	"downloadingNEpisodes": "Baixando {count} episódios",
+	"@downloadingNEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addToMyList": "Adicionar à Minha lista",
+	"notifyOnNewChapters": "Avisar sobre novos capítulos",
+	"notifyOnNewEpisodes": "Avisar sobre novos episódios",
+	"syncStatusScoreProgress": "Sincronizar status, nota e progresso",
+	"seasonCount": "{count} temporadas",
+	"@seasonCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeCount": "{count, plural, one{1 episódio} other{{count} episódios}}",
+	"@episodeCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterCount": "{count, plural, one{1 capítulo} other{{count} capítulos}}",
+	"@chapterCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"thisSourceNeedsSpecialHeadersUsingBuiltIn": "Esta fonte precisa de cabeçalhos especiais que seu player externo não consegue enviar — usando o player integrado.",
+	"timerMinutes": "{count} minutos",
+	"@timerMinutes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"couldNotLoadSubtitle": "Não foi possível carregar a legenda: {error}",
+	"@couldNotLoadSubtitle": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"speed": "Velocidade",
+	"styledSubtitlesLibassSubtitle": "Estilização .ass real — cartelas, karaokê. Reabra o episódio para aplicar.",
+	"couldntDownloadFile": "Não foi possível baixar {file}",
+	"@couldntDownloadFile": {
+		"placeholders": {
+			"file": {
+				"type": "String"
+			}
+		}
+	},
+	"audioNormalizationSubtitle": "Equilibra o volume — amplia diálogos baixos e controla cenas altas",
+	"playbackSpeed": "Velocidade de reprodução",
+	"quality": "Qualidade",
+	"sources": "Fontes",
+	"normalSpeed": "Normal",
+	"subtitles": "Legendas",
+	"preferredLanguageColon": "Idioma preferido: {name}",
+	"@preferredLanguageColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"nextCount": "Próximos {count}",
+	"@nextCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"allCount": "Todos os {count}",
+	"@allCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"notSavedCount": "{count} não salvos",
+	"@notSavedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"airsIn": "exibido em ",
+	"selectAll": "Selecionar tudo",
+	"best": "Melhor",
+	"direct": "Direto",
+	"hls": "HLS",
+	"serverWithHost": "Servidor {number} · {host}",
+	"@serverWithHost": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"host": {
+				"type": "String"
+			}
+		}
+	},
+	"serverNumber": "Servidor {number}",
+	"@serverNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadCountEpisodes": "{count, plural, one{Baixar 1 episódio} other{Baixar {count} episódios}}",
+	"@downloadCountEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterOneAtATimeWarning": "Isso baixa um capítulo por vez e pode demorar bastante. Você pode parar nos Downloads.",
+	"queuedChapters": "{count, plural, one{1 capítulo na fila} other{{count} capítulos na fila}}",
+	"@queuedChapters": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"seasonNumber": "Temporada {number}",
+	"@seasonNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"listView": "Visualização em lista",
+	"gridView": "Visualização em grade",
+	"refreshingChapters": "Atualizando capítulos…",
+	"refreshingEpisodes": "Atualizando episódios…",
+	"chapterLabel": "Capítulo {number}",
+	"@chapterLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"continueBadge": "CONTINUAR",
+	"fillerBadge": "FILLER",
+	"downloadUnsupported": "Download não suportado",
+	"retryDownload": "Tentar baixar de novo",
+	"downloadEpisode": "Baixar episódio",
+	"pauseDownload": "Pausar download",
+	"fromEpisode": "A partir do E{episode}",
+	"@fromEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitle": "E{number}  ·  {title}",
+	"@episodeWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"episodeNumberShort": "E{number}",
+	"@episodeNumberShort": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeRange": "E{first} – E{last}",
+	"@episodeRange": {
+		"placeholders": {
+			"first": {
+				"type": "int"
+			},
+			"last": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemanticWithTitle": "Episódio {number}, {title}",
+	"@episodeSemanticWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"searchColon": "Pesquisa: {query}",
+	"@searchColon": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"decoderColon": "Decodificador · {label}",
+	"@decoderColon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"megaSkipDuration": "Duração do MegaSkip",
+	"settingsTooltip": "Configurações",
+	"episodeCountWithRange": "{count, plural, one{1 episódio} other{{count} episódios}} · {range}",
+	"@episodeCountWithRange": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"range": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceTimedOut": "Tempo esgotado",
+	"blockedByTheSite": "Bloqueado pelo site",
+	"sourceCouldntBeReached": "Não foi possível acessar",
+	"thatSourceCouldNotBeReached": "Não foi possível acessar essa fonte",
+	"noSourceCouldBeReached": "Nenhuma fonte pôde ser acessada",
+	"andNMore": "e mais {count}",
+	"@andNMore": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"tryClearingYourFiltersOrSearchDifferentTitle": "Tente limpar seus filtros ou pesquisar outro título.",
+	"noModeSourcesYet": "Nenhuma fonte de {mode} ainda",
+	"@noModeSourcesYet": {
+		"placeholders": {
+			"mode": {
+				"type": "String"
+			}
+		}
+	},
+	"browseRepositories": "Navegar pelos repositórios",
+	"filteredSource": "Filtrada · {source}",
+	"@filteredSource": {
+		"placeholders": {
+			"source": {
+				"type": "String"
+			}
+		}
+	},
+	"turnAllOn": "Ligar tudo",
+	"sortUpper": "ORDENAR",
+	"typeUpper": "TIPO",
+	"audioUpper": "ÁUDIO",
+	"genreUpper": "GÊNERO",
+	"movieLabel": "Filme",
+	"speakTheTitle": "Diga o título em voz alta",
+	"signedIn": "Conectado",
+	"syncYourListNav": "Sincronizar sua lista",
+	"sourceNavLabel": "FONTE",
+	"activeSourceHint": "atual",
+	"clearKindHistoryTitle": "Limpar o histórico de {kind}?",
+	"@clearKindHistoryTitle": {
+		"placeholders": {
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"clearKindHistoryBody": "Isso remove cada {noun} do seu histórico de {kind}. Os demais históricos, a lista e os downloads ficam intactos.",
+	"@clearKindHistoryBody": {
+		"placeholders": {
+			"noun": {
+				"type": "String"
+			},
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"showsYouWatchWillAppearHere": "As séries que você assistir aparecem aqui para continuar de onde parou.",
+	"mangaYouReadWillAppearHere": "Os mangás que você ler aparecem aqui para continuar de onde parou.",
+	"novelsYouReadWillAppearHere": "As novelas que você ler aparecem aqui para continuar de onde parou.",
+	"episodeWatchedPct": "Episódio {number} · {percent}% assistido",
+	"@episodeWatchedPct": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"percentWatched": "{percent}% assistido",
+	"@percentWatched": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"addSourceFromProvidersHint": "Adicione uma fonte nos Provedores e {content} aparecerão aqui.",
+	"@addSourceFromProvidersHint": {
+		"placeholders": {
+			"content": {
+				"type": "String"
+			}
+		}
+	},
+	"continueDotEpisode": "Continuar · E{episode}",
+	"@continueDotEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceNameItemCount": "{name}  ·  {count}",
+	"@sourceNameItemCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceCountBadge": "{sourceName} {count}",
+	"@sourceCountBadge": {
+		"placeholders": {
+			"sourceName": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"logOutQuestion": "Sair?",
+	"contentShows": "séries",
+	"contentManga": "mangás",
+	"contentNovels": "novelas",
+	"historyKindWatch": "exibição",
+	"historyKindManga": "mangá",
+	"historyKindNovel": "novela",
+	"historyNounShow": "série",
+	"historyNounMangaItem": "mangá",
+	"historyNounNovelItem": "novela",
+	"qualityAndAudio": "Qualidade e áudio",
+	"sectionPlayer": "Player",
+	"sectionGestures": "Gestos",
+	"sectionCache": "Cache",
+	"gestures": "Gestos",
+	"cache": "Cache",
+	"social": "Social",
+	"appSection": "App",
+	"team": "Equipe",
+	"communityContributors": "Colaboradores da Comunidade",
+	"accentColour": "Cor de destaque",
+	"display": "Tela",
+	"appIcon": "Ícone do app",
+	"splashStyle": "Splash",
+	"splashStyleBlurb": "O que toca enquanto o app inicia.",
+	"currentLocation": "Local atual",
+	"availableDrives": "Unidades disponíveis",
+	"dataSection": "Dados",
+	"modeLabel": "Modo",
+	"tapAZoneToChangeIt": "Toque em uma zona para mudá-la",
+	"supportTitle": "Suporte",
+	"enjoyingApp": "Curtindo o {appName}?",
+	"@enjoyingApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"donateBlurb": "{appName} é gratuito e sem anúncios. Se ele ganhou um lugar na sua tela inicial, uma pequena gorjeta o mantém crescendo — recursos novos, correções e atualizações mais rápidas. Toda ajuda ajuda. Obrigado! ♥",
+	"@donateBlurb": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"upiIdCopied": "ID UPI copiado",
+	"upiIndia": "UPI · Índia",
+	"askBeforeJumpingSubtitle": "Abrir algo diferente de onde você parou oferece uma busca sem mexer no seu progresso",
+	"autoTrackSubtitle": "Atualiza AniList, MyAnimeList e Simkl enquanto você assiste. Desligado, você ainda pode rastrear um título à mão",
+	"closeConfirmationAsk": "Perguntar antes de sair do player",
+	"closeConfirmationDirect": "Sair imediatamente",
+	"closeConfirmationDoubleBack": "Pressione voltar duas vezes para sair",
+	"autoSkipFillerSubtitle": "Pula o filler ao ir para o próximo episódio (somente anime)",
+	"playTrailersInHDSubtitle": "Até 1080p quando disponível — volta ao padrão se não houver. Usa mais dados",
+	"nativeTvPlayerSubtitle": "Recomendado. Desligue só se preferir o player antigo",
+	"softwareAudioSubtitle": "Ligue apenas se o áudio Dolby/DTS ficar mudo — pode ser instável em algumas TVs",
+	"playerInfoOff": "Desligado",
+	"playerInfoFieldsCount": "{count} campos (botão ⓘ)",
+	"@playerInfoFieldsCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadingPercent": "Baixando… {percent}%",
+	"@downloadingPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"tapToDownloadShaders": "Toque para baixar os shaders (~0,8 MB)",
+	"noOtherVideoAppsFound": "Nenhum outro app de vídeo encontrado. Instale MX Player, VLC, mpv, Just Player ou Next Player.",
+	"externalApp": "App externo",
+	"noSubsResumeSuffix": " ·  sem legendas/retomar",
+	"pickWhatShowsOverVideo": "Escolha o que aparece sobre o vídeo (aparece junto com os controles). Como o \"Stats for nerds\" do YouTube.",
+	"styledSubtitlesLibassSubtitlePlayback": "Estilização .ass real — tipos de letra, posições, karaokê, cartelas. Melhor para anime. Vale a partir do próximo episódio.",
+	"subtitleStyleSubtitle": "Tipo de letra, cor, contorno, opacidade, tamanho, posição — com prévia ao vivo",
+	"keySavedOnlineSearchEnabled": "Chave salva — pesquisa online ativada",
+	"incognitoModeBlurb": "Enquanto estiver ligado, as pesquisas, o histórico de exibição, o registro nos rastreadores e o Rich Presence do Discord ficam pausados — nada é gravado até você desligar.",
+	"enableNsfwSourcesBody": "Isso mostra as fontes marcadas como 18+ na lista e no seletor de fontes. Ligue apenas se quiser conteúdo adulto.",
+	"showNsfwAniyomiSourcesBody": "Isso mostra as extensões do Aniyomi marcadas como 18+ na lista e no seletor de fontes. Ligue apenas se quiser conteúdo adulto.",
+	"sourcesMarked18Hidden": "As fontes marcadas como 18+ ficam ocultas na lista e no seletor de fontes a menos que isto esteja ligado.",
+	"syncProgressAsYouWatch": "Sincronizar o progresso enquanto você assiste",
+	"connectionsBlurb": "Sincronize o progresso de exibição e o status da lista nas suas contas. Anime vai para as três; filmes e séries vão para o Simkl.",
+	"connectDiscord": "Conectar o Discord",
+	"signInSoYourStatusCanShow": "Entre para que o seu status possa aparecer no seu perfil",
+	"disconnectDiscordBody": "O Rich Presence para e o seu token é removido deste dispositivo. Sua conta do Discord não muda — você pode reconectar quando quiser.",
+	"discordPresenceBlurb": "Mostra \"Assistindo <title> • Episódio N\" (e o que você está vendo) no seu perfil do Discord enquanto o app está aberto. Usa o seu login do Discord, guardado só neste dispositivo. Desligue quando quiser.",
+	"github": "GitHub",
+	"telegram": "Telegram",
+	"accentColourBlurb": "A cor de destaque usada em botões, chips, progresso e itens selecionados.",
+	"appIconBlurb": "O ícone na sua tela inicial. O Zangetsu fecha quando você muda — o Android precisa trocar a entrada do launcher.",
+	"useTheIcon": "Usar o ícone {label}?",
+	"@useTheIcon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"useTheIconBody": "O Zangetsu vai fechar para que o Android possa aplicar o novo ícone. Abra de novo pela tela inicial depois.\n\nSe você tiver o Zangetsu em uma pasta ou dock, pode precisar adicioná-lo de novo.",
+	"animRise": "Subir",
+	"animRiseDesc": "Sobe e aparece suavemente",
+	"animFade": "Esmaecer",
+	"animFadeDesc": "Aparece suavemente, sem movimento",
+	"animZoom": "Zoom",
+	"animZoomDesc": "Cresce ao aparecer",
+	"usedInVerticalMode": "Usado no modo vertical, em que o capítulo é uma faixa contínua.",
+	"usedWhenPagesTurn": "Usado quando as páginas viram para os lados. No modo da direita para a esquerda as duas zonas de página se invertem.",
+	"openPullRequestOnGitHub": "Abra um pull request no GitHub e o seu nome aparece aqui automaticamente.",
+	"onThisDevice": "Neste dispositivo",
+	"newDownloadsSaveHere": "Os novos downloads são salvos aqui. Os que já terminaram ficam onde estavam.",
+	"torrentsOffWifiBlurb": "Desligado = os torrents só rodam no Wi-Fi (economiza dados móveis). Assistir por torrent usa bastante dado.",
+	"everyControlIsOnABar": "Todos os controles já estão em uma barra.",
+	"nothingHereMoveControl": "Nada aqui — mova um controle para cá com Mover.",
+	"playerControlsHelp": "Arraste para reordenar dentro de uma barra. Use Mover para levar um controle a outro lugar. Controles ocultos continuam no menu ⋮ Mais dentro do player.\n\nVoltar, Bloquear e Configurações são fixos na barra superior, e o título da série divide essa linha — quanto mais você puser ali, menos espaço sobra para o título.",
+	"topBarFull": "{label} (sem espaço)",
+	"@topBarFull": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"apiKeyLabel": "Chave de API",
+	"secondsShort": "{count}s",
+	"@secondsShort": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"gotIt": "Entendi",
+	"signInToAction": "Entre para {action}",
+	"@signInToAction": {
+		"placeholders": {
+			"action": {
+				"type": "String"
+			}
+		}
+	},
+	"cloudBackupFailed": "O backup na nuvem falhou. Verifique se você está online — se continuar falhando, o armazenamento de backup na nuvem ainda pode não estar configurado.",
+	"savedToDownloadsZangetsu": "Salvo em Downloads › Zangetsu",
+	"restoreFailed": "Falha na restauração: {error}",
+	"@restoreFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noBackupFilesOnDevice": "Nenhum arquivo de backup encontrado neste dispositivo. Salve um primeiro ou use \"Restaurar da nuvem\".",
+	"backupScreenBlurb": "Salve suas fontes, lista e configurações — em um arquivo do seu dispositivo ou na sua conta do Zangetsu. Restaurar só acrescenta itens de volta; nunca apaga o que você já tem.",
+	"includeInTheBackup": "Incluir no backup",
+	"sourcesAndRepos": "Fontes e repos",
+	"installedSourcesAndRepoLinks": "Fontes instaladas e os links dos repos",
+	"libraryBundle": "Biblioteca",
+	"myListAndContinueWatching": "Minha lista e Continuar assistindo",
+	"appSettingsBundle": "Configurações do app",
+	"playerSubtitlesQualityPreferences": "Player, legendas, qualidade e preferências",
+	"lastCloudBackup": "Último backup na nuvem: {when}",
+	"@lastCloudBackup": {
+		"placeholders": {
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"never": "nunca",
+	"restoredColon": "Restaurado: {names}.",
+	"@restoredColon": {
+		"placeholders": {
+			"names": {
+				"type": "String"
+			}
+		}
+	},
+	"couldnTReinstall": "Não foi possível reinstalar:\n{failures}",
+	"@couldnTReinstall": {
+		"placeholders": {
+			"failures": {
+				"type": "String"
+			}
+		}
+	},
+	"onLatestVersion": "Você já está na última versão{versionSuffix}.",
+	"@onLatestVersion": {
+		"placeholders": {
+			"versionSuffix": {
+				"type": "String"
+			}
+		}
+	},
+	"joinBetaUpdatesBody": "Você recebe versões preliminares antes. Elas podem ser instáveis — se uma der problema, basta desligar isto e você volta para a versão estável na próxima atualização. Pode sair quando quiser.",
+	"betaUpdateAvailable": "Atualização beta disponível",
+	"updateAvailable": "Atualização disponível",
+	"startingInstaller": "Iniciando o instalador…",
+	"couldnTOpenInstaller": "Não foi possível abrir o instalador. Ative \"Instalar apps desconhecidos\" para o Zangetsu nas configurações do sistema e tente de novo.",
+	"downloadFailedCheckConnection": "Falha no download — verifique sua conexão e tente de novo.",
+	"libraryIsntSavedReconnect": "Sua biblioteca ainda não foi salva na nuvem, então sair vai removê-la deste dispositivo. Reconectar para fazer o backup antes?",
+	"sessionExpiredEnterPassword": "Sua sessão expirou. Digite sua senha para reconectar {account} e sincronizar sua biblioteca.",
+	"@sessionExpiredEnterPassword": {
+		"placeholders": {
+			"account": {
+				"type": "String"
+			}
+		}
+	},
+	"yourAccount": "sua conta",
+	"reconnecting": "Reconectando…",
+	"wrongPassword": "Senha incorreta",
+	"trackersSynced": "Rastreadores sincronizados: {list}",
+	"@trackersSynced": {
+		"placeholders": {
+			"list": {
+				"type": "String"
+			}
+		}
+	},
+	"signInOnDevice": "Entrar em {device}?",
+	"@signInOnDevice": {
+		"placeholders": {
+			"device": {
+				"type": "String"
+			}
+		}
+	},
+	"thisTV": "esta TV",
+	"announcements": "Avisos",
+	"subscribedShows": "Séries acompanhadas",
+	"noNotificationsYet": "Nenhuma notificação ainda.\nToque no sino de uma série para ser avisado quando sair um novo episódio.",
+	"hostBadge": "ANFITRIÃO",
+	"controlGivenTo": "Controle dado a {name}",
+	"@controlGivenTo": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"youReTheHost": "Você é o anfitrião",
+	"couldnTCreateParty": "Não foi possível criar a sessão: {error}",
+	"@couldnTCreateParty": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"series": "Série",
+	"movie": "Filme",
+	"epWithTime": "Ep {episode} · {time}",
+	"@epWithTime": {
+		"placeholders": {
+			"episode": {
+				"type": "String"
+			},
+			"time": {
+				"type": "String"
+			}
+		}
+	},
+	"chooseChapterSemantic": "{title}, {subtitle}. Escolher capítulo",
+	"@chooseChapterSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"subtitle": {
+				"type": "String"
+			}
+		}
+	},
+	"chapterProgress": "Capítulo {current} / {total}",
+	"@chapterProgress": {
+		"placeholders": {
+			"current": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterNumber": "Capítulo {number}",
+	"@chapterNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSourceColon": "Fonte ativa: {name}",
+	"@activeSourceColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSemantic": "{name}, configurações",
+	"@settingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"enterTheCodeShownOnTV": "Digite o código exibido na sua TV.",
+	"codeNotFoundExpired": "Esse código não foi encontrado — pode ter expirado.",
+	"alsoSendTrackers": "Enviar também seus rastreadores (AniList, MyAnimeList, Simkl)",
+	"scrollRowsOrSearch": "Role as linhas no Início, ou toque em Pesquisar embaixo.",
+	"openTitleAndPlay": "Abra um título e toque em Reproduzir. Para uma série, escolha um episódio antes.",
+	"switchSourceAtTop": "Toque no nome da fonte no topo e troque para outra fonte.",
+	"tapDownloadForOffline": "Em um título, toque em Baixar — assista depois em Downloads.",
+	"faqSourceNotWorkingQ": "Uma fonte não está funcionando?",
+	"faqSourceNotWorkingA": "As fontes vêm e vão. Troque de fonte pelo topo, ou veja Configurações → Estado das fontes.",
+	"faqSubOrDubQ": "Legendado ou dublado?",
+	"faqSubOrDubA": "Use o botão Legendado / Dublado no título de um anime.",
+	"faqDownloadsQ": "Onde estão meus downloads?",
+	"faqDownloadsA": "Configurações → Downloads — assista offline quando quiser.",
+	"resetPasswordBody": "Digite o e-mail da sua conta e enviaremos um link para definir uma nova senha.",
+	"couldnTSignIn": "Não foi possível entrar",
+	"aniyomi": "Aniyomi",
+	"mihon": "Mihon",
+	"lnreader": "LNReader",
+	"zangetsu": "Zangetsu",
+	"cloudStream": "CloudStream",
+	"installedCount": "{count} instaladas",
+	"@installedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"installedName": "{name} instalada",
+	"@installedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstalledName": "{name} desinstalada",
+	"@uninstalledName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removedName": "{name} removida",
+	"@removedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updatedName": "{name} atualizada",
+	"@updatedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"installFailed": "Falha na instalação: {error}",
+	"@installFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallFailed": "Falha na desinstalação: {error}",
+	"@uninstallFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeFailed": "Falha ao remover: {error}",
+	"@removeFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"updateFailed": "Falha na atualização: {error}",
+	"@updateFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"checkFailed": "Falha na verificação: {error}",
+	"@checkFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"failedToAddRepo": "Falha ao adicionar o repo: {error}",
+	"@failedToAddRepo": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallNameQuestion": "Desinstalar {name}?",
+	"@uninstallNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeNameQuestion": "Remover {name}?",
+	"@removeNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updateNameToVersion": "{name}, atualizar para v{version}",
+	"@updateNameToVersion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"updateArrowVersion": "Atualizar → v{version}",
+	"@updateArrowVersion": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"repoBaseUrl": "URL base do repo",
+	"repoBaseUrlHint": "https://.../repo",
+	"pluginIndexUrl": "URL do índice de plugins",
+	"pluginIndexUrlHint": "https://.../plugins.min.json",
+	"manifestUrl": "URL do manifesto",
+	"manifestUrlHint": "https://.../index.json",
+	"repoUrl": "URL do repo",
+	"repoUrlHint": "https://.../repo.json",
+	"customNameOptional": "Nome personalizado (opcional)",
+	"leaveBlankToUseRepo": "Deixe em branco para usar o nome do repo",
+	"alreadyInstalledSourcesStay": "As fontes deste repo que já estavam instaladas continuam instaladas. ",
+	"alreadyInstalledExtensionsStay": "As extensões deste repo que já estavam instaladas continuam instaladas. ",
+	"updateAllCount": "Atualizar tudo ({count})",
+	"@updateAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"updatedSourcesCount": "{done} fonte(s) atualizada(s){suffix}",
+	"@updatedSourcesCount": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"suffix": {
+				"type": "String"
+			}
+		}
+	},
+	"slow": "Lento",
+	"noResults": "Nenhum resultado",
+	"timedOut": "Tempo esgotado",
+	"blocked": "Bloqueado",
+	"notUsable": "Inutilizável",
+	"openThisSource": "Abrir esta fonte",
+	"nameRemovedFromSearch": "{name} removido da pesquisa",
+	"@nameRemovedFromSearch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectLabel": "Conectar {label}",
+	"@connectLabel": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"scanToLogInWith": "Escaneie para entrar com\n{label} no seu navegador",
+	"@scanToLogInWith": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"anilist": "AniList",
+	"myAnimeList": "MyAnimeList",
+	"simkl": "Simkl",
+	"code": "CÓDIGO",
+	"signInToBackUpToCloud": "fazer backup na nuvem",
+	"signInToRestoreFromCloud": "restaurar da nuvem",
+	"signInToUseThis": "usar isto",
+	"enabled": "ativado",
+	"disabled": "desativado",
+	"sourcesCount": "{count} fontes",
+	"@sourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"removeRepoSemantic": "{name}, remover repo",
+	"@removeRepoSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoDisplaySemantic": "{name}, ",
+	"@repoDisplaySemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"entryInstalledSemantic": "{name}, {state}",
+	"@entryInstalledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"repoSourcesCount": "{name}, {count} fontes",
+	"@repoSourcesCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRefreshSemantic": "{name}, atualizar",
+	"@repoRefreshSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoUpdateAllSemantic": "{name}, atualizar tudo ({count})",
+	"@repoUpdateAllSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRemoveSemantic": "{name}, remover",
+	"@repoRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUpdateSemantic": "{name}, atualizar",
+	"@sourceUpdateSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUninstallSemantic": "{name}, desinstalar",
+	"@sourceUninstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceInstallSemantic": "{name}, instalar",
+	"@sourceInstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceSettingsSemantic": "{name}, configurações",
+	"@sourceSettingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceRemoveSemantic": "{name}, remover",
+	"@sourceRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceEnabledSemantic": "{name}, {state}",
+	"@sourceEnabledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"titleInstalledCount": "{title}, {count} instaladas",
+	"@titleInstalledCount": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"titleCheckUpdatesSemantic": "{title}, verificar atualizações",
+	"@titleCheckUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleRemoveRepoSemantic": "{title}, remover repo",
+	"@titleRemoveRepoSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleApplyUpdatesSemantic": "{title}, aplicar {what}",
+	"@titleApplyUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"what": {
+				"type": "String"
+			}
+		}
+	},
+	"oneUpdate": "1 atualização",
+	"nUpdates": "{count} atualizações",
+	"@nUpdates": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"percentRead": "{percent}% lido",
+	"@percentRead": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"couldntLoadDownloadOptions": "Não foi possível carregar as opções de download",
+	"selectedEpisodesOfTotal": "{selected} de {total} episódios",
+	"@selectedEpisodesOfTotal": {
+		"placeholders": {
+			"selected": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemantic": "Episódio {number}",
+	"@episodeSemantic": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"textColour": "Cor do texto",
+	"textOpacity": "Opacidade do texto",
+	"outlineStyle": "Estilo do contorno",
+	"ownStylingKept": "As legendas com estilo próprio mantêm o delas enquanto as legendas estilizadas estão ligadas",
+	"outlineColour": "Cor do contorno",
+	"outlineWidth": "Largura do contorno",
+	"positionTop": "Em cima",
+	"positionBottom": "Embaixo",
+	"subtitleSize": "Tamanho",
+	"colourWhite": "Branco",
+	"colourYellow": "Amarelo",
+	"colourGreen": "Verde",
+	"colourRed": "Vermelho",
+	"colourBlack": "Preto",
+	"tapToDownloadFont": "Toque para baixar",
+	"subtitleOutlineNone": "Nenhum",
+	"subtitleOutlineSoft": "Sombra suave",
+	"subtitleOutlineOutline": "Contorno",
+	"subtitleOutlineBold": "Contorno grosso",
+	"subtitleOutlineShadow": "Sombra projetada",
+	"subtitleOutlineGlow": "Brilho",
+	"noSubtitlesFoundFor": "Nenhuma legenda encontrada para \"{query}\".",
+	"@noSubtitlesFoundFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"searchFailedWithError": "A pesquisa falhou: {error}",
+	"@searchFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadFailedWithError": "Falha no download: {error}",
+	"@downloadFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"decreaseDelay": "Diminuir {label}",
+	"@decreaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"increaseDelay": "Aumentar {label}",
+	"@increaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"alignedDelay": "Alinhado {offset}",
+	"@alignedDelay": {
+		"placeholders": {
+			"offset": {
+				"type": "String"
+			}
+		}
+	},
+	"subtitleSyncVoiceCaptured": "Voz capturada ✓ — reproduza até a legenda aparecer e toque em Legenda vista. (Você pode fechar esta tela enquanto isso.)",
+	"subtitleSyncTextCaptured": "Legenda capturada ✓ — agora toque em Voz ouvida quando ouvir a fala.",
+	"subtitleSyncHint": "Sincronização automática: toque quando OUVIR uma fala e depois quando a LEGENDA dela aparecer.",
+	"voiceHeard": "Voz ouvida",
+	"subtitleSeen": "Legenda vista",
+	"contrast": "Contraste",
+	"saturation": "Saturação",
+	"gamma": "Gamma",
+	"hue": "Matiz",
+	"drm": "DRM",
+	"sourceFallback": "Fonte",
+	"expandAll": "Expandir tudo",
+	"downloadedSummary": "{count} baixados · {size}",
+	"@downloadedSummary": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"ofTotalDownloaded": "{done} de {total}",
+	"@ofTotalDownloaded": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodesDownloadedOfTotal": "{done} de {total} baixados",
+	"@episodesDownloadedOfTotal": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"removeAllEpisodesOfShow": "Remover todos os {count, plural, one{1 episódio} other{{count} episódios}} de \"{title}\" deste dispositivo?",
+	"@removeAllEpisodesOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaChaptersYouDownloadAppearHere": "Os capítulos de mangá que você baixar aparecem aqui",
+	"parallelDownloadsSubtitle": "Quantos episódios são baixados ao mesmo tempo. Capítulos são baixados sempre um de cada vez.",
+	"connectionsPerDownloadSubtitle": "Quantas conexões de segmentos um episódio usa e quantas páginas são buscadas de uma vez em um capítulo. Mais = mais rápido, com mais dados de uma vez.",
+	"savingToYourFolder": "Salvando na sua pasta…",
+	"notAvailableOfflineYet": "Ainda não disponível offline",
+	"downloadQueued": "Na fila",
+	"downloadPreparing": "Preparando…",
+	"downloadFinalizing": "Processando…",
+	"downloadPausedProgress": "Pausado · {percent}%",
+	"@downloadPausedProgress": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercent": "{percent}%",
+	"@downloadProgressPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercentOfSize": "{percent}% de {size}",
+	"@downloadProgressPercentOfSize": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadCanceled": "Cancelado",
+	"downloadFailedStatus": "Falhou",
+	"peerCount": "{count, plural, one{1 peer} other{{count} peers}}",
+	"@peerCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSpeedMbps": "{speed} MB/s",
+	"@downloadSpeedMbps": {
+		"placeholders": {
+			"speed": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadSpeedKbps": "{speed} KB/s",
+	"@downloadSpeedKbps": {
+		"placeholders": {
+			"speed": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitleDot": "E{number} · {title}",
+	"@episodeWithTitleDot": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaDownloads": "Downloads de mangá",
+	"novelDownloads": "Downloads de novelas",
+	"downloadingSection": "Baixando",
+	"stopAllCount": "Parar tudo ({count})",
+	"@stopAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearFailedCount": "Limpar falhas ({count})",
+	"@clearFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"stopDownloadingBody": "Cancelar {count, plural, one{1 capítulo na fila} other{{count} capítulos na fila}}. Os capítulos já baixados são mantidos.",
+	"@stopDownloadingBody": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearedFailedCount": "{count} falhas limpas",
+	"@clearedFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterPagesProgress": "{done}/{total} páginas",
+	"@chapterPagesProgress": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"showTitleQueued": "{title} · Na fila",
+	"@showTitleQueued": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleDownloading": "{title} · Baixando…",
+	"@showTitleDownloading": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleWithError": "{title} · {error}",
+	"@showTitleWithError": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeAllChaptersOfShow": "Remover todos os {count, plural, one{1 capítulo} other{{count} capítulos}} de \"{title}\" deste dispositivo?",
+	"@removeAllChaptersOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"chaptersWithSize": "{count, plural, one{1 capítulo} other{{count} capítulos}} · {size}",
+	"@chaptersWithSize": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"deleteAllEpisodesTooltip": "Excluir todos os episódios",
+	"deleteAllChaptersTooltip": "Excluir todos os capítulos",
+	"cancelDownloadTooltip": "Cancelar",
+	"removeDownloadTooltip": "Remover",
+	"positionLabel": "Posição",
+	"relativeTomorrow": "Amanhã",
+	"scheduleSlotMorning": "MANHÃ",
+	"scheduleSlotAfternoon": "TARDE",
+	"scheduleSlotEvening": "NOITE",
+	"scheduleSlotLateNight": "MADRUGADA",
+	"nothingAiringOnThisDay": "Nada exibindo neste dia.",
+	"nothingReleasingOnThisDay": "Nada lançando neste dia.",
+	"noneOfFollowedAirOnThisDay": "Nenhum dos animes que você segue é exibido neste dia.",
+	"scheduleAired": "Exibido em",
+	"scheduleLive": "● AO VIVO",
+	"scheduleSoon": "Em breve",
+	"scheduleInHours": "em {hours}h",
+	"@scheduleInHours": {
+		"placeholders": {
+			"hours": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleInDays": "em {days}d",
+	"@scheduleInDays": {
+		"placeholders": {
+			"days": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleCountDot": "· {count} {noun}",
+	"@scheduleCountDot": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"noun": {
+				"type": "String"
+			}
+		}
+	},
+	"scheduleNounAiring": "exibindo",
+	"scheduleNounReleasing": "lançando",
+	"seriesWithDate": "Série · {date}",
+	"@seriesWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"movieWithDate": "Filme · {date}",
+	"@movieWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"todayWithDate": "Hoje, {date}",
+	"@todayWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"extensionCount": "{count, plural, one{1 extensão} other{{count} extensões}}",
+	"@extensionCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"pasteRepoBaseUrlMihon": "Cole a URL base do repo — o app encontra o arquivo de índice sozinho. Um link direto para index.pb ou index.json também funciona.",
+	"pasteRepoBaseUrlAniyomi": "Cole a URL base do repo — o app acrescenta \"/index.min.json\" automaticamente.",
+	"pasteRepoBaseUrlAniyomiTv": "Cole a URL base do repo — o app acrescenta \"/index.min.json\" automaticamente.",
+	"pasteRepoIndexJsonUrl": "Cole a URL do index.json do repo — o arquivo JSON que lista todas as fontes do repo, e não a URL do .js de um único provedor.",
+	"pasteRepoIndexJsonUrlShort": "Cole a URL do index.json do repo.",
+	"pasteCloudStreamRepoUrlFull": "Cole a URL de um repositório CloudStream — o app carrega todas as fontes listadas nele.",
+	"youCanAddRepoBackLater": "Você pode adicionar o repo de volta depois.",
+	"failedToLoad": "Falha ao carregar",
+	"failedToLoadError": "Falha ao carregar: {error}",
+	"@failedToLoadError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noSourceLoaded": "Nenhuma fonte carregada — a extensão pode ser incompatível ou o download falhou.",
+	"repoAdded": "Repo adicionado.",
+	"repoAddedWithSources": "Repo adicionado — {count} {count, plural, one{fonte} other{fontes}}",
+	"@repoAddedWithSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoAddedWithSourcesAvailable": "Repo adicionado — {count} {count, plural, one{fonte disponível} other{fontes disponíveis}}. Instale as que quiser.",
+	"@repoAddedWithSourcesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"upToDate": "Atualizado",
+	"updatedNSources": "{count} fonte(s) atualizada(s)",
+	"@updatedNSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"enterManifestUrl": "Digite uma URL de manifesto.",
+	"approve": "Aprovar",
+	"changePhoto": "Mudar a foto",
+	"typingIsAPain": "Digitar é chato?",
+	"dontHaveAnAccount": "Não tem uma conta?",
+	"signUp": "Criar conta",
+	"resetLinkSent": "Link de redefinição enviado — veja seu e-mail (e o spam).",
+	"codeExpired": "Código expirado",
+	"somethingWentWrong": "Algo deu errado",
+	"pairingCodeTimedOut": "O código de pareamento expirou. Obtenha um novo.",
+	"couldntStartPairing": "Não foi possível iniciar o pareamento — verifique sua conexão.",
+	"approvalFailed": "Aprovação falhou. Tente de novo.",
+	"pickAtLeastOneTracker": "Escolha pelo menos um rastreador conectado.",
+	"sendFailedTryAgain": "O envio falhou. Tente de novo.",
+	"signUpFailed": "Falha ao criar a conta",
+	"invalidEmailOrPassword": "E-mail ou senha inválidos",
+	"authenticationFailed": "Falha na autenticação",
+	"couldNotReconnect": "Não foi possível reconectar",
+	"couldntUpdatePhoto": "Não foi possível atualizar a foto",
+	"welcomeToApp": "Bem-vindo ao {appName}",
+	"@welcomeToApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingTvSubtitle": "O {appName} não vem com fontes embutidas — você adiciona as suas. Adicione um repositório e escolha o que instalar, quando quiser, em Configurações → Provedores.",
+	"@onboardingTvSubtitle": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingPickEcosystem": "Escolha um ecossistema — Streaming, Mangá ou Novela",
+	"onboardingAddRepository": "Adicione um repositório colando a URL dele",
+	"onboardingBrowseAndInstall": "Navegue e instale o que quiser",
+	"providersWaitingInSettings": "Adicione uma fonte agora, ou dê uma volta primeiro — Provedores está sempre esperando nas Configurações.",
+	"bufferSizeLow": "Baixo (32 MB) — pouca RAM / TV",
+	"bufferSizeDefault": "Padrão (128 MB)",
+	"bufferSizeHigh": "Alto (512 MB) — mais suave",
+	"bufferLengthLow": "Baixo (15s) — pouca RAM / TV",
+	"bufferLengthDefault": "Padrão (60s)",
+	"bufferLengthHigh": "Alto (120s) — mais suave",
+	"bufferLengthMax": "Máximo (300s) — o maior",
+	"nUpdatesAvailable": "{count, plural, one{1 atualização disponível} other{{count} atualizações disponíveis}}",
+	"@nUpdatesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"languageCount": "{count, plural, one{1 idioma} other{{count} idiomas}}",
+	"@languageCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"noExtensionsMatchQuery": "Nenhuma extensão corresponde a \"{query}\".",
+	"@noExtensionsMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetTap": "Nenhum repo do CloudStream adicionado ainda.\nToque em {add} para adicionar um.",
+	"@noCloudStreamReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetPress": "Nenhum repo do CloudStream adicionado ainda.\nPressione {add} para adicionar um.",
+	"@noCloudStreamReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noProvidersMatchQuery": "Nenhum provedor corresponde a \"{query}\".",
+	"@noProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noInstalledProvidersMatchQuery": "Nenhum provedor instalado corresponde a \"{query}\".",
+	"@noInstalledProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetTap": "Nenhum repo adicionado ainda.\nToque em {add} para adicionar um.",
+	"@noReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetPress": "Nenhum repo adicionado ainda.\nPressione {add} para adicionar um.",
+	"@noReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"showingEveryInstalledProvider": "Mostrando todos os provedores instalados",
+	"showingMangaNovelProviders": "Mostrando provedores de mangá e novela",
+	"mangaNovelOnly": "Somente mangá e novela",
+	"showAllProviders": "Mostrar todos",
+	"noMangaNovelProvidersInstalled": "Nenhum provedor de mangá/novela instalado.",
+	"alreadyInstalledSourcesFromRepoStay": "As fontes de \"{name}\" que já estavam instaladas continuam instaladas. ",
+	"@alreadyInstalledSourcesFromRepoStay": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"pluginIndexPasteHelp": "Cole a URL de um índice de plugins — um array JSON de entradas de plugin (id, name, site, lang, version, url, iconUrl).",
+	"loadingTrailer": "Carregando trailer…",
+	"trailerUnavailable": "Trailer indisponível",
+	"decoderHardwareRecommended": "Hardware+ (recomendado)",
+	"decoderHardwareFaster": "Hardware (mais rápido)",
+	"decoderSoftwareCompatible": "Software (mais compatível)",
+	"decoderAuto": "Automático",
+	"rendererAutoRecommended": "Automático (recomendado)",
+	"rendererGpuStandard": "GPU — renderizador padrão",
+	"rendererGpuNextExperimental": "GPU Next — Vulkan, experimental",
+	"rendererMediacodecEmbed": "MediaCodec Embed — corrige vídeo preto",
+	"shaderStyleSharpenClean": "Nitidez — fontes limpas em 1080p",
+	"shaderStyleDeblurSoft": "Desfocar — fontes desfocadas",
+	"shaderStyleDenoiseGrainy": "Reduzir ruído — granulado / comprimido",
+	"shaderTierMidLight": "GPU intermediária — leve, suave",
+	"shaderTierHighHeavy": "GPU de alto desempenho — mais pesado, o mais nítido",
+	"closeConfirmDoubleBackLabel": "Voltar duas vezes — pressione voltar duas vezes para sair",
+	"closeConfirmAskLabel": "Confirmação de saída — perguntar antes de sair",
+	"closeConfirmExitImmediatelyLabel": "Fechar direto — sair imediatamente",
+	"zMode": "Z Mode",
+	"zModeSubtitle": "Navegue pelo AniList e TMDB, assista pelas suas fontes",
+	"metadata": "Metadados",
+	"metadataSubtitle": "Capas, títulos e descrições",
+	"animeMetadata": "Metadados de anime",
+	"animeMetadataSubtitle": "De onde vêm as informações de anime e mangá",
+	"videoMetadata": "Metadados de filmes e TV",
+	"videoMetadataSubtitle": "De onde vêm as informações de filmes e séries",
+	"malLoginForLists": "Entre no MyAnimeList em Rastreadores para sincronizar suas listas",
+	"zModeExperimental": "Experimental",
+	"modeAnime": "Anime",
+	"modeMovieTv": "Filme/TV",
+	"sourceLabel": "Fonte: {name}",
+	"@sourceLabel": {"placeholders": {"name": {"type": "String"}}},
+	"wrongTitle": "Título errado?",
+	"noSourceHasThisYet": "Nenhuma fonte tem isso ainda",
+  "checkedTopSources": "Verifiquei suas principais fontes — nenhuma tinha isso",
+	"pickTheRightTitle": "Escolha o título certo",
+	"searchThisSource": "Pesquisar nesta fonte",
+	"matchSaved": "Salvo. Correspondência agora com {name}.",
+	"@matchSaved": {"placeholders": {"name": {"type": "String"}}},
+	"chooseSource": "Escolha uma fonte",
+	"whichOneIsIt": "Qual deles é?",
+	"searchingSourceShort": "Pesquisando em {name}",
+	"@searchingSourceShort": {"placeholders": {"name": {"type": "String"}}},
+	"matchResultCount": "{count, plural, one{1 resultado} other{{count} resultados}}",
+	"@matchResultCount": {"placeholders": {"count": {"type": "int"}}},
+	"nothingOnSource": "Nada em {name}",
+	"@nothingOnSource": {"placeholders": {"name": {"type": "String"}}},
+	"sourceMayNotCarryIt": "Esta fonte pode não ter. Tente outra.",
+	"currentMatchBadge": "ATUAL",
+	"scheduleAndLists": "Agenda e listas",
+	"scheduleHubDesc": "O que está exibindo, dia a dia",
+	"trackerCoversVideo": "Filmes e séries",
+	"listKindManga": "Mangá",
+	"listKindNovel": "Novela",
+	"listKindAnimeDesc": "Assistindo, concluídos, planejando",
+	"listKindMangaDesc": "Lendo, concluídos, planejando",
+	"listKindNovelDesc": "Light novels nesta conta",
+	"sortPopularity": "Popular",
+	"sortScore": "Mais bem avaliados",
+	"sortTrending": "Em alta",
+	"sortNewest": "Mais recentes",
+	"sortTitle": "A-Z",
+	"filtersNeedProvider": "Os filtros precisam de {provider}. Troque-o nas Configurações.",
+	"@filtersNeedProvider": {"placeholders": {"provider": {"type": "String"}}},
+	"format": "Formato",
+	"minimumScore": "Nota mínima",
+	"searchAnime": "Pesquisar anime",
+	"searchMoviesTv": "Pesquisar filmes e TV",
+	"searchManga": "Pesquisar mangá",
+	"searchNovels": "Pesquisar novelas",
+	"adultCatalogue": "Títulos adultos no catálogo",
+	"adultCatalogueSubtitle": "Deixar o AniList, MyAnimeList e TMDB retornarem resultados 18+",
+	"enableAdultCatalogue": "Mostrar títulos adultos?",
+	"enableAdultCatalogueBody": "A pesquisa e a navegação podem retornar títulos 18+ do seu provedor de metadados. O Simkl não tem essa opção e não é afetado.",
+	"adultOnly": "Adulto",
+	"yourSavedAnimeList": "Sua lista de anime salva",
+	"yourSavedMangaList": "Sua lista de mangá salva",
+	"yourSavedNovelList": "Sua lista de novelas salva",
+	"epub": "EPUB",
+	"exportAsEpub": "Exportar como EPUB",
+	"chaptersDownloadedCount": "{done} de {total} capítulos baixados",
+	"@chaptersDownloadedCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"noChaptersDownloadedToExport": "Nenhum capítulo baixado ainda — baixe alguns primeiro.",
+	"allChapters": "Todos os capítulos",
+	"startChapter": "Início",
+	"endChapter": "Fim",
+	"includeChapterNumber": "Incluir o número do capítulo",
+	"includeChapterNumberSubtitle": "\"Capítulo 5: Título\" em vez de só \"Título\"",
+	"fileNameLabel": "Nome do arquivo",
+	"folderLabel": "Pasta",
+	"exportingChapterProgress": "Capítulo {done} de {total}",
+	"@exportingChapterProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"exportedToFolder": "Exportado para {folder}",
+	"@exportedToFolder": {"placeholders": {"folder": {"type": "String"}}},
+	"epubExportFailed": "Não foi possível salvar o EPUB",
+	"export": "Exportar",
+	"keepDownloadsPrivate": "Manter os downloads privados",
+	"keepDownloadsPrivateSubtitle": "Os novos downloads de vídeo ficam dentro do Zangetsu em vez da pasta Downloads. Eles são apagados quando você desinstala o Zangetsu. Capítulos e exportações não são afetados."
+}

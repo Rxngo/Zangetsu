@@ -1,0 +1,3013 @@
+{
+	"@@locale": "tr",
+	"cancel": "İptal",
+	"ok": "OK",
+	"save": "Kaydet",
+	"close": "Kapat",
+	"retry": "Yeniden dene",
+	"search": "Ara",
+	"off": "Kapalı",
+	"on": "Açık",
+	"done": "Bitti",
+	"next": "İleri",
+	"back": "Geri",
+	"edit": "Düzenle",
+	"delete": "Sil",
+	"share": "Paylaş",
+	"copy": "Kopyala",
+	"play": "Oynat",
+	"pause": "Duraklat",
+	"yes": "Evet",
+	"no": "Hayır",
+	"all": "Tümü",
+	"none": "Yok",
+	"auto": "Otomatik",
+	"add": "Ekle",
+	"remove": "Çıkar",
+	"install": "Kur",
+	"uninstall": "Kaldır",
+	"reset": "Sıfırla",
+	"clear": "Temizle",
+	"resume": "Devam et",
+	"download": "İndir",
+	"update": "Güncelle",
+	"apply": "Uygula",
+	"enable": "Etkinleştir",
+	"create": "Oluştur",
+	"rename": "Yeniden adlandır",
+	"move": "Taşı",
+	"join": "Katıl",
+	"leave": "Ayrıl",
+	"skip": "Atla",
+	"later": "Sonra",
+	"dismiss": "Yok say",
+	"refresh": "Yenile",
+	"more": "Daha fazla",
+	"info": "Bilgi",
+	"filter": "Filtre",
+	"connect": "Bağlan",
+	"disconnect": "Bağlantıyı kes",
+	"signIn": "Oturum aç",
+	"logOut": "Oturumu kapat",
+	"tryAgain": "Tekrar dene",
+	"showDetails": "Ayrıntıları göster",
+	"hideDetails": "Ayrıntıları gizle",
+	"notNow": "Şimdi değil",
+	"change": "Değiştir",
+	"go": "Git",
+	"read": "Oku",
+	"web": "Web",
+	"live": "Canlı",
+	"sub": "Altyazılı",
+	"dub": "Dublaj",
+	"nsfw": "NSFW",
+	"system": "Sistem",
+	"custom": "Özel",
+	"defaultLabel": "Varsayılan",
+	"selected": "seçildi",
+	"loading": "Yükleniyor…",
+	"searching": "Aranıyor",
+	"searchingEllipsis": "aranıyor…",
+	"downloading": "İndiriliyor…",
+	"updating": "Güncelleniyor…",
+	"testing": "Test ediliyor…",
+	"searchOk": "Arama başarılı",
+	"working": "Çalışıyor",
+	"dead": "Çalışmıyor",
+	"error": "Hata",
+	"appLanguage": "Uygulama dili",
+	"appLanguageSubtitle": "Arayüz dili",
+	"appLanguageSystem": "Sistem (otomatik)",
+	"appLanguageSystemSubtitle": "Sistem ({name})",
+	"@appLanguageSystemSubtitle": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"appLanguageKeywords": "dil arayüz çeviri i18n türkçe japanese chinese spanish german french italian",
+	"settingsTitle": "Ayarlar",
+	"settingsSearchHint": "Ayarlarda ara",
+	"settingsNoMatch": "\"{query}\" ile eşleşen ayar yok",
+	"@settingsNoMatch": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSectionAccount": "Hesap ve eşitleme",
+	"settingsSectionSources": "Kaynaklar",
+	"settingsSectionPlayback": "Oynatma",
+	"settingsSectionReading": "Okuma",
+	"settingsSectionHistory": "Geçmiş",
+	"settingsSectionDownloads": "İndirilenler",
+	"settingsSectionInterface": "Arayüz",
+	"settingsSectionNotifications": "Bildirimler",
+	"settingsSectionAdvanced": "Gelişmiş",
+	"settingsSectionAbout": "Hakkında",
+	"settingsSectionAccountSummary": "İzleyiciler, Discord, yedekleme, eşitleme",
+	"settingsSectionSourcesSummary": "Sağlayıcılar, etkin kaynak, güncellemeler",
+	"settingsSectionPlaybackSummary": "Kalite, otomatik oynatma, hız",
+	"settingsSectionReadingSummary": "Manga ve roman okuyucu varsayılanları",
+	"settingsSectionHistorySummary": "İzlediğin diziler",
+	"settingsSectionDownloadsSummary": "İndirilenler, depolama, torrentler",
+	"settingsSectionInterfaceSummary": "Görünüm, dil, arama düzeni",
+	"settingsSectionNotificationsSummary": "Yeni bölüm uyarıları",
+	"settingsSectionAdvancedSummary": "DNS, gizlilik, günlükler",
+	"settingsSectionAboutSummary": "Güncellemeler, destek, sürüm",
+	"couldNotExportLogs": "Günlükler dışa aktarılamadı",
+	"logsShareSubject": "Zangetsu günlükleri",
+	"signInSubtitle": "Listeni, geçmişini ve izlemeye devam etme akışını eşitle",
+	"signInSubtitleTv": "Listeni ve izlemeye devam etme akışını eşitle",
+	"connections": "Bağlantılar",
+	"discord": "Discord",
+	"discordSubtitle": "Rich Presence — durumunu göster",
+	"watchParty": "İzleme Partisi",
+	"watchPartySubtitle": "Arkadaşlarınla bir izleme partisi oluştur veya katıl",
+	"signInToWatchTogether": "Birlikte izlemek için oturum aç",
+	"syncLibraryToCloud": "Kitaplığı buluta eşitle",
+	"syncLibraryToCloudSubtitle": "Geçmişini ve listeni bu hesaba yeniden yükle",
+	"signInFirst": "Önce oturum aç",
+	"reconnectToSyncLibrary": "Kitaplığını eşitlemek için yeniden bağlan.",
+	"syncingLibraryToCloud": "Kitaplığın buluta eşitleniyor…",
+	"backupAndRestore": "Yedekle ve Geri Yükle",
+	"backupAndRestoreSubtitle": "Kaynaklarını, listeni ve ayarlarını kaydet",
+	"providers": "Sağlayıcılar",
+	"providersEnabledCount": "{count} etkin",
+	"@providersEnabledCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSource": "Etkin kaynak",
+	"streamingServices": "Yayın Hizmetleri",
+	"streamingServicesSubtitle": "Her hizmetin neleri sunduğuna göz at",
+	"streamingServicesEmpty": "Bu ülke için listelenen hizmet yok",
+	"streamingServicesMetadataNote": "Yalnızca göz atma — diziler yine kendi kaynaklarından oynatılır",
+	"pinAsHomeRow": "Ana sayfa satırı olarak sabitle",
+	"unpinHomeRow": "Sabitlemeyi kaldır",
+	"pinLimitReached": "En fazla {count} hizmet sabitleyebilirsin",
+	"@pinLimitReached": { "placeholders": { "count": { "type": "int" } } },
+	"streamingRegion": "Yayın bölgesi",
+	"streamingRegionSubtitle": "Hangi ülkenin kataloğu gösterilsin",
+	"sourceHealth": "Kaynak durumu",
+	"sourceHealthSubtitle": "Hangi kaynakların çalıştığını test et",
+	"sourceUpdates": "Kaynak güncellemeleri",
+	"sourceUpdatesSubtitle": "Kurulu kaynakların güncellemesi olduğunda bildir",
+	"autoUpdateExtensions": "Uzantıları otomatik güncelle",
+	"autoUpdateExtensionsSubtitle": "Kurulu kaynakları açılışta otomatik güncelle",
+	"playback": "Oynatma",
+	"playbackSubtitle": "Kalite, otomatik oynatma, hız",
+	"reader": "Okuyucu",
+	"readerSubtitle": "Manga ve roman okuma varsayılanları",
+	"history": "Geçmiş",
+	"historySubtitle": "İzlediğin diziler",
+	"downloads": "İndirilenler",
+	"downloadsSubtitle": "İndirdiğin bölümleri yönet",
+	"downloadsSubtitleTv": "Çevrimdışı izle",
+	"storage": "Depolama",
+	"storageSubtitle": "Uygulamanın kullandığı alanı yönet",
+	"torrents": "Torrentler",
+	"torrentsSubtitle": "Yayın ve veri ayarları",
+	"appearance": "Görünüm",
+	"appearanceSubtitle": "Vurgu rengi, afiş rozetleri",
+	"searchLayout": "Arama düzeni",
+	"searchLayoutSubtitle": "Kaynaklar arası sonuçlar nasıl gösterilsin",
+	"searchLayoutBlurb": "Kaynaklar arası sonuçların gösterimi. Dikey = her kaynak için ızgara; Yatay = her kaynak için kaydırmalı satır.",
+	"searchLayoutVertical": "Dikey (ızgara)",
+	"searchLayoutHorizontal": "Yatay (satırlar)",
+	"batchDownloadStyle": "Toplu indirme stili",
+	"batchDownloadStyleSubtitle": "Çoklu bölüm sayfası nasıl görünsün",
+	"batchDownloadStyleBlurb": "Bir sezonun tamamını indirdiğinde açılan sayfa. İkisi de aynı şeyi indirir — yalnızca seçici farklı görünür.",
+	"batchDownloadClassic": "Klasik",
+	"batchDownloadClassicBlurb": "Her bölüm için küçük görsel ızgarası olan tam sayfa.",
+	"batchDownloadMinimal": "Sade",
+	"batchDownloadMinimalBlurb": "Bir sayı çarkı — kaç bölüm alınacağını seç.",
+	"notifications": "Bildirimler",
+	"notificationsSubtitle": "Takip ettiğin diziler için yeni bölüm uyarıları",
+	"dns": "DNS",
+	"dnsSubtitle": "CS kaynaklarında ISP engellerini aş",
+	"dnsBlurb": "CloudStream kaynakları için şifreli DNS — ISP engellerini aşmayı kolaylaştırır. Kapalı = normal bağlantın.",
+	"dnsOffTvSubtitle": "Kapalı · CS kaynaklarında ISP engellerini aş",
+	"privacy": "Gizlilik",
+	"privacySubtitle": "NSFW kaynakları",
+	"shareLogs": "Günlükleri paylaş",
+	"shareLogsSubtitle": "Bir sorunu çözmeye yardımcı olması için tanılama günlüğü gönder",
+	"sendingReport": "Rapor gönderiliyor…",
+	"reportSent": "Rapor gönderildi",
+	"reportSentBody": "Teşekkürler. Ne olduğunu anlatırsan bu kodu belirt: {ref}",
+	"@reportSentBody": {
+		"placeholders": {
+			"ref": { "type": "String" }
+		}
+	},
+	"about": "Hakkında",
+	"versionLabel": "v{version}",
+	"@versionLabel": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"contributors": "Katkıda bulunanlar",
+	"website": "Web sitesi",
+	"communityChat": "Topluluk sohbeti",
+	"joinTheServer": "Sunucuya katıl",
+	"viewTheSourceCode": "Kaynak koduna göz at",
+	"howItWorks": "Nasıl çalışır",
+	"howItWorksSubtitle": "Yeni misin? Kısa bir rehber",
+	"checkForUpdates": "Güncellemeleri denetle",
+	"checkForUpdatesSubtitle": "GitHub'dan en son sürümü al",
+	"checkingForUpdates": "Güncellemeler denetleniyor…",
+	"betaUpdates": "Beta güncellemeleri",
+	"betaUpdatesSubtitle": "Sürüm öncesi derlemeleri erkenden al — kararsız olabilir",
+	"supportTheApp": "Uygulamayı destekle",
+	"buyMeACoffee": "Bana bir kahve ısmarla",
+	"leadDeveloper": "Ana Geliştirici",
+	"addCloudStreamRepository": "CloudStream deposu ekle",
+	"installCloudStreamSources": "CloudStream kaynaklarını kur",
+	"connectionsTvSubtitle": "AniList, MyAnimeList, Simkl",
+	"profile": "Profil",
+	"home": "Ana sayfa",
+	"myList": "My List",
+	"schedule": "Yayın akışı",
+	"pressBackAgainToExit": "Çıkmak için GERİ tuşuna tekrar bas",
+	"pressBackAgainToExitTv": "Çıkmak için geri tuşuna tekrar bas",
+	"selectSource": "Kaynak Seç",
+	"accentWallpaper": "Duvar kağıdı",
+	"accentCoral": "Mercan",
+	"accentBlue": "Mavi",
+	"accentViolet": "Menekşe",
+	"accentEmerald": "Zümrüt",
+	"accentAmber": "Kehribar",
+	"accentRose": "Gül",
+	"accentCyan": "Camgöbeği",
+	"accentCrimson": "Kızıl",
+	"shaderOff": "Kapalı",
+	"shaderOffDesc": "Geliştirme yok",
+	"shaderSharpen": "Keskinleştir",
+	"shaderSharpenDesc": "Detayları geri kazan — temiz kaynaklar için en iyisi",
+	"shaderDeblur": "Bulanıklığı gider",
+	"shaderDeblurDesc": "Daha yumuşak toparlama — bulanık / yumuşak kaynaklar için",
+	"shaderDenoise": "Gürültüyü azalt",
+	"shaderDenoiseDesc": "Grenli görüntüyü temizle — sıkıştırılmış kaynaklar için",
+	"shaderTierHigh": "Üst düzey GPU",
+	"shaderTierHighDesc": "Ağır VL yükselticiler + yüksek kaliteli ölçekleme — güçlü GPU gerekir",
+	"shaderTierMid": "Orta düzey GPU",
+	"shaderTierMidDesc": "Hafif yükselticiler + bant düzeltme — çoğu telefonda akıcı",
+	"playerInfoResolution": "Çözünürlük",
+	"playerInfoSource": "Kaynak",
+	"playerInfoQuality": "Kalite",
+	"playerInfoVideoCodec": "Video kodeki",
+	"playerInfoAudioCodec": "Ses kodeki",
+	"playerInfoFrameRate": " Kare hızı",
+	"playerInfoVideoBitrate": "Video bit hızı",
+	"playerInfoBuffer": "Tampon",
+	"playerInfoDroppedFrames": "Düşen kareler",
+	"playerInfoDecoder": "Çözücü",
+	"playerInfoSpeed": "Hız",
+	"playerInfoAudioTrack": "Ses izi",
+	"playerInfoSubtitleTrack": "Altyazı izi",
+	"playerInfoAudioBoost": "Ses yükseltme",
+	"statusPlanToWatch": "İzlemeyi planla",
+	"statusWatching": "İzleniyor",
+	"statusCompleted": "Tamamlandı",
+	"statusPaused": "Duraklatıldı",
+	"statusDropped": "Bırakıldı",
+	"statusPlanning": "Planlanıyor",
+	"statusReading": "Okunuyor",
+	"statusPlanToRead": "Okumayı planla",
+	"providerHavingAMoment": "{name} biraz meşgul",
+	"@providerHavingAMoment": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerHavingAMomentBody": "Şu anda yanıt vermiyor. Biraz bekle — ya da Ayarlar'dan meta veri sağlayıcısını değiştir.",
+	"sourceNotAnswering": "{name} yanıt vermiyor",
+	"@sourceNotAnswering": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceNotAnsweringBody": "Çevrimdışı olabilir veya istekleri engelliyor olabilir. Tekrar dene, ya da üstten başka bir kaynağa geç.",
+	"providerNeedsBreather": "{name} bir nefes aldırmak istiyor",
+	"@providerNeedsBreather": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"providerNeedsBreatherBody": "Biraz fazla sık sordun. {seconds} sn sonra tekrar dene.",
+	"@providerNeedsBreatherBody": {
+		"placeholders": {
+			"seconds": {
+				"type": "int"
+			}
+		}
+	},
+	"showingWhatWeHave": "Çevrimdışı olabilir ya da ağın engelliyor olabilir. Elimizde olanlar şunlar.",
+	"titleLanguage": "Başlık dili",
+	"titleLanguageSubtitle": "AniList başlıkları nasıl gösterilsin",
+	"titleLanguageNative": "Yerel",
+	"homeRowsLayout": "Düzenleniyor",
+	"homeRows": "Ana Sayfayı Özelleştir",
+	"homeRowsSubtitle": "Ana sayfada ne görüneceğini seç",
+	"homeRowsFromYourLists": "Listelerinden",
+	"homeRowsDiscover": "Keşfet",
+	"homeRowsHelp": "Sıralamak için sürükle. Bir satırı kapatarak gizle.",
+	"homeRowTrackerContinue": "{tracker} üzerinden devam et",
+	"@homeRowTrackerContinue": {
+		"placeholders": {
+			"tracker": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerCaughtUp": "Yetiştin",
+	"homeRowNewEpisodes": "Yeni Bölümler",
+	"modeStreaming": "Yayın",
+	"modeManga": "Manga",
+	"modeNovel": "Roman",
+	"relativeToday": "Bugün",
+	"relativeYesterday": "Dün",
+	"relativeDaysAgo": "{count, plural, one{{count} gün önce} other{{count} gün önce}}",
+	"@relativeDaysAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeWeeksAgo": "{count, plural, one{{count} hafta önce} other{{count} hafta önce}}",
+	"@relativeWeeksAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeMonthsAgo": "{count, plural, one{{count} ay önce} other{{count} ay önce}}",
+	"@relativeMonthsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"relativeYearsAgo": "{count, plural, one{{count} yıl önce} other{{count} yıl önce}}",
+	"@relativeYearsAgo": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"bootErrorTitle": "Zangetsu açılışını tamamlayamadı",
+	"bootErrorBody": "Bu cihazda kayıtlı bir şey açılmasını engelliyor. Hiçbir şey kaybolmadı — hesabın ve buluta eşitlenen her şey güvende.",
+	"resetAppData": "Uygulama verilerini sıfırla",
+	"resetAppDataTitle": "Uygulama verileri sıfırlansın mı?",
+	"resetAppDataBody": "Zangetsu'nun bu cihazda kaydettiği her şeyi temizler, böylece sıfırdan başlar.\n\nHesabın ve buluta eşitlenen hiçbir şey etkilenmez — tekrar oturum aç, kitaplığın geri gelir.",
+	"resetAppDataDone": "Zangetsu'yu tamamen kapat ve yeniden aç.",
+	"detailsCopied": "Ayrıntılar kopyalandı — bize gönder",
+	"copyDetails": "Ayrıntıları kopyala",
+	"goodToHaveYouHere": "Burada olduğuna sevindik.",
+	"onboardingIntro": "Anime, manga ve roman — hepsi tek uygulamada, kendi düzenin gibi ayarla.",
+	"youChooseWhatsInside": "İçinde ne olacağına sen karar verirsin",
+	"addTheSourcesYouWant": "İstediğin kaynakları ekle — nasıl yapılır, şöyle.",
+	"openProviders": "Sağlayıcıları Aç",
+	"pickStreamingMangaOrNovels": "Yayın, manga veya roman seç",
+	"pasteInARepositoryLink": "Bir depo bağlantısı yapıştır",
+	"browseAndGrab": "İçinde gez ve hoşuna gideni al",
+	"readyWhenYouAre": "Hazır olduğunda başlarız.",
+	"addSourcesNow": "Şimdi kaynak ekle",
+	"illDoItLater": "Sonra yaparım",
+	"howToUseTheApp": "Uygulamayı nasıl kullanırım",
+	"aFewTapsToAnything": "Her şeye birkaç dokunuş.",
+	"findSomething": "Bir şey bul",
+	"watchIt": "İzle",
+	"ifItWontLoad": "Yüklenmezse",
+	"saveForOffline": "Çevrimdışı için kaydet",
+	"commonQuestions": "Sık sorulanlar",
+	"noCommunityContributorsYet": "Henüz topluluk katkıcısı yok.",
+	"paged": "Sayfalı",
+	"vertical": "Dikey",
+	"tapZonesReset": "Dokunma bölgeleri sıfırlandı",
+	"noUPIAppFoundUPIIDCopiedPasteItInYourUPIApp": "UPI uygulaması bulunamadı — UPI kimliği kopyalandı, UPI uygulana yapıştır",
+	"donateWithPayPal": "PayPal ile bağış yap",
+	"payViaUPI": "UPI ile öde",
+	"copyUPIID": "UPI kimliğini kopyala",
+	"readingMode": "Okuma modu",
+	"fit": "Sığdır",
+	"background": "Arka plan",
+	"colourFilter": "Renk filtresi",
+	"orientationLock": "Yön kilidi",
+	"doublePageLandscape": "Çift sayfa (yatay)",
+	"pairFacingPagesInALandscapeSpread": "Yatay açılışta karşılıklı sayfaları eşleştir",
+	"cropBorders": "Kenarları kırp",
+	"trimNearUniformEdgeMarginsFromAPage": "Sayfadaki neredeyse eşit kenar boşluklarını kırp",
+	"preloadPages": "Sayfaları önden yükle",
+	"keepScreenOn": "Ekranı açık tut",
+	"readerFullscreen": "Tam ekran",
+	"tapZones": "Dokunma bölgeleri",
+	"whatTappingEachPartOfThePageDoes": "Sayfanın her bölümüne dokununca ne olur",
+	"font": "Yazı tipi",
+	"addFont": "Yazı tipi ekle",
+	"couldntAddFont": "Bu yazı tipi eklenemedi",
+	"theme": "Tema",
+	"fontSize": "Yazı tipi boyutu",
+	"lineHeight": "Satır yüksekliği",
+	"margin": "Kenar boşluğu",
+	"justifyText": "Metni iki yana yasla",
+	"textDirection": "Metin yönü",
+	"paragraphSpacing": "Paragraf aralığı",
+	"paginated": "Sayfalanmış",
+	"bookStylePagesInsteadOfAContinuousScroll": "Sürekli kaydırma yerine kitap düzeninde sayfalar",
+	"enableNSFWSources": "NSFW kaynakları etkinleştirilsin mi?",
+	"showNSFWAniyomiSources": "NSFW Aniyomi kaynakları gösterilsin mi?",
+	"incognitoMode": "Gizli mod",
+	"pauseHistoryTrackingDiscordPresence": "Geçmiş, izleyici ve Discord durumunu duraklat",
+	"enableNSFWSources2": "NSFW kaynaklarını etkinleştir",
+	"showSourcesMarked18": "18+ olarak işaretli kaynakları göster",
+	"showNSFWSources": "NSFW kaynaklarını göster",
+	"adultAniyomiExtensions": "Yetişkin Aniyomi uzantıları",
+	"opensubtitlesAPIKey": "OpenSubtitles API anahtarı",
+	"pasteYourKey": "Anahtarını yapıştır",
+	"createAFreeKeyAtOpensubtitlesComConsumers": "opensubtitles.com → Consumers bölümünden ücretsiz bir anahtar oluştur.",
+	"shaderDownloadFailedCheckNetwork": "Gölgelendirici indirilemedi — ağı kontrol et",
+	"anime4kEnhancement": "Anime4K Geliştirme",
+	"anime4kGPUTier": "Anime4K GPU seviyesi",
+	"cacheCleared": "Önbellek temizlendi",
+	"videoBufferSize": "Video tampon boyutu",
+	"videoBufferLength": "Video tampon uzunluğu",
+	"playerInfoOverlay": "Oynatıcı bilgi katmanı",
+	"defaultQuality": "Varsayılan kalite",
+	"videoDecoder": "Video çözücü",
+	"videoRenderer": "Video işleyici",
+	"defaultAudio": "Varsayılan ses",
+	"defaultSpeed": "Varsayılan hız",
+	"doubleTapSkip": "Çift dokunuşla atla",
+	"closeConfirmation": "Kapatma onayı",
+	"megaskipDuration": "MegaSkip süresi",
+	"defaultPlayer": "Varsayılan oynatıcı",
+	"defaultAudioAnimeSubDub": "Varsayılan ses (anime altyazı/dublaj)",
+	"builtIn": "Yerleşik",
+	"playerControls": "Oynatıcı kontrolleri",
+	"reorderOrHideTheButtonsOnThePlayerBar": "Oynatıcı çubuğundaki düğmeleri sırala veya gizle",
+	"resumePlayback": "Oynatmaya devam et",
+	"continueFromWhereYouLeftOff": "Kaldığın yerden devam et",
+	"askBeforeJumping": "Atlarken sor",
+	"autoAddToMyList": "My List'e otomatik ekle",
+	"addATitleToMyListWhenYouStartWatchingIt": "Bir diziyi izlemeye başladığında My List'e ekle",
+	"autoTrack": "Otomatik izle",
+	"confirm": "onayla",
+	"autoplayNextEpisode": "Sonraki bölümü otomatik oynat",
+	"autoSkipFillerEpisodes": "Filler bölümleri otomatik atla",
+	"autoplayTrailer": "Fragmanı otomatik oynat",
+	"playATitleSTrailerOnItsDetailPage": "Bir dizinin fragmanını detay sayfasında oynat",
+	"playTrailersInHD": "Fragmanları HD oynat",
+	"skipIntroButton": "Opening atla düğmesi",
+	"showSkipOpeningEndingOnAnimeWhenDetected": "Anime'de Opening/Ending atla seçeneğini göster (algılandığında)",
+	"autoSkipOpening": "Opening'i otomatik atla",
+	"jumpPastTheOPOnItsOwnNoTap": "Opening'i kendi bitince otomatik atla, dokunmana gerek yok",
+	"autoSkipRecap": "Özeti otomatik atla",
+	"jumpPastThePreviouslyOnRecapNoTap": "\"Previously on\" özetini kendi bitince atla, dokunmana gerek yok",
+	"autoSkipEnding": "Ending'i otomatik atla",
+	"jumpPastTheEDOnItsOwnNoTap": "Ending'i kendi bitince otomatik atla, dokunmana gerek yok",
+	"megaskipButton": "MegaSkip düğmesi",
+	"aJumpForwardButtonInThePlayerAnyVideo": "Oynatıcıda bir ileri atlama düğmesi (her video)",
+	"seekButton": "Video atlama düğmelerini göster",
+	"seekButtonDescription": "Oynatıcıda ileri ve geri atlama düğmelerini göster",
+	"seekButtonDuration": "Atlama süresi",
+	"selectSeekButtonDurationDescription": "Atlama düğmeleri için atlama süresini seç",
+	"nativeTVPlayer": "Yerel TV oynatıcısı",
+	"softwareAudioDolbyDTS": "Yazılımsal ses (Dolby/DTS)",
+	"seekPreviewOnline": "Atlama önizlemesi (çevrimiçi)",
+	"thumbnailsWhileScrubbingStreamsCostsExtraData": "Akışlarda kaydırırken küçük görseller — ek veri harcar",
+	"autoPictureInPicture": "Otomatik resim içinde resim",
+	"shrinkToAFloatingWindowWhenYouLeaveTheApp": "Uygulamadan çıkınca küçük yüzen pencereye dönüş",
+	"showQualityLabel": "Kalite etiketini göster",
+	"plainQualityTextEG1080pOnTheTopBarRight": "Düz kalite yazısı (örn. 1080p) üst çubuğun sağında",
+	"gestureControls": "Hareket kontrolleri",
+	"swipeLeftForBrightnessRightForVolume": "Parlaklık için sola, ses için sağa kaydır",
+	"swipeToSeek": "Atlamak için kaydır",
+	"dragLeftOrRightAcrossTheVideoToScrub": "Videoyu ileri geri sürükleyerek gez",
+	"holdFor2Speed": "2× hız için basılı tut",
+	"longPressTheVideoToPlayAt2WhileHeld": "Basılı tutarken videoyu 2× hızda oynatmak için uzun bas",
+	"clearImageVideoCache": "Görsel ve video önbelleğini temizle",
+	"styledSubtitlesLibass": "Biçimlendirilmiş altyazılar (libass)",
+	"subtitleStyle": "Altyazı stili",
+	"requiredForOnlineSubtitleSearch": "Çevrimiçi altyazı araması için gerekli",
+	"subtitleLanguage": "Altyazı dili",
+	"autoDownloadSubtitles": "Altyazıları otomatik indir",
+	"whenTheSourceHasNoSubtitleInYourLanguage": "Kaynakta senin dilinde altyazı yoksa",
+	"autoTranslateSubtitles": "Altyazıları otomatik çevir",
+	"translateToYourLanguageOnPlayWhenTheSourceHasNone": "Kaynakta yoksa oynatırken senin diline çevir",
+	"translateSubtitlesTo": "Altyazıları çevir",
+	"pickALanguage": "Bir dil seç",
+	"customColour": "Özel renk",
+	"materialYou": "Material You",
+	"coloursFromYourWallpaper": "Duvar kağıdından renkler",
+	"pureBlackBackground": "Saf siyah arka plan",
+	"trueBlackForOLED": "OLED için gerçek siyah",
+	"posterBadges": "Afiş rozetleri",
+	"qualityAndSubDubBadges": "Puan, kalite ve Altyazı/Dublaj rozetleri",
+	"animateLists": "Listeleri canlandır",
+	"cardsFadeInAsYouScroll": "Kaydırdıkça kartlar belirir",
+	"animationStyle": "Animasyon stili",
+	"turnOffMaterialYouToPickAColourYourself": "Kendi rengini seçmek için Material You'u kapat",
+	"downloadsZangetsu": "İndirilenler › Zangetsu",
+	"removableDrive": "Çıkarılabilir sürücü",
+	"chooseFolder": "Klasör seç…",
+	"resetToDefault": "Varsayılana sıfırla",
+	"connected": "Bağlandı",
+	"imageCacheCleared": "Görsel önbelleği temizlendi",
+	"providerCacheCleared": "Sağlayıcı önbelleği temizlendi",
+	"clearImageCache": "Görsel önbelleğini temizle",
+	"clearProviderCache": "Sağlayıcı önbelleğini temizle",
+	"showTitleE2": "Başlığı göster · E2",
+	"pinned": "Sabitlendi",
+	"exoplayerSpikeDev": "ExoPlayer denemesi (geliştirici)",
+	"sp0TestSurfaceViewPlaybackSmoothness": "SP0 — SurfaceView oynatma akıcılığını test et",
+	"pasteDiscordToken": "Discord belirtecini yapıştır",
+	"yourDiscordUserToken": "Discord kullanıcı belirtecin",
+	"pasteToken": "Belirteci yapıştır",
+	"useMobileDataForTorrents": "Torrentler için mobil veri kullan",
+	"discordConnected": "Discord bağlandı",
+	"disconnectDiscord": "Discord bağlantısı kesilsin mi?",
+	"notConfigured": "Yapılandırılmadı",
+	"aDiscordApplicationIDMustBeSetInTheBuildFirst": "Önce derlemede bir Discord Application ID ayarlanmalı.",
+	"richPresence": "Rich Presence",
+	"showWhatYouReWatchingOnYourProfile": "Ne izlediğini profilinde göster",
+	"signInToLinkYourAccount": "Hesabını bağlamak için oturum aç",
+	"autoSync": "Otomatik eşitleme",
+	"disconnectingHereOnlySignsThisTrackerOutOnTheTVYourPhoneStaysConnected": "Buradan bağlantıyı kesmek bu izleyiciyi yalnızca TV'de oturumu kapatır — telefonun bağlı kalır.",
+	"continueWatching": "İzlemeye Devam Et",
+	"continueReading": "Okumaya Devam Et",
+	"seeAll": "Tümünü gör",
+	"libraryLabel": "Kitaplık",
+	"sortBy": "Sıralama ölçütü",
+	"newCategory": "Yeni kategori",
+	"personaGym": "Kişi, Salon, …",
+	"deleteCategory": "Kategoriyi sil",
+	"yourTitlesStayOnlyTheLabelGoes": "Dizilerin kalır — yalnızca etiket gider",
+	"renameCategory": "Kategoriyi yeniden adlandır",
+	"manageTrackers": "İzleyicileri yönet",
+	"trackers": "İzleyiciler",
+	"showLabel": "Göster",
+	"couldnTLoadPullToRefresh": "Yüklenemedi — yenilemek için çek",
+	"noTitlesInThisList": "Bu listede dizi yok",
+	"signInToBuildYourList": "Listeni oluşturmak için oturum aç",
+	"titlesYouAddAppearHere": "Eklediğin diziler burada görünür",
+	"couldnTLoadTryAgainFromSettings": "Yüklenemedi — Ayarlar'dan tekrar dene",
+	"search2": "Ara…",
+	"voiceSearch": "Sesli arama",
+	"allSources": "Tüm kaynaklar",
+	"currentSource": "Geçerli kaynak",
+	"searchFailedTryAgain": "Arama başarısız — tekrar dene",
+	"searchForSomethingToWatch": "İzlenecek bir şey ara",
+	"recentSearches": "Son aramalar",
+	"clearSearchHistory": "Arama geçmişini temizle",
+	"checkTheSpellingOrTryADifferentTitle": "Yazımı denetle ya da farklı bir başlık dene.",
+	"browseSources": "Kaynaklara göz at",
+	"thisSourceHasNoFilters": "Bu kaynakta filtre yok",
+	"searchIn": "Şurada ara",
+	"filters": "Filtreler",
+	"sourceFilters": "Kaynak filtreleri",
+	"clearFilters": "Filtreleri temizle",
+	"topPicks": "Öne çıkanlar",
+	"anime": "Anime",
+	"moviesSeries": "Filmler ve Diziler",
+	"noSourcesInstalled": "Kurulu kaynak yok",
+	"fromYourResults": "· sonuçlarından",
+	"any": "Herhangi",
+	"someSourcesDonTProvideGenres": "bazı kaynaklar tür sağlamıyor",
+	"searchInSources": "Kaynaklarda ara",
+	"turnAllOff": "Tümünü kapat",
+	"extensionsUpdated": "Uzantılar güncellendi",
+	"incognito": "Gizli",
+	"reconnectToSync": "Eşitlemek için yeniden bağlan",
+	"yourSessionExpiredTapToSignInAndSyncYourLibrary": "Oturumun sona erdi — oturum açıp kitaplığını eşitlemek için dokun.",
+	"solveCloudflare": "Cloudflare'ı çöz",
+	"switchSource": "Kaynağı değiştir",
+	"moviesTV": "Filmler ve TV",
+	"couldnTLoadComingSoonPullToRefresh": "Yaklaşanlar yüklenemedi — yenilemek için çek.",
+	"streamURL": "Akış URL'si",
+	"exoplayerSurfaceViewSpikeSP0": "ExoPlayer SurfaceView denemesi (SP0)",
+	"episodes": "Bölümler",
+	"season": "Sezon",
+	"jumpToEpisode": "Bölüme atla…",
+	"preferredLanguage": "Tercih edilen dil…",
+	"searchOnline": "Çevrimiçi ara…",
+	"onlineSubtitles": "Çevrimiçi altyazılar",
+	"audioSubs": "Ses ve Altyazılar",
+	"nextEpisode": "Sonraki Bölüm",
+	"colour": "Renk",
+	"snapshot": "Anlık görüntü",
+	"sleepTimer": "Uyku zamanlayıcı",
+	"pictureInPicture": "Resim içinde resim",
+	"cast": "Yayınla",
+	"playbackStats": "Oynatma istatistikleri",
+	"sleepTimerOn": "Uyku zamanlayıcı açık",
+	"lockControls": "Kontrolleri kilitle",
+	"chat": "Sohbet",
+	"previousEpisode": "Önceki bölüm",
+	"nextEpisode2": "Sonraki bölüm",
+	"translated": "Çevrildi",
+	"thisSourceCanTBeCastTryAnotherSource": "Bu kaynak yayınlanamıyor — başka bir kaynak dene.",
+	"rewind10Seconds": "10 saniye geri sar",
+	"forward10Seconds": "10 saniye ileri sar",
+	"stopCasting": "Yayını durdur",
+	"usingTheBuiltInPlayerForThisSource": "Bu kaynak için yerleşik oynatıcı kullanılıyor.",
+	"closeVideo": "Video kapatılsın mı?",
+	"areYouSureYouWantToCloseTheVideo": "Videoyu kapatmak istediğine emin misin?",
+	"downloadInSettings": "Ayarlar'dan indir",
+	"getTheAnime4KShaders06MBThenTurnItOn": "Anime4K gölgelendiricilerini indir (~0.6 MB), sonra aç",
+	"gpuTIER": "GPU SEVİYESİ",
+	"endOfEpisode": "Bölüm sonu",
+	"closeAppWhenTimerEnds": "Zamanlayıcı bitince uygulamayı kapat",
+	"exitTheAppToSaveBattery": "Pili korumak için uygulamadan çık",
+	"playNow": "Şimdi oynat",
+	"skipRecap": "Özeti atla",
+	"unlockControls": "Kontrollerin kilidini aç",
+	"tapToUnlock": "Kilit açmak için dokun",
+	"subtitleDelay": "Altyazı gecikmesi",
+	"audioDelay": "Ses gecikmesi",
+	"androidPlayer": "Android Oynatıcı (Deneysel)",
+	"androidPlayerUnavailable": "Android Oynatıcı başlatılamadı",
+	"audioNormalization": "Ses normalleştirme",
+	"searchSubtitlesOnline": "Altyazıları çevrimiçi ara",
+	"loadFromFile": "Dosyadan yükle…",
+	"translateSubtitles": "Altyazıları çevir…",
+	"language": "Dil:",
+	"movieOrShowTitle": "Film veya dizi başlığı",
+	"theQuickBrownFox": "Hızlı kahverengi tilki",
+	"seekBar": "Atlama çubuğu",
+	"autoScrollSettings": "Otomatik kaydırma ayarları",
+	"autoScroll": "Otomatik kaydırma",
+	"touchThePageToPauseItPicksUpAgainWhenYouLetGo": "Duraklatmak için sayfaya dokun — bıraktığında kaldığı yerden devam eder.",
+	"floatingButton": "Yüzen düğme",
+	"nextChapter": "Sonraki bölüm",
+	"orKeepPulling": "ya da çekmeye devam et",
+	"thatSTheLastChapter": "Bu son bölüm.",
+	"readerSettings": "Okuyucu ayarları",
+	"noOtherChaptersLoadedYet": "Başka bölüm henüz yüklenmedi",
+	"chapters": "Bölümler",
+	"direction": "Yön",
+	"autoWebtoonMode": "Otomatik webtoon modu",
+	"pullToChangeChapter": "Bölüm değiştirmek için çek",
+	"volumeKeysTurnPages": "Ses tuşları sayfa çevirir",
+	"invertVolumeKeys": "Ses tuşlarını ters çevir",
+	"brightness": "Parlaklık",
+	"previousChapter": "Önceki bölüm",
+	"thisTitle": "Bu başlık",
+	"nextChapter2": "Sonraki bölüm →",
+	"textSize": "Metin boyutu",
+	"appliesStraightAway": "Hemen uygulanır",
+	"left": "Sol",
+	"justify": "İki yana yasla",
+	"ltr": "LTR",
+	"rtl": "RTL",
+	"letterSpacing": "Harf aralığı",
+	"wordSpacing": "Kelime aralığı",
+	"alignment": "Hizalama",
+	"a": "A",
+	"searchEpisodes": "Bölümlerde ara",
+	"titleOrEpisodeNumber": "Başlık veya bölüm numarası",
+	"failedToLoadThisTitle": "Bu başlık yüklenemedi",
+	"offlineTitle": "Çevrimdışısın",
+	"offlineBody": "Bağlantını denetle ve tekrar dene.",
+	"changeStatus": "Durumu değiştir",
+	"tracking": "İzleme",
+	"noEpisodesAvailableFromThisSource": "Bu kaynaktan bölüm yok",
+	"noEpisodesMatchYourSearch": "Aramana uyan bölüm yok",
+	"everyChapterIsAlreadyDownloaded": "Her bölüm zaten indirilmiş",
+	"downloadChapters": "Bölümleri indir",
+	"thisWillTakeAWhileAndUseALotOfStorage": "Bu biraz sürer ve çok yer kaplar",
+	"findEpisode": "Bölüm bul",
+	"refreshChapters": "Bölümleri yenile",
+	"refreshEpisodes": "Bölümleri yenile",
+	"seasons": "Sezonlar",
+	"goToEpisode": "Bölüme git",
+	"episodeNumber": "Bölüm numarası",
+	"cancelDownload": "İndirmeyi iptal et",
+	"downloaded": "İndirildi",
+	"downloadChapter": "Bölümü indir",
+	"deleteDownload": "İndirmeyi sil",
+	"resumeDownload": "İndirmeye devam et",
+	"status": "Durum",
+	"year": "Yıl",
+	"studio": "Stüdyo",
+	"genres": "Türler",
+	"synopsis": "Konu",
+	"readMore": "Devamını oku",
+	"downloadChooseServer": "İndir · sunucu seç",
+	"noDownloadSourcesFound": "İndirme kaynağı bulunamadı",
+	"audio": "Ses",
+	"noEpisodesMatch": "Eşleşen bölüm yok",
+	"selectEpisodes": "Bölüm seç",
+	"startFrom": "Buradan başla",
+	"jumpToEpisode2": "Bölüme atla",
+	"downloadEpisodes": "Bölümleri indir",
+	"noEpisodes": "Bölüm yok",
+	"dub2": "dublaj",
+	"autoBestAvailable": "Otomatik · en iyisi",
+	"linksReloaded": "Bağlantılar yenilendi",
+	"noSourcesFoundForThisEpisode": "Bu bölüm için kaynak bulunamadı",
+	"starring": "Oyuncular",
+	"creators": "Yaratıcılar",
+	"notify": "Bildir",
+	"stopAlerts": "Uyarıları durdur",
+	"trackedEditStatusScoreProgress": "İzleniyor — durum, puan ve ilerlemeyi düzenle",
+	"openSourceSite": "Kaynak sitesini aç",
+	"signInToSource": "Oturum aç",
+	"welcomeBack": "Tekrar hoş geldin",
+	"signInToSyncYourListAcrossDevices": "Listeni cihazlar arasında eşitlemek için oturum aç.",
+	"logIn": "Giriş yap",
+	"passwordMustBeAtLeast8Characters": "Şifre en az 8 karakter olmalı",
+	"createAccount": "Hesap oluştur",
+	"saveYourListAndContinueWatchingAnywhere": "Listeni kaydet, her yerden izlemeye devam et.",
+	"notSignedIn": "Oturum açık değil",
+	"haveTheApp": "Uygulamayı indirdin mi?",
+	"openZangetsuOnYourNphoneAndScan": "Telefonunda Zangetsu'yu aç ve tara",
+	"noApp": "Uygulama yok mu?",
+	"resetPassword": "Şifreyi sıfırla",
+	"youExampleCom": "sen@ornek.com",
+	"sendLink": "Bağlantı gönder",
+	"email": "E-posta",
+	"password": "Şifre",
+	"forgotPassword": "Şifreni mi unuttun?",
+	"name": "Ad",
+	"password8Characters": "Şifre (8+ karakter)",
+	"editName": "Adı düzenle",
+	"yourName": "Adın",
+	"couldnTUpdateYourName": "Adın güncellenemedi",
+	"pairATV": "TV'yi eşle",
+	"addPhoto": "Fotoğraf ekle",
+	"backUpBeforeLoggingOut": "Çıkmadan önce yedeklensin mi?",
+	"logOutAnyway": "Yine de çık",
+	"reconnect": "Yeniden bağlan",
+	"signInWithYourPhone": "Telefonunla oturum aç",
+	"onTheZangetsuAppOnYourPhoneOpenNPairATVAndEnterThisCodeOrScanTheQR": "Telefonundaki Zangetsu uygulamasında \"TV'yi eşle\" ekranını aç ve bu kodu gir — ya da QR kodunu tara.",
+	"signingIn": "Oturum açılıyor…",
+	"getANewCode": "Yeni kod al",
+	"sendTrackers": "İzleyicileri gönder",
+	"chooseTrackersToSend": "Gönderilecek izleyicileri seç",
+	"sendToTV": "TV'ye gönder",
+	"signInToYourAccountFirstNthenPairYourTV": "Önce hesabına oturum aç,\nsonra TV'ni eşle.",
+	"enterTheCodeFromYourTV": "TV'ndeki kodu gir",
+	"openZangetsuOnYourTVAndSignInWithYourPhoneToSeeIt": "TV'nde Zangetsu'yu aç ve görünmesi için telefonunla oturum aç.",
+	"abcd2345": "ABCD 2345",
+	"thisTVWillSignIntoYourAccountYouCanSignItOutLater": "Bu TV hesabına oturum açacak. Daha sonra oturumu kapatabilirsin.",
+	"alsoSendYourTrackersAniListMyAnimeListSimkl": "İzleyicilerini de gönder (AniList, MyAnimeList, Simkl)",
+	"yourTVIsSignedIn": "TV'n oturum açtı",
+	"itShouldSwitchToYourAccountInAMoment": "Kısa süre içinde hesabına geçecek.",
+	"backedUpToCloud": "Buluta yedeklendi",
+	"couldnTSaveTheBackupFileStoragePermissionMayBeNeeded": "Yedek dosyası kaydedilemedi — depolama izni gerekebilir.",
+	"noCloudBackupFound": "Bulut yedeği bulunamadı",
+	"thatFileIsnTAValidBackup": "Bu dosya geçerli bir yedek değil.",
+	"pickABackup": "Bir yedek seç",
+	"couldnTReadThatBackupFile": "Bu yedek dosyası okunamadı.",
+	"restoreComplete": "Geri yükleme tamamlandı",
+	"reopenZangetsuToSeeRestoredLibrarySources": "Geri yüklenen kitaplığı ve kaynakları görmek için Zangetsu'yu yeniden aç.",
+	"saveToAFile": "Bir dosyaya kaydet",
+	"saveABackupFileToYourDownloadsFolder": "Yedek dosyasını İndirilenler klasörüne kaydet",
+	"backUpToCloud": "Buluta yedekle",
+	"saveACopyToYourAccountNeedsSignIn": "Hesabına bir kopya kaydet · oturum açman gerekir",
+	"restoreFromAFile": "Bir dosyadan geri yükle",
+	"pickABackupFileYouSavedEarlier": "Daha önce kaydettiğin bir yedek dosyası seç",
+	"restoreFromCloud": "Bulutdan geri yükle",
+	"bringBackYourLatestCloudBackup": "En son bulut yedeğini geri getir",
+	"episodesYouDownloadAppearHere": "İndirdiğin bölümler burada görünür",
+	"deleteAllEpisodes": "Tüm bölümleri sil",
+	"deleteAllDownloads": "Tüm indirilenler silinsin mi?",
+	"deleteAll": "Tümünü sil",
+	"changeDownloadFolder": "İndirme klasörünü değiştir",
+	"savingTo": "Şuraya kaydediliyor",
+	"needsAFileManagerAppOnTheTV": "TV'de bir dosya yöneticisi uygulaması gerekir",
+	"downloadLocation": "İndirme konumu",
+	"novelChaptersYouDownloadAppearHere": "İndirdiğin roman bölümleri burada görünür",
+	"stopDownloading": "İndirme durdurulsun mu?",
+	"keepGoing": "Devam et",
+	"stopAll": "Tümünü durdur",
+	"searchDownloads": "İndirilenlerde ara",
+	"deleteAllChapters": "Tüm bölümleri sil",
+	"deleteAllChapters2": "Tüm bölümler silinsin mi?",
+	"chapter": "Bölüm",
+	"downloadSettings": "İndirme ayarları",
+	"parallelDownloads": "Paralel indirme",
+	"connectionsPerDownload": "İndirme başına bağlantı",
+	"novels": "Romanlar",
+	"noDownloadsMatchYourSearch": "Aramana uyan indirme yok",
+	"collapseAll": "Tümünü daralt",
+	"requestedControl": "Kontrol istedi",
+	"noParticipantsYet": "Henüz katılımcı yok",
+	"guest": "Misafir",
+	"wantsControl": "Kontrol istiyor",
+	"giveControl": "Kontrolü ver",
+	"hostControlsPlayback": "Ev sahibi oynatmayı kontrol ediyor",
+	"requestControl": "Kontrol iste",
+	"inviteCopied": "Davet kopyalandı",
+	"roomChat": "Oda Sohbeti",
+	"noMessagesYet": "Henüz mesaj yok",
+	"message": "Mesaj…",
+	"invite": "Davet et",
+	"watchTogether": "Birlikte İzle",
+	"createARoom": "Oda oluştur",
+	"joinWithACode": "Kodla katıl",
+	"roomNotFound": "Oda bulunamadı",
+	"enterRoomCode": "Oda kodunu gir",
+	"eGABC234": "örn. ABC234",
+	"hostIsChoosing": "Ev sahibi seçiyor…",
+	"youLlStartWatchingAutomaticallyWhenTheHostPlaysSomething": "Ev sahibi bir şey oynattığında izlemeye otomatik başlayacaksın.",
+	"participants": "Katılımcılar",
+	"signInToUseWatchParty": "İzleme Partisi'ni kullanmak için oturum aç",
+	"youReAlreadyInAParty": "Zaten bir partidesin",
+	"watchTogether2": "Birlikte izle",
+	"createAPartyAndInviteFriendsOrJoinAnExistingOneWithACode": "Bir parti oluştur ve arkadaşlarını davet et, ya da bir kodla var olan bir partiye katıl.",
+	"aniyomiIsnTAvailableOnThisDevice": "Aniyomi bu cihazda kullanılamıyor.",
+	"installed": "Kuruldu",
+	"repositories": "Depolar",
+	"languages": "Diller",
+	"addAniyomiRepo": "Aniyomi deposu ekle",
+	"noAniyomiSourcesInstalled": "Kurulu Aniyomi kaynağı yok.",
+	"removeRepo": "Depo kaldırılsın mı?",
+	"noAniyomiReposAddedYetNPressAddAniyomiRepoToAddOne": "Henüz Aniyomi deposu eklenmedi.\nEklemek için \"Aniyomi deposu ekle\"ye bas.",
+	"addRepository": "Depo ekle",
+	"searchNovelSources": "Roman kaynaklarında ara",
+	"noSourcesInstalledYet": "Henüz kaynak kurulmadı.",
+	"addNovelRepo": "Roman deposu ekle",
+	"removeRepository": "Depoyu kaldır",
+	"noSourcesInThisRepo": "Bu depoda kaynak yok.",
+	"zangetsuProviders": "Zangetsu sağlayıcıları",
+	"addRepo": "Depo ekle",
+	"noProvidersInstalled": "Kurulu sağlayıcı yok.",
+	"noSourcesInThisRepoYet": "Bu depoda henüz kaynak yok.",
+	"leaveBlankToUseTheRepoSOwnName": "Deponun kendi adını kullanmak için boş bırak",
+	"addCloudStreamRepo": "CloudStream deposu ekle",
+	"noCloudStreamSourcesInstalled": "Kurulu CloudStream kaynağı yok.",
+	"cloudstream": "cloudstream",
+	"sourceSettings": "Kaynak ayarları",
+	"otherSettings": "Diğer ayarlar",
+	"otherSettingsSubtitle": "Bu kaynağın burada henüz gösteremediğimiz ayarları var",
+	"sourceDomain": "Kaynak alan adı",
+	"sourceDomainHint": "Kaynağın kendi alan adını kullanmak için boş bırak.",
+	"resetSourceDataConfirm": "{name} kaydedilmiş verisi sıfırlansın mı? Bu, kaydedilmiş ayarlarını, oturumunu ve çerezlerini temizler. Listen, geçmişin ve indirilenlerin etkilenmez.",
+	"@resetSourceDataConfirm": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeRepository2": "Depo kaldırılsın mı?",
+	"removeThisRepositoryAndItsSources": "Bu depo ve kaynakları kaldırılsın mı?",
+	"removed": "Çıkarıldı",
+	"alreadyUpToDate": "Zaten güncel",
+	"removeRepo2": "Depoyu kaldır",
+	"noInstallableSourcesFoundInThisRepo": "Bu depoda kurulabilir kaynak bulunamadı.",
+	"thisRemovesTheSourceFromYourInstalledList": "Bu, kaynağı kurulu listenin dışına çıkarır.",
+	"addCSRepo": "CS deposu ekle",
+	"cloudstreamIsnTAvailableOnThisDevice": "CloudStream bu cihazda kullanılamıyor.",
+	"checkUpdates": "Güncellemeleri denetle",
+	"pasteACloudStreamRepositoryURL": "Bir CloudStream depo URL'si yapıştır.",
+	"reTest": "Yeniden test et",
+	"noEnabledSourcesToTest": "Test edilecek etkin kaynak yok.",
+	"notSearched": "Aranmadı",
+	"thisSourceHasNoSettings": "Bu kaynağın ayarı yok",
+	"resetToDefaults": "Varsayılanlara sıfırla",
+	"providerSettings": "Sağlayıcı ayarları",
+	"openThisSourceSOwnSettingsEGServerLanguage": "Bu kaynağın kendi ayarlarını aç (örn. sunucu, dil)",
+	"addZangetsuRepo": "Zangetsu deposu ekle",
+	"theProviderWillBeRemovedFromYourInstalledSources": "Sağlayıcı kurulu kaynakların arasından çıkarılacak.",
+	"addMihonRepo": "Mihon deposu ekle",
+	"noMihonReposAddedYetNTapAddMihonRepoToAddOne": "Henüz Mihon deposu eklenmedi.\nEklemek için \"Mihon deposu ekle\"ye dokun.",
+	"n1Update": "1 güncelleme",
+	"noExtensionsFoundInThisRepo": "Bu depoda uzantı bulunamadı.",
+	"thisRemovesTheExtensionFromYourInstalledSources": "Bu, uzantıyı kurulu kaynakların arasından çıkarır.",
+	"noMihonSourcesInstalled": "Kurulu Mihon kaynağı yok.",
+	"noAniyomiReposAddedYetNTapAddAniyomiRepoToAddOne": "Henüz Aniyomi deposu eklenmedi.\nEklemek için \"Aniyomi deposu ekle\"ye dokun.",
+	"clearAll": "Tümünü temizle",
+	"nothingWatchedYet": "Henüz izlenen bir şey yok",
+	"nothingReadYet": "Henüz okunan bir şey yok",
+	"checkingForNewEpisodes": "Yeni bölümler aranıyor…",
+	"checkNow": "Şimdi denetle",
+	"turnOff": "Kapat",
+	"joinBetaUpdates": "Beta güncellemelerine katılınsın mı?",
+	"joinBeta": "Beta'ya katıl",
+	"whatSNew": "Yenilikler",
+	"categories": "Kategoriler",
+	"moviesSeries2": "Film/Dizi",
+	"longPressASourceToPinItToTheTop": "Bir kaynağı üste sabitlemek için uzun bas",
+	"searchSources": "Kaynaklarda ara",
+	"justLook": "Sadece göz at",
+	"moveProgressHere": "İlerlemeyi buraya taşı",
+	"newAniListList": "Yeni AniList listesi",
+	"rewatchingFavourites": "Tekrar izleme, Favoriler, …",
+	"anilistCustomLists": "AniList özel listeleri",
+	"savedToYourAniListAccount": "AniList hesabına kaydedildi",
+	"newList": "Yeni liste",
+	"createsItOnAniList": "AniList'de oluşturur",
+	"yourTrackersDisagree": "İzleyicilerin anlaşmıyor",
+	"applyingSetsThemAllToTheNumberBelow": "Uygulamak hepsini aşağıdaki sayıya ayarlar.",
+	"wrongTitleChangeMatch": "Yanlış başlık mı? Eşleşmeyi değiştir",
+	"searchTheCorrectTitle": "Doğru başlığı ara…",
+	"noMatchesFound": "Eşleşme bulunamadı",
+	"removeFromMyList": "My List'ten çıkar",
+	"details": "Ayrıntılar",
+	"noDescriptionAvailable": "Açıklama yok.",
+	"playWith": "Şununla oynat…",
+	"playMirror": "Aynayı oynat",
+	"chooseTheSourceBeforeItStarts": "Başlamadan önce kaynağı seç",
+	"reloadLinks": "Bağlantıları yenile",
+	"fetchFreshStreamsIfPlaybackKeepsFailing": "Oynatma sürekli başarısız olursa yeni akışlar getir",
+	"alsoUpdatesYourConnectedTrackers": "Bağlı izleyicilerini de günceller",
+	"markThisAndAllAboveAsWatched": "Bunu ve üsttekilerin tümünü izlendi işaretle",
+	"playThisEpisodeWith": "Bu bölümü şununla oynat",
+	"builtInPlayer": "Yerleşik oynatıcı",
+	"otherApps": "Diğer uygulamalar",
+	"seeAll2": "Tümünü Gör",
+	"webView": "WebView",
+	"openInBrowser": "Tarayıcıda aç",
+	"markAsRead": "Okundu işaretle",
+	"copyLink": "Bağlantıyı kopyala",
+	"removeTracking": "İzlemeyi kaldır",
+	"noTrackersConnectedNConnectOneInSettingsConnections": "Bağlı izleyici yok.\nAyarlar → Bağlantılar'dan birine bağlan.",
+	"syncAllAtOnce": "Hepsini bir kerede eşitle",
+	"addTracking": "İzlemeye ekle",
+	"addToYourList": "Listene ekle",
+	"removeFromList": "Listeden çıkar",
+	"customLists": "Özel listeler",
+	"notInAny": "Hiçbirinde değil",
+	"status2": "DURUM",
+	"applyChanges": "Değişiklikleri uygula",
+	"navigationBar": "Gezinme çubuğu",
+	"navigationBarSubtitle": "Hangi sekmeler görünsün ve sıralaması ne olsun",
+	"connectedCount": "{count} bağlı",
+	"@connectedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"syncLibraryAlreadySynced": "Kitaplığın zaten bu hesaba eşitlenmiş.",
+	"syncLibraryPushed": "{history} geçmiş ve {list} liste öğesi hesabına eşitlendi.",
+	"@syncLibraryPushed": {
+		"placeholders": {
+			"history": {
+				"type": "int"
+			},
+			"list": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsOnBar": "Çubukta · {count}/{max}",
+	"@navTabsOnBar": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"max": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeAirsIn": "B {episode} · {when} içinde",
+	"@episodeAirsIn": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			},
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"duration": "Süre",
+	"score": "Puan",
+	"popularity": "Popülerlik",
+	"sourceMaterial": "Kaynak eser",
+	"country": "Ülke",
+	"aired": "Yayınlandı",
+	"nativeTitle": "Yerel başlık",
+	"alsoKnownAs": "Şu adlarla bilinir",
+	"tags": "Etiketler",
+	"showSpoilerTags": "{count, plural, one{# spoiler etiketi göster} other{# spoiler etiketi göster}}",
+	"@showSpoilerTags": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsSwitcher": "Mod değiştirici",
+	"navTabsSwitcherWhy": "Ortadaki yeri alır",
+	"navTabsOpensOn": "Açılışta açılır",
+	"navTabsNotShown": "Gösterilmez",
+	"navTabsEveryTabOnBar": "Her sekme çubukta.",
+	"searchMovesToHomeInZMode": "Z Mode'da arama, Ana sayfanın en üstüne taşınır.",
+	"navTabsHelp": "Sıralamak için sürükle. Çubuğa {minTabs}–{maxTabs} sekme sığar; mod değiştirici ortadaki yeri alır.\n\nProfil sabitlenir, çünkü Ayarlar'a giden tek yol odur — gizlersen bu ekrana dönecek yol kalmaz. Yayın akışı yalnızca Yayın modunda görünür; okurken gösterilecek bir yayın akışı yoktur.",
+	"@navTabsHelp": {
+		"placeholders": {
+			"minTabs": {
+				"type": "int"
+			},
+			"maxTabs": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsStreamingOnly": "Yalnızca Yayın",
+	"navTabsRemove": "Çıkar",
+	"navTabsKeepMinTabs": "En az {min} sekme kalsın",
+	"@navTabsKeepMinTabs": {
+		"placeholders": {
+			"min": {
+				"type": "int"
+			}
+		}
+	},
+	"navTabsAdd": "Ekle",
+	"navTabsBarFull": "Çubuk dolu",
+	"filterShowResults": "{count, plural, one{# sonuç göster} other{# sonuç göster}}",
+	"@filterShowResults": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addedCloudStreamSourcesCount": "Eklendi — {count} CloudStream kaynağı kullanılabilir",
+	"@addedCloudStreamSourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"failedToAddRepository": "Depo eklenemedi: {error}",
+	"@failedToAddRepository": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"repositoryUrlLabel": "Depo URL'si",
+	"noResultsFor": "\"{query}\" için sonuç yok",
+	"@noResultsFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"yourSavedTitles": "Kaydettiğin diziler",
+	"myListPlusTrackers": "My List + {count} {count, plural, one{İzleyici} other{İzleyici}}",
+	"@myListPlusTrackers": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sort": "Sırala",
+	"giveItAName": "Bir ad ver",
+	"youAlreadyHaveThatOne": "Böyle bir tane zaten var",
+	"thatNameIsTaken": "Bu ad alınmış",
+	"notConnected": "Bağlı değil",
+	"connectedWithViewer": "Bağlandı · {name}",
+	"@connectedWithViewer": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"allTypes": "Tüm türler",
+	"nothingHereInThisFilter": "Bu filtrede hiçbir şey yok",
+	"noMangaHereInThisFilter": "Bu filtrede manga yok",
+	"noNovelsHereInThisFilter": "Bu filtrede roman yok",
+	"mangaYouAddAppearHere": "Eklediğin manga burada görünür",
+	"novelsYouAddAppearHere": "Eklediğin romanlar burada görünür",
+	"relations": "İlişkiler",
+	"characters": "Karakterler",
+	"noCastInformation": "Oyuncu bilgisi yok",
+	"noRelatedTitles": "İlgili başlık yok",
+	"markedAsWatched": "İzlenildi olarak işaretlendi",
+	"markedUnwatched": "İzlenmedi olarak işaretlendi",
+	"markedEpisodesAsWatched": "{count} bölüm izlendi olarak işaretlendi",
+	"@markedEpisodesAsWatched": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"openInBrowserSubtitle": "Bu bölümü kaynağın kendi sitesinde oku",
+	"readingSettings": "Okuma ayarları",
+	"markedAsRead": "Okundu olarak işaretlendi",
+	"markedUnread": "Okunmadı olarak işaretlendi",
+	"markedChaptersAsRead": "{count} bölüm okundu olarak işaretlendi",
+	"@markedChaptersAsRead": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadChaptersQuestion": "{count} bölüm indirilsin mi?",
+	"@downloadChaptersQuestion": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"cachedSourceJsFiles": "Önbelleğe alınmış kaynak .js dosyaları",
+	"disconnectTrackerQuestion": "{name} bağlantısı kesilsin mi?",
+	"@disconnectTrackerQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerDisconnectBody": "Otomatik eşitleme durur. {name} hesabın değişmez — istediğin zaman yeniden bağlanabilirsin.",
+	"@trackerDisconnectBody": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectedAs": "{name} olarak bağlandı",
+	"@connectedAs": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"trackerConnectionCanceled": "{name} bağlantısı iptal edildi",
+	"@trackerConnectionCanceled": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectTracker": "{name} bağla",
+	"@connectTracker": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectingEllipsis": "Bağlanıyor…",
+	"updateTrackerAsYouWatch": "İzledikçe {name} hesabını güncelle",
+	"@updateTrackerAsYouWatch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"findingTitle": "\"{title}\" aranıyor…",
+	"@findingTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleIsntOnThisSource": "\"{title}\" bu kaynakta yok",
+	"@titleIsntOnThisSource": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"couldntOpenTitle": "\"{title}\" açılamadı",
+	"@couldntOpenTitle": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"noWebPageForThisSource": "Bu kaynak için web sayfası yok",
+	"couldNotOpenSourceSite": "Kaynak sitesi açılamadı",
+	"notificationsOffFor": "\"{title}\" için bildirimler kapalı",
+	"@notificationsOffFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewEpisodesFor": "\"{title}\" için yeni bölümlerde haber vereceğiz",
+	"@youllBeNotifiedOfNewEpisodesFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"youllBeNotifiedOfNewChaptersFor": "\"{title}\" için yeni bölümlerde haber vereceğiz",
+	"@youllBeNotifiedOfNewChaptersFor": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"external": "Harici",
+	"episodeLabel": "Bölüm {number}",
+	"@episodeLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSeasonEpisode": "S{season}:E{episode} indir",
+	"@downloadSeasonEpisode": {
+		"placeholders": {
+			"season": {
+				"type": "int"
+			},
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadEpisodeLabel": "E{episode} indir",
+	"@downloadEpisodeLabel": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"continueLabel": "Devam et",
+	"continueEpisode": "E{episode} devam et",
+	"@continueEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"noEpisodesToDownload": "İndirilecek bölüm yok",
+	"addedToDownloads": "İndirilenlere eklendi",
+	"downloadingNEpisodes": "{count} bölüm indiriliyor",
+	"@downloadingNEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"addToMyList": "My List'e ekle",
+	"notifyOnNewChapters": "Yeni bölümlerde haber ver",
+	"notifyOnNewEpisodes": "Yeni bölümlerde haber ver",
+	"syncStatusScoreProgress": "Durum, puan ve ilerlemeyi eşitle",
+	"seasonCount": "{count} Sezon",
+	"@seasonCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeCount": "{count, plural, one{1 Bölüm} other{{count} Bölüm}}",
+	"@episodeCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterCount": "{count, plural, one{1 Bölüm} other{{count} Bölüm}}",
+	"@chapterCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"thisSourceNeedsSpecialHeadersUsingBuiltIn": "Bu kaynak, harici oynatıcının gönderemeyeceği özel başlıklar istiyor — yerleşik oynatıcı kullanılıyor.",
+	"timerMinutes": "{count} dakika",
+	"@timerMinutes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"couldNotLoadSubtitle": "Altyazı yüklenemedi: {error}",
+	"@couldNotLoadSubtitle": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"speed": "Hız",
+	"styledSubtitlesLibassSubtitle": "Gerçek .ass biçimlendirme — işaretler, karaoke. Uygulamak için bölümü yeniden aç.",
+	"couldntDownloadFile": "{file} indirilemedi",
+	"@couldntDownloadFile": {
+		"placeholders": {
+			"file": {
+				"type": "String"
+			}
+		}
+	},
+	"audioNormalizationSubtitle": "Ses seviyesini dengeler — kısık diyaloğu yükseltir, yüksek sahneleri dizginler",
+	"playbackSpeed": "Oynatma Hızı",
+	"quality": "Kalite",
+	"sources": "Kaynaklar",
+	"normalSpeed": "Normal",
+	"subtitles": "Altyazılar",
+	"preferredLanguageColon": "Tercih edilen dil: {name}",
+	"@preferredLanguageColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"nextCount": "Sonraki {count}",
+	"@nextCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"allCount": "Tümü {count}",
+	"@allCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"notSavedCount": "{count} kaydedilmedi",
+	"@notSavedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"airsIn": "yayınlanıyor: ",
+	"selectAll": "Tümünü seç",
+	"best": "En iyi",
+	"direct": "Doğrudan",
+	"hls": "HLS",
+	"serverWithHost": "Sunucu {number} · {host}",
+	"@serverWithHost": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"host": {
+				"type": "String"
+			}
+		}
+	},
+	"serverNumber": "Sunucu {number}",
+	"@serverNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadCountEpisodes": "{count, plural, one{1 bölüm indir} other{{count} bölüm indir}}",
+	"@downloadCountEpisodes": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterOneAtATimeWarning": "Bu işlem bölümleri tek tek yapar ve uzun sürebilir. İndirilenler ekranından durdurabilirsin.",
+	"queuedChapters": "{count, plural, one{1 bölüm} other{{count} bölüm}} kuyrukta",
+	"@queuedChapters": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"seasonNumber": "Sezon {number}",
+	"@seasonNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"listView": "Liste görünümü",
+	"gridView": "Izgara görünümü",
+	"refreshingChapters": "Bölümler yenileniyor…",
+	"refreshingEpisodes": "Bölümler yenileniyor…",
+	"chapterLabel": "Bölüm {number}",
+	"@chapterLabel": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"continueBadge": "DEVAM ET",
+	"fillerBadge": "FILLER",
+	"downloadUnsupported": "İndirme desteklenmiyor",
+	"retryDownload": "İndirmeyi yeniden dene",
+	"downloadEpisode": "Bölümü indir",
+	"pauseDownload": "İndirmeyi duraklat",
+	"fromEpisode": "E{episode} bölümünden",
+	"@fromEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitle": "E{number}  ·  {title}",
+	"@episodeWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"episodeNumberShort": "E{number}",
+	"@episodeNumberShort": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeRange": "E{first} – E{last}",
+	"@episodeRange": {
+		"placeholders": {
+			"first": {
+				"type": "int"
+			},
+			"last": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemanticWithTitle": "Bölüm {number}, {title}",
+	"@episodeSemanticWithTitle": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"searchColon": "Arama: {query}",
+	"@searchColon": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"decoderColon": "Çözücü · {label}",
+	"@decoderColon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"megaSkipDuration": "MegaSkip süresi",
+	"settingsTooltip": "Ayarlar",
+	"episodeCountWithRange": "{count, plural, one{1 bölüm} other{{count} bölüm}} · {range}",
+	"@episodeCountWithRange": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"range": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceTimedOut": "Zaman aşımı",
+	"blockedByTheSite": "Site tarafından engellendi",
+	"sourceCouldntBeReached": "Ulaşılamadı",
+	"thatSourceCouldNotBeReached": "O kaynağa ulaşılamadı",
+	"noSourceCouldBeReached": "Hiçbir kaynağa ulaşılamadı",
+	"andNMore": "ve {count} tane daha",
+	"@andNMore": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"tryClearingYourFiltersOrSearchDifferentTitle": "Filtrelerini temizlemeyi ya da farklı bir başlık aramayı dene.",
+	"noModeSourcesYet": "Henüz {mode} kaynağı yok",
+	"@noModeSourcesYet": {
+		"placeholders": {
+			"mode": {
+				"type": "String"
+			}
+		}
+	},
+	"browseRepositories": "Depolara göz at",
+	"filteredSource": "Filtreli · {source}",
+	"@filteredSource": {
+		"placeholders": {
+			"source": {
+				"type": "String"
+			}
+		}
+	},
+	"turnAllOn": "Tümünü aç",
+	"sortUpper": "SIRALA",
+	"typeUpper": "TÜR",
+	"audioUpper": "SES",
+	"genreUpper": "TÜR",
+	"movieLabel": "Film",
+	"speakTheTitle": "Başlığı oku",
+	"signedIn": "Oturum açıldı",
+	"syncYourListNav": "Listeni eşitle",
+	"sourceNavLabel": "KAYNAK",
+	"activeSourceHint": "geçerli",
+	"clearKindHistoryTitle": "{kind} geçmişi temizlensin mi?",
+	"@clearKindHistoryTitle": {
+		"placeholders": {
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"clearKindHistoryBody": "Bu, {kind} geçmişindeki her {noun} kaydını kaldırır. Diğer geçmişin, listen ve indirilenlerin etkilenmez.",
+	"@clearKindHistoryBody": {
+		"placeholders": {
+			"noun": {
+				"type": "String"
+			},
+			"kind": {
+				"type": "String"
+			}
+		}
+	},
+	"showsYouWatchWillAppearHere": "İzlediğin diziler burada görünür, kaldığın yerden devam edebilesin.",
+	"mangaYouReadWillAppearHere": "Okuduğun manga burada görünür, kaldığın yerden devam edebilesin.",
+	"novelsYouReadWillAppearHere": "Okuduğun romanlar burada görünür, kaldığın yerden devam edebilesin.",
+	"episodeWatchedPct": "Bölüm {number} · % {percent} izlendi",
+	"@episodeWatchedPct": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"percentWatched": "% {percent} izlendi",
+	"@percentWatched": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"addSourceFromProvidersHint": "Sağlayıcılardan bir kaynak ekle, {content} burada görünür.",
+	"@addSourceFromProvidersHint": {
+		"placeholders": {
+			"content": {
+				"type": "String"
+			}
+		}
+	},
+	"continueDotEpisode": "Devam et · E{episode}",
+	"@continueDotEpisode": {
+		"placeholders": {
+			"episode": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceNameItemCount": "{name}  ·  {count}",
+	"@sourceNameItemCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"sourceCountBadge": "{sourceName} {count}",
+	"@sourceCountBadge": {
+		"placeholders": {
+			"sourceName": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"logOutQuestion": "Çıkılsın mı?",
+	"contentShows": "diziler",
+	"contentManga": "manga",
+	"contentNovels": "romanlar",
+	"historyKindWatch": "izleme",
+	"historyKindManga": "manga",
+	"historyKindNovel": "roman",
+	"historyNounShow": "dizi",
+	"historyNounMangaItem": "manga",
+	"historyNounNovelItem": "roman",
+	"qualityAndAudio": "Kalite ve ses",
+	"sectionPlayer": "Oynatıcı",
+	"sectionGestures": "Hareketler",
+	"sectionCache": "Önbellek",
+	"gestures": "Hareketler",
+	"cache": "Önbellek",
+	"social": "Sosyal",
+	"appSection": "Uygulama",
+	"team": "Ekip",
+	"communityContributors": "Topluluk Katkıcıları",
+	"accentColour": "Vurgu rengi",
+	"display": "Ekran",
+	"appIcon": "Uygulama simgesi",
+	"splashStyle": "Açılış",
+	"splashStyleBlurb": "Uygulama açılırken ne görünür.",
+	"currentLocation": "Geçerli konum",
+	"availableDrives": "Kullanılabilir sürücüler",
+	"dataSection": "Veri",
+	"modeLabel": "Mod",
+	"tapAZoneToChangeIt": "Değiştirmek için bir bölgeye dokun",
+	"supportTitle": "Destek",
+	"enjoyingApp": "{appName} hoşuna gitti mi?",
+	"@enjoyingApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"donateBlurb": "{appName} ücretsiz ve reklamsız. Ana ekranında yerini hak ettiyse küçük bir bahşiş büyümesini sağlar — yeni özellikler, hata düzeltmeleri ve daha hızlı güncellemeler. Her yardım gerçekten işe yarıyor. Teşekkürler! ♥",
+	"@donateBlurb": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"upiIdCopied": "UPI kimliği kopyalandı",
+	"upiIndia": "UPI · Hindistan",
+	"askBeforeJumpingSubtitle": "Kaldığın yer dışında bir şey açmak, ilerlemeni bozmadan önce bakmayı teklif eder",
+	"autoTrackSubtitle": "İzledikçe AniList, MyAnimeList ve Simkl güncellenir. Kapalıyken bir diziyi elle de izleyebilirsin",
+	"closeConfirmationAsk": "Oynatıcıdan çıkmadan önce sor",
+	"closeConfirmationDirect": "Hemen çık",
+	"closeConfirmationDoubleBack": "Çıkmak için geri tuşuna iki kez bas",
+	"autoSkipFillerSubtitle": "Sonraki bölüme geçerken filler'ı atla (yalnızca anime)",
+	"playTrailersInHDSubtitle": "Mümkün olduğunda 1080p'ye kadar — yoksa standarta düşer. Daha fazla veri kullanır",
+	"nativeTvPlayerSubtitle": "Önerilir. Yalnızca eski oynatıcıyı tercih ediyorsan kapat",
+	"softwareAudioSubtitle": "Yalnızca Dolby/DTS sesi yoksa aç — bazı TV'lerde kararsız olabilir",
+	"playerInfoOff": "Kapalı",
+	"playerInfoFieldsCount": "{count} alan (ⓘ düğmesi)",
+	"@playerInfoFieldsCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadingPercent": "İndiriliyor… %{percent}",
+	"@downloadingPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"tapToDownloadShaders": "İndirmek için dokun (~0.8 MB)",
+	"noOtherVideoAppsFound": "Başka video uygulaması bulunamadı. MX Player, VLC, mpv, Just Player veya Next Player kur.",
+	"externalApp": "Harici uygulama",
+	"noSubsResumeSuffix": " ·  altyazı/kaldığı yer yok",
+	"pickWhatShowsOverVideo": "Videonun üzerinde ne gösterilsin (kontrollerle birlikte görünür). YouTube'daki \"Stats for nerds\" gibi.",
+	"styledSubtitlesLibassSubtitlePlayback": "Gerçek .ass biçimlendirme — yazı tipleri, konumlar, karaoke, işaretler. Anime için en iyisi. Sonraki bölümden itibaren geçerlidir.",
+	"subtitleStyleSubtitle": "Yazı tipi, renk, kenar çizgisi, saydamlık, boyut, konum — canlı önizlemeyle",
+	"keySavedOnlineSearchEnabled": "Anahtar kaydedildi — çevrimiçi arama açık",
+	"incognitoModeBlurb": "Açıkken aramalar, izleme geçmişi, izleyici kaydı ve Discord durumu duraklar — kapatana kadar hiçbir şey kaydedilmez.",
+	"enableNsfwSourcesBody": "Bu, 18+ olarak işaretli kaynakları kaynak listesinde ve değiştiricide gösterir. Yetişkin içerik istiyorsan yalnızca o zaman aç.",
+	"showNsfwAniyomiSourcesBody": "Bu, 18+ olarak işaretli Aniyomi uzantılarını kaynak listesinde ve değiştiricide gösterir. Yetişkin içerik istiyorsan yalnızca o zaman aç.",
+	"sourcesMarked18Hidden": "18+ olarak işaretli kaynaklar, bu açık değilse kaynak listesinde ve değiştiricide gizli kalır.",
+	"syncProgressAsYouWatch": "İzledikçe ilerlemeyi eşitle",
+	"connectionsBlurb": "İzleme ilerlemesini ve liste durumunu hesaplarına eşitle. Anime üçüne de, filmler ve diziler yalnızca Simkl'a eşitlenir.",
+	"connectDiscord": "Discord'a bağlan",
+	"signInSoYourStatusCanShow": "Durumun profilinde görünebilsin diye oturum aç",
+	"disconnectDiscordBody": "Rich Presence durur ve belirtecin bu cihazdan kaldırılır. Discord hesabın değişmez — istediğin zaman yeniden bağlanabilirsin.",
+	"discordPresenceBlurb": "Uygulama açıkken Discord profilinde \"X izleniyor • Bölüm N\" (ve ne gözdüğünü) gösterir. Discord oturumunu kullanır, yalnızca bu cihazda saklanır. İstediğin zaman kapat.",
+	"github": "GitHub",
+	"telegram": "Telegram",
+	"accentColourBlurb": "Düğmelerde, etiketlerde, ilerlemede ve seçili öğelerde kullanılan vurgu rengi.",
+	"appIconBlurb": "Ana ekranındaki simge. Simgeyi değiştirince Zangetsu kapanır — Android başlatıcı girdisini değiştirmeli.",
+	"useTheIcon": "{label} simgesi kullanılsın mı?",
+	"@useTheIcon": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"useTheIconBody": "Android yeni simgeyi uygulayabilsin diye Zangetsu kapanacak. Sonra ana ekranından yeniden aç.\n\nZangetsu bir klasörde ya da uygulama çubuğundaysa yeniden eklemen gerekebilir.",
+	"animRise": "Yüksel",
+	"animRiseDesc": "Yukarı kalkar ve belirir",
+	"animFade": "Belir",
+	"animFadeDesc": "Hareketsizce belirir",
+	"animZoom": "Yakınlaş",
+	"animZoomDesc": "Belirirken büyür",
+	"usedInVerticalMode": "Bölümün tek bir sürekli şerit olduğu dikey modda kullanılır.",
+	"usedWhenPagesTurn": "Sayfalar sağa sola dönerken kullanılır. Sağdan sola modda iki sayfalama bölgesi yer değiştirir.",
+	"openPullRequestOnGitHub": "GitHub'da bir pull request aç, adın burada otomatik görünür.",
+	"onThisDevice": "Bu cihazda",
+	"newDownloadsSaveHere": "Yeni indirmeler buraya kaydedilir. Zaten tamamlanmış indirmeler yerinde kalır.",
+	"torrentsOffWifiBlurb": "Kapalı = torrentler yalnızca Wi-Fi'de çalışır (mobil veriden tasarruf). Torrent yayınlamak çok veri harcar.",
+	"everyControlIsOnABar": "Her kontrol bir çubukta.",
+	"nothingHereMoveControl": "Burada hiçbir şey yok — bir kontrolü Taşı ile buraya getir.",
+	"playerControlsHelp": "Bir çubuk içinde sıralamak için sürükle. Bir kontrolü başka yere göndermek için Taşı'yı kullan. Gizlenen kontroller oynatıcı içindeki ⋮ Daha fazla menüsünde hâlâ bulunur.\n\nGeri, Kilitle ve Ayarlar üst çubukta sabittir ve dizi başlığı da o satırı paylaşır — oraya ne çok koyarsan başlığa o kadar az yer kalır.",
+	"topBarFull": "{label} (dolu)",
+	"@topBarFull": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"apiKeyLabel": "API anahtarı",
+	"secondsShort": "{count}sn",
+	"@secondsShort": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"gotIt": "Anladım",
+	"signInToAction": "{action} için oturum aç",
+	"@signInToAction": {
+		"placeholders": {
+			"action": {
+				"type": "String"
+			}
+		}
+	},
+	"cloudBackupFailed": "Bulut yedeği başarısız. Çevrimiçi olduğunu denetle — hâlâ başarısızsa bulut yedeği deposu henüz kurulmamış olabilir.",
+	"savedToDownloadsZangetsu": "İndirilenler › Zangetsu'ya kaydedildi",
+	"restoreFailed": "Geri yükleme başarısız: {error}",
+	"@restoreFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noBackupFilesOnDevice": "Bu cihazda yedek dosyası bulunamadı. Önce bir tane kaydet ya da \"Buluttan geri yükle\"'yi kullan.",
+	"backupScreenBlurb": "Kaynaklarını, listeni ve ayarlarını kaydet — cihazındaki bir dosyaya ya da Zangetsu hesabına. Geri yükleme yalnızca geri ekler; elinde olanları asla silmez.",
+	"includeInTheBackup": "Yedeğe dahil et",
+	"sourcesAndRepos": "Kaynaklar ve depolar",
+	"installedSourcesAndRepoLinks": "Kurulu kaynaklar ve depo bağlantıları",
+	"libraryBundle": "Kitaplık",
+	"myListAndContinueWatching": "My List ve İzlemeye Devam Et",
+	"appSettingsBundle": "Uygulama ayarları",
+	"playerSubtitlesQualityPreferences": "Oynatıcı, altyazılar, kalite ve tercihler",
+	"lastCloudBackup": "Son bulut yedeği: {when}",
+	"@lastCloudBackup": {
+		"placeholders": {
+			"when": {
+				"type": "String"
+			}
+		}
+	},
+	"never": "hiç",
+	"restoredColon": "Geri yüklendi: {names}.",
+	"@restoredColon": {
+		"placeholders": {
+			"names": {
+				"type": "String"
+			}
+		}
+	},
+	"couldnTReinstall": "Yeniden kurulamadı:\n{failures}",
+	"@couldnTReinstall": {
+		"placeholders": {
+			"failures": {
+				"type": "String"
+			}
+		}
+	},
+	"onLatestVersion": "En son sürümdesin{versionSuffix}.",
+	"@onLatestVersion": {
+		"placeholders": {
+			"versionSuffix": {
+				"type": "String"
+			}
+		}
+	},
+	"joinBetaUpdatesBody": "Sürüm öncesi derlemeleri erkenden alırsın. Kararsız olabilirler — biri takılırsa bunu kapat, bir sonraki güncellemede kararlı sürüme dönersin. İstediğin zaman ayrılabilirsin.",
+	"betaUpdateAvailable": "Beta güncellemesi var",
+	"updateAvailable": "Güncelleme var",
+	"startingInstaller": "Kurulum sihirbazı başlatılıyor…",
+	"couldnTOpenInstaller": "Kurulum sihirbazı açılamadı. Sistem ayarlarında Zangetsu için \"Bilinmeyen uygulamaları yükle\"yi etkinleştir, sonra tekrar dene.",
+	"downloadFailedCheckConnection": "İndirme başarısız — bağlantını denetle ve tekrar dene.",
+	"libraryIsntSavedReconnect": "Kitaplığın henüz buluta kaydedilmedi, bu yüzden çıkınca bu cihazdan silinecek. Önce yedeklemek için yeniden bağlanılsın mı?",
+	"sessionExpiredEnterPassword": "Oturumun sona erdi. {account} hesabına yeniden bağlanıp kitaplığını eşitlemek için şifreni gir.",
+	"@sessionExpiredEnterPassword": {
+		"placeholders": {
+			"account": {
+				"type": "String"
+			}
+		}
+	},
+	"yourAccount": "hesabına",
+	"reconnecting": "Yeniden bağlanılıyor…",
+	"wrongPassword": "Yanlış şifre",
+	"trackersSynced": "İzleyiciler eşitlendi: {list}",
+	"@trackersSynced": {
+		"placeholders": {
+			"list": {
+				"type": "String"
+			}
+		}
+	},
+	"signInOnDevice": "{device} üzerinde oturum açılsın mı?",
+	"@signInOnDevice": {
+		"placeholders": {
+			"device": {
+				"type": "String"
+			}
+		}
+	},
+	"thisTV": "bu TV",
+	"announcements": "Duyurular",
+	"subscribedShows": "Takip edilen diziler",
+	"noNotificationsYet": "Henüz bildirim yok.\nYeni bir bölüm çıktığında uyarı almak için bir dizideki zili aç.",
+	"hostBadge": "EV SAHİBİ",
+	"controlGivenTo": "Kontrol {name} kişisine verildi",
+	"@controlGivenTo": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"youReTheHost": "Ev sahibisin",
+	"couldnTCreateParty": "Parti oluşturulamadı: {error}",
+	"@couldnTCreateParty": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"series": "Diziler",
+	"movie": "Film",
+	"epWithTime": "B {episode} · {time}",
+	"@epWithTime": {
+		"placeholders": {
+			"episode": {
+				"type": "String"
+			},
+			"time": {
+				"type": "String"
+			}
+		}
+	},
+	"chooseChapterSemantic": "{title}, {subtitle}. Bölüm seç",
+	"@chooseChapterSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"subtitle": {
+				"type": "String"
+			}
+		}
+	},
+	"chapterProgress": "Bölüm {current} / {total}",
+	"@chapterProgress": {
+		"placeholders": {
+			"current": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterNumber": "Bölüm {number}",
+	"@chapterNumber": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"activeSourceColon": "Etkin kaynak: {name}",
+	"@activeSourceColon": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"settingsSemantic": "{name}, ayarlar",
+	"@settingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"enterTheCodeShownOnTV": "TV'nde gösterilen kodu gir.",
+	"codeNotFoundExpired": "Bu kod bulunamadı — süresi dolmuş olabilir.",
+	"alsoSendTrackers": "İzleyicilerini de gönder (AniList, MyAnimeList, Simkl)",
+	"scrollRowsOrSearch": "Ana sayfadaki satırları kaydır ya da alttaki Ara'ya dokun.",
+	"openTitleAndPlay": "Bir dizi aç ve Oynat'a dokun. Dizilerde önce bir bölüm seç.",
+	"switchSourceAtTop": "Üstteki kaynak adına dokun ve başka bir kaynağa geç.",
+	"tapDownloadForOffline": "Bir dizide İndir'e dokun — sonra İndirilenler'den izle.",
+	"faqSourceNotWorkingQ": "Bir kaynak çalışmıyor mu?",
+	"faqSourceNotWorkingA": "Kaynaklar gelip gider. Üstten kaynağı değiştir ya da Ayarlar → Kaynak durumu'na bak.",
+	"faqSubOrDubQ": "Altyazılı mı, dublaj mı?",
+	"faqSubOrDubA": "Anime başlıklarındaki Altyazı / Dublaj düğmesini kullan.",
+	"faqDownloadsQ": "İndirilenlerim nerede?",
+	"faqDownloadsA": "Ayarlar → İndirilenler — istediğin zaman çevrimdışı izle.",
+	"resetPasswordBody": "Hesabının e-postasını gir, yeni bir şifre belirlemek için bağlantı gönderelim.",
+	"couldnTSignIn": "Oturum açılamadı",
+	"aniyomi": "Aniyomi",
+	"mihon": "Mihon",
+	"lnreader": "LNReader",
+	"zangetsu": "Zangetsu",
+	"cloudStream": "CloudStream",
+	"installedCount": "{count} kurulu",
+	"@installedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"installedName": "{name} kuruldu",
+	"@installedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstalledName": "{name} kaldırıldı",
+	"@uninstalledName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removedName": "{name} çıkarıldı",
+	"@removedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updatedName": "{name} güncellendi",
+	"@updatedName": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"installFailed": "Kurulum başarısız: {error}",
+	"@installFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallFailed": "Kaldırma başarısız: {error}",
+	"@uninstallFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeFailed": "Çıkarma başarısız: {error}",
+	"@removeFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"updateFailed": "Güncelleme başarısız: {error}",
+	"@updateFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"checkFailed": "Denetim başarısız: {error}",
+	"@checkFailed": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"failedToAddRepo": "Depo eklenemedi: {error}",
+	"@failedToAddRepo": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"uninstallNameQuestion": "{name} kaldırılsın mı?",
+	"@uninstallNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"removeNameQuestion": "{name} çıkarılsın mı?",
+	"@removeNameQuestion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"updateNameToVersion": "{name}, v{version} sürümüne güncelle",
+	"@updateNameToVersion": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"updateArrowVersion": "Güncelle → v{version}",
+	"@updateArrowVersion": {
+		"placeholders": {
+			"version": {
+				"type": "String"
+			}
+		}
+	},
+	"repoBaseUrl": "Depo temel URL'si",
+	"repoBaseUrlHint": "https://.../repo",
+	"pluginIndexUrl": "Eklenti dizini URL'si",
+	"pluginIndexUrlHint": "https://.../plugins.min.json",
+	"manifestUrl": "Manifest URL'si",
+	"manifestUrlHint": "https://.../index.json",
+	"repoUrl": "Depo URL'si",
+	"repoUrlHint": "https://.../repo.json",
+	"customNameOptional": "Özel ad (isteğe bağlı)",
+	"leaveBlankToUseRepo": "Depoyu kullanmak için boş bırak",
+	"alreadyInstalledSourcesStay": "Bu depodan zaten kurulu olan kaynaklar kurulu kalır. ",
+	"alreadyInstalledExtensionsStay": "Bu depodan zaten kurulu olan uzantılar kurulu kalır. ",
+	"updateAllCount": "Tümünü güncelle ({count})",
+	"@updateAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"updatedSourcesCount": "{done} kaynak güncellendi{suffix}",
+	"@updatedSourcesCount": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"suffix": {
+				"type": "String"
+			}
+		}
+	},
+	"slow": "Yavaş",
+	"noResults": "Sonuç yok",
+	"timedOut": "Zaman aşımı",
+	"blocked": "Engelli",
+	"notUsable": "Kullanılamıyor",
+	"openThisSource": "Bu kaynağı aç",
+	"nameRemovedFromSearch": "{name} aramadan çıkarıldı",
+	"@nameRemovedFromSearch": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"connectLabel": "{label} bağla",
+	"@connectLabel": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"scanToLogInWith": "Tarayıcında {label} ile oturum açmak için\ntara",
+	"@scanToLogInWith": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"anilist": "AniList",
+	"myAnimeList": "MyAnimeList",
+	"simkl": "Simkl",
+	"code": "KOD",
+	"signInToBackUpToCloud": "buluta yedeklemek için",
+	"signInToRestoreFromCloud": "buluttan geri yüklemek için",
+	"signInToUseThis": "bunu kullanmak için",
+	"enabled": "Açık",
+	"disabled": "Kapalı",
+	"sourcesCount": "{count} kaynak",
+	"@sourcesCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"removeRepoSemantic": "{name}, depoyu kaldır",
+	"@removeRepoSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoDisplaySemantic": "{name}, ",
+	"@repoDisplaySemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"entryInstalledSemantic": "{name}, {state}",
+	"@entryInstalledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"repoSourcesCount": "{name}, {count} kaynak",
+	"@repoSourcesCount": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRefreshSemantic": "{name}, yenile",
+	"@repoRefreshSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"repoUpdateAllSemantic": "{name}, tümünü güncelle ({count})",
+	"@repoUpdateAllSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoRemoveSemantic": "{name}, çıkar",
+	"@repoRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUpdateSemantic": "{name}, güncelle",
+	"@sourceUpdateSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceUninstallSemantic": "{name}, kaldır",
+	"@sourceUninstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceInstallSemantic": "{name}, kur",
+	"@sourceInstallSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceSettingsSemantic": "{name}, ayarlar",
+	"@sourceSettingsSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceRemoveSemantic": "{name}, çıkar",
+	"@sourceRemoveSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"sourceEnabledSemantic": "{name}, {state}",
+	"@sourceEnabledSemantic": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			},
+			"state": {
+				"type": "String"
+			}
+		}
+	},
+	"titleInstalledCount": "{title}, {count} kurulu",
+	"@titleInstalledCount": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"titleCheckUpdatesSemantic": "{title}, güncellemeleri denetle",
+	"@titleCheckUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleRemoveRepoSemantic": "{title}, depoyu kaldır",
+	"@titleRemoveRepoSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"titleApplyUpdatesSemantic": "{title}, {what} uygula",
+	"@titleApplyUpdatesSemantic": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"what": {
+				"type": "String"
+			}
+		}
+	},
+	"oneUpdate": "1 güncelleme",
+	"nUpdates": "{count} güncelleme",
+	"@nUpdates": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"percentRead": "% {percent} okundu",
+	"@percentRead": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"couldntLoadDownloadOptions": "İndirme seçenekleri yüklenemedi",
+	"selectedEpisodesOfTotal": "{total} bölümden {selected} tanesi seçildi",
+	"@selectedEpisodesOfTotal": {
+		"placeholders": {
+			"selected": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeSemantic": "Bölüm {number}",
+	"@episodeSemantic": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			}
+		}
+	},
+	"textColour": "Metin rengi",
+	"textOpacity": "Metin saydamlığı",
+	"outlineStyle": "Kenar çizgisi stili",
+	"ownStylingKept": "Kendi biçimlendirmesi olan altyazılar, biçimlendirilmiş altyazılar açıkken onu korur",
+	"outlineColour": "Kenar çizgisi rengi",
+	"outlineWidth": "Kenar çizgisi kalınlığı",
+	"positionTop": "Üst",
+	"positionBottom": "Alt",
+	"subtitleSize": "Boyut",
+	"colourWhite": "Beyaz",
+	"colourYellow": "Sarı",
+	"colourGreen": "Yeşil",
+	"colourRed": "Kırmızı",
+	"colourBlack": "Siyah",
+	"tapToDownloadFont": "İndirmek için dokun",
+	"subtitleOutlineNone": "Yok",
+	"subtitleOutlineSoft": "Yumuşak gölge",
+	"subtitleOutlineOutline": "Kenar çizgisi",
+	"subtitleOutlineBold": "Kalın kenar çizgisi",
+	"subtitleOutlineShadow": "Düşen gölge",
+	"subtitleOutlineGlow": "Parlama",
+	"noSubtitlesFoundFor": "\"{query}\" için altyazı bulunamadı.",
+	"@noSubtitlesFoundFor": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"searchFailedWithError": "Arama başarısız: {error}",
+	"@searchFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadFailedWithError": "İndirme başarısız: {error}",
+	"@downloadFailedWithError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"decreaseDelay": "{label} azalt",
+	"@decreaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"increaseDelay": "{label} artır",
+	"@increaseDelay": {
+		"placeholders": {
+			"label": {
+				"type": "String"
+			}
+		}
+	},
+	"alignedDelay": "Hizalı: {offset}",
+	"@alignedDelay": {
+		"placeholders": {
+			"offset": {
+				"type": "String"
+			}
+		}
+	},
+	"subtitleSyncVoiceCaptured": "Ses yakalandı ✓ — altyazı görünene kadar oynat, sonra Altyazı göründü'ye dokun. (Bu arada bu sayfayı kapatabilirsin.)",
+	"subtitleSyncTextCaptured": "Altyazı yakalandı ✓ — repliği duyduğunda Ses duydum'a dokun.",
+	"subtitleSyncHint": "Otomatik eşitleme: bir repliği DUYduğunda, sonra ALTYAZISI göründüğünde dokun.",
+	"voiceHeard": "Ses duydum",
+	"subtitleSeen": "Altyazı göründü",
+	"contrast": "Karşıtlık",
+	"saturation": "Doygunluk",
+	"gamma": "Gamma",
+	"hue": "Ton",
+	"drm": "DRM",
+	"sourceFallback": "Kaynak",
+	"expandAll": "Tümünü genişlet",
+	"downloadedSummary": "{count} indirildi · {size}",
+	"@downloadedSummary": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"ofTotalDownloaded": "{done} / {total}",
+	"@ofTotalDownloaded": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"episodesDownloadedOfTotal": "{total} bölümden {done} tanesi indirildi",
+	"@episodesDownloadedOfTotal": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"removeAllEpisodesOfShow": "{count, plural, one{1 bölümün} other{{count} bölümün}} tümünü \"{title}\" için bu cihazdan kaldır?",
+	"@removeAllEpisodesOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaChaptersYouDownloadAppearHere": "İndirdiğin manga bölümleri burada görünür",
+	"parallelDownloadsSubtitle": "Aynı anda kaç bölümün indirileceği. Kitap bölümleri her zaman teker teker indirilir.",
+	"connectionsPerDownloadSubtitle": "Bir bölümün kullandığı segment bağlantıları ve bir kitap bölümünde aynı anda çekilen sayfalar. Yüksek = daha hızlı, daha fazla veri birden.",
+	"savingToYourFolder": "Klasörüne kaydediliyor…",
+	"notAvailableOfflineYet": "Henüz çevrimdışı kullanılamıyor",
+	"downloadQueued": "Kuyrukta",
+	"downloadPreparing": "Hazırlanıyor…",
+	"downloadFinalizing": "İşleniyor…",
+	"downloadPausedProgress": "Duraklatıldı · %{percent}",
+	"@downloadPausedProgress": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercent": "% {percent}",
+	"@downloadProgressPercent": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadProgressPercentOfSize": "{size} boyutunun %{percent} kadarı",
+	"@downloadProgressPercentOfSize": {
+		"placeholders": {
+			"percent": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadCanceled": "İptal edildi",
+	"downloadFailedStatus": "Başarısız",
+	"peerCount": "{count, plural, one{1 peer} other{{count} peer}}",
+	"@peerCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"downloadSpeedMbps": "{speed} MB/s",
+	"@downloadSpeedMbps": {
+		"placeholders": {
+			"speed": {
+				"type": "String"
+			}
+		}
+	},
+	"downloadSpeedKbps": "{speed} KB/s",
+	"@downloadSpeedKbps": {
+		"placeholders": {
+			"speed": {
+				"type": "int"
+			}
+		}
+	},
+	"episodeWithTitleDot": "E{number} · {title}",
+	"@episodeWithTitleDot": {
+		"placeholders": {
+			"number": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"mangaDownloads": "Manga indirmeleri",
+	"novelDownloads": "Roman indirmeleri",
+	"downloadingSection": "İndiriliyor",
+	"stopAllCount": "Tümünü durdur ({count})",
+	"@stopAllCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearFailedCount": "Başarısızları temizle ({count})",
+	"@clearFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"stopDownloadingBody": "{count, plural, one{Kuyruktaki 1 bölümü} other{Kuyruktaki {count} bölümü}} iptal et. Zaten indirilmiş bölümler korunur.",
+	"@stopDownloadingBody": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"clearedFailedCount": "{count} başarısız temizlendi",
+	"@clearedFailedCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"chapterPagesProgress": "{done}/{total} sayfa",
+	"@chapterPagesProgress": {
+		"placeholders": {
+			"done": {
+				"type": "int"
+			},
+			"total": {
+				"type": "int"
+			}
+		}
+	},
+	"showTitleQueued": "{title} · Kuyrukta",
+	"@showTitleQueued": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleDownloading": "{title} · İndiriliyor…",
+	"@showTitleDownloading": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"showTitleWithError": "{title} · {error}",
+	"@showTitleWithError": {
+		"placeholders": {
+			"title": {
+				"type": "String"
+			},
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"removeAllChaptersOfShow": "{count, plural, one{1 bölümün} other{{count} bölümün}} tümünü \"{title}\" için bu cihazdan kaldır?",
+	"@removeAllChaptersOfShow": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"title": {
+				"type": "String"
+			}
+		}
+	},
+	"chaptersWithSize": "{count, plural, one{1 bölüm} other{{count} bölüm}} · {size}",
+	"@chaptersWithSize": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"size": {
+				"type": "String"
+			}
+		}
+	},
+	"deleteAllEpisodesTooltip": "Tüm bölümleri sil",
+	"deleteAllChaptersTooltip": "Tüm bölümleri sil",
+	"cancelDownloadTooltip": "İptal",
+	"removeDownloadTooltip": "Çıkar",
+	"positionLabel": "Konum",
+	"relativeTomorrow": "Yarın",
+	"scheduleSlotMorning": "SABAH",
+	"scheduleSlotAfternoon": "ÖĞLEDEN SONRA",
+	"scheduleSlotEvening": "AKŞAM",
+	"scheduleSlotLateNight": "GECE",
+	"nothingAiringOnThisDay": "Bu gün gösterim yok.",
+	"nothingReleasingOnThisDay": "Bu gün yayın yok.",
+	"noneOfFollowedAirOnThisDay": "Takip ettiğin hiçbir anime bu gün gösterimde değil.",
+	"scheduleAired": "Yayınlandı",
+	"scheduleLive": "● CANLI",
+	"scheduleSoon": "Yakında",
+	"scheduleInHours": "{hours} saat içinde",
+	"@scheduleInHours": {
+		"placeholders": {
+			"hours": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleInDays": "{days} gün içinde",
+	"@scheduleInDays": {
+		"placeholders": {
+			"days": {
+				"type": "int"
+			}
+		}
+	},
+	"scheduleCountDot": "· {count} {noun}",
+	"@scheduleCountDot": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			},
+			"noun": {
+				"type": "String"
+			}
+		}
+	},
+	"scheduleNounAiring": "gösterimde",
+	"scheduleNounReleasing": "yayında",
+	"seriesWithDate": "Diziler · {date}",
+	"@seriesWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"movieWithDate": "Film · {date}",
+	"@movieWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"todayWithDate": "Bugün, {date}",
+	"@todayWithDate": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"extensionCount": "{count, plural, one{1 eklenti} other{{count} eklenti}}",
+	"@extensionCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"pasteRepoBaseUrlMihon": "Deponun temel URL'sini yapıştır — uygulama dizin dosyasını kendisi bulur. Doğrudan index.pb ya da index.json bağlantısı da olur.",
+	"pasteRepoBaseUrlAniyomi": "Deponun temel URL'sini yapıştır — uygulama \"/index.min.json\" dosyasını otomatik olarak ekler.",
+	"pasteRepoBaseUrlAniyomiTv": "Depo temel URL'sini yapıştır — uygulama \"/index.min.json\" dosyasını otomatik olarak ekler.",
+	"pasteRepoIndexJsonUrl": "Deponun index.json URL'sini yapıştır — depodaki her kaynağı listeleyen JSON dosyası, tek bir sağlayıcı .js URL'si değil.",
+	"pasteRepoIndexJsonUrlShort": "Deponun index.json URL'sini yapıştır.",
+	"pasteCloudStreamRepoUrlFull": "Bir CloudStream depo URL'si yapıştır — uygulama listelediği her kaynağı yükler.",
+	"youCanAddRepoBackLater": "Depoyu sonra yeniden ekleyebilirsin.",
+	"failedToLoad": "Yüklenemedi",
+	"failedToLoadError": "Yüklenemedi: {error}",
+	"@failedToLoadError": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"noSourceLoaded": "Kaynak yüklenmedi — eklenti uyumsuz olabilir ya da indirme başarısız olmuş olabilir.",
+	"repoAdded": "Depo eklendi.",
+	"repoAddedWithSources": "Depo eklendi — {count} {count, plural, one{kaynak} other{kaynak}}",
+	"@repoAddedWithSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"repoAddedWithSourcesAvailable": "Depo eklendi — {count} {count, plural, one{kaynak} other{kaynak}} kullanılabilir. İstediklerini kur.",
+	"@repoAddedWithSourcesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"upToDate": "Güncel",
+	"updatedNSources": "{count} kaynak güncellendi",
+	"@updatedNSources": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"enterManifestUrl": "Bir manifest URL'si gir.",
+	"approve": "Onayla",
+	"changePhoto": "Fotoğrafı değiştir",
+	"typingIsAPain": "Yazmak zor mu?",
+	"dontHaveAnAccount": "Hesabın yok mu?",
+	"signUp": "Kayıt ol",
+	"resetLinkSent": "Sıfırlama bağlantısı gönderildi — e-postana (ve spam) bak.",
+	"codeExpired": "Kodun süresi doldu",
+	"somethingWentWrong": "Bir şeyler ters gitti",
+	"pairingCodeTimedOut": "Eşleme kodunun süresi doldu. Yenisini al.",
+	"couldntStartPairing": "Eşleme başlatılamadı — bağlantını denetle.",
+	"approvalFailed": "Onay başarısız. Tekrar dene.",
+	"pickAtLeastOneTracker": "En az bir bağlı izleyici seç.",
+	"sendFailedTryAgain": "Gönderme başarısız. Tekrar dene.",
+	"signUpFailed": "Kayıt başarısız",
+	"invalidEmailOrPassword": "Geçersiz e-posta veya şifre",
+	"authenticationFailed": "Kimlik doğrulama başarısız",
+	"couldNotReconnect": "Yeniden bağlanılamadı",
+	"couldntUpdatePhoto": "Fotoğraf güncellenemedi",
+	"welcomeToApp": "{appName} uygulamasına hoş geldin",
+	"@welcomeToApp": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingTvSubtitle": "{appName} hiç kaynakla gelmez — kendi kaynaklarını ekle. İstediğin zaman Ayarlar → Sağlayıcılar'dan bir depo ekleyip ne kuracağına karar ver.",
+	"@onboardingTvSubtitle": {
+		"placeholders": {
+			"appName": {
+				"type": "String"
+			}
+		}
+	},
+	"onboardingPickEcosystem": "Bir ekosistem seç — Yayın, Manga veya Roman",
+	"onboardingAddRepository": "Depoyu URL'sini yapıştırarak ekle",
+	"onboardingBrowseAndInstall": "İçinde gez ve istediğini kur",
+	"providersWaitingInSettings": "Şimdi bir kaynak ekle ya da önce biraz gez — Sağlayıcılar her zaman Ayarlar'da seni bekliyor.",
+	"bufferSizeLow": "Düşük (32 MB) — düşük RAM / TV",
+	"bufferSizeDefault": "Varsayılan (128 MB)",
+	"bufferSizeHigh": "Yüksek (512 MB) — daha akıcı",
+	"bufferLengthLow": "Düşük (15sn) — düşük RAM / TV",
+	"bufferLengthDefault": "Varsayılan (60sn)",
+	"bufferLengthHigh": "Yüksek (120sn) — daha akıcı",
+	"bufferLengthMax": "En fazla (300sn) — en uzun",
+	"nUpdatesAvailable": "{count, plural, one{1 güncelleme var} other{{count} güncelleme var}}",
+	"@nUpdatesAvailable": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"languageCount": "{count, plural, one{1 dil} other{{count} dil}}",
+	"@languageCount": {
+		"placeholders": {
+			"count": {
+				"type": "int"
+			}
+		}
+	},
+	"noExtensionsMatchQuery": "\"{query}\" ile eşleşen eklenti yok.",
+	"@noExtensionsMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetTap": "Henüz CloudStream deposu eklenmedi.\nDepo eklemek için {add} öğesine dokun.",
+	"@noCloudStreamReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noCloudStreamReposAddedYetPress": "Henüz CloudStream deposu eklenmedi.\nDepo eklemek için {add} öğesine bas.",
+	"@noCloudStreamReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noProvidersMatchQuery": "\"{query}\" ile eşleşen sağlayıcı yok.",
+	"@noProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noInstalledProvidersMatchQuery": "\"{query}\" ile eşleşen kurulu sağlayıcı yok.",
+	"@noInstalledProvidersMatchQuery": {
+		"placeholders": {
+			"query": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetTap": "Henüz depo eklenmedi.\nDepo eklemek için {add} öğesine dokun.",
+	"@noReposAddedYetTap": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"noReposAddedYetPress": "Henüz depo eklenmedi.\nDepo eklemek için {add} öğesine bas.",
+	"@noReposAddedYetPress": {
+		"placeholders": {
+			"add": {
+				"type": "String"
+			}
+		}
+	},
+	"showingEveryInstalledProvider": "Kurulu tüm sağlayıcılar gösteriliyor",
+	"showingMangaNovelProviders": "Manga ve roman sağlayıcıları gösteriliyor",
+	"mangaNovelOnly": "Yalnızca Manga ve Roman",
+	"showAllProviders": "Tümünü göster",
+	"noMangaNovelProvidersInstalled": "Kurulu manga/roman sağlayıcısı yok.",
+	"alreadyInstalledSourcesFromRepoStay": "\"{name}\" deposundan zaten kurulu olan kaynaklar kurulu kalır. ",
+	"@alreadyInstalledSourcesFromRepoStay": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"pluginIndexPasteHelp": "Bir eklenti dizininin URL'sini yapıştır — eklenti girdilerinden oluşan bir JSON dizisi (id, name, site, lang, version, url, iconUrl).",
+	"loadingTrailer": "Fragman yükleniyor…",
+	"trailerUnavailable": "Fragman kullanılamıyor",
+	"decoderHardwareRecommended": "Donanım+ (önerilir)",
+	"decoderHardwareFaster": "Donanım (daha hızlı)",
+	"decoderSoftwareCompatible": "Yazılım (en uyumlu)",
+	"decoderAuto": "Otomatik",
+	"rendererAutoRecommended": "Otomatik (önerilir)",
+	"rendererGpuStandard": "GPU — standart işleyici",
+	"rendererGpuNextExperimental": "GPU Next — Vulkan, deneysel",
+	"rendererMediacodecEmbed": "MediaCodec Embed — siyah videoyu düzeltir",
+	"shaderStyleSharpenClean": "Keskinleştir — temiz 1080p kaynaklar",
+	"shaderStyleDeblurSoft": "Bulanıklığı gider — bulanık / yumuşak kaynaklar",
+	"shaderStyleDenoiseGrainy": "Gürültüyü azalt — grenli / sıkıştırılmış",
+	"shaderTierMidLight": "Orta düzey GPU — hafif, akıcı",
+	"shaderTierHighHeavy": "Üst düzey GPU — ağır, en keskin",
+	"closeConfirmDoubleBackLabel": "Çift geri — çıkmak için geri tuşuna iki kez bas",
+	"closeConfirmAskLabel": "Kapatma onayı — çıkmadan önce sor",
+	"closeConfirmExitImmediatelyLabel": "Doğrudan kapat — hemen çık",
+	"zMode": "Z Mode",
+	"zModeSubtitle": "AniList ve TMDB'de göz at, kendi kaynaklarından oynat",
+	"metadata": "Meta veri",
+	"metadataSubtitle": "Kapaklar, başlıklar ve açıklamalar",
+	"animeMetadata": "Anime meta verisi",
+	"animeMetadataSubtitle": "Anime ve manga bilgisi nereden geliyor",
+	"videoMetadata": "Film ve TV meta verisi",
+	"videoMetadataSubtitle": "Film ve dizi bilgisi nereden geliyor",
+	"malLoginForLists": "Listelerini eşitlemek için İzleyiciler'den MyAnimeList'e giriş yap",
+	"zModeExperimental": "Deneysel",
+	"modeAnime": "Anime",
+	"modeMovieTv": "Film/TV",
+	"sourceLabel": "Kaynak: {name}",
+	"@sourceLabel": {"placeholders": {"name": {"type": "String"}}},
+	"wrongTitle": "Yanlış başlık mı?",
+	"noSourceHasThisYet": "Bunu henüz hiçbir kaynak sağlamıyor",
+	"checkedTopSources": "En çok kullandığın kaynaklar denetlendi — hiçbirinde yoktu",
+	"pickTheRightTitle": "Doğru başlığı seç",
+	"searchThisSource": "Bu kaynakta ara",
+	"matchSaved": "Kaydedildi. Artık {name} ile eşleşiyor.",
+	"@matchSaved": {"placeholders": {"name": {"type": "String"}}},
+	"chooseSource": "Bir kaynak seç",
+	"whichOneIsIt": "Hangisi?",
+	"searchingSourceShort": "{name} aranıyor",
+	"@searchingSourceShort": {"placeholders": {"name": {"type": "String"}}},
+	"matchResultCount": "{count, plural, one{1 sonuç} other{{count} sonuç}}",
+	"@matchResultCount": {"placeholders": {"count": {"type": "int"}}},
+	"nothingOnSource": "{name} üzerinde hiçbir şey yok",
+	"@nothingOnSource": {"placeholders": {"name": {"type": "String"}}},
+	"sourceMayNotCarryIt": "Bu kaynak taşıyor olmayabilir. Başka bir kaynak dene.",
+	"currentMatchBadge": "GEÇERLİ",
+	"scheduleAndLists": "Yayın akışı ve listeler",
+	"scheduleHubDesc": "Gün gün ne gösterimde",
+	"trackerCoversVideo": "Filmler ve diziler",
+	"listKindManga": "Manga",
+	"listKindNovel": "Roman",
+	"listKindAnimeDesc": "İzleniyor, tamamlandı, planlanıyor",
+	"listKindMangaDesc": "Okunuyor, tamamlandı, planlanıyor",
+	"listKindNovelDesc": "Bu hesaptaki hafif romanlar",
+	"sortPopularity": "Popüler",
+	"sortScore": "En yüksek puanlı",
+	"sortTrending": "Trend",
+	"sortNewest": "En yeni",
+	"sortTitle": "A-Z",
+	"filtersNeedProvider": "Filtreler {provider} gerektirir. Ayarlar'dan değiştir.",
+	"@filtersNeedProvider": {"placeholders": {"provider": {"type": "String"}}},
+	"format": "Biçim",
+	"minimumScore": "En düşük puan",
+	"searchAnime": "Anime ara",
+	"searchMoviesTv": "Film ve TV ara",
+	"searchManga": "Manga ara",
+	"searchNovels": "Roman ara",
+	"adultCatalogue": "Katalogda yetişkin başlıklar",
+	"adultCatalogueSubtitle": "AniList, MyAnimeList ve TMDB'nin 18+ sonuçlarını döndürmesine izin ver",
+	"enableAdultCatalogue": "Yetişkin başlıklar gösterilsin mi?",
+	"enableAdultCatalogueBody": "Arama ve göz atma, meta veri sağlayıcından 18+ başlıklar döndürebilir. Simkl'da böyle bir ayar yoktur ve etkilenmez.",
+	"adultOnly": "Yetişkin",
+	"yourSavedAnimeList": "Kaydettiğin anime listesi",
+	"yourSavedMangaList": "Kaydettiğin manga listesi",
+	"yourSavedNovelList": "Kaydettiğin roman listesi",
+	"epub": "EPUB",
+	"exportAsEpub": "EPUB olarak dışa aktar",
+	"chaptersDownloadedCount": "{total} bölümden {done} tanesi indirildi",
+	"@chaptersDownloadedCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"noChaptersDownloadedToExport": "Henüz indirilmiş bölüm yok — önce birkaç tane indir.",
+	"allChapters": "Tüm bölümler",
+	"startChapter": "Başlangıç",
+	"endChapter": "Bitiş",
+	"includeChapterNumber": "Bölüm numarasını dahil et",
+	"includeChapterNumberSubtitle": "Yalnızca \"Başlık\" yerine \"Bölüm 5: Başlık\"",
+	"fileNameLabel": "Dosya adı",
+	"folderLabel": "Klasör",
+	"exportingChapterProgress": "Bölüm {total} / {done}",
+	"@exportingChapterProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+	"exportedToFolder": "{folder} klasörüne aktarıldı",
+	"@exportedToFolder": {"placeholders": {"folder": {"type": "String"}}},
+	"epubExportFailed": "EPUB kaydedilemedi",
+	"export": "Dışa aktar",
+	"keepDownloadsPrivate": "İndirilenleri gizli tut",
+	"keepDownloadsPrivateSubtitle": "Yeni video indirmeleri İndirilenler klasörü yerine Zangetsu içinde kalır. Zangetsu'yu kaldırdığında silinirler. Kitap bölümleri ve dışa aktarmalar etkilenmez."
+}
