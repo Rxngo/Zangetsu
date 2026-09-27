@@ -34,7 +34,7 @@ class TeamMember {
 /// "Community Contributors" automatically.
 const List<TeamMember> kCoreTeam = [
   TeamMember(
-    name: 'Krishna Vishwakarma',
+    name: 'Spyou',
     role: 'Lead Developer',
     github: 'spyou',
     link: 'https://github.com/spyou',

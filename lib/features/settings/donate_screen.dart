@@ -10,18 +10,25 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
 import '../../core/tv/tv_focusable.dart';
 import '../../l10n/l10n.dart';
-import '../../core/tv/tv_list_focusable.dart';
 
 /// Support / Donate screen — a short message and a few ways to tip:
 /// Buy Me a Coffee, PayPal (international) and UPI (India).
+///
+/// The buttons stay in the UI, but every one of them is inert: the destination
+/// URLs and the UPA are deliberately absent, so a tap does nothing. The layout
+/// and copy are kept so restoring a real destination later is just filling the
+/// handlers back in.
 class DonateScreen extends StatelessWidget {
   const DonateScreen({super.key});
 
-  static const String _bmcUrl = 'https://buymeacoffee.com/krishna069';
-  static const String _paypalUrl = 'https://paypal.me/SpyTheSaviour';
-  static const String _upiId = 'krishnavishwakarma9136@okaxis';
+  /// Currently unused — the app ships with donation destinations disabled.
+  /// Fill back in here (and into [_open] / [_payUpi]) to re-enable them.
+  static const String _bmcUrl = '';
+  static const String _paypalUrl = '';
+  static const String _upiId = '';
 
   Future<void> _open(String url) async {
+    if (url.isEmpty) return;
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       await launchUrl(uri, mode: LaunchMode.platformDefault);
@@ -31,6 +38,7 @@ class DonateScreen extends StatelessWidget {
   /// Open the UPI ID in whichever UPI app the user has. If none can handle it
   /// (no UPI app, or desktop), fall back to copying the ID so they can paste it.
   Future<void> _payUpi(BuildContext context) async {
+    if (_upiId.isEmpty) return;
     // Leave the '@' in the VPA literal — that's what UPI apps expect.
     final uri = Uri.parse(
         'upi://pay?pa=$_upiId&pn=${Uri.encodeComponent(kAppName)}&cu=INR');
@@ -43,6 +51,7 @@ class DonateScreen extends StatelessWidget {
   }
 
   void _copyUpi(BuildContext context, {bool noApp = false}) {
+    if (_upiId.isEmpty) return;
     Clipboard.setData(const ClipboardData(text: _upiId));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -128,54 +137,6 @@ class DonateScreen extends StatelessWidget {
             bg: AppColors.accent,
             fg: Colors.white,
             onTap: () => _payUpi(context),
-          ),
-          const SizedBox(height: 12),
-          // Tap the ID to copy — handy on desktop or when the button can't
-          // reach a UPI app.
-          Center(
-            child: (sl.isRegistered<AppMode>() && sl<AppMode>().isTv)
-                ? TvListFocusable(
-                    semanticLabel: context.l10n.copyUPIID,
-                    onTap: () => _copyUpi(context),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            _upiId,
-                            style: AppText.caption
-                                .copyWith(color: AppColors.textSecondary),
-                          ),
-                          const SizedBox(width: 6),
-                          Icon(Icons.copy_rounded,
-                              size: 14, color: AppColors.textTertiary),
-                        ],
-                      ),
-                    ),
-                  )
-                : InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () => _copyUpi(context),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            _upiId,
-                            style: AppText.caption
-                                .copyWith(color: AppColors.textSecondary),
-                          ),
-                          const SizedBox(width: 6),
-                          Icon(Icons.copy_rounded,
-                              size: 14, color: AppColors.textTertiary),
-                        ],
-                      ),
-                    ),
-                  ),
           ),
         ],
       ),
