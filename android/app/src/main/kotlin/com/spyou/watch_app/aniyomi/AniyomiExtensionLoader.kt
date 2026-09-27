@@ -61,7 +61,7 @@ object AniyomiExtensionLoader {
     const val ANIME_LIB_VERSION_MIN = 12.0
 
     /** Maximum supported extensions-lib version (inclusive). */
-    const val ANIME_LIB_VERSION_MAX = 16.0
+    const val ANIME_LIB_VERSION_MAX = 17.0
 
     /** Manifest feature flag that identifies a valid Aniyomi anime extension. */
     private const val FEATURE = "tachiyomi.animeextension"

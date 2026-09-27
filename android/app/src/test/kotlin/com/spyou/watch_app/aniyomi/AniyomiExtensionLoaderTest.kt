@@ -53,7 +53,7 @@ class AniyomiExtensionLoaderTest {
     }
 
     // ---------------------------------------------------------------
-    // isLibVersionSupported — range gate 12.0 .. 16.0
+    // isLibVersionSupported — range gate 12.0 .. 17.0
     // ---------------------------------------------------------------
 
     @Test
@@ -63,6 +63,13 @@ class AniyomiExtensionLoaderTest {
 
     @Test
     fun isLibVersionSupported_accepts_max_bound() {
+        assertTrue(AniyomiExtensionLoader.isLibVersionSupported(17.0))
+    }
+
+    @Test
+    fun isLibVersionSupported_accepts_previous_max() {
+        // lib 16 was the previous ceiling. Widening to 17 must not drop it --
+        // an existing installed lib-16 extension has to keep working.
         assertTrue(AniyomiExtensionLoader.isLibVersionSupported(16.0))
     }
 
@@ -73,8 +80,8 @@ class AniyomiExtensionLoaderTest {
 
     @Test
     fun isLibVersionSupported_rejects_too_new() {
-        // lib 17 — beyond ANIME_LIB_VERSION_MAX
-        assertFalse(AniyomiExtensionLoader.isLibVersionSupported(17.0))
+        // lib 18 — beyond ANIME_LIB_VERSION_MAX
+        assertFalse(AniyomiExtensionLoader.isLibVersionSupported(18.0))
     }
 
     @Test
@@ -119,9 +126,9 @@ class AniyomiExtensionLoaderTest {
     }
 
     @Test
-    fun version_gate_rejects_17_2() {
-        // Hypothetical future extension — versionName "17.2", libVersion 17.0
-        val lib = AniyomiExtensionLoader.libVersionOf("17.2")
+    fun version_gate_rejects_18_2() {
+        // Hypothetical future extension — versionName "18.2", libVersion 18.0
+        val lib = AniyomiExtensionLoader.libVersionOf("18.2")
         assertFalse(AniyomiExtensionLoader.isLibVersionSupported(lib))
     }
 
