@@ -14,17 +14,19 @@ import '../../l10n/l10n.dart';
 /// Support / Donate screen — a short message and a few ways to tip:
 /// Buy Me a Coffee, PayPal (international) and UPI (India).
 ///
-/// The buttons stay in the UI, but every one of them is inert: the destination
-/// URLs and the UPA are deliberately absent, so a tap does nothing. The layout
-/// and copy are kept so restoring a real destination later is just filling the
-/// handlers back in.
+/// All three buttons stay in the UI. Only Buy Me a Coffee has a destination;
+/// the PayPal and UPI buttons are intentionally inert (empty destination, so
+/// a tap returns immediately). Each handler bails on an empty string, which
+/// makes enabling or disabling one a single-constant change.
 class DonateScreen extends StatelessWidget {
   const DonateScreen({super.key});
 
-  /// Currently unused — the app ships with donation destinations disabled.
-  /// Fill back in here (and into [_open] / [_payUpi]) to re-enable them.
-  static const String _bmcUrl = '';
+  static const String _bmcUrl = 'https://buymeacoffee.com/zangetsu6';
+
+  /// Intentionally empty — PayPal donations are disabled.
   static const String _paypalUrl = '';
+
+  /// Intentionally empty — UPI donations are disabled.
   static const String _upiId = '';
 
   Future<void> _open(String url) async {
