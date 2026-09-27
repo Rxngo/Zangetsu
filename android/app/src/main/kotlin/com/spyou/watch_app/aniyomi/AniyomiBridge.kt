@@ -263,8 +263,11 @@ class AniyomiBridge(
                 }
 
                 // extensions-lib 17: ask a source what changed for one anime and forward
-                // the answer to Dart. Kept separate from "getEpisodes" so Dart can
-                // refresh in place without refetching the whole page.
+                // the answer to Dart. Kept separate from "getEpisodes" so the two calls stay
+                // distinguishable. The cost: the v17 signature takes the existing episode
+                // list as a parameter, so the host has to read it first — and for most
+                // sources that read is the whole-page fetch, so this path costs one extra
+                // list fetch on top of whatever the source does internally.
                 "getAnimeEpisodeUpdate" -> {
                     val sourceId = (call.argument<Number>("sourceId") ?: run {
                         result.error("BAD_ARGS", "sourceId required", null); return@setMethodCallHandler
