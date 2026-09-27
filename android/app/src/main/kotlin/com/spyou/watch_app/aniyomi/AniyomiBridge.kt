@@ -283,12 +283,20 @@ class AniyomiBridge(
                             val stub = SAnimeImpl().apply { this.url = url }
                             // Reading the *existing* list is best-effort: many sources throw
                             // from getEpisodeList, and failing the whole update because the
-                            // prior state was unreadable would be the wrong trade. Sources that
-                            // don't implement lib-17 hit the v16 default, which throws — that
-                            // surfaces as EPISODE_UPDATE and the caller keeps what it has.
+                            // prior state was unreadable would be the wrong trade.
                             val existing = runCatching { src.getEpisodeList(stub) }.getOrDefault(emptyList())
-                            val update = src.getAnimeEpisodeUpdate(stub, existing, fetchDetails, fetchEpisodes)
-                            AniyomiJson.episodeUpdateToJson(update)
+                            // Sources that do not implement the v17 method fall back to the v16
+                            // default, which throws. That is an optional capability probe, not a
+                            // fault, so degrade quietly to the same empty update a source with
+                            // nothing to report produces. Only UnsupportedOperationException is
+                            // absorbed: a real network failure still surfaces as EPISODE_UPDATE.
+                            try {
+                                AniyomiJson.episodeUpdateToJson(
+                                    src.getAnimeEpisodeUpdate(stub, existing, fetchDetails, fetchEpisodes),
+                                )
+                            } catch (_: UnsupportedOperationException) {
+                                AniyomiJson.episodesToJson(emptyList())
+                            }
                         }.fold(
                             onSuccess = { json -> withContext(Dispatchers.Main) { result.success(json) } },
                             onFailure = { err -> withContext(Dispatchers.Main) { result.failWith(err, "EPISODE_UPDATE") } },
@@ -314,8 +322,16 @@ class AniyomiBridge(
                         runCatching {
                             val stub = SAnimeImpl().apply { this.url = url }
                             val existing = runCatching { src.getSeasonList(stub) }.getOrDefault(listOf(stub))
-                            val update = src.getAnimeSeasonUpdate(stub, existing, fetchDetails, fetchSeasons)
-                            AniyomiJson.seasonUpdateToJson(update)
+                            // As above: the v16 default throws for a source with no v17 season
+                            // update, and that quietens to an empty season list rather than an
+                            // error. Anything else still surfaces as SEASON_UPDATE.
+                            try {
+                                AniyomiJson.seasonUpdateToJson(
+                                    src.getAnimeSeasonUpdate(stub, existing, fetchDetails, fetchSeasons),
+                                )
+                            } catch (_: UnsupportedOperationException) {
+                                AniyomiJson.animesToJson(emptyList())
+                            }
                         }.fold(
                             onSuccess = { json -> withContext(Dispatchers.Main) { result.success(json) } },
                             onFailure = { err -> withContext(Dispatchers.Main) { result.failWith(err, "SEASON_UPDATE") } },
