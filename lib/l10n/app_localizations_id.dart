@@ -3457,7 +3457,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get logOutQuestion => 'Keluar?';
 
   @override
-  String get contentShows => 'serial';
+  String get contentShows => 'series';
 
   @override
   String get contentManga => 'manga';
@@ -3475,7 +3475,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get historyKindNovel => 'novel';
 
   @override
-  String get historyNounShow => 'serial';
+  String get historyNounShow => 'series';
 
   @override
   String get historyNounMangaItem => 'manga';

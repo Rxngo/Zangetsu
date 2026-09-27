@@ -189,7 +189,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dub => 'مدبلج';
 
   @override
-  String get nsfw => 'محتوى بالغين';
+  String get nsfw => 'NSFW';
 
   @override
   String get system => 'النظام';
@@ -569,7 +569,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get about => 'حول';
+  String get about => 'حول التطبيق';
 
   @override
   String versionLabel(String version) {
@@ -4170,7 +4170,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get slow => 'بطيء';
 
   @override
-  String get noResults => 'لا نتائج';
+  String get noResults => 'لا توجد نتائج';
 
   @override
   String get timedOut => 'انتهت المهلة';

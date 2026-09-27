@@ -3485,7 +3485,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contentNovels => 'novelas';
 
   @override
-  String get historyKindWatch => 'exibição';
+  String get historyKindWatch => 'assistir';
 
   @override
   String get historyKindManga => 'mangá';
