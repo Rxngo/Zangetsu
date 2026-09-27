@@ -61,7 +61,7 @@ object AniyomiExtensionLoader {
     const val ANIME_LIB_VERSION_MIN = 12.0
 
     /** Maximum supported extensions-lib version (inclusive). */
-    const val ANIME_LIB_VERSION_MAX = 16.0
+    const val ANIME_LIB_VERSION_MAX = 17.0
 
     /** Manifest feature flag that identifies a valid Aniyomi anime extension. */
     private const val FEATURE = "tachiyomi.animeextension"
@@ -87,7 +87,8 @@ object AniyomiExtensionLoader {
      *   "14.17" → substringBeforeLast('.') = "14" → 14.0
      *   "16.0"  → substringBeforeLast('.') = "16" → 16.0
      *   "16.1"  → substringBeforeLast('.') = "16" → 16.0
-     *   "17.2"  → substringBeforeLast('.') = "17" → 17.0 (rejected, > 16.0)
+     *   "17.2"  → substringBeforeLast('.') = "17" → 17.0
+     *   "18.2"  → substringBeforeLast('.') = "18" → 18.0 (rejected, > 17.0)
      *
      * @param versionName the full versionName string from the APK manifest.
      * @return the derived lib version as a Double.

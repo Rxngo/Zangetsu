@@ -265,6 +265,49 @@ class AniyomiProvider implements BaseProvider {
     }
   }
 
+  /// Returns the episodes a v17 source reports as added or changed for [url].
+  ///
+  /// [fetchDetails] / [fetchEpisodes] are forwarded to the source unchanged and
+  /// default to true, matching the bridge. The call is not free: the v17
+  /// signature takes the existing episode list as a parameter, so the host reads
+  /// it first, which for most sources is the whole-page fetch.
+  ///
+  /// An empty list is a normal result, not a failure — a source without v17
+  /// update support answers with one, so there is nothing to special-case here.
+  Future<List<Episode>> getEpisodeUpdate(
+    String url, {
+    bool fetchDetails = true,
+    bool fetchEpisodes = true,
+  }) async {
+    if (!Platform.isAndroid) return const [];
+    final raw = await _safeInvoke('getAnimeEpisodeUpdate', {
+      'sourceId': info.id,
+      'url': url,
+      'fetchDetails': fetchDetails,
+      'fetchEpisodes': fetchEpisodes,
+    });
+    return _parseEpisodeList(raw);
+  }
+
+  /// Returns the seasons a v17 source reports as added or changed for [url].
+  ///
+  /// A season is an SAnime, so this maps to [MediaItem]s — the same shape
+  /// [popular] and [search] return. Empty means the same thing here as it does
+  /// in [getEpisodeUpdate]: a normal "nothing to report".
+  Future<List<MediaItem>> getSeasonUpdate(
+    String url, {
+    bool fetchDetails = true,
+    bool fetchSeasons = true,
+  }) async {
+    if (!Platform.isAndroid) return const [];
+    return _invokeAnimeList('getAnimeSeasonUpdate', {
+      'sourceId': info.id,
+      'url': url,
+      'fetchDetails': fetchDetails,
+      'fetchSeasons': fetchSeasons,
+    });
+  }
+
   // ── private helpers ─────────────────────────────────────────────────────────
 
   /// Invokes [method] on the aniyomi channel with [args], returning the raw
