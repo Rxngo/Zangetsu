@@ -436,6 +436,10 @@ class PlayerCubit extends Cubit<PlayerState> {
   int _lastResumeSeekMs = 0; // throttle for the resume re-seek (anti-thrash)
   int _lastHistoryMs = 0; // throttle: last wall-clock ms we wrote progress
   int _gen = 0; // bumped per open; async continuations bail if superseded
+  /// Live progressive subscription ([_openProgressive]), so leaving the player
+  /// or moving episodes drops late sweep events at the source. Null whenever
+  /// no progressive Play is in flight.
+  StreamIterator<ProgressiveResolve>? _progressive;
   final Set<String> _tried = {}; // source URLs already attempted this episode
 
   /// How many times this episode has given up on a SOURCE (not a mirror) and
@@ -606,6 +610,9 @@ class PlayerCubit extends Cubit<PlayerState> {
     // Re-resolve the current episode in the new language — like openEpisode but
     // keeping currentIndex and the live position.
     final gen = ++_gen;
+    // A different cut is a different resolve: late events from the old one
+    // must not merge into the new list.
+    await _cancelProgressive();
     final keepPos = _lastPos;
     _tried.clear();
     _sourceHops = 0; // a different cut is a fresh set of sources
@@ -1946,6 +1953,9 @@ class PlayerCubit extends Cubit<PlayerState> {
   }) async {
     if (_isRoomViewer && !fromRoom) return;
     final gen = ++_gen;
+    // A newer open supersedes any progressive Play still listening: drop its
+    // late events at the source (the episode guard below is the backstop).
+    await _cancelProgressive();
     await _persist(flush: true);
     // Only drop the pending resume when actually switching episodes — a
     // same-episode re-open (recovery/failover) must keep targeting it.
@@ -1979,58 +1989,14 @@ class PlayerCubit extends Cubit<PlayerState> {
       sl<PlaybackResolver>().invalidateWinner(_episodeUrl(currentEpisode));
     }
     try {
-      final resolved = await _resolveNoted(_episodeUrl(currentEpisode));
-      if (gen != _gen) return; // superseded by a newer open
-      emit(state.copyWith(sources: resolved, loadingSources: false));
-      _buildQualityMenu(
-        gen,
-      ); // populate Auto/1080p/720p from the HLS master, if any
-      // A mirror picked on the episode list wins outright, and is consumed
-      // here so it only applies to the episode it was chosen for. Matched by
-      // url against this resolve, falling back to the picked source itself
-      // when the re-resolve hasn't produced it yet — the whole point is that
-      // the two lists don't always agree.
-      final chosen = initialSource;
-      initialSource = null;
-      final fromPick = chosen == null
-          ? null
-          : resolved.firstWhere(
-              (s) => s.url == chosen.url,
-              orElse: () => chosen,
-            );
-      // Otherwise the source remembered for this title (e.g. Hindi), else the
-      // adaptive default.
-      // Let the audio cut narrow the default ONLY when the title actually
-      // offers a choice between cuts. Aniyomi labels each video's cut but
-      // exposes no toggle — the counts that drive it are CloudStream-only — so
-      // narrowing to "sub" here quietly hid every dub server behind a switch
-      // that does not exist. AudioKind.unknown matches nothing in a labelled
-      // list, so pickDefault falls through to the whole pool: the best stream
-      // of every server, which is what a source with no cut choice always did.
-      final narrowTo = availableCategories.length > 1
-          ? (_activeCategory == 'dub' ? AudioKind.dub : AudioKind.sub)
-          : AudioKind.unknown;
-      final pick =
-          fromPick ??
-          _preferredSource(resolved) ??
-          pickDefault(
-            resolved,
-            prefer: narrowTo,
-            preferQuality: _preferredQuality(),
-          );
-      if (pick == null) {
-        emit(
-          state.copyWith(error: () => 'No playable sources for this episode.'),
-        );
-        return;
+      final epUrl = _episodeUrl(currentEpisode);
+      if (_useProgressive(epUrl)) {
+        await _openProgressive(epUrl, gen);
+      } else {
+        final resolved = await _resolveNoted(epUrl);
+        if (gen != _gen) return; // superseded by a newer open
+        await _openResolved(resolved, gen);
       }
-      await _open(pick, gen: gen);
-      _applyDefaultQuality();
-      // Playback is running — collect the mirrors that resolved after the fast
-      // return, so the Sources sheet ends up complete. Started here rather than
-      // alongside the open above so it can't compete with the stream starting.
-      unawaited(_pollForMoreSources(_episodeUrl(currentEpisode)));
-      if (roomRole == RoomRole.host) onLocalPlayback?.call('episode', Duration.zero);
     } on NoSourceMatch catch (e) {
       // No BuildContext down here to call context.l10n — this mirrors
       // AppLocalizationsEn.noSourceHasThisYet verbatim.
@@ -2078,6 +2044,120 @@ class PlayerCubit extends Cubit<PlayerState> {
         ),
       );
     }
+  }
+
+  /// Progressive Play applies to metadata (`zm://`) episodes with a resolver
+  /// behind them. Anything else (single-source sessions, tests without DI)
+  /// keeps the one-shot [_resolveNoted] path exactly as before —
+  /// [PlaybackResolver.resolveProgressive] only answers metadata urls.
+  bool _useProgressive(String epUrl) =>
+      sl.isRegistered<PlaybackResolver>() && ZmodeIds.isZ(epUrl);
+
+  /// Drops the progressive subscription, if any. Late sweep events have no
+  /// listener afterwards, so nothing can merge into a departed episode. (The
+  /// sweep itself still ends via [PlaybackResolver.abortSweeps] from the
+  /// player screen's dispose; unsubscribing is what disconnects THIS cubit.)
+  Future<void> _cancelProgressive() async {
+    final it = _progressive;
+    _progressive = null;
+    if (it != null) await it.cancel();
+  }
+
+  /// Z-mode Play that paints the first hit instead of awaiting the sweep.
+  ///
+  /// The FIRST event opens playback through [_openResolved], exactly as the
+  /// one-shot resolve does; later events merge into the Sources sheet via
+  /// [mergeArrivedStreams] without touching the playing stream. The
+  /// pre-existing poll path still runs after open, untouched.
+  Future<void> _openProgressive(String epUrl, int gen) async {
+    await _cancelProgressive();
+    final it = StreamIterator(
+      sl<PlaybackResolver>().resolveProgressive(
+        epUrl,
+        category: _activeCategory,
+      ),
+    );
+    _progressive = it;
+    try {
+      var first = true;
+      while (await it.moveNext()) {
+        if (gen != _gen || isClosed) return;
+        final event = it.current;
+        if (episodes.isEmpty ||
+            state.currentIndex >= episodes.length ||
+            _episodeUrl(currentEpisode) != epUrl) {
+          return;
+        }
+        if (first) {
+          first = false;
+          if (!await _openResolved(event.streams, gen)) return;
+          if (gen != _gen || isClosed) return;
+        } else {
+          mergeArrivedStreams(epUrl, event.streams);
+        }
+        if (event.done) return;
+      }
+    } finally {
+      if (identical(_progressive, it)) _progressive = null;
+      await it.cancel();
+    }
+  }
+
+  /// Opens playback on an already-resolved list — the tail of [openEpisode]
+  /// shared by the one-shot resolve and the progressive first event, so both
+  /// open identically. Returns false when nothing was pickable (error shown).
+  Future<bool> _openResolved(List<VideoSource> resolved, int gen) async {
+    emit(state.copyWith(sources: resolved, loadingSources: false));
+    _buildQualityMenu(
+      gen,
+    ); // populate Auto/1080p/720p from the HLS master, if any
+    // A mirror picked on the episode list wins outright, and is consumed
+    // here so it only applies to the episode it was chosen for. Matched by
+    // url against this resolve, falling back to the picked source itself
+    // when the re-resolve hasn't produced it yet — the whole point is that
+    // the two lists don't always agree.
+    final chosen = initialSource;
+    initialSource = null;
+    final fromPick = chosen == null
+        ? null
+        : resolved.firstWhere(
+            (s) => s.url == chosen.url,
+            orElse: () => chosen,
+          );
+    // Otherwise the source remembered for this title (e.g. Hindi), else the
+    // adaptive default.
+    // Let the audio cut narrow the default ONLY when the title actually
+    // offers a choice between cuts. Aniyomi labels each video's cut but
+    // exposes no toggle — the counts that drive it are CloudStream-only — so
+    // narrowing to "sub" here quietly hid every dub server behind a switch
+    // that does not exist. AudioKind.unknown matches nothing in a labelled
+    // list, so pickDefault falls through to the whole pool: the best stream
+    // of every server, which is what a source with no cut choice always did.
+    final narrowTo = availableCategories.length > 1
+        ? (_activeCategory == 'dub' ? AudioKind.dub : AudioKind.sub)
+        : AudioKind.unknown;
+    final pick =
+        fromPick ??
+        _preferredSource(resolved) ??
+        pickDefault(
+          resolved,
+          prefer: narrowTo,
+          preferQuality: _preferredQuality(),
+        );
+    if (pick == null) {
+      emit(
+        state.copyWith(error: () => 'No playable sources for this episode.'),
+      );
+      return false;
+    }
+    await _open(pick, gen: gen);
+    _applyDefaultQuality();
+    // Playback is running — collect the mirrors that resolved after the fast
+    // return, so the Sources sheet ends up complete. Started here rather than
+    // alongside the open above so it can't compete with the stream starting.
+    unawaited(_pollForMoreSources(_episodeUrl(currentEpisode)));
+    if (roomRole == RoomRole.host) onLocalPlayback?.call('episode', Duration.zero);
+    return true;
   }
 
   /// Applies the user's [PlaybackPrefs.defaultQuality] over the adaptive default
@@ -2773,6 +2853,9 @@ class PlayerCubit extends Cubit<PlayerState> {
     // drops the winner this reads.
     final winner = resolver.resolvedSourceId(epUrl, category: _activeCategory);
     if (winner == null) return false;
+    // Failover re-resolves and emits a fresh list: a progressive subscription
+    // still feeding the old sweep would merge its dead links straight back.
+    await _cancelProgressive();
     _sourceHops++;
     resolver.markSourceUnplayable(epUrl, winner, category: _activeCategory);
     _toast('That one didn\'t cut. Trying another source.');
@@ -3516,6 +3599,10 @@ class PlayerCubit extends Cubit<PlayerState> {
     for (final s in _subs) {
       s.cancel();
     }
+    // Leaving drops the progressive subscription with it: late sweep events
+    // have no listener, so nothing merges into a closed player. (The sweep
+    // itself still ends via abortSweeps from the player screen's dispose.)
+    await _cancelProgressive();
     _stallTimer?.cancel();
     _neverStartedTimer?.cancel();
     _toastTimer?.cancel();

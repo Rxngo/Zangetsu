@@ -120,6 +120,28 @@ void main() {
       expect(scores.plays('src-b'), 0);
     });
 
+    test('replays the cached winner immediately without re-sweeping', () async {
+      // First play populates the winner cache; the replay must answer from
+      // it — one immediate done event on the winner's streams, no sweep.
+      final src = _ProgSrc.fastSlow(
+        bSourcesDelay: const Duration(milliseconds: 300),
+      );
+      final r = resolver(sources: src, matcher: matcherFor(src));
+      await r.resolveProgressive(ep2).toList();
+      src.log.clear();
+      final sw = Stopwatch()..start();
+      final events = await r.resolveProgressive(ep2).toList();
+      expect(sw.elapsedMilliseconds, lessThan(2000));
+      expect(events.length, 1);
+      expect(events.single.done, isTrue);
+      expect(events.single.match.sourceId, 'src-a');
+      expect(
+        events.single.streams.map((s) => s.url).toList(),
+        ['https://a/s1', 'https://a/s2'],
+      );
+      expect(src.log, ['sources:https://a/2:src-a']);
+    });
+
     test('yields in candidate order when the early source is slower', () async {
       // Candidate order beats completion order: src-b answers in 50ms but
       // must wait behind src-a (400ms). Under completion-order yield the

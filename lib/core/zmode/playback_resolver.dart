@@ -207,7 +207,11 @@ class PlaybackResolver {
   /// the same metadata url, so a single key would hand a dub request whatever
   /// sub resolved earlier — the same stale-cache shape that made a switched
   /// source keep playing the old one.
-  final Map<String, ({String episodeUrl, String sourceId})> _winners = {};
+  ///
+  /// The winning match is kept too, so [resolveProgressive] can replay it
+  /// without re-sweeping.
+  final Map<String, ({String episodeUrl, String sourceId, SourceMatch match})>
+  _winners = {};
 
   static String _winKey(String zmEpisodeUrl, String category) =>
       '$zmEpisodeUrl|$category';
@@ -470,6 +474,10 @@ class PlaybackResolver {
   /// source is asked before its wave-mates are even started, so a fast
   /// non-pinned hit can never slip out ahead of a slow pinned miss — and a
   /// pinned miss means they are never asked at all.
+  ///
+  /// When a winner is already cached, the first event carries its streams
+  /// immediately (same short-circuit as [sources]) and the stream ends — the
+  /// poll path still collects the rest, exactly as on a replay today.
   Stream<ProgressiveResolve> resolveProgressive(
     String zmEpisodeUrl, {
     String category = 'sub',
@@ -494,6 +502,30 @@ class PlaybackResolver {
         throw EpisodeNotAvailable(p.show, p.episode, hadTitleMatch: true);
       }
       _noSource.remove(flightKey);
+    }
+    // Winner-cache short-circuit, same as [sources]: a replay opens on the
+    // cached winner's streams immediately instead of re-sweeping. `fast: true`
+    // is what Play passes on that path today (prefetch/TTL/first-link).
+    final hit = _winners[flightKey];
+    if (hit != null) {
+      final streams = await _sources.sources(
+        hit.episodeUrl,
+        sourceId: hit.sourceId,
+        fast: true,
+      );
+      if (gen != _sweepGen) throw const PlaybackAborted();
+      if (streams.isNotEmpty) {
+        yield ProgressiveResolve(
+          match: hit.match,
+          episodeUrl: hit.episodeUrl,
+          streams: streams,
+          done: true,
+        );
+        return;
+      }
+      // Stale winner: serves nothing anymore. Drop it and sweep fresh rather
+      // than handing playback an empty list.
+      _winners.remove(flightKey);
     }
     final t = await _titleLookup(p.show);
     // The source the viewer pinned to THIS title by hand — same rank-0
@@ -562,8 +594,11 @@ class PlaybackResolver {
       if (!winnerWritten) {
         winnerWritten = true;
         firstHit = attempt;
-        _winners[_winKey(zmEpisodeUrl, category)] =
-            (episodeUrl: attempt.episodeUrl, sourceId: attempt.match.sourceId);
+        _winners[_winKey(zmEpisodeUrl, category)] = (
+          episodeUrl: attempt.episodeUrl,
+          sourceId: attempt.match.sourceId,
+          match: attempt.match,
+        );
         if (!attempt.match.pinned) {
           await _store.rememberLastPlayed(p.show, attempt.match.sourceId);
           await _scores?.bump(attempt.match.sourceId);
@@ -944,8 +979,11 @@ class PlaybackResolver {
       // Written here rather than inside _tryCandidate so an abandoned
       // (timed-out) candidate that finishes later can never overwrite the
       // winner of the source we actually settled on.
-      _winners[_winKey(zmEpisodeUrl, category)] =
-          (episodeUrl: attempt.episodeUrl, sourceId: attempt.match.sourceId);
+      _winners[_winKey(zmEpisodeUrl, category)] = (
+        episodeUrl: attempt.episodeUrl,
+        sourceId: attempt.match.sourceId,
+        match: attempt.match,
+      );
       // Per-title only — remembered for THIS show's own re-ranking (see
       // `_orderedCandidates`). This must never write the kind-wide
       // `ZSourcePrefs` default: that's an explicit, rare user choice (the
@@ -1413,7 +1451,11 @@ class PlaybackResolver {
     final m = probe.match;
     if (url == null || m == null) return;
     _noSource.remove(zmEpisodeUrl);
-    _winners[zmEpisodeUrl] = (episodeUrl: url, sourceId: m.sourceId);
+    _winners[zmEpisodeUrl] = (
+      episodeUrl: url,
+      sourceId: m.sourceId,
+      match: m,
+    );
     final p = ZmodeIds.parseEpisode(zmEpisodeUrl);
     if (p != null && !m.pinned) {
       await _store.rememberLastPlayed(p.show, m.sourceId);
