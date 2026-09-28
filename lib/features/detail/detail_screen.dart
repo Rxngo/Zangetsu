@@ -895,15 +895,23 @@ class _DetailViewState extends State<_DetailView>
   Future<void> _scrobbleUpTo(Episode ep, MediaDetail detail) async {
     final n = ep.number;
     if (n == null || n <= 0 || n != n.truncateToDouble()) return;
+    // Same kind mapping as the entry fetch above: a manga/novel mark must go
+    // out as manga (plus the novel flag), with the title attached. Omitting
+    // either made manual manga marks resolve as anime with no title fallback,
+    // so AniList missed and MangaBaka refused while Simkl logged a false ok.
+    final reading =
+        detail.type == ProviderType.manga || detail.type == ProviderType.novel;
     await sl<TrackerHub>().scrobble(
       malId: detail.malId ?? widget.item.malId,
-      title: detail.type == ProviderType.anime ? detail.title : null,
+      title: detail.title,
       tmdbId: widget.item.tmdbId,
       tmdbIsTv: widget.item.tmdbIsTv,
       imdbId: widget.item.imdbId,
       episode: n.toInt(),
       season: ep.season,
       seasonEpisode: seasonEpisodeOf(detail.episodes, ep),
+      kind: reading ? MediaKind.manga : MediaKind.anime,
+      novel: detail.type == ProviderType.novel,
       // Asked for by hand, so it goes out even with auto-tracking off.
       auto: false,
     );
@@ -1097,8 +1105,12 @@ class _DetailViewState extends State<_DetailView>
       case EpisodeAction.toggleWatched:
         final nowWatched = !markedDone(ep);
         if (isReading) {
+          // readSource, not item.sourceId: for a metadata title item.sourceId
+          // is the `zm` pseudo-source while the chapter list and reader key by
+          // the real source — writing under `zm` stored the mark where nothing
+          // reads, so the row never dimmed until tracker progress arrived.
           await read.setRead(
-            widget.item.sourceId,
+            readSource,
             readShowId,
             ep.id,
             read: nowWatched,
@@ -1114,9 +1126,14 @@ class _DetailViewState extends State<_DetailView>
         // Only forward when marking. Trackers store a high-water mark, not a
         // set, so there's no "unwatch episode 12" to send — dropping progress
         // back would be a guess at what the user wanted their list to say.
-        if (nowWatched) await _scrobbleUpTo(ep, detail);
         if (!mounted) return;
+        // Repaint FIRST from the already-saved mark. The tracker fan-out below
+        // can stall on retries/backoff, and awaiting it here is what left the
+        // row un-dimmed until the next rebuild.
         setState(() {});
+        // Fire-and-forget: _scrobbleUpTo touches no context/setState, and
+        // TrackerHub._fan already swallows per-tracker errors.
+        if (nowWatched) unawaited(_scrobbleUpTo(ep, detail));
         showAppToast(
           context,
           isReading
@@ -1134,8 +1151,9 @@ class _DetailViewState extends State<_DetailView>
         // you pressed would mean marking it separately every time.
         for (var i = 0; i <= index; i++) {
           if (isReading) {
+            // Same key pairing as toggleWatched above: the real source.
             await read.setRead(
-              widget.item.sourceId,
+              readSource,
               readShowId,
               episodes[i].id,
               read: true,
@@ -1152,9 +1170,11 @@ class _DetailViewState extends State<_DetailView>
         // One tracker write for the highest episode, not one per episode —
         // progress is a high-water mark, so the rest are implied and firing
         // twelve updates would just rate-limit the account.
-        await _scrobbleUpTo(ep, detail);
         if (!mounted) return;
+        // Same repaint-first reasoning as toggleWatched above: the mark is
+        // saved, so paint it now and let the tracker write finish behind.
         setState(() {});
+        unawaited(_scrobbleUpTo(ep, detail));
         showAppToast(
           context,
           isReading
