@@ -98,8 +98,53 @@ void main() {
       expect(events.first.streams.length, 2);
       expect(events.first.done, isFalse);
       expect(events[1].match.sourceId, 'src-b');
-      expect(events[1].streams.length, 3);
+      // Cumulative: src-a's 2 plus src-b's 3, in candidate order.
+      expect(events[1].streams.length, 5);
       expect(events.last.done, isTrue);
+      // The done event carries the union in candidate order, not the last
+      // hit alone — the binding constraint with the full resolve.
+      expect(
+        events.last.streams.map((s) => s.url).toList(),
+        [
+          'https://a/s1',
+          'https://a/s2',
+          'https://b/s1',
+          'https://b/s2',
+          'https://b/s3',
+        ],
+      );
+      // Winner bookkeeping runs on the FIRST hit only: the late arrival must
+      // not overwrite last-played or collect a score bump.
+      expect(store.lastPlayed(show), 'src-a');
+      expect(scores.plays('src-a'), 1);
+      expect(scores.plays('src-b'), 0);
+    });
+
+    test('yields in candidate order when the early source is slower', () async {
+      // Candidate order beats completion order: src-b answers in 50ms but
+      // must wait behind src-a (400ms). Under completion-order yield the
+      // first event would be src-b.
+      final src = _ProgSrc.fastSlow(
+        aSourcesDelay: const Duration(milliseconds: 400),
+        bSourcesDelay: const Duration(milliseconds: 50),
+      );
+      final r = resolver(sources: src, matcher: matcherFor(src));
+      final events = await r.resolveProgressive(ep2).toList();
+      expect(events.length, 3, reason: 'slow-early hit, fast-late hit, done');
+      expect(events.first.match.sourceId, 'src-a');
+      expect(events.first.streams.length, 2);
+      expect(events[1].match.sourceId, 'src-b');
+      expect(events.last.done, isTrue);
+      expect(
+        events.last.streams.map((s) => s.url).toList(),
+        [
+          'https://a/s1',
+          'https://a/s2',
+          'https://b/s1',
+          'https://b/s2',
+          'https://b/s3',
+        ],
+      );
     });
 
     test('pinned source is honored, never substituted', () async {
@@ -149,6 +194,45 @@ void main() {
       );
     });
 
+    test('slow pinned miss is never substituted by a fast hit', () async {
+      // The pin verdict gates the wave: src-b answers in 50ms but is not
+      // even asked until the pinned src-a (300ms miss) answers — so no
+      // non-pinned hit can slip out first, and the stream ends with the
+      // verdict and zero events.
+      final src = _ProgSrc.fastSlow(
+        aHasEp2: false,
+        aEpisodesDelay: const Duration(milliseconds: 300),
+        bSourcesDelay: const Duration(milliseconds: 50),
+      );
+      await store.pin(
+        show,
+        const SourceMatch(
+          sourceId: 'src-a',
+          showUrl: 'https://a/show',
+          showId: 'a',
+          showTitle: 'FMA',
+          pinned: true,
+        ),
+      );
+      final r = resolver(sources: src, matcher: matcherFor(src));
+      final events = <ProgressiveResolve>[];
+      Object? error;
+      try {
+        await for (final e in r.resolveProgressive(ep2)) {
+          events.add(e);
+        }
+      } catch (e) {
+        error = e;
+      }
+      expect(error, isA<EpisodeNotAvailable>());
+      expect(events, isEmpty, reason: 'pinned miss yields nothing, ever');
+      expect(
+        src.log.where((l) => l.endsWith(':src-b')),
+        isEmpty,
+        reason: 'src-b was never asked behind the pinned miss',
+      );
+    });
+
     test('leaving drops late arrivals (generation guard)', () async {
       // The viewer leaves right after first paint: the slow source's late
       // arrival is dropped and the stream ends with PlaybackAborted,
@@ -181,8 +265,12 @@ void main() {
 /// Timing is the only addition: "fast" (src-a) answers 2 streams in 50ms,
 /// "slow" (src-b) answers 3 streams after 5s.
 class _ProgSrc implements SourceRepository {
-  _ProgSrc.fastSlow({this.aHasEp2 = true})
-      : aEps = const [
+  _ProgSrc.fastSlow({
+    this.aHasEp2 = true,
+    this.aSourcesDelay = const Duration(milliseconds: 50),
+    this.bSourcesDelay = const Duration(seconds: 5),
+    this.aEpisodesDelay = Duration.zero,
+  }) : aEps = const [
           Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
           Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://a/2'),
         ],
@@ -196,6 +284,15 @@ class _ProgSrc implements SourceRepository {
 
   /// When false, src-a lists only ep 1 — the pinned-failure case.
   final bool aHasEp2;
+
+  /// Stream-fetch latency per source (the candidate-order test slows src-a
+  /// below src-b; the pin-gate test speeds src-b up).
+  final Duration aSourcesDelay;
+  final Duration bSourcesDelay;
+
+  /// Episode-list latency for src-a (the pin-gate test slows the pinned
+  /// miss above the non-pinned hit).
+  final Duration aEpisodesDelay;
 
   /// Every episode-list and stream fetch, per source.
   final log = <String>[];
@@ -235,7 +332,12 @@ class _ProgSrc implements SourceRepository {
   @override
   Future<List<Episode>> episodes(String url, {String category = 'sub', String? sourceId}) async {
     log.add('episodes:$url:$sourceId');
-    if (sourceId == 'src-a') return aHasEp2 ? aEps : const [Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1')];
+    if (sourceId == 'src-a') {
+      if (aEpisodesDelay != Duration.zero) {
+        await Future<void>.delayed(aEpisodesDelay);
+      }
+      return aHasEp2 ? aEps : const [Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1')];
+    }
     if (sourceId == 'src-b') return bEps;
     return const [];
   }
@@ -244,11 +346,11 @@ class _ProgSrc implements SourceRepository {
   Future<List<VideoSource>> sources(String episodeUrl, {String? sourceId, bool fast = false}) async {
     log.add('sources:$episodeUrl:$sourceId');
     if (sourceId == 'src-a') {
-      await Future<void>.delayed(const Duration(milliseconds: 50));
+      await Future<void>.delayed(aSourcesDelay);
       return const [VideoSource(url: 'https://a/s1'), VideoSource(url: 'https://a/s2')];
     }
     if (sourceId == 'src-b') {
-      await Future<void>.delayed(const Duration(seconds: 5));
+      await Future<void>.delayed(bSourcesDelay);
       return const [
         VideoSource(url: 'https://b/s1'),
         VideoSource(url: 'https://b/s2'),
