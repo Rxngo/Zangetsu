@@ -76,42 +76,102 @@ void main() {
     test('yields first hit before slow source answers', () async {
       // Fake setup mirrors playback_resolver_test.dart's resolver harness:
       // source "fast" answers 2 streams in 50ms, source "slow" answers
-      // 3 streams after 5s. Collect the FIRST event only.
+      // 3 streams after 5s. Collect EVERY event: the first must land well
+      // before the slow source answers, the stream ends with done.
       final src = _ProgSrc.fastSlow();
       final r = resolver(sources: src, matcher: matcherFor(src));
-      // ignore: undefined_method
       final Stream<ProgressiveResolve> stream = r.resolveProgressive(ep2);
-      final ProgressiveResolve first = await stream.first.timeout(
-        const Duration(seconds: 2),
-        onTimeout: () => throw TimeoutException('no first hit before slow answered'),
+      final events = <ProgressiveResolve>[];
+      final sw = Stopwatch()..start();
+      var firstAtMs = -1;
+      await for (final e in stream) {
+        if (events.isEmpty) firstAtMs = sw.elapsedMilliseconds;
+        events.add(e);
+      }
+      expect(
+        firstAtMs,
+        lessThan(2000),
+        reason: 'first hit must not wait for the 5s slow source',
       );
-      expect(first.streams.length, 2);
-      fail('not implemented: resolveProgressive does not exist yet');
+      expect(events.length, 3, reason: 'fast hit, slow hit, done');
+      expect(events.first.match.sourceId, 'src-a');
+      expect(events.first.streams.length, 2);
+      expect(events.first.done, isFalse);
+      expect(events[1].match.sourceId, 'src-b');
+      expect(events[1].streams.length, 3);
+      expect(events.last.done, isTrue);
     });
 
     test('pinned source is honored, never substituted', () async {
+      // Pin the fast source: the first paint is the source the viewer chose.
       final src = _ProgSrc.fastSlow();
+      await store.pin(
+        show,
+        const SourceMatch(
+          sourceId: 'src-a',
+          showUrl: 'https://a/show',
+          showId: 'a',
+          showTitle: 'FMA',
+          pinned: true,
+        ),
+      );
       final r = resolver(sources: src, matcher: matcherFor(src));
-      // ignore: undefined_method
       final Stream<ProgressiveResolve> stream = r.resolveProgressive(ep2);
       final ProgressiveResolve first = await stream.first;
-      expect(first.sourceId, 'src-a');
-      fail('not implemented: resolveProgressive does not exist yet');
+      expect(first.match.sourceId, 'src-a');
+      expect(first.done, isFalse);
+    });
+
+    test('pinned source failing is never substituted', () async {
+      // The load-bearing half of the pin rule: the pinned source lacks the
+      // episode, so the stream ends with the full sweep's verdict instead
+      // of handing over the other source's streams.
+      final src = _ProgSrc.fastSlow(aHasEp2: false);
+      await store.pin(
+        show,
+        const SourceMatch(
+          sourceId: 'src-a',
+          showUrl: 'https://a/show',
+          showId: 'a',
+          showTitle: 'FMA',
+          pinned: true,
+        ),
+      );
+      final r = resolver(sources: src, matcher: matcherFor(src));
+      await expectLater(
+        r.resolveProgressive(ep2),
+        emitsError(isA<EpisodeNotAvailable>()),
+      );
+      expect(
+        src.log.where((l) => l.endsWith(':src-b')),
+        isEmpty,
+        reason: 'src-b answered behind the pinned failure and must be dropped',
+      );
     });
 
     test('leaving drops late arrivals (generation guard)', () async {
+      // The viewer leaves right after first paint: the slow source's late
+      // arrival is dropped and the stream ends with PlaybackAborted,
+      // the same signal the full sweep throws.
       final src = _ProgSrc.fastSlow();
       final r = resolver(sources: src, matcher: matcherFor(src));
-      // ignore: undefined_method
       final Stream<ProgressiveResolve> stream = r.resolveProgressive(ep2);
-      await stream.first;
-      r.invalidateWinner(ep2);
-      await expectLater(
-        // ignore: undefined_method
-        r.resolveProgressive(ep2),
-        emitsThrough(isA<ProgressiveResolve>()),
+      final events = <ProgressiveResolve>[];
+      Object? error;
+      try {
+        await for (final e in stream) {
+          events.add(e);
+          r.abortSweeps(); // the viewer pressed back
+        }
+      } catch (e) {
+        error = e;
+      }
+      expect(
+        events.length,
+        1,
+        reason: 'only the first paint landed before leaving',
       );
-      fail('not implemented: resolveProgressive does not exist yet');
+      expect(error, isA<PlaybackAborted>());
     });
   });
 }
@@ -121,7 +181,7 @@ void main() {
 /// Timing is the only addition: "fast" (src-a) answers 2 streams in 50ms,
 /// "slow" (src-b) answers 3 streams after 5s.
 class _ProgSrc implements SourceRepository {
-  _ProgSrc.fastSlow()
+  _ProgSrc.fastSlow({this.aHasEp2 = true})
       : aEps = const [
           Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
           Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://a/2'),
@@ -133,6 +193,12 @@ class _ProgSrc implements SourceRepository {
 
   final List<Episode> aEps;
   final List<Episode> bEps;
+
+  /// When false, src-a lists only ep 1 — the pinned-failure case.
+  final bool aHasEp2;
+
+  /// Every episode-list and stream fetch, per source.
+  final log = <String>[];
 
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
@@ -168,13 +234,15 @@ class _ProgSrc implements SourceRepository {
 
   @override
   Future<List<Episode>> episodes(String url, {String category = 'sub', String? sourceId}) async {
-    if (sourceId == 'src-a') return aEps;
+    log.add('episodes:$url:$sourceId');
+    if (sourceId == 'src-a') return aHasEp2 ? aEps : const [Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1')];
     if (sourceId == 'src-b') return bEps;
     return const [];
   }
 
   @override
   Future<List<VideoSource>> sources(String episodeUrl, {String? sourceId, bool fast = false}) async {
+    log.add('sources:$episodeUrl:$sourceId');
     if (sourceId == 'src-a') {
       await Future<void>.delayed(const Duration(milliseconds: 50));
       return const [VideoSource(url: 'https://a/s1'), VideoSource(url: 'https://a/s2')];
