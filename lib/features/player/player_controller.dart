@@ -165,6 +165,45 @@ class PlayerState extends Equatable {
   ];
 }
 
+/// Pure merge core behind [PlayerCubit.mergeArrivedStreams], kept top-level
+/// so it is unit-testable without a media_kit player (a [PlayerCubit] cannot
+/// be constructed under `flutter test` — `Player()` needs native init).
+///
+/// [arrivals] is the cumulative known-streams list in final-list order (what
+/// `PlaybackResolver.resolveProgressive` yields per event), NOT just the
+/// delta: the merged list follows arrival order. Entries already open keep
+/// their SAME objects — the Sources sheet marks the playing row by value
+/// equality against `state.active`, and rebuilding those would drop the tick
+/// (same invariant as `PlayerCubit._pollForMoreSources`). Duplicate URLs
+/// collapse to their first arrival; open entries the arrivals omit are kept.
+List<VideoSource> mergeArrivedSourceLists(
+  List<VideoSource> current,
+  List<VideoSource> arrivals,
+) {
+  final byUrl = <String, VideoSource>{for (final s in current) s.url: s};
+  final seen = <String>{};
+  final merged = <VideoSource>[];
+  for (final s in arrivals) {
+    if (!seen.add(s.url)) continue;
+    merged.add(byUrl[s.url] ?? s);
+  }
+  for (final s in current) {
+    if (seen.add(s.url)) merged.add(s);
+  }
+  return merged;
+}
+
+/// True when two source lists carry the same URLs in the same order — the
+/// no-change check that lets [PlayerCubit.mergeArrivedStreams] skip a
+/// pointless emit (and picker rebuild).
+bool _sameUrlOrder(List<VideoSource> a, List<VideoSource> b) {
+  if (a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i].url != b[i].url) return false;
+  }
+  return true;
+}
+
 /// Owns a media_kit [Player] for one watch session: opens a source with its
 /// headers + subtitles, persists resume position, advances on completion, and
 /// falls through to the next source if one fails to start (covers dead/DRM
@@ -674,6 +713,26 @@ class PlayerCubit extends Cubit<PlayerState> {
       }
       if (result.done) return; // nothing more is coming
     }
+  }
+
+  /// Merges late-arriving streams for the CURRENT episode into the quality
+  /// list, by position, deduplicated by URL. Never touches the playing
+  /// stream. No-op when the arrivals belong to a departed episode (generation
+  /// guard, same `_gen` as the close path).
+  ///
+  /// Strictly additive like [_pollForMoreSources]: [state.active] is never
+  /// re-picked or reopened, so playback is uninterrupted; the emit only
+  /// rebuilds the Sources/quality picker. Staleness is judged by EPISODE
+  /// (not `_gen`, which legitimately advances mid-poll on re-opens — same
+  /// reason [_pollForMoreSources] keys on the URL), compared via
+  /// [_episodeUrl] so a Sub/Dub rewrite still matches the open episode.
+  void mergeArrivedStreams(String episodeUrl, List<VideoSource> streams) {
+    if (isClosed || episodes.isEmpty) return;
+    if (state.currentIndex >= episodes.length) return;
+    if (_episodeUrl(currentEpisode) != episodeUrl) return;
+    final merged = mergeArrivedSourceLists(state.sources, streams);
+    if (_sameUrlOrder(merged, state.sources)) return;
+    emit(state.copyWith(sources: merged));
   }
 
   /// mpv HTTP tuning so remote MP4s (e.g. 4khdhub file hosts) seek/resume

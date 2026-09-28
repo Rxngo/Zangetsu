@@ -5,6 +5,8 @@ import 'package:watch_app/core/models/video_source.dart';
 import 'package:watch_app/core/tracker/tracker.dart';
 import 'package:watch_app/core/tracker/tracker_hub.dart';
 import 'package:watch_app/features/player/phone_playback_launch.dart';
+import 'package:watch_app/features/player/player_controller.dart'
+    show mergeArrivedSourceLists;
 
 class _RecordingTrackerHub extends TrackerHub {
   _RecordingTrackerHub() : super(const []);
@@ -375,9 +377,15 @@ void main() {
     });
   });
 
+  // Covers `PlayerCubit.mergeArrivedStreams(episodeUrl, streams)` via its pure
+  // core `mergeArrivedSourceLists`: the cubit itself cannot be constructed
+  // under `flutter test` (`Player()` needs media_kit native init — verified by
+  // probe), so the episode guard + emit live on the method while every
+  // ordering/dedupe assertion lands here. The method delegates with no extra
+  // logic besides the guard and a no-change emit skip.
   group('mergeArrivedStreams', () {
-    test('late stream arrivals merge by position without interrupting playback', () async {
-      // Open on streams [A]; deliver arrival [B (pos 0), C (pos 2)] for the same
+    test('late stream arrivals merge by position without interrupting playback', () {
+      // Open on streams [A]; deliver cumulative arrival [B, A, C] for the same
       // episode; expect quality list [B, A, C] and playing stream still A.
       final a = VideoSource(
         url: 'https://cdn.test/a.mp4',
@@ -394,9 +402,53 @@ void main() {
         container: SourceContainer.mp4,
         quality: '480p',
       );
-      final merged = mergeArrivedStreams(current: [a], arrivals: [b, c]);
+      final merged = mergeArrivedSourceLists([a], [b, a, c]);
       expect(merged.map((s) => s.url), [b.url, a.url, c.url]);
-      fail('not implemented: mergeArrivals does not exist yet');
+      // The open entry keeps its identity, so the Sources sheet's playing tick
+      // (value equality against `state.active`, which the method never touches)
+      // survives the merge.
+      expect(identical(merged[1], a), isTrue);
+    });
+
+    test('duplicate arrival URLs collapse to their first occurrence', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final merged = mergeArrivedSourceLists([a], [b, a, b]);
+      expect(merged.map((s) => s.url), [b.url, a.url]);
+    });
+
+    test('open entries the arrivals omit are kept, arrival order first', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final merged = mergeArrivedSourceLists([a], [b]);
+      expect(merged.map((s) => s.url), [b.url, a.url]);
+    });
+
+    test('nothing new arrives yields the same URL order (method skips emit)', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final merged = mergeArrivedSourceLists([a], [a]);
+      expect(merged.map((s) => s.url), [a.url]);
+      expect(identical(merged[0], a), isTrue);
     });
   });
 }
