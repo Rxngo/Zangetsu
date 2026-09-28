@@ -374,4 +374,29 @@ void main() {
       expect(phoneMirrorLabel(s, 2), 'Server 3');
     });
   });
+
+  group('mergeArrivedStreams', () {
+    test('late stream arrivals merge by position without interrupting playback', () async {
+      // Open on streams [A]; deliver arrival [B (pos 0), C (pos 2)] for the same
+      // episode; expect quality list [B, A, C] and playing stream still A.
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final c = VideoSource(
+        url: 'https://cdn.test/c.mp4',
+        container: SourceContainer.mp4,
+        quality: '480p',
+      );
+      final merged = mergeArrivedStreams(current: [a], arrivals: [b, c]);
+      expect(merged.map((s) => s.url), [b.url, a.url, c.url]);
+      fail('not implemented: mergeArrivals does not exist yet');
+    });
+  });
 }
