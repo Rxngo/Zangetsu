@@ -356,18 +356,20 @@ class DetailScreen extends StatelessWidget {
             curve: Curves.easeOutCubic,
             reverseCurve: Curves.easeInCubic,
           );
-          return FadeTransition(
-            opacity: curved,
-            child: SlideTransition(
-              position: Tween(
-                begin: const Offset(0, 0.035),
-                end: Offset.zero,
-              ).animate(curved),
-              child: ScaleTransition(
-                scale: Tween(begin: 0.96, end: 1.0).animate(curved),
-                child: child,
-              ),
-            ),
+          // A single slide, like the iOS default. It was a fade + slide +
+          // scale stacked together, which is the most expensive thing you can
+          // animate on a phone: a fade cannot be a GPU transform, so the whole
+          // screen is rendered into a separate offscreen buffer and blended
+          // every frame for 340ms, on top of the loading shimmer's own
+          // full-screen ShaderMask. Two full-screen operations at once is what
+          // made opening this screen stutter on a low-end device. A slide is a
+          // pure transform: composited on the GPU, no buffer, no blend.
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(curved),
+            child: child,
           );
         },
       );
