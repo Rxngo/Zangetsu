@@ -14,7 +14,6 @@ import 'core/analytics/analytics.dart';
 import 'core/app_config.dart';
 import 'core/app_mode.dart';
 import 'core/di/injector.dart';
-import 'core/provider/provider_manager.dart';
 import 'core/ui/splash_style.dart';
 import 'core/hive/safe_box.dart';
 import 'core/discord/discord_rpc.dart';
@@ -258,16 +257,6 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
               _pushShellRouteIfNeeded();
               if (sl.isRegistered<AppMode>() && sl<AppMode>().isTv) {
                 unawaited(_finishTvProviderBoot());
-              }
-              // Start the provider JS engine now that the shell is up, so the
-              // viewer's first tap does not pay for `Isolate.spawn` plus the
-              // QuickJS bootstrap. Nothing awaits this: it is local compute
-              // (the bootstrap defines a fetch hook and never calls it, so no
-              // network is involved), it cannot delay the splash, and the catch
-              // discards any failure. The work is not new - the first provider
-              // call does exactly this today; this only moves it off the tap.
-              if (sl.isRegistered<ProviderManager>()) {
-                unawaited(sl<ProviderManager>().warmup().catchError((_) {}));
               }
             });
           }
