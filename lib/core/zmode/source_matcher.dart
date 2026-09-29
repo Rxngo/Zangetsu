@@ -295,14 +295,20 @@ class SourceMatcher {
     required String title,
     String? altTitle,
     int? malId,
+    bool Function()? abandoned,
   }) {
     final running = _inFlight[c.key];
     if (running != null) return running;
     // Braces, NOT an arrow: Map.remove returns the removed value, and
     // whenComplete awaits a returned Future — an arrow here hands it the very
     // future being completed, so it waits on itself and never finishes.
-    final f = _resolve(c, title: title, altTitle: altTitle, malId: malId)
-        .whenComplete(() {
+    final f = _resolve(
+      c,
+      title: title,
+      altTitle: altTitle,
+      malId: malId,
+      abandoned: abandoned,
+    ).whenComplete(() {
       _inFlight.remove(c.key);
     });
     _inFlight[c.key] = f;
@@ -314,6 +320,7 @@ class SourceMatcher {
     required String title,
     String? altTitle,
     int? malId,
+    bool Function()? abandoned,
   }) async {
     final candidates = _candidates(c.kind);
     // A per-title pin ("Wrong title?" or the picker) is a firm choice — it
@@ -382,6 +389,20 @@ class SourceMatcher {
       '${sweep.length > 5 ? "…" : ""})',
     );
     for (final s in sweep) {
+      // The viewer left: stop before the next source. Going back out of a detail
+      // screen used to leave this sweep running, so tapping titles quickly piled
+      // up one live search per screen and each new tap waited behind all the
+      // abandoned ones. Checking between sources — not just before the sweep —
+      // is what stops a pile mid-build, since the sweep may run through many
+      // sources and only the between-sources check can end it without waiting
+      // for the current one to finish.
+      final left = abandoned?.call() ?? false;
+      if (left) {
+        debugPrint(
+          '[source-matcher] _resolve · abandoned before "${s.id}", viewer left',
+        );
+        return null;
+      }
       final m = await matchOn(c, s.id, title: title, altTitle: altTitle, malId: malId);
       if (m != null) {
         debugPrint('[source-matcher] _resolve · AUTO → ${s.id}');
