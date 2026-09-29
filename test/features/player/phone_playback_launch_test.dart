@@ -5,6 +5,8 @@ import 'package:watch_app/core/models/video_source.dart';
 import 'package:watch_app/core/tracker/tracker.dart';
 import 'package:watch_app/core/tracker/tracker_hub.dart';
 import 'package:watch_app/features/player/phone_playback_launch.dart';
+import 'package:watch_app/features/player/player_controller.dart'
+    show mergeArrivedSourceLists;
 
 class _RecordingTrackerHub extends TrackerHub {
   _RecordingTrackerHub() : super(const []);
@@ -372,6 +374,132 @@ void main() {
       // label is 1-based, so index 2 reads "Server 3".
       final s = VideoSource(url: 'https://a/3', container: SourceContainer.mp4);
       expect(phoneMirrorLabel(s, 2), 'Server 3');
+    });
+  });
+
+  // Covers `PlayerCubit.mergeArrivedStreams(episodeUrl, streams)` via its pure
+  // core `mergeArrivedSourceLists`: the cubit itself cannot be constructed
+  // under `flutter test` (`Player()` needs media_kit native init — verified by
+  // probe), so the episode guard + emit live on the method while every
+  // ordering/dedupe assertion lands here. The method delegates with no extra
+  // logic besides the guard and a no-change emit skip.
+  group('mergeArrivedStreams', () {
+    test('late stream arrivals merge by position without interrupting playback', () {
+      // Open on streams [A]; deliver cumulative arrival [B, A, C] for the same
+      // episode; expect quality list [B, A, C] and playing stream still A.
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final c = VideoSource(
+        url: 'https://cdn.test/c.mp4',
+        container: SourceContainer.mp4,
+        quality: '480p',
+      );
+      final merged = mergeArrivedSourceLists([a], [b, a, c]);
+      expect(merged.map((s) => s.url), [b.url, a.url, c.url]);
+      // The open entry keeps its identity, so the Sources sheet's playing tick
+      // (value equality against `state.active`, which the method never touches)
+      // survives the merge.
+      expect(identical(merged[1], a), isTrue);
+    });
+
+    test('duplicate arrival URLs collapse to their first occurrence', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final merged = mergeArrivedSourceLists([a], [b, a, b]);
+      expect(merged.map((s) => s.url), [b.url, a.url]);
+    });
+
+    test('open entries the arrivals omit are kept, arrival order first', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final b = VideoSource(
+        url: 'https://cdn.test/b.mp4',
+        container: SourceContainer.mp4,
+        quality: '1080p',
+      );
+      final merged = mergeArrivedSourceLists([a], [b]);
+      expect(merged.map((s) => s.url), [b.url, a.url]);
+    });
+
+    test('nothing new arrives yields the same URL order (method skips emit)', () {
+      final a = VideoSource(
+        url: 'https://cdn.test/a.mp4',
+        container: SourceContainer.mp4,
+        quality: '720p',
+      );
+      final merged = mergeArrivedSourceLists([a], [a]);
+      expect(merged.map((s) => s.url), [a.url]);
+      expect(identical(merged[0], a), isTrue);
+    });
+  });
+
+  group('mergeArrivedSourceLists keeps every option the full resolve showed', () {
+    VideoSource mk(
+      String url, {
+      String? quality,
+      List<Subtitle> subs = const [],
+    }) =>
+        VideoSource(
+          url: url,
+          quality: quality,
+          container: SourceContainer.mp4,
+          headers: null,
+          kind: AudioKind.sub,
+          audioLang: 'sub',
+          subtitles: subs,
+        );
+
+    test('same URL, DIFFERENT quality - both survive', () {
+      // The gap: url-keyed dedup dropped the 720p entry, so a quality the full
+      // resolve would have shown simply disappeared.
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a', quality: '1080p'),
+        mk('https://x/a', quality: '720p'),
+      ]);
+      expect(out.map((e) => e.quality).toList(), ['1080p', '720p']);
+    });
+
+    test('same URL, different subtitles - both survive', () {
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a',
+            subs: [const Subtitle(lang: 'en', label: '', url: 'u1')]),
+        mk('https://x/a',
+            subs: [const Subtitle(lang: 'hi', label: '', url: 'u2')]),
+      ]);
+      expect(out.length, 2, reason: 'a different subtitle track is a different option');
+    });
+
+    test('a TRUE duplicate still collapses', () {
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a', quality: '1080p'),
+        mk('https://x/a', quality: '1080p'),
+      ]);
+      expect(out.length, 1, reason: 'the same option twice is one option');
+    });
+
+    test('the already-playing entry is the SAME object, so the tick survives', () {
+      final open = mk('https://x/a', quality: '1080p');
+      final out = mergeArrivedSourceLists([open], [mk('https://x/a', quality: '1080p')]);
+      expect(identical(out.first, open), isTrue);
     });
   });
 }
