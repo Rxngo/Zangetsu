@@ -215,6 +215,13 @@ class _JsHost {
   int failuresFor(String sourceId) => _health[sourceId]?.failures ?? 0;
   void resetHealth(String sourceId) => _health.remove(sourceId);
 
+  /// Pays for the engine's startup — `Isolate.spawn` plus the QuickJS runtime
+  /// and the local bootstrap eval — without running any provider code.
+  ///
+  /// Local compute only. The bootstrap *defines* a `fetch` hook and never
+  /// calls it, so this touches no network, no provider, and no catalog.
+  Future<void> warmup() => _engine.ready;
+
   /// Awaits the engine so a bootstrap failure surfaces here rather than as a
   /// pile of confusing per-call errors later.
   Future<void> loadProvider(String sourceId, String jsSource) async {
@@ -1131,6 +1138,9 @@ class ProviderManager implements ProviderRuntimeLoader {
   ProviderManager({required Dio dio}) : _host = _JsHost(dio: dio);
 
   final _JsHost _host;
+
+  /// Starts the JS engine in the background. See [_JsHost.warmup].
+  Future<void> warmup() => _host.warmup();
 
   /// Runs [body] with the blocking Cloudflare WebView solver disabled — see
   /// [_JsHost.asPassiveSweep].
