@@ -589,7 +589,49 @@ class _JsHost {
     }
   }
 
+  /// In-flight provider fetches, keyed by method + url + body. A second
+  /// request for a URL already being fetched waits for that one instead of
+  /// issuing a duplicate.
+  ///
+  /// Measured over one browsing session: 873 requests, 206 unique. The same
+  /// domains.json 19 times, the same TMDB title search 16 times, individual
+  /// hubcloud links 12 times each. Those duplicates saturate a phone's
+  /// connection, so every real request queues behind copies of itself — which is
+  /// what "stuck" looks like, and it was self-inflicted rather than slow
+  /// sources.
+  ///
+  /// In-flight only, deliberately: this is not a cache. Sharing a future is
+  /// free and obviously correct, whereas caching would change what a viewer
+  /// sees when a source changes under a pinned link, and would need an
+  /// invalidation story nobody asked for. The same pattern is already used for
+  /// source sweeps in `SourceMatcher._inFlight`.
+  final Map<String, Future<Response<dynamic>>> _inFlightFetches = {};
+
   Future<Response<dynamic>> _request(
+    String url,
+    String method,
+    Map<String, String> headers,
+    dynamic body,
+    bool follow,
+    int tMs,
+  ) {
+    final key = '$method\u0000$url\u0000${body ?? ''}';
+    final running = _inFlightFetches[key];
+    if (running != null) return running;
+    final started = _requestUnshared(url, method, headers, body, follow, tMs);
+    _inFlightFetches[key] = started;
+    // Braces, NOT an arrow: Map.remove hands back the removed value, and
+    // whenComplete awaits a returned Future — an arrow would await the very
+    // future being completed and never finish.
+    unawaited(
+      started.whenComplete(() {
+        _inFlightFetches.remove(key);
+      }).then<void>((_) {}, onError: (Object _) {}),
+    );
+    return started;
+  }
+
+  Future<Response<dynamic>> _requestUnshared(
     String url,
     String method,
     Map<String, String> headers,

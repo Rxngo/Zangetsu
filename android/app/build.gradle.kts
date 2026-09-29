@@ -93,10 +93,44 @@ android {
                 storeFile = (keystoreProperties["storeFile"] as String?)?.let { file(it) }
                 storePassword = keystoreProperties["storePassword"] as String
             }
+            // Debug signed with the RELEASE key on purpose. A debug build is
+            // signed with the shared debug key by default, so installing it over
+            // an installed release fails on signature mismatch and the only way
+            // through is `adb uninstall` - which wipes the account, history, My
+            // List and every cached source. The same key means `adb install -r`
+            // works and all of that survives, which is what makes a debug build
+            // usable for anything that depends on real user data.
+            create("debugWithReleaseKey") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = (keystoreProperties["storeFile"] as String?)?.let { file(it) }
+                storePassword = keystoreProperties["storePassword"] as String
+            }
         }
     }
 
     buildTypes {
+        // Same signature as release, so a debug build installs over the
+        // installed release without an uninstall and the account survives.
+        debug {
+            signingConfig = if (hasReleaseKeystore)
+                signingConfigs.getByName("debugWithReleaseKey")
+            else
+                signingConfigs.getByName("debug")
+        }
+        // Profile is AOT like release but keeps the VM service, so it can
+        // reproduce a release-only stall AND be inspected. Same release key so
+        // it too installs over the release without an uninstall.
+        // `named` rather than `create`: the Flutter plugin already declares
+        // this build type, and `create` fails as a duplicate. `named` also
+        // dodges the Kotlin `profile` source-set name collision that makes the
+        // `profile {}` sugar resolve to the wrong receiver.
+        named("profile") {
+            signingConfig = if (hasReleaseKeystore)
+                signingConfigs.getByName("debugWithReleaseKey")
+            else
+                signingConfigs.getByName("debug")
+        }
         release {
             signingConfig = if (hasReleaseKeystore)
                 signingConfigs.getByName("release")
