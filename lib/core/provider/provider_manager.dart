@@ -110,6 +110,11 @@ class _JsHost {
   /// A source's patience must not become everyone else's stall.
   static const int maxProviderFetchTimeoutMs = 25000;
 
+  /// Hard ceiling on a whole `call`, across every fetch it chains. The engine
+  /// runs one call at a time, so this is what stops one slow source freezing
+  /// the app instead of just its own screen.
+  static const Duration maxProviderCallTimeout = Duration(seconds: 25);
+
   _JsHost({required this.dio}) {
     _engine = JsEngine(onChannel: _onChannel, polling: isAppleTv);
   }
@@ -279,13 +284,22 @@ class _JsHost {
     bool Function()? abandoned,
   }) async {
     try {
-        final v = await _scheduler.enqueue<String>(
-          sourceId,
-          method,
-          () => _runCall(sourceId, method, args, timeout),
-          lane: _laneNow(),
-          abandoned: abandoned,
-        );
+        final v = await _scheduler
+            .enqueue<String>(
+              sourceId,
+              method,
+              () => _runCall(sourceId, method, args, timeout),
+              lane: _laneNow(),
+              abandoned: abandoned,
+            )
+            // One call owns the shared engine, so a call that overruns holds
+            // every other source hostage. `maxProviderFetchTimeoutMs` bounds a
+            // single fetch, but a call is several fetches chained inside the
+            // provider, so the total could still reach ~30s (measured: a
+            // `fuckingfast.net` download ran 30306ms and 82 calls queued behind
+            // it, each then burning the full queue wait). Bound the whole call
+            // so one slow site costs its own search and nothing else.
+            .timeout(maxProviderCallTimeout);
       _health.remove(sourceId);
       return v;
     } on ProviderCallAbandoned {

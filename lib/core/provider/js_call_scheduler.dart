@@ -88,8 +88,16 @@ class ProviderCallQueueTimeout implements Exception {
 /// prefetch forever. Strict priority without it is a different freeze.
 class JsCallScheduler {
   JsCallScheduler({
-    this.backgroundWaitCeiling = const Duration(seconds: 20),
-    this.interactiveWaitCeiling = const Duration(seconds: 30),
+    // How long a call may stand in the queue before it is given up on. The
+    // engine serves one call at a time, so a call's real latency is its own
+    // runtime PLUS everyone ahead of it: measured, a search that finished in
+    // under a second still took 30s and reported "waited 30s in the queue",
+    // while 82 calls piled up behind one 30s download. A wait that long is
+    // indistinguishable from a hang, and the viewer has already moved on by
+    // then, so it buys nothing to keep holding the slot. Eight seconds is well
+    // clear of a normal queue and far short of feeling stuck.
+    this.backgroundWaitCeiling = const Duration(seconds: 5),
+    this.interactiveWaitCeiling = const Duration(seconds: 8),
     this.fairnessEvery = 4,
   });
 

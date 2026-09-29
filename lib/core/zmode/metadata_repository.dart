@@ -632,6 +632,11 @@ class MetadataRepository implements CatalogueRepository {
         title: d.title,
         altTitle: d.englishTitle,
         malId: d.malId,
+        // `detail` accepted `abandoned` but never consulted it, so a source
+        // sweep outlived the screen that asked for it. Fast back-and-tap
+        // through detail screens then stacked one live search per screen, and
+        // each new tap waited behind every abandoned one.
+        abandoned: abandoned,
       );
       if (m == null) {
         // A Cloudflare challenge on the source reading actually uses — surface
@@ -699,6 +704,11 @@ class MetadataRepository implements CatalogueRepository {
       title: d.title,
       altTitle: d.englishTitle,
       malId: d.malId,
+      // `detail` accepted `abandoned` but never consulted it, so a source
+      // sweep outlived the screen that asked for it. Fast back-and-tap
+      // through detail screens then stacked one live search per screen, and
+      // each new tap waited behind every abandoned one.
+      abandoned: abandoned,
     );
     if (m == null) {
       // Keep the catalogue's list rather than blanking it. Playback sweeps
