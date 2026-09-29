@@ -24,6 +24,7 @@ import 'cf_clearance_store.dart';
 import 'cf_solve_needed.dart';
 import 'crypto_ops.dart';
 import 'js_bootstrap.dart';
+import 'js_call_scheduler.dart';
 import 'js_engine.dart';
 import 'reading_provider.dart';
 
@@ -105,6 +106,10 @@ class ProviderCallAbandoned implements Exception {
 }
 
 class _JsHost {
+  /// Hard ceiling on any single provider fetch, whatever the source asked for.
+  /// A source's patience must not become everyone else's stall.
+  static const int maxProviderFetchTimeoutMs = 25000;
+
   _JsHost({required this.dio}) {
     _engine = JsEngine(onChannel: _onChannel, polling: isAppleTv);
   }
@@ -139,7 +144,6 @@ class _JsHost {
   // OWN re-entrant resolves (__resolveFetch/__fireTimer/__resolveCrypto) do NOT
   // take this lock, so an in-flight call can still be fed while it pumps the JS
   // event loop — i.e. this can't deadlock.
-  Future<void> _callQueue = Future<void>.value();
 
   // Cloudflare bridge: JS providers opt into a CF-cleared request via
   // fetch(url, { browser: true }). We reuse the native WebView solver (the same
@@ -257,29 +261,15 @@ class _JsHost {
         });
   }
 
-  // Chains [action] after the current queue tail so calls run strictly one at a
-  // time; a failing call still releases the queue (errors are swallowed on the
-  // chaining future, propagated only to the caller). See [_callQueue].
-  Future<T> _serialized<T>(
-    Future<T> Function() action, {
-    bool Function()? abandoned,
-  }) {
-    final done = Completer<T>();
-    final prev = _callQueue;
-    _callQueue = done.future.then<void>((_) {}, onError: (_) {});
-    prev.whenComplete(() {
-      // Checked HERE, not at enqueue time: the whole point is the wait in
-      // between. A viewer who backed out while this sat in the queue is no
-      // longer owed an answer, and running it anyway is what made the next
-      // screen take 12s, then 24s, then 27s in the shared report.
-      if (abandoned?.call() ?? false) {
-        done.completeError(const ProviderCallAbandoned());
-        return;
-      }
-      action().then(done.complete, onError: done.completeError);
-    });
-    return done.future;
-  }
+  final _scheduler = JsCallScheduler();
+
+  /// Reads the zone the call was scheduled in. A zone rather than a parameter
+  /// because the call chain is six layers deep and threading a lane flag
+  /// through all of them is a diff nobody can review — so only the few
+  /// fire-and-forget origins set it, and everything else stays interactive.
+  CallLane _laneNow() => Zone.current[ProviderManager.backgroundKey] == true
+      ? CallLane.background
+      : CallLane.interactive;
 
   Future<String> call(
     String sourceId,
@@ -289,10 +279,13 @@ class _JsHost {
     bool Function()? abandoned,
   }) async {
     try {
-      final v = await _serialized(
-        () => _runCall(sourceId, method, args, timeout),
-        abandoned: abandoned,
-      );
+        final v = await _scheduler.enqueue<String>(
+          sourceId,
+          method,
+          () => _runCall(sourceId, method, args, timeout),
+          lane: _laneNow(),
+          abandoned: abandoned,
+        );
       _health.remove(sourceId);
       return v;
     } on ProviderCallAbandoned {
@@ -590,9 +583,35 @@ class _JsHost {
     bool follow,
     int tMs,
   ) {
+    // `null` in Dio means "wait forever", which is what a provider fetch got
+    // whenever the source didn't ask for a timeout — and WCCCNF shows the cost:
+    // one title took 71.8s while every other request queued behind it. A
+    // source's requested timeout is a FLOOR, not a ceiling: these sources ask
+    // for 30s, and those 30s are spent inside one call that OWNS the shared JS
+    // bridge, so a hostile host stalls every source in the app (5YD3QD:
+    // `vegamovies.getDetail waited 20s in the queue`).
+    //
+    // 25s matches the hand-picked source's existing budget, so this changes
+    // nothing about how long a source the viewer chose gets. It only stops
+    // unbounded and 30s requests holding everyone else hostage. A request
+    // asking for less still gets less.
+    final ms =
+        tMs > 0 && tMs < maxProviderFetchTimeoutMs ? tMs : maxProviderFetchTimeoutMs;
     return dio.requestUri<dynamic>(
       Uri.parse(url),
       data: body,
+      // `null` here means "wait forever" in Dio, which is what a provider fetch
+      // got whenever the source didn't ask for a timeout — and WCCCNF shows what
+      // that costs: a title took 71.8s while every other request queued behind
+      // it. A source's requested timeout is a FLOOR, not a ceiling: these
+      // sources ask for 30s, and those 30s are spent inside one call that owns
+      // the shared JS bridge, so a hostile host stalls every source in the app
+      // (5YD3QD: `vegamovies.getDetail waited 20s in the queue`).
+      //
+      // 25s is the hand-picked source's existing budget, so this changes
+      // nothing about how long a source the viewer chose gets; it only stops
+      // unbounded and 30s requests from holding everyone else hostage. A
+      // request asking for less still gets less.
       options: Options(
         method: method,
         headers: headers,
@@ -600,8 +619,8 @@ class _JsHost {
         followRedirects: follow,
         maxRedirects: follow ? 5 : 0,
         validateStatus: (_) => true,
-        receiveTimeout: tMs > 0 ? Duration(milliseconds: tMs) : null,
-        sendTimeout: tMs > 0 ? Duration(milliseconds: tMs) : null,
+        receiveTimeout: Duration(milliseconds: ms),
+        sendTimeout: Duration(milliseconds: ms),
       ),
     );
   }
@@ -1101,6 +1120,14 @@ abstract class ProviderRuntimeLoader {
 /// Public manager. Owns the single shared QuickJS runtime + registered
 /// providers and extractors.
 class ProviderManager implements ProviderRuntimeLoader {
+  /// Zone key marking a provider call as housekeeping nobody is waiting on.
+  static final Object backgroundKey = Object();
+
+  /// Runs [body] with every provider call it makes tagged background, so it
+  /// queues behind the viewer's taps instead of competing with them.
+  static Future<T> inBackground<T>(Future<T> Function() body) =>
+      runZoned(body, zoneValues: {backgroundKey: true});
+
   ProviderManager({required Dio dio}) : _host = _JsHost(dio: dio);
 
   final _JsHost _host;

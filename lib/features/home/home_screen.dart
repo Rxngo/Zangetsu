@@ -329,9 +329,9 @@ class _HomeViewState extends State<_HomeView>
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      _repo
-          .sources(e.episodeUrl, sourceId: e.sourceId, fast: true)
-          .catchError((_) => <VideoSource>[]);
+      ProviderManager.inBackground(
+        () => _repo.sources(e.episodeUrl, sourceId: e.sourceId, fast: true),
+      ).catchError((_) => <VideoSource>[]);
     });
   }
 
