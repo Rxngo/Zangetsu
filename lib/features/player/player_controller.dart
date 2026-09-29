@@ -176,22 +176,52 @@ class PlayerState extends Equatable {
 /// equality against `state.active`, and rebuilding those would drop the tick
 /// (same invariant as `PlayerCubit._pollForMoreSources`). Duplicate URLs
 /// collapse to their first arrival; open entries the arrivals omit are kept.
-List<VideoSource> mergeArrivedSourceLists(
-  List<VideoSource> current,
-  List<VideoSource> arrivals,
-) {
-  final byUrl = <String, VideoSource>{for (final s in current) s.url: s};
-  final seen = <String>{};
-  final merged = <VideoSource>[];
-  for (final s in arrivals) {
-    if (!seen.add(s.url)) continue;
-    merged.add(byUrl[s.url] ?? s);
+  List<VideoSource> mergeArrivedSourceLists(
+    List<VideoSource> current,
+    List<VideoSource> arrivals,
+  ) {
+    // Identity is the WHOLE entry, not the URL.
+    //
+    // Keying on url alone quietly threw away real choices: two sources can hand
+    // back one link under two different quality labels, and dropping the second
+    // removed a quality the viewer could otherwise have picked. Everything that
+    // makes an entry a distinct option is in the key, so a duplicate is only
+    // collapsed when it really is the same option offered twice.
+    String keyOf(VideoSource s) => [
+          s.url,
+          s.quality ?? '',
+          s.container.name,
+          s.kind.name,
+          s.audioLang ?? '',
+          s.subtitles
+              .map((e) => '${e.lang}|${e.label}|${e.url}')
+              .join('\u0001'),
+          (s.headers ?? const <String, String>{}).entries
+              .map((e) => '${e.key}=${e.value}')
+              .join('\u0001'),
+        ].join('\u0000');
+
+    // Prefer the object already in the list, so the Sources sheet's tick on the
+    // playing row keeps matching by identity — that tick is why the
+    // substitution exists at all.
+    final existing = <String, VideoSource>{
+      for (final s in current) keyOf(s): s,
+    };
+    final seen = <String>{};
+    final merged = <VideoSource>[];
+    for (final s in arrivals) {
+      final k = keyOf(s);
+      if (!seen.add(k)) continue;
+      merged.add(existing[k] ?? s);
+    }
+    // Anything already open that the newest list didn't repeat is KEPT, in the
+    // position it already held — not appended at the end, which is what the old
+    // url-keyed version did to every straggler.
+    for (final s in current) {
+      if (seen.add(keyOf(s))) merged.add(s);
+    }
+    return merged;
   }
-  for (final s in current) {
-    if (seen.add(s.url)) merged.add(s);
-  }
-  return merged;
-}
 
 /// True when two source lists carry the same URLs in the same order — the
 /// no-change check that lets [PlayerCubit.mergeArrivedStreams] skip a

@@ -451,4 +451,55 @@ void main() {
       expect(identical(merged[0], a), isTrue);
     });
   });
+
+  group('mergeArrivedSourceLists keeps every option the full resolve showed', () {
+    VideoSource mk(
+      String url, {
+      String? quality,
+      List<Subtitle> subs = const [],
+    }) =>
+        VideoSource(
+          url: url,
+          quality: quality,
+          container: SourceContainer.mp4,
+          headers: null,
+          kind: AudioKind.sub,
+          audioLang: 'sub',
+          subtitles: subs,
+        );
+
+    test('same URL, DIFFERENT quality - both survive', () {
+      // The gap: url-keyed dedup dropped the 720p entry, so a quality the full
+      // resolve would have shown simply disappeared.
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a', quality: '1080p'),
+        mk('https://x/a', quality: '720p'),
+      ]);
+      expect(out.map((e) => e.quality).toList(), ['1080p', '720p']);
+    });
+
+    test('same URL, different subtitles - both survive', () {
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a',
+            subs: [const Subtitle(lang: 'en', label: '', url: 'u1')]),
+        mk('https://x/a',
+            subs: [const Subtitle(lang: 'hi', label: '', url: 'u2')]),
+      ]);
+      expect(out.length, 2, reason: 'a different subtitle track is a different option');
+    });
+
+    test('a TRUE duplicate still collapses', () {
+      final out = mergeArrivedSourceLists(const [], [
+        mk('https://x/a', quality: '1080p'),
+        mk('https://x/a', quality: '1080p'),
+      ]);
+      expect(out.length, 1, reason: 'the same option twice is one option');
+    });
+
+    test('the already-playing entry is the SAME object, so the tick survives', () {
+      final open = mk('https://x/a', quality: '1080p');
+      final out = mergeArrivedSourceLists([open], [mk('https://x/a', quality: '1080p')]);
+      expect(identical(out.first, open), isTrue);
+    });
+  });
 }
