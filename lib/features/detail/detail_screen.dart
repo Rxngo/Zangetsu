@@ -552,11 +552,27 @@ class _DetailViewState extends State<_DetailView>
         // Same call Play makes, so the winner and the stream URLs land in the
         // caches it reads. Fire-and-forget: a failure here must never surface,
         // Play just does the work itself as before.
-        sl<CatalogueRepository>()
-            .sources(epUrl, sourceId: sourceId, fast: true)
-            .catchError((_) => <VideoSource>[]);
+        //
+        // Aimed at the MATCHED source, not at the Z pseudo-id. Passing the
+        // pseudo-id is what made this fan out: a title pinned to fourkhdhub
+        // warmed fourkhdhub AND vegamovies AND hdhub4u on every single detail
+        // open, three full stream enumerations competing for one phone's
+        // bandwidth to warm a list the viewer will play from one source. Naming
+        // the source asks that one first and only sweeps if it turns out to have
+        // nothing - which is what a per-source screen means. Nothing is removed:
+        // the fallback sweep is unchanged (metadata_repository.dart:916), and
+        // Play never came through this path at all.
+        final matched = _zModeMatchedSource();
+        ProviderManager.inBackground(
+          () => sl<CatalogueRepository>().sources(
+            epUrl,
+            sourceId: matched?.sourceId ?? sourceId,
+            fast: true,
+          ),
+        ).catchError((_) => <VideoSource>[]);
         return;
       }
+
       sl<SourceRepository>().prefetch(epUrl, sourceId: sourceId);
     });
   }
