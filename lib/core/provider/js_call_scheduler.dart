@@ -88,16 +88,21 @@ class ProviderCallQueueTimeout implements Exception {
 /// prefetch forever. Strict priority without it is a different freeze.
 class JsCallScheduler {
   JsCallScheduler({
-    // How long a call may stand in the queue before it is given up on. The
-    // engine serves one call at a time, so a call's real latency is its own
-    // runtime PLUS everyone ahead of it: measured, a search that finished in
-    // under a second still took 30s and reported "waited 30s in the queue",
-    // while 82 calls piled up behind one 30s download. A wait that long is
-    // indistinguishable from a hang, and the viewer has already moved on by
-    // then, so it buys nothing to keep holding the slot. Eight seconds is well
-    // clear of a normal queue and far short of feeling stuck.
-    this.backgroundWaitCeiling = const Duration(seconds: 5),
-    this.interactiveWaitCeiling = const Duration(seconds: 8),
+    // How long a call may stand in the queue before it is given up on. A
+    // call's real latency is its own runtime plus everyone ahead of it, so
+    // this is a backstop against a wedged engine, not the primary bound -
+    // `ProviderManager.maxProviderCallTimeout` caps the run itself.
+    //
+    // Deliberately the same length as that cap. An earlier version used 8s
+    // here, reasoning that a shorter wait fails fast; measured, that threw away
+    // real answers - `hdhub4u.getVideoSources waited 8s in the queue` fired on
+    // a source that had already matched the title and loaded its page, so the
+    // viewer got nothing for a search that was about to succeed. The queue
+    // should not be the thing that decides a call is too slow; the call's own
+    // budget should. Anything waiting longer than one call can run is standing
+    // behind a call that has already overrun, and fails on that basis.
+    this.backgroundWaitCeiling = const Duration(seconds: 25),
+    this.interactiveWaitCeiling = const Duration(seconds: 25),
     this.fairnessEvery = 4,
   });
 
