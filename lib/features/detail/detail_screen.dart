@@ -422,6 +422,13 @@ class _DetailViewState extends State<_DetailView>
   // don't re-fire it on every rebuild (see _maybePrefetch).
   String? _prefetchedEpUrl;
 
+  /// How long the viewer must stay on the screen before a source resolve is
+  /// started for them. Long enough that a back-and-forth browse never starts
+  /// one, short enough that a viewer reading the page still gets the warm menu.
+  static const Duration _prefetchStayDelay = Duration(milliseconds: 700);
+
+  Timer? _prefetchTimer;
+
   // Filler episode numbers (from Jikan by MAL id), for the "Filler" badge in the
   // episode list. Fetched once per malId; empty for non-anime / unlisted shows.
   Set<int> _fillerEps = const {};
@@ -495,6 +502,9 @@ class _DetailViewState extends State<_DetailView>
 
   @override
   void dispose() {
+    // Leaving before the stay-delay elapsed: no viewer is here to warm a menu
+    // for, so the pending resolve never starts.
+    _prefetchTimer?.cancel();
     // Back to generic "Browsing" when leaving the detail.
     if (sl.isRegistered<DiscordRpc>()) sl<DiscordRpc>().setBrowsing();
     _scrollController.dispose();
@@ -502,10 +512,22 @@ class _DetailViewState extends State<_DetailView>
     super.dispose();
   }
 
-  /// Background-resolve [epUrl]'s sources once for this title, AFTER the current
-  /// frame (so it never competes with rendering/scrolling), so the next Play
-  /// reuses the work. Fire-and-forget; cancelled implicitly by leaving (the
-  /// result just lands in the repo's prefetch cache, unused).
+  /// Background-resolve [epUrl]'s sources once for this title, so the next Play
+  /// reuses the work.
+  ///
+  /// Only once the viewer has demonstrably STAYED. This used to start on the
+  /// first frame, and the comment claimed leaving cancelled it — it did not.
+  /// `SourceRepository.prefetch` is `void` fire-and-forget with nothing to
+  /// cancel, so a resolve started on open kept running after the back button,
+  /// and a resolve is a full source sweep: with two dead sources (fourkhdhub
+  /// and hdhub4u each blowing the 20s budget) that is ~40s of provider work per
+  /// open. Opening titles quickly therefore left one live sweep per screen,
+  /// each queued behind the last, and the next screen waited for all of them.
+  /// The tv detail screen has never prefetched, which is why tv does not show
+  /// this.
+  ///
+  /// Waiting for the viewer to still be here is the whole fix: someone who
+  /// leaves pays nothing, and someone who stays gets the warm menu as before.
   void _maybePrefetch(String epUrl, String sourceId) {
     if (_prefetchedEpUrl == epUrl) return;
     final zMode = sourceId == ZmodeIds.sourceId;
@@ -519,7 +541,12 @@ class _DetailViewState extends State<_DetailView>
     // for a title the viewer may never play, which is not ours to spend.
     if (zMode && _zModeMatchedSource() == null) return;
     _prefetchedEpUrl = epUrl;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // One frame is not evidence the viewer wants this. Wait for the viewer to
+    // still be here before spending a whole source sweep on them. A Timer, not
+    // Future.delayed, so dispose can cancel it — a pending timer at teardown is
+    // a leaked callback, and dispose is exactly when this is usually moot.
+    _prefetchTimer?.cancel();
+    _prefetchTimer = Timer(_prefetchStayDelay, () {
       if (!mounted) return;
       if (zMode) {
         // Same call Play makes, so the winner and the stream URLs land in the
