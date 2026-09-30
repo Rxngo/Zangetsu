@@ -2749,18 +2749,6 @@ class PlayerCubit extends Cubit<PlayerState> {
     }
   }
 
-  /// Whether [message] reports that a stream failed to open.
-  ///
-  /// Internal shader-file and local-file failures are not stream failures:
-  /// surfacing those as “try another source” would send the viewer chasing a
-  /// working server for a local rendering or file problem.
-  @visibleForTesting
-  static bool isStreamOpenFailure(String message) {
-    final lower = message.toLowerCase();
-    if (!lower.contains('failed to open')) return false;
-    return !lower.contains('.glsl') && !lower.contains('cannot open file');
-  }
-
   /// Try the next source after the current one fails (dead/DRM/unsupported),
   /// preserving the live position and the audio kind.
   Future<void> _onPlaybackError(String e) async {
@@ -2801,17 +2789,6 @@ class PlayerCubit extends Cubit<PlayerState> {
       'ffmpeg-fallback',
     ];
     if (harmless.any(lower.contains)) return;
-    // Name a failed open immediately instead of letting automatic failover work
-    // silently. The Sources sheet stays available, so the viewer can switch
-    // manually while recovery runs; if recovery succeeds, its own message
-    // replaces this one. Reaching here means torrent, mid-playback, recovery,
-    // and harmless-ancillary failures have all been excluded.
-    if (isStreamOpenFailure(e)) {
-      _toast(
-        'Stream failed to open — try another source.',
-        duration: const Duration(seconds: 4),
-      );
-    }
     // A direct Aniyomi stream that failed on Cloudflare → swap to its hidden
     // proxy fallback (same quality) rather than cycling through other qualities.
     final act = state.active;
