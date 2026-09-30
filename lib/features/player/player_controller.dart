@@ -478,8 +478,7 @@ class PlayerCubit extends Cubit<PlayerState> {
   /// dead link at a time. Reset per episode.
   int _sourceHops = 0;
   static const int _maxSourceHops = 3;
-  bool _recovering = false;
-  bool _stallWatchdogArmed = false; // debounce: one error-recovery at a time
+  bool _recovering = false; // debounce: one error-recovery at a time
   // True once the current source has actually produced playback (position
   // advanced). libmpv emits transient "connection"/"failed to open" warnings
   // mid-stream (HLS segment blips, a failed subtitle track) even while video +
@@ -1101,9 +1100,6 @@ class PlayerCubit extends Cubit<PlayerState> {
 
         if (p > Duration.zero) {
           _startedThisSource = true; // source is playing
-          // Playing: the open-time watchdog has done its job. A later genuine stall
-          // re-arms it through the buffering event.
-          _disarmStallWatchdog();
           _everStarted = true; // ...and something has played at least once
           _startTimer?.cancel();
           _startTimer = null;
@@ -1208,30 +1204,23 @@ class PlayerCubit extends Cubit<PlayerState> {
         // A torrent local stream buffers while pieces download — that's normal,
         // not a dead source. Arming the stall watchdog would restart the torrent
         // from scratch and churn native memory (force close). Skip it for torrents.
-        if (buffering && !_stallWatchdogArmed) {
-          if (_startedThisSource &&
-              !_recovering &&
-              _activeTorrentId == null &&
-              !_isProxiedStream) {
-            // Started source stalled — arm a watchdog. If we're still stuck and
-            // the position hasn't advanced ~18s later, the stream is likely dead
-            // → fail over.
-            _armStallWatchdog();
-          } else {
-            _disarmStallWatchdog();
-          }
+        if (buffering &&
+            _startedThisSource &&
+            !_recovering &&
+            _activeTorrentId == null &&
+            !_isProxiedStream) {
+          // Started source stalled — arm a watchdog. If we're still stuck and the
+          // position hasn't advanced ~18s later, the stream is likely dead → fail
+          // over.
+          _stallAnchorPos = _lastPos;
+          _stallTimer?.cancel();
+          _stallTimer = Timer(const Duration(seconds: 18), _failoverFromStall);
+        } else {
+          _stallTimer?.cancel();
+          _stallTimer = null;
         }
       }),
     );
-      // A stream that never starts never buffers, so the watchdog above — which
-      // only listens for `buffering` — is never armed for it. 1.9.8 had no such
-      // gap because links failed differently then: they hung mid-playback, so the
-      // stall detector caught them. Now the CDN answers 403 the instant the link
-      // is opened, no video ever starts, nothing ever buffers, and the screen sits
-      // there indefinitely. A source that has neither started nor buffered by the
-      // time this fires is as dead as one that started and froze — same 18s, same
-      // failover, so a blocked link cycles to the next source like 1.9.8 did.
-      _armStallWatchdog();
     openEpisode(index);
   }
 
@@ -1251,9 +1240,6 @@ class PlayerCubit extends Cubit<PlayerState> {
     _lastPos = position;
     if (position > Duration.zero) {
       _startedThisSource = true;
-      // Playing: the open-time watchdog has done its job. A later genuine stall
-      // re-arms it through the buffering event.
-      _disarmStallWatchdog();
       _everStarted = true;
       if (!_markedWatching) {
         _markedWatching = true;
@@ -2988,25 +2974,7 @@ class PlayerCubit extends Cubit<PlayerState> {
 
   /// A started source stalled for too long (dead host / pulled segment).
   /// Switch to the next untried mirror at the same position, transparently.
-  /// Arm the stall detector. Shared by the two ways a stream turns out to be
-  /// dead: it started and then froze (the `buffering` event), or it never started
-  /// at all because the host refused the link on open. Reused rather than
-  /// duplicated so the 18s and the failover stay in one place.
-  void _armStallWatchdog() {
-    _stallAnchorPos = _lastPos;
-    _stallWatchdogArmed = true;
-    _stallTimer?.cancel();
-    _stallTimer = Timer(const Duration(seconds: 18), _failoverFromStall);
-  }
-
-  void _disarmStallWatchdog() {
-    _stallWatchdogArmed = false;
-    _stallTimer?.cancel();
-    _stallTimer = null;
-  }
-
   Future<void> _failoverFromStall() async {
-    _stallWatchdogArmed = false;
     // Bail if playback recovered (position moved past the stall anchor) or
     // we're no longer buffering — it was just a slow network dip, not a death.
     if (!player.state.buffering) return;
