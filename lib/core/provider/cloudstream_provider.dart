@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:watch_app/core/hive/safe_box.dart';
 import 'dart:io';
@@ -634,22 +633,9 @@ class CloudStreamProvider implements BaseProvider {
     // thread). Handing Flutter a nested List<Map> would make the platform
     // channel encode it on the UI thread — which skips frames on big feeds like
     // MovieBox. Decode it OFF the UI thread (compute) when it's large.
-    // Unbounded before: a dead source's home feed waited forever with no error,
-    // so the source's own home screen stuck instead of failing. Twenty-five
-    // seconds matches the whole-call budget for provider fetches - long enough
-    // for a healthy source to answer several times over, and failure surfaces
-    // as an empty feed the screen already handles.
-    String? jsonStr;
-    try {
-      jsonStr = await _csChannel
-          .invokeMethod<String>('getHome', {'name': hostKey})
-          .timeout(const Duration(seconds: 25));
-    } on TimeoutException {
-      // No log line check is needed here: a native fetch that cannot answer in
-      // 25s holds nothing else hostage, it just means this source's home does
-      // not load. `null` below is the path the screen already renders as empty.
-      return null;
-    }
+    final jsonStr = await _csChannel.invokeMethod<String>('getHome', {
+      'name': hostKey,
+    });
     if (jsonStr == null || jsonStr.isEmpty || jsonStr == '[]') return null;
     final List<dynamic> raw = jsonStr.length > 20000
         ? await compute(_decodeJsonList, jsonStr)
