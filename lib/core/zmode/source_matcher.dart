@@ -388,7 +388,21 @@ class SourceMatcher {
       '(${sweep.map((s) => s.id).take(5).join(",")}'
       '${sweep.length > 5 ? "…" : ""})',
     );
+      // A whole-sweep budget, not just per-source ones. Each candidate has its
+      // own budget, but ten dead sources at 20s each is over three minutes for
+      // one Auto Resolve. An unbounded sequence of individually reasonable waits
+      // is still an unreasonable wait. Twenty-five seconds matches the whole-call
+      // budget everywhere else, so the viewer gets an answer or a failure in
+      // time to do something about it.
+      final sweepDeadline =
+          DateTime.now().add(const Duration(seconds: 25));
     for (final s in sweep) {
+        if (DateTime.now().isAfter(sweepDeadline)) {
+          debugPrint(
+            '[source-matcher] _resolve · AUTO over 25s, stopping for "$title"',
+          );
+          return null;
+        }
       // The viewer left: stop before the next source. Going back out of a detail
       // screen used to leave this sweep running, so tapping titles quickly piled
       // up one live search per screen and each new tap waited behind all the
