@@ -26,6 +26,7 @@ migrate_working_dir/
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
+.build-tmp/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -46,6 +47,7 @@ app.*.map.json
 /android/app/release
 
 # Internal docs (plans, specs, audits) — not part of the shipped app
+/AGENTS.md
 /docs/
 # Built release APK artifacts (any version)
 release-v*/
