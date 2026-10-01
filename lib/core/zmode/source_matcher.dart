@@ -11,12 +11,19 @@ import 'zmode_source_prefs.dart';
 
 /// Thrown by playback when a metadata title has no source at all.
 class NoSourceMatch implements Exception {
-  const NoSourceMatch(this.canonical, {this.outcomes = const []});
+  const NoSourceMatch(
+    this.canonical, {
+    this.outcomes = const [],
+    this.selectedSourceName,
+  });
   final ZCanonical canonical;
 
   /// What each candidate did, when this came from a full sweep. Empty when
   /// there was nothing to ask. See `sweepFailureDetail`.
   final List<({String sourceId, String name, SweepReason reason})> outcomes;
+
+  /// Set when a user-selected source alone was checked.
+  final String? selectedSourceName;
 
   @override
   String toString() => 'No installed source has $canonical';
@@ -79,8 +86,7 @@ class SourceMatcher {
   /// source can't forget it.
   void Function(ZCanonical)? _onSourceChanged;
 
-  void bindSourceChanged(void Function(ZCanonical) fn) =>
-      _onSourceChanged = fn;
+  void bindSourceChanged(void Function(ZCanonical) fn) => _onSourceChanged = fn;
 
   void _sourceChanged(ZCanonical c) => _onSourceChanged?.call(c);
 
@@ -159,7 +165,12 @@ class SourceMatcher {
     // empty because it was blocked both just vanish from matching, so say
     // which happened — otherwise "no source has this" is undebuggable.
     debugPrint('[zmode] $sourceId -> ${results.length} results for "$title"');
-    var hit = bestTitleMatch(results, title, altTitle: altTitle, wantedMalId: malId);
+    var hit = bestTitleMatch(
+      results,
+      title,
+      altTitle: altTitle,
+      wantedMalId: malId,
+    );
     var matched =
         hit != null &&
         titleMatches(hit, title, altTitle: altTitle, wantedMalId: malId);
@@ -172,9 +183,7 @@ class SourceMatcher {
     if (!matched &&
         alt.isNotEmpty &&
         normalizeTitle(alt) != normalizeTitle(title)) {
-      debugPrint(
-        '[zmode] $sourceId · nothing for "$title", trying "$alt"',
-      );
+      debugPrint('[zmode] $sourceId · nothing for "$title", trying "$alt"');
       final second = await searchFor(alt);
       if (second == null) return null;
       debugPrint('[zmode] $sourceId -> ${second.length} results for "$alt"');
@@ -272,7 +281,13 @@ class SourceMatcher {
       '[source-matcher] matchOn · "$sourceId" → fresh search '
       'for "$title"',
     );
-    return resolveOn(c, sourceId, title: title, altTitle: altTitle, malId: malId);
+    return resolveOn(
+      c,
+      sourceId,
+      title: title,
+      altTitle: altTitle,
+      malId: malId,
+    );
   }
 
   /// *A* source for this title: honours the stored selection when it's set
@@ -289,7 +304,6 @@ class SourceMatcher {
   /// the network work and the wait.
   final Map<String, Future<SourceMatch?>> _inFlight = {};
 
-
   Future<SourceMatch?> resolve(
     ZCanonical c, {
     required String title,
@@ -302,15 +316,16 @@ class SourceMatcher {
     // Braces, NOT an arrow: Map.remove returns the removed value, and
     // whenComplete awaits a returned Future — an arrow here hands it the very
     // future being completed, so it waits on itself and never finishes.
-    final f = _resolve(
-      c,
-      title: title,
-      altTitle: altTitle,
-      malId: malId,
-      abandoned: abandoned,
-    ).whenComplete(() {
-      _inFlight.remove(c.key);
-    });
+    final f =
+        _resolve(
+          c,
+          title: title,
+          altTitle: altTitle,
+          malId: malId,
+          abandoned: abandoned,
+        ).whenComplete(() {
+          _inFlight.remove(c.key);
+        });
     _inFlight[c.key] = f;
     return f;
   }
@@ -409,14 +424,22 @@ class SourceMatcher {
         );
         return null;
       }
-      final m = await matchOn(c, s.id, title: title, altTitle: altTitle, malId: malId);
+      final m = await matchOn(
+        c,
+        s.id,
+        title: title,
+        altTitle: altTitle,
+        malId: malId,
+      );
       if (m != null) {
         debugPrint('[source-matcher] _resolve · AUTO → ${s.id}');
         if (isReading) await _prefs.rememberLastGood(c.kind, s.id);
         return m;
       }
     }
-    debugPrint('[source-matcher] _resolve · AUTO → null (no candidate matched)');
+    debugPrint(
+      '[source-matcher] _resolve · AUTO → null (no candidate matched)',
+    );
     return null;
   }
 
@@ -445,7 +468,7 @@ class SourceMatcher {
     debugPrint('[source-matcher] selectedFor($kind) → null (no kind default)');
     return null;
   }
-  
+
   /// This title's own source: a per-title pin first, else the explicit kind
   /// default, else — for reading — the source reading settled on, else null,
   /// meaning Auto Resolve is in effect for it.
@@ -494,7 +517,13 @@ class SourceMatcher {
     String? altTitle,
     int? malId,
   }) async {
-    final m = await matchOn(c, sourceId, title: title, altTitle: altTitle, malId: malId);
+    final m = await matchOn(
+      c,
+      sourceId,
+      title: title,
+      altTitle: altTitle,
+      malId: malId,
+    );
     if (m == null) {
       // The source has nothing for this title — but the user still CHOSE it,
       // and that has to stick. Returning here without writing anything left
@@ -581,7 +610,7 @@ class SourceMatcher {
     _sourceChanged(c);
     return m;
   }
-  
+
   /// Browsing a source directly and opening a show there: a choice about
   /// THIS show, so unlike [pinManual] the kind default is left alone — one
   /// tap here must never silently re-point every other title of the kind.

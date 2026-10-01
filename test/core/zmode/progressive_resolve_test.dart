@@ -183,8 +183,9 @@ void main() {
       ]);
     });
 
-    test('pinned source is honored, never substituted', () async {
-      // Pin the fast source: the first paint is the source the viewer chose.
+    test('pinned source is the only source resolved for playback', () async {
+      // A hand-picked source owns the playback request: do not sweep the
+      // remaining providers for extra links after the chosen source succeeds.
       final src = _ProgSrc.fastSlow();
       await store.pin(
         show,
@@ -197,11 +198,37 @@ void main() {
         ),
       );
       final r = resolver(sources: src, matcher: matcherFor(src));
-      final Stream<ProgressiveResolve> stream = r.resolveProgressive(ep2);
-      final ProgressiveResolve first = await stream.first;
-      expect(first.match.sourceId, 'src-a');
-      expect(first.done, isFalse);
+      final events = await r.resolveProgressive(ep2).toList();
+      expect(events, hasLength(1));
+      expect(events.single.match.sourceId, 'src-a');
+      expect(events.single.done, isTrue);
+      expect(
+        src.log,
+        everyElement(endsWith(':src-a')),
+        reason: 'a hand-picked source must not query any other provider',
+      );
     });
+
+    test(
+      'explicit kind source is the only source resolved for playback',
+      () async {
+        final src = _ProgSrc.fastSlow();
+        await prefs.set(show.kind, 'src-a');
+        final r = resolver(sources: src, matcher: matcherFor(src));
+
+        final events = await r.resolveProgressive(ep2).toList();
+
+        expect(events, hasLength(1));
+        expect(events.single.match.sourceId, 'src-a');
+        expect(events.single.done, isTrue);
+        expect(
+          src.log,
+          everyElement(endsWith(':src-a')),
+          reason:
+              'an explicit source preference must not query other providers',
+        );
+      },
+    );
 
     test('pinned source failing is never substituted', () async {
       // The load-bearing half of the pin rule: the pinned source lacks the

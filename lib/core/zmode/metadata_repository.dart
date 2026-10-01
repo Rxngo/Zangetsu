@@ -62,27 +62,38 @@ class MetadataRepository implements CatalogueRepository {
          sources: sources,
          store: matchStore,
          prefs: sourcePrefs,
-         health: health ?? (sl.isRegistered<SourceHealthStore>() ? sl<SourceHealthStore>() : SourceHealthStore()),
+         health:
+             health ??
+             (sl.isRegistered<SourceHealthStore>()
+                 ? sl<SourceHealthStore>()
+                 : SourceHealthStore()),
          candidates: candidates ?? _defaultCandidates(sources),
-         scores: sl.isRegistered<SourceScoreStore>() ? sl<SourceScoreStore>() : null,
+         scores: sl.isRegistered<SourceScoreStore>()
+             ? sl<SourceScoreStore>()
+             : null,
        ) {
     _bindPlayback();
   }
 
   static List<({String id, String name})> Function(ZKind) _defaultCandidates(
     SourceRepository sources,
-  ) =>
-      (kind) {
-        final all = sources.pickableSources;
-        return switch (kind) {
-          ZKind.manga => [for (final s in all) if (s.id.startsWith('mihon:')) s],
-          ZKind.novel => [for (final s in all) if (s.id.startsWith('lnr:')) s],
-          _ => [
-            for (final s in all)
-              if (!s.id.startsWith('mihon:') && !s.id.startsWith('lnr:')) s,
-          ],
-        };
-      };
+  ) => (kind) {
+    final all = sources.pickableSources;
+    return switch (kind) {
+      ZKind.manga => [
+        for (final s in all)
+          if (s.id.startsWith('mihon:')) s,
+      ],
+      ZKind.novel => [
+        for (final s in all)
+          if (s.id.startsWith('lnr:')) s,
+      ],
+      _ => [
+        for (final s in all)
+          if (!s.id.startsWith('mihon:') && !s.id.startsWith('lnr:')) s,
+      ],
+    };
+  };
 
   void _bindPlayback() {
     _playback.bindTitleLookup(titleFor);
@@ -241,9 +252,7 @@ class MetadataRepository implements CatalogueRepository {
   }) async {
     try {
       final result = await primary();
-      if (backup != null &&
-          treatAsFailure != null &&
-          treatAsFailure(result)) {
+      if (backup != null && treatAsFailure != null && treatAsFailure(result)) {
         try {
           final out = await backup();
           if (!treatAsFailure(out)) {
@@ -331,7 +340,7 @@ class MetadataRepository implements CatalogueRepository {
         ? 'MyAnimeList'
         : 'AniList';
   }
-  
+
   String nameForKind(ZKind kind) {
     if (_isTmdb(kind)) {
       return _providerPrefs?.video == VideoProvider.simkl ? 'Simkl' : 'TMDB';
@@ -340,7 +349,7 @@ class MetadataRepository implements CatalogueRepository {
         ? 'MyAnimeList'
         : 'AniList';
   }
-  
+
   Future<MediaItem?> canonicalFor(MediaItem sourceItem) async {
     if (ZmodeIds.isZ(sourceItem.url)) return sourceItem; // already canonical
     final title = sourceItem.title.trim();
@@ -650,9 +659,7 @@ class MetadataRepository implements CatalogueRepository {
         // source the reader has never opened. Video never did this: it keeps
         // the page and raises Cloudflare at playback, where the user acted.
         final reading = _matcher.sourceForTitle(c);
-        final blocked = reading == null
-            ? null
-            : CfSolveNeeded.urlFor(reading);
+        final blocked = reading == null ? null : CfSolveNeeded.urlFor(reading);
         if (blocked != null) throw CloudflareRequiredException(blocked);
         AppLogger.instance.log(
           '[metadata] detail no source match ${sw.elapsedMilliseconds}ms',
@@ -677,11 +684,7 @@ class MetadataRepository implements CatalogueRepository {
       // resolver and was quietly losing 24 fields on every manga and novel:
       // score, tags, cast, relations, synonyms, dates, and coverHeaders, which
       // header-locked cover hosts need to render at all.
-      return d.copyWith(
-        id: m.showId,
-        episodes: chapters,
-        sourceId: m.sourceId,
-      );
+      return d.copyWith(id: m.showId, episodes: chapters, sourceId: m.sourceId);
     }
 
     // Video: the catalogue's list has already been painted (onPartial above),
@@ -819,15 +822,26 @@ class MetadataRepository implements CatalogueRepository {
     if (firstUnaired != null && n >= firstUnaired) {
       // An exact date only for the very next one — anything beyond it would be
       // us guessing at a schedule we were never told.
-      if (n == firstUnaired && airsAt != null) return 'Airs ${_shortDate(airsAt)}';
+      if (n == firstUnaired && airsAt != null)
+        return 'Airs ${_shortDate(airsAt)}';
       return 'Not out yet';
     }
     return checkedSource == null ? 'Not available' : 'Not on $checkedSource';
   }
 
   static const _months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   static String _shortDate(DateTime d) {
@@ -893,8 +907,7 @@ class MetadataRepository implements CatalogueRepository {
   /// means "no preference" and takes the normal sweep.
   @override
   Future<List<VideoSource>> sources(
-    String episodeUrl,
-    {
+    String episodeUrl, {
     String? sourceId,
     bool fast = false,
   }) async {
@@ -908,10 +921,13 @@ class MetadataRepository implements CatalogueRepository {
         fast: fast,
         category: cut,
       );
-      if (named.isNotEmpty) return named;
+      final parsed = ZmodeIds.parseEpisode(episodeUrl);
+      final explicitlySelected =
+          parsed != null && _matcher.sourceForTitle(parsed.show) == sourceId;
+      if (named.isNotEmpty || explicitlySelected) return named;
       // That source doesn't have it. Sweeping is better than nothing here —
-      // the caller gets SOMETHING playable and the download code says which
-      // source it settled on — but the named one had to be asked first.
+      // except when the viewer selected it for this title. Ordinary named
+      // lookups retain their fallback, while an explicit choice stays local.
     }
     return _playback.sources(episodeUrl, fast: fast, category: cut);
   }

@@ -2024,6 +2024,20 @@ class PlayerCubit extends Cubit<PlayerState> {
     return "Couldn't check every source\n$why";
   }
 
+  /// A selected source is intentionally the only one checked. Tell the viewer
+  /// whether it missed or could not be checked, and how to request a sweep.
+  static String _selectedSourceError(
+    String sourceName,
+    String settled,
+    List<SweepOutcome> outcomes,
+  ) {
+    final why = sweepFailureDetail(outcomes);
+    return [
+      if (why == null) settled else "Couldn't resolve from $sourceName\n$why",
+      'Choose Auto Resolve to check other sources.',
+    ].join('\n');
+  }
+
   /// Resolves sources for [index] and starts the best one.
   /// [fromRoom] bypasses the viewer lock so the room can move viewers to the
   /// host's episode; all other callers leave it false so viewer taps stay blocked.
@@ -2089,7 +2103,13 @@ class PlayerCubit extends Cubit<PlayerState> {
       emit(
         state.copyWith(
           loadingSources: false,
-          error: () => _sweepError('No source has this yet', e.outcomes),
+          error: () => e.selectedSourceName == null
+              ? _sweepError('No source has this yet', e.outcomes)
+              : _selectedSourceError(
+                  e.selectedSourceName!,
+                  '${e.selectedSourceName} did not match this title.',
+                  e.outcomes,
+                ),
         ),
       );
     } on EpisodeNotAvailable catch (e) {
@@ -2101,12 +2121,21 @@ class PlayerCubit extends Cubit<PlayerState> {
       emit(
         state.copyWith(
           loadingSources: false,
-          error: () => _sweepError(
-            e.hadTitleMatch
-                ? "Episode ${e.episode} isn't available on any source yet"
-                : 'No source has this yet',
-            e.outcomes,
-          ),
+          error: () => e.selectedSourceName == null
+              ? _sweepError(
+                  e.hadTitleMatch
+                      ? "Episode ${e.episode} isn't available on any source yet"
+                      : 'No source has this yet',
+                  e.outcomes,
+                )
+              : _selectedSourceError(
+                  e.selectedSourceName!,
+                  e.hadTitleMatch
+                      ? "Episode ${e.episode} isn't available from "
+                            '${e.selectedSourceName}.'
+                      : '${e.selectedSourceName} did not match this title.',
+                  e.outcomes,
+                ),
         ),
       );
     } on EpisodeNotOnSource catch (e) {

@@ -46,31 +46,40 @@ MetadataRepository _metaRepo({
   MalCatalogue? mal,
   void Function(String message)? onProviderFallback,
   List<({String id, String name})> Function(ZKind)? candidates,
-}) =>
-    MetadataRepository(
-      anilist: anilist ??
-          AniListCatalogue((q, v) async {
-            if (q.contains('Media(')) {
-              return {'Media': _al(chapters: browseKind() == ZKind.anime ? null : 5)};
-            }
-            final aliases = RegExp(r'(r\d+):').allMatches(q).map((m) => m.group(1)!);
-            return {for (final a in aliases) a: {'media': [_al()]}};
-          }),
-      tmdb: TmdbCatalogue((p, q) async => {'results': []}),
-      mal: mal,
-      onProviderFallback: onProviderFallback,
-      sources: sources,
-      matcher: matcher,
-      matchStore: store,
-      sourcePrefs: prefs,
-      health: SourceHealthStore(),
-      candidates: candidates ?? ((_) => [(id: 'allanime', name: 'AllAnime')]),
-      browseKind: browseKind,
-    );
+}) => MetadataRepository(
+  anilist:
+      anilist ??
+      AniListCatalogue((q, v) async {
+        if (q.contains('Media(')) {
+          return {
+            'Media': _al(chapters: browseKind() == ZKind.anime ? null : 5),
+          };
+        }
+        final aliases = RegExp(
+          r'(r\d+):',
+        ).allMatches(q).map((m) => m.group(1)!);
+        return {
+          for (final a in aliases)
+            a: {
+              'media': [_al()],
+            },
+        };
+      }),
+  tmdb: TmdbCatalogue((p, q) async => {'results': []}),
+  mal: mal,
+  onProviderFallback: onProviderFallback,
+  sources: sources,
+  matcher: matcher,
+  matchStore: store,
+  sourcePrefs: prefs,
+  health: SourceHealthStore(),
+  candidates: candidates ?? ((_) => [(id: 'allanime', name: 'AllAnime')]),
+  browseKind: browseKind,
+);
 
 class _Src implements SourceRepository {
   _Src({this.streams = _stream});
-  final List<VideoSource> streams;
+  List<VideoSource> streams;
   final log = <String>[];
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
@@ -84,14 +93,19 @@ class _Src implements SourceRepository {
   String displayName(String sourceId) => sourceId;
 
   @override
-  List<({String id, String name})> get loadedSources =>
-      [(id: 'allanime', name: 'AllAnime')];
+  List<({String id, String name})> get loadedSources => [
+    (id: 'allanime', name: 'AllAnime'),
+  ];
   @override
   List<({String id, String name})> get pickableSources => loadedSources;
   @override
   bool hasSource(String sourceId) => true;
   @override
-  Future<List<MediaItem>> search(String q, {String category = 'sub', String? sourceId}) async {
+  Future<List<MediaItem>> search(
+    String q, {
+    String category = 'sub',
+    String? sourceId,
+  }) async {
     // What the real SourceRepository does with an id no provider is loaded
     // for. `zm` is this router's own pseudo id, so asking a provider for it
     // is always a bug — this is the throw that made every Z Mode download
@@ -99,10 +113,23 @@ class _Src implements SourceRepository {
     if (sourceId != null && sourceId != 'allanime') {
       throw StateError('Provider not loaded: $sourceId');
     }
-    return [MediaItem(id: 'fma', title: 'FMA', url: 'https://src/fma', type: ProviderType.anime, sourceId: 'allanime')];
+    return [
+      MediaItem(
+        id: 'fma',
+        title: 'FMA',
+        url: 'https://src/fma',
+        type: ProviderType.anime,
+        sourceId: 'allanime',
+      ),
+    ];
   }
+
   @override
-  Future<List<Episode>> episodes(String url, {String category = 'sub', String? sourceId}) async {
+  Future<List<Episode>> episodes(
+    String url, {
+    String category = 'sub',
+    String? sourceId,
+  }) async {
     log.add('episodes:$url:$category');
     return _eps;
   }
@@ -125,12 +152,23 @@ class _Src implements SourceRepository {
   }) async {
     log.add('detail:$url:$category');
     return MediaDetail(
-      id: 'fma', title: 'FMA', url: url, type: ProviderType.anime,
-      sourceId: 'allanime', episodes: _eps, subCount: 2, dubCount: 2,
+      id: 'fma',
+      title: 'FMA',
+      url: url,
+      type: ProviderType.anime,
+      sourceId: 'allanime',
+      episodes: _eps,
+      subCount: 2,
+      dubCount: 2,
     );
   }
+
   @override
-  Future<List<VideoSource>> sources(String episodeUrl, {String? sourceId, bool fast = false}) async {
+  Future<List<VideoSource>> sources(
+    String episodeUrl, {
+    String? sourceId,
+    bool fast = false,
+  }) async {
     log.add('sources:$episodeUrl:$sourceId');
     return streams;
   }
@@ -153,17 +191,33 @@ class _EpSrc implements SourceRepository {
   String displayName(String sourceId) => sourceId;
 
   @override
-  List<({String id, String name})> get loadedSources =>
-      [(id: 'allanime', name: 'AllAnime')];
+  List<({String id, String name})> get loadedSources => [
+    (id: 'allanime', name: 'AllAnime'),
+  ];
   @override
   List<({String id, String name})> get pickableSources => loadedSources;
   @override
   bool hasSource(String sourceId) => true;
   @override
-  Future<List<MediaItem>> search(String q, {String category = 'sub', String? sourceId}) async =>
-      [MediaItem(id: 'fma', title: 'FMA', url: 'https://src/fma', type: ProviderType.anime, sourceId: 'allanime')];
+  Future<List<MediaItem>> search(
+    String q, {
+    String category = 'sub',
+    String? sourceId,
+  }) async => [
+    MediaItem(
+      id: 'fma',
+      title: 'FMA',
+      url: 'https://src/fma',
+      type: ProviderType.anime,
+      sourceId: 'allanime',
+    ),
+  ];
   @override
-  Future<List<Episode>> episodes(String url, {String category = 'sub', String? sourceId}) async => _eps;
+  Future<List<Episode>> episodes(
+    String url, {
+    String category = 'sub',
+    String? sourceId,
+  }) async => _eps;
 
   @override
   Future<MediaDetail> detail(
@@ -175,12 +229,21 @@ class _EpSrc implements SourceRepository {
   }) async {
     log.add('detail:$url:$category');
     return MediaDetail(
-      id: 'fma', title: 'FMA', url: url, type: ProviderType.anime,
-      sourceId: 'allanime', episodes: _eps,
+      id: 'fma',
+      title: 'FMA',
+      url: url,
+      type: ProviderType.anime,
+      sourceId: 'allanime',
+      episodes: _eps,
     );
   }
+
   @override
-  Future<List<VideoSource>> sources(String episodeUrl, {String? sourceId, bool fast = false}) async {
+  Future<List<VideoSource>> sources(
+    String episodeUrl, {
+    String? sourceId,
+    bool fast = false,
+  }) async {
     log.add('sources:$episodeUrl:$sourceId');
     return streams;
   }
@@ -233,16 +296,25 @@ void main() {
       prefs: prefs,
       browseKind: () => kind,
       matcher: SourceMatcher(
-        sources: src, store: store, prefs: prefs,
+        sources: src,
+        store: store,
+        prefs: prefs,
         candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
       ),
       anilist: AniListCatalogue((q, v) async {
-        final aliases = RegExp(r'(r\d+):').allMatches(q).map((m) => m.group(1)!);
+        final aliases = RegExp(
+          r'(r\d+):',
+        ).allMatches(q).map((m) => m.group(1)!);
         if (aliases.isEmpty) return {'Media': _al()};
         calls.add(1);
         await gate();
         if (!returnRows()) return <String, dynamic>{}; // no rows -> empty home
-        return {for (final a in aliases) a: {'media': [_al()]}};
+        return {
+          for (final a in aliases)
+            a: {
+              'media': [_al()],
+            },
+        };
       }),
     );
     return (repo: r, calls: calls);
@@ -258,7 +330,11 @@ void main() {
     ok = true; // the network comes back
     final second = await g.repo.home();
     expect(second, isNotEmpty, reason: 'a failed home must not stick');
-    expect(g.calls.length, 2, reason: 'it must actually retry, not serve empty');
+    expect(
+      g.calls.length,
+      2,
+      reason: 'it must actually retry, not serve empty',
+    );
   });
 
   test('a successful home IS still cached — one fetch, not two', () async {
@@ -270,47 +346,67 @@ void main() {
     expect(g.calls.length, 1, reason: 'the second read came from the cache');
   });
 
-  test('two callers during one load share it instead of both fetching',
-      () async {
-    final open = Completer<void>();
-    final g = gatedRepo(() => open.future, () => true);
+  test(
+    'two callers during one load share it instead of both fetching',
+    () async {
+      final open = Completer<void>();
+      final g = gatedRepo(() => open.future, () => true);
 
-    final a = g.repo.home(); // starts the load
-    final b = g.repo.home(); // arrives while it is still running
-    open.complete();
-    final rowsA = await a;
-    final rowsB = await b;
+      final a = g.repo.home(); // starts the load
+      final b = g.repo.home(); // arrives while it is still running
+      open.complete();
+      final rowsA = await a;
+      final rowsB = await b;
 
-    expect(g.calls.length, 1, reason: 'the second caller must not refetch');
-    expect(rowsB, same(rowsA), reason: 'both get the one answer');
-    expect(rowsA, isNotEmpty);
-  });
+      expect(g.calls.length, 1, reason: 'the second caller must not refetch');
+      expect(rowsB, same(rowsA), reason: 'both get the one answer');
+      expect(rowsA, isNotEmpty);
+    },
+  );
 
-  test('a load that throws frees the slot, so the next call really retries',
-      () async {
-    var boom = true;
-    final calls = <int>[];
-    final r = _metaRepo(
-      sources: src, store: store, prefs: prefs, browseKind: () => kind,
-      matcher: SourceMatcher(
-        sources: src, store: store, prefs: prefs,
-        candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
-      ),
-      anilist: AniListCatalogue((q, v) async {
-        final aliases = RegExp(r'(r\d+):').allMatches(q).map((m) => m.group(1)!);
-        if (aliases.isEmpty) return {'Media': _al()};
-        calls.add(1);
-        if (boom) throw StateError('network down');
-        return {for (final a in aliases) a: {'media': [_al()]}};
-      }),
-    );
+  test(
+    'a load that throws frees the slot, so the next call really retries',
+    () async {
+      var boom = true;
+      final calls = <int>[];
+      final r = _metaRepo(
+        sources: src,
+        store: store,
+        prefs: prefs,
+        browseKind: () => kind,
+        matcher: SourceMatcher(
+          sources: src,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
+        ),
+        anilist: AniListCatalogue((q, v) async {
+          final aliases = RegExp(
+            r'(r\d+):',
+          ).allMatches(q).map((m) => m.group(1)!);
+          if (aliases.isEmpty) return {'Media': _al()};
+          calls.add(1);
+          if (boom) throw StateError('network down');
+          return {
+            for (final a in aliases)
+              a: {
+                'media': [_al()],
+              },
+          };
+        }),
+      );
 
-    await r.home().catchError((_) => <HomeSection>[]);
-    boom = false;
-    final after = await r.home();
-    expect(calls.length, 2, reason: 'a dead future must not be handed out again');
-    expect(after, isNotEmpty);
-  });
+      await r.home().catchError((_) => <HomeSection>[]);
+      boom = false;
+      final after = await r.home();
+      expect(
+        calls.length,
+        2,
+        reason: 'a dead future must not be handed out again',
+      );
+      expect(after, isNotEmpty);
+    },
+  );
   tearDown(() async {
     await Hive.close();
     await dir.delete(recursive: true);
@@ -323,42 +419,48 @@ void main() {
   // blank the whole time. So the caption takes the PARTIAL, and this is the
   // guarantee it rests on: everything the caption needs is handed over
   // before the search starts, not after it finishes.
-  test('the partial carries genres, year and the count before any match',
-      () async {
-    kind = ZKind.anime;
-    // A source whose search never answers — the pairing hangs, exactly like
-    // the stall this was measured against.
-    final stuck = _StuckSrc();
-    final r = _metaRepo(
-      sources: stuck,
-      store: store,
-      prefs: prefs,
-      browseKind: () => ZKind.anime,
-      matcher: SourceMatcher(
+  test(
+    'the partial carries genres, year and the count before any match',
+    () async {
+      kind = ZKind.anime;
+      // A source whose search never answers — the pairing hangs, exactly like
+      // the stall this was measured against.
+      final stuck = _StuckSrc();
+      final r = _metaRepo(
         sources: stuck,
         store: store,
         prefs: prefs,
-        candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
-      ),
-    );
+        browseKind: () => ZKind.anime,
+        matcher: SourceMatcher(
+          sources: stuck,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
+        ),
+      );
 
-    MediaDetail? partial;
-    var finished = false;
-    unawaited(
-      r
-          .detail('zm://anime/mal:100', onPartial: (d) => partial = d)
-          .then((_) => finished = true),
-    );
-    await Future<void>.delayed(const Duration(milliseconds: 50));
+      MediaDetail? partial;
+      var finished = false;
+      unawaited(
+        r
+            .detail('zm://anime/mal:100', onPartial: (d) => partial = d)
+            .then((_) => finished = true),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
 
-    expect(partial, isNotNull, reason: 'the caption still has nothing to draw');
-    expect(partial!.episodes.length, 12);
-    expect(partial!.year, '2009');
-    expect(partial!.genres, isNotNull);
-    // And the point of all of it: the search it did not wait for is still
-    // going.
-    expect(finished, isFalse);
-  });
+      expect(
+        partial,
+        isNotNull,
+        reason: 'the caption still has nothing to draw',
+      );
+      expect(partial!.episodes.length, 12);
+      expect(partial!.year, '2009');
+      expect(partial!.genres, isNotNull);
+      // And the point of all of it: the search it did not wait for is still
+      // going.
+      expect(finished, isFalse);
+    },
+  );
 
   test('home follows browseKind', () async {
     kind = ZKind.anime;
@@ -422,14 +524,17 @@ void main() {
     expect(repo.hasSource(ZmodeIds.sourceId), isTrue);
   });
 
-  test('sources() resolves the show then plays the same-numbered episode', () async {
-    kind = ZKind.anime;
-    await repo.sources('zm://anime/mal:100/ep/2', fast: true);
-    expect(src.log, [
-      'episodes:https://src/fma:sub',
-      'sources:https://src/fma/2:allanime',
-    ]);
-  });
+  test(
+    'sources() resolves the show then plays the same-numbered episode',
+    () async {
+      kind = ZKind.anime;
+      await repo.sources('zm://anime/mal:100/ep/2', fast: true);
+      expect(src.log, [
+        'episodes:https://src/fma:sub',
+        'sources:https://src/fma/2:allanime',
+      ]);
+    },
+  );
 
   test('a named source is the one asked, not the remembered winner', () async {
     // A user report: "I'm on a different source and it gives me other source
@@ -451,6 +556,40 @@ void main() {
       reason: 'the named source was ignored',
     );
   });
+
+  test(
+    'a manually selected source does not auto-resolve after a miss',
+    () async {
+      kind = ZKind.anime;
+      src.streams = const [];
+      await store.pin(
+        const ZCanonical(ZKind.anime, 'mal:100'),
+        const SourceMatch(
+          sourceId: 'allanime',
+          showUrl: 'https://src/fma',
+          showId: 'fma',
+          showTitle: 'FMA',
+          pinned: true,
+        ),
+      );
+
+      await expectLater(
+        repo.sources(
+          'zm://anime/mal:100/ep/2',
+          sourceId: 'allanime',
+          fast: true,
+        ),
+        completion(isEmpty),
+      );
+
+      expect(
+        src.log.where((call) => call.startsWith('sources:')),
+        hasLength(1),
+        reason:
+            'a failed hand-picked source must not trigger an Auto Resolve sweep',
+      );
+    },
+  );
 
   test('the router\'s own id means "no preference", not a source', () async {
     // `zm` is this repository's pseudo id, not something any provider has.
@@ -485,7 +624,10 @@ void main() {
       ),
       anilist: AniListCatalogue((q, v) async => {'Media': _al()}),
     );
-    expect(() => r.sources('zm://anime/mal:100/ep/1'), throwsA(isA<NoSourceMatch>()));
+    expect(
+      () => r.sources('zm://anime/mal:100/ep/1'),
+      throwsA(isA<NoSourceMatch>()),
+    );
   });
 
   group('a Cloudflare wall belongs to the source reading uses', () {
@@ -503,30 +645,38 @@ void main() {
         store: await MatchStore.open(),
         prefs: await ZSourcePrefs.open(),
         browseKind: () => ZKind.manga,
-        candidates: (_) => [(id: 'mine', name: 'Mine'), (id: 'other', name: 'Other')],
+        candidates: (_) => [
+          (id: 'mine', name: 'Mine'),
+          (id: 'other', name: 'Other'),
+        ],
         matcher: SourceMatcher(
           sources: dead,
           store: store,
           prefs: prefs,
-          candidates: (_) => [(id: 'mine', name: 'Mine'), (id: 'other', name: 'Other')],
+          candidates: (_) => [
+            (id: 'mine', name: 'Mine'),
+            (id: 'other', name: 'Other'),
+          ],
         ),
         anilist: AniListCatalogue((q, v) async => {'Media': _al()}),
       );
     }
 
-    test('a flag on a source this title never touched does not wall the page',
-        () async {
-      // The old check asked "is ANY source of this kind flagged", so one
-      // Cloudflare-gated extension anywhere in the library turned every
-      // unmatched manga into a Cloudflare screen naming a source the reader
-      // has never opened. Video never behaved this way.
-      final r = await readingRepoWith('other');
+    test(
+      'a flag on a source this title never touched does not wall the page',
+      () async {
+        // The old check asked "is ANY source of this kind flagged", so one
+        // Cloudflare-gated extension anywhere in the library turned every
+        // unmatched manga into a Cloudflare screen naming a source the reader
+        // has never opened. Video never behaved this way.
+        final r = await readingRepoWith('other');
 
-      final d = await r.detail('zm://manga/mal:100');
+        final d = await r.detail('zm://manga/mal:100');
 
-      expect(d.episodes, isEmpty, reason: 'no match is still no chapters');
-      expect(d.title, isNotEmpty, reason: 'but the page renders');
-    });
+        expect(d.episodes, isEmpty, reason: 'no match is still no chapters');
+        expect(d.title, isNotEmpty, reason: 'but the page renders');
+      },
+    );
   });
 
   test('manga detail carries the matched source chapters and ids', () async {
@@ -579,23 +729,26 @@ void main() {
     );
   });
 
-  test('Sub/Dub switch via CatalogueRepository.episodes updates the cut', () async {
-    // Phone PlayerCubit.switchCategory and TV (Exo + native) setCategory both
-    // call CatalogueRepository.episodes with the new category before
-    // resolveSources. That re-runs detail() and updates the remembered cut.
-    // Going through SourceRepository instead left the cut on sub — Dub badge,
-    // Japanese audio. Regression for that TV bug.
-    kind = ZKind.anime;
-    await repo.detail('zm://anime/mal:100', category: 'sub');
-    await repo.episodes('zm://anime/mal:100', category: 'dub');
-    src.log.clear();
-    await repo.sources('zm://anime/mal:100/ep/1', fast: true);
-    expect(
-      src.log,
-      contains('episodes:https://src/fma:dub'),
-      reason: 'Sub/Dub switch left the cut on sub',
-    );
-  });
+  test(
+    'Sub/Dub switch via CatalogueRepository.episodes updates the cut',
+    () async {
+      // Phone PlayerCubit.switchCategory and TV (Exo + native) setCategory both
+      // call CatalogueRepository.episodes with the new category before
+      // resolveSources. That re-runs detail() and updates the remembered cut.
+      // Going through SourceRepository instead left the cut on sub — Dub badge,
+      // Japanese audio. Regression for that TV bug.
+      kind = ZKind.anime;
+      await repo.detail('zm://anime/mal:100', category: 'sub');
+      await repo.episodes('zm://anime/mal:100', category: 'dub');
+      src.log.clear();
+      await repo.sources('zm://anime/mal:100/ep/1', fast: true);
+      expect(
+        src.log,
+        contains('episodes:https://src/fma:dub'),
+        reason: 'Sub/Dub switch left the cut on sub',
+      );
+    },
+  );
 
   test('anime detail takes its episode list from the matched source', () async {
     // The catalogue says 12, the source has 2 — and the source is the one that
@@ -624,87 +777,115 @@ void main() {
     expect(src.log, isNotEmpty);
   });
 
-  test('unmatched anime detail keeps the synthesised catalogue episode list', () async {
-    final dead = _NoHits();
-    final r = _metaRepo(
-      sources: dead,
-      store: await MatchStore.open(),
-      prefs: await ZSourcePrefs.open(),
-      browseKind: () => ZKind.anime,
-      matcher: SourceMatcher(
+  test(
+    'unmatched anime detail keeps the synthesised catalogue episode list',
+    () async {
+      final dead = _NoHits();
+      final r = _metaRepo(
         sources: dead,
-        store: store,
-        prefs: prefs,
-        candidates: (_) => [(id: 'x', name: 'X')],
-      ),
-      anilist: AniListCatalogue((q, v) async =>
-          q.contains('Media(') ? {'Media': _al()} : {'Page': {'media': [_al()]}}),
-    );
-    final d = await r.detail('zm://anime/mal:100');
-    expect(d.episodes.length, 12);
-    expect(d.episodes.first.url, 'zm://anime/mal:100/ep/1');
-    expect(d.sourceId, ZmodeIds.sourceId);
-  });
+        store: await MatchStore.open(),
+        prefs: await ZSourcePrefs.open(),
+        browseKind: () => ZKind.anime,
+        matcher: SourceMatcher(
+          sources: dead,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => [(id: 'x', name: 'X')],
+        ),
+        anilist: AniListCatalogue(
+          (q, v) async => q.contains('Media(')
+              ? {'Media': _al()}
+              : {
+                  'Page': {
+                    'media': [_al()],
+                  },
+                },
+        ),
+      );
+      final d = await r.detail('zm://anime/mal:100');
+      expect(d.episodes.length, 12);
+      expect(d.episodes.first.url, 'zm://anime/mal:100/ep/1');
+      expect(d.sourceId, ZmodeIds.sourceId);
+    },
+  );
 
-  test('with NO source installed at all, the catalogue list still shows', () async {
-    // The whole point of taking episodes from the source is that the source
-    // knows what can be played — but someone with nothing installed yet has no
-    // source to ask, and an empty Detail screen would tell them nothing. The
-    // catalogue's list stays; Play is what says there is no source.
-    final dead = _NoHits();
-    final r = _metaRepo(
-      sources: dead,
-      store: await MatchStore.open(),
-      prefs: await ZSourcePrefs.open(),
-      browseKind: () => ZKind.anime,
-      matcher: SourceMatcher(
+  test(
+    'with NO source installed at all, the catalogue list still shows',
+    () async {
+      // The whole point of taking episodes from the source is that the source
+      // knows what can be played — but someone with nothing installed yet has no
+      // source to ask, and an empty Detail screen would tell them nothing. The
+      // catalogue's list stays; Play is what says there is no source.
+      final dead = _NoHits();
+      final r = _metaRepo(
         sources: dead,
-        store: store,
-        prefs: prefs,
-        candidates: (_) => const [], // nothing installed
-      ),
-      anilist: AniListCatalogue((q, v) async =>
-          q.contains('Media(') ? {'Media': _al()} : {'Page': {'media': [_al()]}}),
-    );
-    final d = await r.detail('zm://anime/mal:100');
-    expect(d.episodes.length, 12);
-    expect(d.episodes.first.url, 'zm://anime/mal:100/ep/1');
-    // Nothing is marked unavailable: with no source to ask we don't KNOW that
-    // any of these can't play, and Play sweeps at tap time regardless.
-    expect(d.episodes.every((e) => e.available), isTrue);
-  });
+        store: await MatchStore.open(),
+        prefs: await ZSourcePrefs.open(),
+        browseKind: () => ZKind.anime,
+        matcher: SourceMatcher(
+          sources: dead,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => const [], // nothing installed
+        ),
+        anilist: AniListCatalogue(
+          (q, v) async => q.contains('Media(')
+              ? {'Media': _al()}
+              : {
+                  'Page': {
+                    'media': [_al()],
+                  },
+                },
+        ),
+      );
+      final d = await r.detail('zm://anime/mal:100');
+      expect(d.episodes.length, 12);
+      expect(d.episodes.first.url, 'zm://anime/mal:100/ep/1');
+      // Nothing is marked unavailable: with no source to ask we don't KNOW that
+      // any of these can't play, and Play sweeps at tap time regardless.
+      expect(d.episodes.every((e) => e.available), isTrue);
+    },
+  );
 
-  test('a catalogue with NO episodes still gets the full list from the source',
-      () async {
-    // MAL reports 0 episodes for open-ended shows (One Piece) and Simkl used
-    // to build no list at all — the exact case that showed "no episodes
-    // available" on a title that plays perfectly well. The source fills it.
-    final es = _EpSrc(const [
-      Episode(id: 'a', title: 'Ep 1', number: 1, url: 'https://src/fma/1'),
-      Episode(id: 'b', title: 'Ep 2', number: 2, url: 'https://src/fma/2'),
-      Episode(id: 'c', title: 'Ep 3', number: 3, url: 'https://src/fma/3'),
-    ]);
-    final r = _metaRepo(
-      sources: es,
-      store: await MatchStore.open(),
-      prefs: await ZSourcePrefs.open(),
-      browseKind: () => ZKind.anime,
-      matcher: SourceMatcher(
+  test(
+    'a catalogue with NO episodes still gets the full list from the source',
+    () async {
+      // MAL reports 0 episodes for open-ended shows (One Piece) and Simkl used
+      // to build no list at all — the exact case that showed "no episodes
+      // available" on a title that plays perfectly well. The source fills it.
+      final es = _EpSrc(const [
+        Episode(id: 'a', title: 'Ep 1', number: 1, url: 'https://src/fma/1'),
+        Episode(id: 'b', title: 'Ep 2', number: 2, url: 'https://src/fma/2'),
+        Episode(id: 'c', title: 'Ep 3', number: 3, url: 'https://src/fma/3'),
+      ]);
+      final r = _metaRepo(
         sources: es,
-        store: store,
-        prefs: prefs,
-        candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
-      ),
-      // episodes: null — the catalogue knows of none.
-      anilist: AniListCatalogue((q, v) async => q.contains('Media(')
-          ? {'Media': _al(episodes: null)}
-          : {'Page': {'media': [_al(episodes: null)]}}),
-    );
-    final d = await r.detail('zm://anime/mal:100');
-    expect(d.episodes.length, 3);
-    expect(d.episodes.every((e) => e.available), isTrue);
-    expect(d.episodes.last.url, 'zm://anime/mal:100/ep/3');
-  });
+        store: await MatchStore.open(),
+        prefs: await ZSourcePrefs.open(),
+        browseKind: () => ZKind.anime,
+        matcher: SourceMatcher(
+          sources: es,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
+        ),
+        // episodes: null — the catalogue knows of none.
+        anilist: AniListCatalogue(
+          (q, v) async => q.contains('Media(')
+              ? {'Media': _al(episodes: null)}
+              : {
+                  'Page': {
+                    'media': [_al(episodes: null)],
+                  },
+                },
+        ),
+      );
+      final d = await r.detail('zm://anime/mal:100');
+      expect(d.episodes.length, 3);
+      expect(d.episodes.every((e) => e.available), isTrue);
+      expect(d.episodes.last.url, 'zm://anime/mal:100/ep/3');
+    },
+  );
 
   test('sources() plays the episode url that detail() displays', () async {
     kind = ZKind.anime;
@@ -726,8 +907,15 @@ void main() {
         prefs: prefs,
         candidates: (_) => [(id: 'x', name: 'X')],
       ),
-      anilist: AniListCatalogue((q, v) async =>
-          q.contains('Media(') ? {'Media': _al(chapters: 5)} : {'Page': {'media': [_al()]}}),
+      anilist: AniListCatalogue(
+        (q, v) async => q.contains('Media(')
+            ? {'Media': _al(chapters: 5)}
+            : {
+                'Page': {
+                  'media': [_al()],
+                },
+              },
+      ),
     );
     final d = await r.detail('zm://manga/mal:100');
     expect(d.episodes, isEmpty);
@@ -750,8 +938,15 @@ void main() {
         prefs: prefs,
         candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
       ),
-      anilist: AniListCatalogue((q, v) async =>
-          q.contains('Media(') ? {'Media': _al()} : {'Page': {'media': [_al()]}}),
+      anilist: AniListCatalogue(
+        (q, v) async => q.contains('Media(')
+            ? {'Media': _al()}
+            : {
+                'Page': {
+                  'media': [_al()],
+                },
+              },
+      ),
     );
     expect(
       () => r.sources('zm://anime/mal:100/ep/5'),
@@ -780,47 +975,57 @@ void main() {
     expect(es.log, ['sources:https://src/fma/2:allanime']);
   });
 
-  test('detail shows catalogue numbering; play uses source list position', () async {
-    final es = _EpSrc(const [
-      Episode(id: 'a', title: 'Ep 0', number: 0, url: 'https://src/fma/0'),
-      Episode(id: 'b', title: 'Ep 1', number: 1, url: 'https://src/fma/1'),
-    ]);
-    final r = _metaRepo(
-      sources: es,
-      store: await MatchStore.open(),
-      prefs: await ZSourcePrefs.open(),
-      browseKind: () => ZKind.anime,
-      matcher: SourceMatcher(
+  test(
+    'detail shows catalogue numbering; play uses source list position',
+    () async {
+      final es = _EpSrc(const [
+        Episode(id: 'a', title: 'Ep 0', number: 0, url: 'https://src/fma/0'),
+        Episode(id: 'b', title: 'Ep 1', number: 1, url: 'https://src/fma/1'),
+      ]);
+      final r = _metaRepo(
         sources: es,
-        store: store,
-        prefs: prefs,
-        candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
-      ),
-    );
-    final d = await r.detail('zm://anime/mal:100');
-    // Display keeps a real source title ("Ep 0"); id/url/number are rewritten
-    // to the canonical position so a source that starts at 0, or restarts per
-    // season, still scrobbles right. Generic "Episode N" source stubs do NOT
-    // overwrite catalogue/AniZip names (see carryEpisodeDisplayMeta).
-    expect(d.episodes[0].title, 'Ep 0');
-    expect(d.episodes[0].number, 1);
-    expect(d.episodes[0].url, 'zm://anime/mal:100/ep/1');
-    await r.sources(d.episodes[0].url, fast: true);
-    // The detail call is the source's episode list being fetched — same one
-    // request as before, now asked for as `detail` so the sub/dub counts come
-    // with it. What matters here is the stream call: the CANONICAL url the
-    // screen shows resolves to the SOURCE's own url for that position.
-    expect(es.log, [
-      'detail:https://src/fma:sub',
-      'sources:https://src/fma/0:allanime',
-    ]);
-  });
+        store: await MatchStore.open(),
+        prefs: await ZSourcePrefs.open(),
+        browseKind: () => ZKind.anime,
+        matcher: SourceMatcher(
+          sources: es,
+          store: store,
+          prefs: prefs,
+          candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
+        ),
+      );
+      final d = await r.detail('zm://anime/mal:100');
+      // Display keeps a real source title ("Ep 0"); id/url/number are rewritten
+      // to the canonical position so a source that starts at 0, or restarts per
+      // season, still scrobbles right. Generic "Episode N" source stubs do NOT
+      // overwrite catalogue/AniZip names (see carryEpisodeDisplayMeta).
+      expect(d.episodes[0].title, 'Ep 0');
+      expect(d.episodes[0].number, 1);
+      expect(d.episodes[0].url, 'zm://anime/mal:100/ep/1');
+      await r.sources(d.episodes[0].url, fast: true);
+      // The detail call is the source's episode list being fetched — same one
+      // request as before, now asked for as `detail` so the sub/dub counts come
+      // with it. What matters here is the stream call: the CANONICAL url the
+      // screen shows resolves to the SOURCE's own url for that position.
+      expect(es.log, [
+        'detail:https://src/fma:sub',
+        'sources:https://src/fma/0:allanime',
+      ]);
+    },
+  );
 
   test('a saved match skips search when title is already cached', () async {
     const canonical = ZCanonical(ZKind.anime, 'mal:100');
-    await store.save(canonical, const SourceMatch(
-      sourceId: 'allanime', showUrl: 'https://src/fma', showId: 'fma', showTitle: 'FMA', pinned: false,
-    ));
+    await store.save(
+      canonical,
+      const SourceMatch(
+        sourceId: 'allanime',
+        showUrl: 'https://src/fma',
+        showId: 'fma',
+        showTitle: 'FMA',
+        pinned: false,
+      ),
+    );
     prefs.set(canonical.kind, 'allanime');
     var gqlCalls = 0;
     final r = _metaRepo(
@@ -844,7 +1049,10 @@ void main() {
     src.log.clear();
     await r.sources('zm://anime/mal:100/ep/2');
     expect(gqlCalls, 0);
-    expect(src.log, ['episodes:https://src/fma:sub', 'sources:https://src/fma/2:allanime']);
+    expect(src.log, [
+      'episodes:https://src/fma:sub',
+      'sources:https://src/fma/2:allanime',
+    ]);
   });
 }
 
@@ -867,7 +1075,11 @@ class _NoHits implements SourceRepository {
   @override
   bool hasSource(String sourceId) => true;
   @override
-  Future<List<MediaItem>> search(String q, {String category = 'sub', String? sourceId}) async => const [];
+  Future<List<MediaItem>> search(
+    String q, {
+    String category = 'sub',
+    String? sourceId,
+  }) async => const [];
 }
 
 /// Never answers a search, so `SourceMatcher.resolve` never returns — the
@@ -880,8 +1092,9 @@ class _StuckSrc implements SourceRepository {
   @override
   String displayName(String sourceId) => sourceId;
   @override
-  List<({String id, String name})> get loadedSources =>
-      [(id: 'allanime', name: 'AllAnime')];
+  List<({String id, String name})> get loadedSources => [
+    (id: 'allanime', name: 'AllAnime'),
+  ];
   @override
   List<({String id, String name})> get pickableSources => loadedSources;
   @override
