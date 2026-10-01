@@ -10,6 +10,7 @@ import '../../core/playback/my_list.dart';
 import '../../core/schedule/airing_service.dart';
 import '../../core/schedule/coming_soon_service.dart';
 import '../../core/schedule/schedule_models.dart';
+import '../../core/tracker/tracker_hub.dart';
 import '../../core/models/media_item.dart';
 import '../../core/models/provider_info.dart';
 import '../../core/zmode/zmode_ids.dart';
@@ -35,6 +36,7 @@ class ScheduleScreen extends StatelessWidget {
         sl<AiringService>(),
         sl<ComingSoonService>(),
         sl<MyListStore>(),
+        trackerHub: sl.isRegistered<TrackerHub>() ? sl<TrackerHub>() : null,
       )..load(),
       child: sl<AppMode>().isTv
           ? const ScheduleScreenTv()
@@ -181,8 +183,9 @@ class _ScheduleBodyState extends State<ScheduleBody>
           vsync: this,
           initialIndex: ZModePrefs.streamKind == StreamKind.movie ? 1 : 0,
         )..addListener(() {
-          if (mounted)
-            setState(() {}); // header (My List / busy) follows the tab
+          if (mounted) {
+            setState(() {}); // header (filter / busy state) follows the tab
+          }
         });
     // Re-render every 30s so countdowns/“LIVE” stay current. Cancelled in
     // dispose, so no timer leaks in tests.
@@ -259,7 +262,7 @@ class _ScheduleBodyState extends State<ScheduleBody>
           Expanded(
             child: Text(context.l10n.schedule, style: AppText.largeTitle),
           ),
-          // My List filter only applies to the anime tab; slide it in/out.
+          // Anime-list filter only applies to the anime tab; slide it in/out.
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             transitionBuilder: (c, a) => SizeTransition(
@@ -268,7 +271,7 @@ class _ScheduleBodyState extends State<ScheduleBody>
               child: FadeTransition(opacity: a, child: c),
             ),
             child: _tab == 0
-                ? _myListToggle(state, cubit)
+                ? _scheduleFilterMenu(context, state, cubit)
                 : const SizedBox.shrink(),
           ),
         ],
@@ -276,45 +279,162 @@ class _ScheduleBodyState extends State<ScheduleBody>
     );
   }
 
-  Widget _myListToggle(ScheduleState state, ScheduleCubit cubit) {
-    final on = state.myListOnly;
-    return GestureDetector(
-      key: const ValueKey('mylist'),
-      onTap: cubit.toggleMyListOnly,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 6, 12, 6),
-        decoration: BoxDecoration(
-          color: on
-              ? AppColors.accent.withValues(alpha: 0.14)
-              : AppColors.surface2,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: on
-                ? AppColors.accent.withValues(alpha: 0.4)
-                : Colors.transparent,
-          ),
+  Widget _scheduleFilterMenu(
+    BuildContext context,
+    ScheduleState state,
+    ScheduleCubit cubit,
+  ) {
+    final selectedName = state.myListOnly
+        ? context.l10n.myList
+        : state.trackerFilterName == null
+        ? context.l10n.all
+        : _trackerLabel(state.trackerFilterName!);
+    final selected = state.activeFollowed != null;
+    final loading =
+        state.trackerFilterName != null &&
+        state.loadingTrackerName == state.trackerFilterName;
+
+    return MenuAnchor(
+      key: const ValueKey('schedule-filter-source'),
+      animated: true,
+      alignmentOffset: const Offset(0, 6),
+      style: MenuStyle(
+        alignment: AlignmentDirectional.bottomEnd,
+        backgroundColor: WidgetStatePropertyAll(AppColors.surface2),
+        surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+        shadowColor: WidgetStatePropertyAll(
+          Colors.black.withValues(alpha: 0.4),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              on ? Icons.bookmark : Icons.bookmark_border,
-              size: 16,
-              color: on ? AppColors.accent : AppColors.textSecondary,
+        elevation: const WidgetStatePropertyAll(4),
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.symmetric(vertical: 8),
+        ),
+        minimumSize: const WidgetStatePropertyAll(Size(180, 0)),
+        side: const WidgetStatePropertyAll(
+          BorderSide(color: AppColors.hairline),
+        ),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
+      ),
+      menuChildren: [
+        _scheduleFilterItem(
+          key: 'all',
+          label: context.l10n.all,
+          isSelected: state.activeFollowed == null,
+          onPressed: cubit.selectAllAirings,
+        ),
+        _scheduleFilterItem(
+          key: 'my-list',
+          label: context.l10n.myList,
+          isSelected: state.myListOnly,
+          onPressed: cubit.selectMyListFilter,
+        ),
+        if (state.connectedTrackerNames.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Divider(color: AppColors.hairline, height: 9),
+          ),
+        for (final trackerName in state.connectedTrackerNames)
+          _scheduleFilterItem(
+            key: trackerName,
+            label: _trackerLabel(trackerName),
+            isSelected: state.trackerFilterName == trackerName,
+            onPressed: () {
+              cubit.selectTrackerFilter(trackerName);
+            },
+          ),
+      ],
+      builder: (context, controller, _) => InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => controller.isOpen ? controller.close() : controller.open(),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
+          decoration: BoxDecoration(
+            color: selected
+                ? AppColors.accent.withValues(alpha: 0.14)
+                : AppColors.surface2,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: selected
+                  ? AppColors.accent.withValues(alpha: 0.4)
+                  : Colors.transparent,
             ),
-            const SizedBox(width: 5),
-            Text(
-              context.l10n.myList,
-              style: AppText.caption.copyWith(
-                fontWeight: FontWeight.w600,
-                color: on ? AppColors.accent : AppColors.textSecondary,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                state.myListOnly
+                    ? Icons.bookmark_rounded
+                    : Icons.filter_list_rounded,
+                size: 16,
+                color: selected ? AppColors.accent : AppColors.textSecondary,
               ),
-            ),
-          ],
+              const SizedBox(width: 5),
+              Text(
+                selectedName,
+                style: AppText.caption.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: selected ? AppColors.accent : AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(width: 4),
+              if (loading)
+                SizedBox(
+                  width: 13,
+                  height: 13,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.8,
+                    color: AppColors.accent,
+                  ),
+                )
+              else
+                Icon(
+                  controller.isOpen
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  size: 17,
+                  color: selected ? AppColors.accent : AppColors.textSecondary,
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  MenuItemButton _scheduleFilterItem({
+    required String key,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onPressed,
+  }) => MenuItemButton(
+    key: ValueKey('schedule-filter-option-$key'),
+    onPressed: onPressed,
+    style: ButtonStyle(
+      foregroundColor: WidgetStatePropertyAll(
+        isSelected ? AppColors.accent : AppColors.textPrimary,
+      ),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.symmetric(horizontal: 12),
+      ),
+    ),
+    leadingIcon: SizedBox(
+      key: ValueKey('schedule-filter-leading-$key'),
+      width: 24,
+      height: 24,
+      child: isSelected
+          ? Icon(Icons.check_rounded, color: AppColors.accent, size: 18)
+          : null,
+    ),
+    child: Text(label),
+  );
+
+  String _trackerLabel(String name) => switch (name) {
+    'MyAnimeList' => 'MAL',
+    _ => name,
+  };
 
   // ── Anime/Movies TabBar (animated sliding underline) ──
   Widget _tabRow(
@@ -408,6 +528,7 @@ class _ScheduleBodyState extends State<ScheduleBody>
                 key: ValueKey(
                   'day-$forMovies-'
                   '${selected.millisecondsSinceEpoch}-${state.myListOnly}-'
+                  '${state.trackerFilterName}-'
                   '${_loadingFor(state, forMovies)}',
                 ),
                 child: _dayContent(context, state, today, selected, forMovies),
@@ -419,8 +540,11 @@ class _ScheduleBodyState extends State<ScheduleBody>
     );
   }
 
-  bool _loadingFor(ScheduleState state, bool forMovies) =>
-      forMovies ? state.loadingSoon : state.loadingAiring;
+  bool _loadingFor(ScheduleState state, bool forMovies) => forMovies
+      ? state.loadingSoon
+      : state.loadingAiring ||
+            (state.trackerFilterName != null &&
+                state.loadingTrackerName == state.trackerFilterName);
 
   /// The scrollable half of a tab. Returns a scroll view rather than a Column
   /// so RefreshIndicator still has something to pull, and — for Movies —
@@ -445,8 +569,9 @@ class _ScheduleBodyState extends State<ScheduleBody>
 
     if (!forMovies) {
       var list = state.airingByDay[selected] ?? const <AiringEntry>[];
-      if (state.myListOnly) {
-        list = list.where(state.followed.matches).toList();
+      final followedFilter = state.activeFollowed;
+      if (followedFilter != null) {
+        list = list.where(followedFilter.matches).toList();
       }
       // Anime is a handful of rows a day and the timeline draws its own
       // time-bucket headers across the whole list, so it stays one piece.
@@ -466,7 +591,7 @@ class _ScheduleBodyState extends State<ScheduleBody>
             _empty(
               state.offline
                   ? '${l10n.offlineTitle}\n${l10n.offlineBody}'
-                  : state.myListOnly
+                  : followedFilter != null
                   ? l10n.noneOfFollowedAirOnThisDay
                   : l10n.nothingAiringOnThisDay,
             )
@@ -630,6 +755,7 @@ class _ScheduleBodyState extends State<ScheduleBody>
       ),
     );
   }
+
   Widget _dayHead(BuildContext context, String label, int count, String noun) =>
       Padding(
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 2),
@@ -715,11 +841,14 @@ class _ScheduleBodyState extends State<ScheduleBody>
     final src = state.airingByDay;
     final out = <DateTime, ({int count, bool followed})>{};
     src.forEach((day, entries) {
-      final filtered = state.myListOnly
-          ? entries.where(state.followed.matches).toList()
-          : entries;
+      final activeFilter = state.activeFollowed;
+      final filtered = activeFilter == null
+          ? entries
+          : entries.where(activeFilter.matches).toList();
       if (filtered.isEmpty) return;
-      final followed = filtered.any(state.followed.matches);
+      final followed = activeFilter == null
+          ? filtered.any(state.followed.matches)
+          : true;
       out[day] = (count: filtered.length, followed: followed);
     });
     return out;
@@ -737,7 +866,6 @@ class _ScheduleBodyState extends State<ScheduleBody>
 }
 
 // ── calendar grid ─────────────────────────────────────────────────────────────
-
 
 // ── timeline row (anime) ──────────────────────────────────────────────────────
 
