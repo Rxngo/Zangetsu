@@ -277,6 +277,11 @@ class _MyListScreenTvState extends State<MyListScreenTv> {
       _sortFor(isMyList: isMyList),
       _sortDesc,
     );
+    final shuffleCandidates = isMyList
+        ? shown
+        : shown
+              .where((entry) => playableTrackerItem(entry.item) != null)
+              .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,6 +296,12 @@ class _MyListScreenTvState extends State<MyListScreenTv> {
           onSelect: _selectFilter,
           onCycleSort: () => _cycleSort(isMyList: isMyList),
           onToggleSortDir: () => _toggleSortDir(isMyList: isMyList),
+          onShuffle: shuffleCandidates.isEmpty
+              ? null
+              : () {
+                  final entry = pickRandomLibraryEntry(shuffleCandidates);
+                  if (entry != null) onTap(entry.item);
+                },
         ),
         const SizedBox(height: 8),
         Expanded(
@@ -446,6 +457,7 @@ class _FilterChips extends StatelessWidget {
     required this.onSelect,
     required this.onCycleSort,
     required this.onToggleSortDir,
+    this.onShuffle,
   });
 
   final List<WatchStatus> statuses;
@@ -457,6 +469,7 @@ class _FilterChips extends StatelessWidget {
   final void Function(String id) onSelect;
   final VoidCallback onCycleSort;
   final VoidCallback onToggleSortDir;
+  final VoidCallback? onShuffle;
 
   @override
   Widget build(BuildContext context) {
@@ -514,6 +527,20 @@ class _FilterChips extends StatelessWidget {
         onLongPress: onToggleSortDir,
         child: _Chip(label: sortLabel, selected: false),
       ),
+      if (onShuffle != null) ...[
+        const SizedBox(width: 12),
+        TvFocusable(
+          variant: TvFocusVariant.float,
+          scale: 1.0,
+          borderRadius: 20,
+          onTap: onShuffle!,
+          child: _Chip(
+            label: context.l10n.shuffle,
+            selected: false,
+            icon: Icons.shuffle_rounded,
+          ),
+        ),
+      ],
     ];
 
     return Padding(
@@ -528,9 +555,10 @@ class _FilterChips extends StatelessWidget {
 }
 
 class _Chip extends StatelessWidget {
-  const _Chip({required this.label, required this.selected});
+  const _Chip({required this.label, required this.selected, this.icon});
   final String label;
   final bool selected;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -545,12 +573,25 @@ class _Chip extends StatelessWidget {
         width: 2,
       ),
     ),
-    child: Text(
-      label,
-      style: AppText.headline.copyWith(
-        color: selected ? AppColors.accent : AppColors.textSecondary,
-        fontSize: 15,
-      ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (icon != null) ...[
+          Icon(
+            icon,
+            size: 16,
+            color: selected ? AppColors.accent : AppColors.textSecondary,
+          ),
+          const SizedBox(width: 6),
+        ],
+        Text(
+          label,
+          style: AppText.headline.copyWith(
+            color: selected ? AppColors.accent : AppColors.textSecondary,
+            fontSize: 15,
+          ),
+        ),
+      ],
     ),
   );
 }

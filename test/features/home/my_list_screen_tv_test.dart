@@ -119,14 +119,27 @@ MyListCubit _makeCubit(List<MediaItem> items) =>
 Widget _pumpTree({
   required MyListCubit myList,
   required TrackerListCubit trackerList,
+  List<NavigatorObserver> navigatorObservers = const [],
 }) {
   return MultiBlocProvider(
     providers: [
       BlocProvider<MyListCubit>.value(value: myList),
       BlocProvider<TrackerListCubit>.value(value: trackerList),
     ],
-    child: const MaterialApp(home: MyListScreenTv()),
+    child: MaterialApp(
+      navigatorObservers: navigatorObservers,
+      home: const MyListScreenTv(),
+    ),
   );
+}
+
+class _RecordingNavigatorObserver extends NavigatorObserver {
+  final List<Route<dynamic>> pushed = [];
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    pushed.add(route);
+  }
 }
 
 Future<void> _registerHub(List<Tracker> trackers) async {
@@ -163,6 +176,7 @@ void main() {
     url: '',
     type: ProviderType.anime,
     sourceId: '',
+    anilistId: 99,
   );
 
   setUp(() async {
@@ -261,6 +275,42 @@ void main() {
       expect(find.text('Attack on Titan'), findsNothing);
     },
   );
+
+  testWidgets('Shuffle on a tracker list opens its title details', (
+    tester,
+  ) async {
+    final anilist = _FakeTracker(name: 'AniList', connected: true);
+    await _registerHub([anilist]);
+
+    final cubit = _makeCubit([item1]);
+    final tlCubit = _SeededTrackerListCubit()
+      ..seed(
+        TrackerListState(
+          source: TrackerSource(anilist),
+          status: TrackerListStatus.ready,
+          entries: [const MyListEntry(trackerItem, WatchStatus.planning)],
+        ),
+      );
+    final observer = _RecordingNavigatorObserver();
+    addTearDown(cubit.close);
+    addTearDown(tlCubit.close);
+
+    await tester.pumpWidget(
+      _pumpTree(
+        myList: cubit,
+        trackerList: tlCubit,
+        navigatorObservers: [observer],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Jujutsu Kaisen'), findsOneWidget);
+    final before = observer.pushed.length;
+    await tester.tap(find.text('Shuffle'));
+
+    expect(observer.pushed.length, before + 1);
+    expect(observer.pushed.last, isA<PageRouteBuilder<void>>());
+  });
 
   testWidgets('tracker loading state shows a progress indicator', (
     tester,

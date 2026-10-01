@@ -36,8 +36,9 @@ import '../auth/auth_cubit.dart';
 import '../auth/auth_screens.dart';
 import '../detail/detail_screen.dart';
 import 'cubit/my_list_cubit.dart';
-import 'library_tabs.dart';
 import 'cubit/tracker_list_cubit.dart';
+import 'library_filter.dart';
+import 'library_tabs.dart';
 import 'my_list_screen_tv.dart';
 import 'search_screen.dart';
 
@@ -146,6 +147,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
   /// answers for one kind already.
   ContentMode _kind = sl<ContentModeCubit>().state;
   bool _sortDesc = ListSortPrefs.descending;
+  VoidCallback? _shuffleAction;
 
   ListSort _sortFor({required bool isMyList}) {
     final chosen = _sort;
@@ -413,12 +415,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
                       ),
 
                       const SizedBox(width: 8),
-                      _pillIcon(
-                        Icons.sort_rounded,
-                        context.l10n.sort,
-                        () => _openSortSheet(context),
-                        active: _sort != null,
-                      ),
+                      _libraryOptionsButton(context),
                       const SizedBox(width: 8),
                     ],
                   ),
@@ -431,74 +428,133 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
     );
   }
 
-  /// Sort options for whichever list is showing. Tapping the active one flips
-  /// its direction, which is how the reference apps do it and saves a second
-  /// control.
-  void _openSortSheet(BuildContext context) {
+  /// Search stays separate; this menu gathers random selection and sorting in
+  /// one compact control at the end of the header.
+  Widget _libraryOptionsButton(BuildContext context) {
     final isMyList = context.read<TrackerListCubit>().state.isMyList;
-    final options = optionsFor(isMyList: isMyList);
     final active = _sortFor(isMyList: isMyList);
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (sheetContext) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 18, 20, 8),
-              child: Text(context.l10n.sortBy, style: AppText.title),
-            ),
-            for (final o in options)
-              ListTile(
-                title: Text(
-                  listSortLabel(o),
-                  style: AppText.body.copyWith(
-                    color: o == active
-                        ? AppColors.accent
-                        : AppColors.textPrimary,
-                    fontWeight: o == active ? FontWeight.w700 : null,
-                  ),
-                ),
-                subtitle: o == active
-                    ? Text(
-                        listSortDirectionLabel(o, _sortDesc),
-                        style: AppText.caption,
-                      )
-                    : null,
-                trailing: o == active
-                    ? Icon(
-                        _sortDesc
-                            ? Icons.arrow_downward_rounded
-                            : Icons.arrow_upward_rounded,
-                        color: AppColors.accent,
-                        size: 18,
-                      )
-                    : null,
-                onTap: () {
-                  Navigator.pop(sheetContext);
-                  setState(() {
-                    // Same option again → flip direction; a new one starts in
-                    // the direction people expect (best/newest/A-Z first).
-                    if (o == active) {
-                      _sortDesc = !_sortDesc;
-                    } else {
-                      _sort = o;
-                      _sortDesc = o != ListSort.title;
-                    }
-                  });
-                  ListSortPrefs.save(_sortFor(isMyList: isMyList), _sortDesc);
-                },
-              ),
-            const SizedBox(height: 8),
-          ],
+
+    return MenuAnchor(
+      animated: true,
+      alignmentOffset: const Offset(0, 6),
+      style: MenuStyle(
+        alignment: AlignmentDirectional.topEnd,
+        backgroundColor: WidgetStatePropertyAll(AppColors.surface2),
+        surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+        shadowColor: WidgetStatePropertyAll(
+          Colors.black.withValues(alpha: 0.4),
+        ),
+        elevation: const WidgetStatePropertyAll(4),
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.symmetric(vertical: 8),
+        ),
+        minimumSize: const WidgetStatePropertyAll(Size(220, 0)),
+        side: const WidgetStatePropertyAll(
+          BorderSide(color: AppColors.hairline),
+        ),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
       ),
+      menuChildren: [
+        Builder(
+          builder: (menuContext) {
+            final shuffleAction = _shuffleAction;
+            return MenuItemButton(
+              onPressed: shuffleAction,
+              style: _libraryMenuItemStyle(enabled: shuffleAction != null),
+              leadingIcon: Icon(
+                Icons.shuffle_rounded,
+                size: 18,
+                color: shuffleAction == null
+                    ? AppColors.textTertiary
+                    : AppColors.textSecondary,
+              ),
+              child: Text(menuContext.l10n.shuffle),
+            );
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Divider(color: AppColors.hairline, height: 1),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 4),
+          child: Text(
+            context.l10n.sortBy,
+            style: AppText.caption.copyWith(
+              color: AppColors.textTertiary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        for (final option in optionsFor(isMyList: isMyList))
+          MenuItemButton(
+            onPressed: () => _onLibraryMenuSelected(context, option),
+            style: _libraryMenuItemStyle(selected: option == active),
+            leadingIcon: option == active
+                ? Icon(Icons.check_rounded, color: AppColors.accent, size: 18)
+                : const SizedBox(width: 18),
+            trailingIcon: option == active
+                ? Icon(
+                    _sortDesc
+                        ? Icons.arrow_downward_rounded
+                        : Icons.arrow_upward_rounded,
+                    color: AppColors.accent,
+                    size: 18,
+                  )
+                : null,
+            child: Text(listSortLabel(option)),
+          ),
+      ],
+      builder: (context, controller, _) => IconButton(
+        tooltip: context.l10n.more,
+        constraints: const BoxConstraints.tightFor(width: 36, height: 36),
+        padding: EdgeInsets.zero,
+        style: IconButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          backgroundColor: controller.isOpen
+              ? AppColors.accentSoft
+              : AppColors.surface2,
+          foregroundColor: AppColors.accent,
+          shape: const CircleBorder(),
+        ),
+        onPressed: controller.isOpen ? controller.close : controller.open,
+        icon: const Icon(Icons.more_vert_rounded, size: 18),
+      ),
     );
+  }
+
+  ButtonStyle _libraryMenuItemStyle({
+    bool selected = false,
+    bool enabled = true,
+  }) => ButtonStyle(
+    foregroundColor: WidgetStatePropertyAll(
+      !enabled
+          ? AppColors.textTertiary
+          : selected
+          ? AppColors.accent
+          : AppColors.textPrimary,
+    ),
+    textStyle: WidgetStatePropertyAll(
+      AppText.body.copyWith(fontWeight: selected ? FontWeight.w700 : null),
+    ),
+  );
+
+  void _onLibraryMenuSelected(BuildContext context, ListSort action) {
+    final isMyList = context.read<TrackerListCubit>().state.isMyList;
+    final active = _sortFor(isMyList: isMyList);
+    setState(() {
+      // Same option again flips direction; a new one starts in the familiar
+      // direction (newest/highest first, or A-Z).
+      if (action == active) {
+        _sortDesc = !_sortDesc;
+      } else {
+        _sort = action;
+        _sortDesc = action != ListSort.title;
+      }
+    });
+    ListSortPrefs.save(_sortFor(isMyList: isMyList), _sortDesc);
   }
 
   /// Create a list on the user's AniList account from the tab row, then
@@ -811,6 +867,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
   Widget _myListBody(BuildContext context) {
     return BlocBuilder<MyListCubit, List<MyListEntry>>(
       builder: (context, entries) {
+        if (entries.isEmpty) _shuffleAction = null;
         final child = entries.isEmpty
             ? _empty(context)
             : _grid(
@@ -846,16 +903,19 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
     final Widget content;
     switch (tlState.status) {
       case TrackerListStatus.loading:
+        _shuffleAction = null;
         content = Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         );
       case TrackerListStatus.error:
+        _shuffleAction = null;
         content = EmptyState(
           icon: Icons.cloud_off_rounded,
           message: context.l10n.couldnTLoadPullToRefresh,
         );
       case TrackerListStatus.idle:
       case TrackerListStatus.ready:
+        if (tlState.entries.isEmpty) _shuffleAction = null;
         content = tlState.entries.isEmpty
             ? EmptyState(
                 icon: Icons.bookmark_outline,
@@ -1015,6 +1075,24 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
         : (tracker is AniListService
               ? () => _createAniListList(context, tracker)
               : null);
+    final selectedView = views.firstWhere(
+      (view) => view.id == _selectedTabId,
+      orElse: () => views.first,
+    );
+    final shuffleCandidates = modeEntries
+        .where(
+          (entry) =>
+              selectedView.test(entry) &&
+              _matchesQuery(entry) &&
+              (isMyList || playableTrackerItem(entry.item) != null),
+        )
+        .toList();
+    _shuffleAction = shuffleCandidates.isEmpty
+        ? null
+        : () {
+            final entry = pickRandomLibraryEntry(shuffleCandidates);
+            if (entry != null) onTap(entry.item);
+          };
 
     return LibraryTabs(
       tabs: views,

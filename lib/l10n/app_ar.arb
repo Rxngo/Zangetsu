@@ -1084,6 +1084,7 @@
 		}
 	},
 	"sort": "ترتيب",
+	"shuffle": "اختر عشوائيًا",
 	"giveItAName": "امنحها اسمًا",
 	"youAlreadyHaveThatOne": "لديك واحد بهذا الاسم بالفعل",
 	"thatNameIsTaken": "هذا الاسم محجوز",

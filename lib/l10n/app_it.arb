@@ -1026,6 +1026,7 @@
 		}
 	},
 	"sort": "Ordinare",
+	"shuffle": "Scegli a caso",
 	"giveItAName": "Dagli un nome",
 	"youAlreadyHaveThatOne": "Quello ce l'hai già",
 	"thatNameIsTaken": "Quel nome è già stato preso",

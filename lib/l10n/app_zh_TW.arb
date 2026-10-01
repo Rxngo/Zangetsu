@@ -1026,6 +1026,7 @@
 		}
 	},
 	"sort": "種類",
+	"shuffle": "隨機選擇",
 	"giveItAName": "給它取個名字",
 	"youAlreadyHaveThatOne": "你已經有那個了。",
 	"thatNameIsTaken": "這個名字已被佔用",

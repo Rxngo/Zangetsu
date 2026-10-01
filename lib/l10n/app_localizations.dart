@@ -5422,6 +5422,12 @@ abstract class AppLocalizations {
   /// **'Sort'**
   String get sort;
 
+  /// No description provided for @shuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get shuffle;
+
   /// No description provided for @giveItAName.
   ///
   /// In en, this message translates to:

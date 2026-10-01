@@ -1,5 +1,14 @@
+import 'dart:math';
+
 import '../../core/models/watch_status.dart';
 import 'cubit/my_list_cubit.dart';
+
+/// Picks one entry from the already-filtered library view, or null when it is
+/// empty. The optional [random] keeps the choice deterministic in tests.
+T? pickRandomLibraryEntry<T>(List<T> entries, {Random? random}) {
+  if (entries.isEmpty) return null;
+  return entries[(random ?? Random()).nextInt(entries.length)];
+}
 
 /// Fixed tab order matching the phone My List screen.
 const libraryStatusTabOrder = [

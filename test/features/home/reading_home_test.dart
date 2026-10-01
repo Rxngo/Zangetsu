@@ -40,6 +40,7 @@ import 'package:watch_app/core/playback/list_status_store.dart';
 import 'package:watch_app/core/playback/my_list.dart';
 import 'package:watch_app/core/playback/watch_history.dart';
 import 'package:watch_app/core/reading/read_history.dart';
+import 'package:watch_app/core/theme/app_colors.dart';
 import 'package:watch_app/core/supabase/auth_user.dart';
 import 'package:watch_app/core/supabase/supabase_service.dart';
 import 'package:watch_app/core/tracker/tracker_hub.dart';
@@ -100,6 +101,15 @@ class _FakeAuthCubit extends Cubit<AuthState> implements AuthCubit {
   _FakeAuthCubit(super.initial);
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
+}
+
+class _RecordingNavigatorObserver extends NavigatorObserver {
+  final List<Route<dynamic>> pushed = [];
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    pushed.add(route);
+  }
 }
 
 void main() {
@@ -250,57 +260,54 @@ void main() {
       },
     );
 
-    testWidgets(
-      'ContinueReadingRow renders the title, a Chapter subtitle, and '
-      'resumes on tap',
-      (tester) async {
-        ReadEntry? resumed;
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  ContinueReadingRow(
-                    history: [
-                      ReadEntry(
-                        sourceId: 'src',
-                        showId: 'show2',
-                        title: 'Novel Title',
-                        chapterId: 'c5',
-                        chapterNumber: 5,
-                        chapterUrl: '/c5',
-                        pos: 3,
-                        total: 20,
-                        updatedMs: 1,
-                        type: ProviderType.novel,
-                      ),
-                    ],
-                    onResumeReading: (e) => resumed = e,
-                  ),
-                ],
-              ),
+    testWidgets('ContinueReadingRow renders the title, a Chapter subtitle, and '
+        'resumes on tap', (tester) async {
+      ReadEntry? resumed;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                ContinueReadingRow(
+                  history: [
+                    ReadEntry(
+                      sourceId: 'src',
+                      showId: 'show2',
+                      title: 'Novel Title',
+                      chapterId: 'c5',
+                      chapterNumber: 5,
+                      chapterUrl: '/c5',
+                      pos: 3,
+                      total: 20,
+                      updatedMs: 1,
+                      type: ProviderType.novel,
+                    ),
+                  ],
+                  onResumeReading: (e) => resumed = e,
+                ),
+              ],
             ),
           ),
-        );
-        await tester.pumpAndSettle();
+        ),
+      );
+      await tester.pumpAndSettle();
 
-        expect(find.text('Continue Reading'), findsOneWidget);
-        expect(find.text('Chapter 5'), findsOneWidget);
-        expect(find.text('Continue Watching'), findsNothing);
+      expect(find.text('Continue Reading'), findsOneWidget);
+      expect(find.text('Chapter 5'), findsOneWidget);
+      expect(find.text('Continue Watching'), findsNothing);
 
-        // Compact horizontal "keep reading" chip — its own small shape, NOT
-        // Continue Watching's 230x129 landscape card (which would letterbox a
-        // portrait cover) and not the full-poster card either.
-        final row = tester.widget<ContentRow>(find.byType(ContentRow));
-        expect(row.itemWidth, 236);
-        expect(row.itemHeight, 76);
-        expect(find.byType(ContinueReadingCard), findsOneWidget);
-        expect(find.byType(ContinueCard), findsNothing); // not the anime card
+      // Compact horizontal "keep reading" chip — its own small shape, NOT
+      // Continue Watching's 230x129 landscape card (which would letterbox a
+      // portrait cover) and not the full-poster card either.
+      final row = tester.widget<ContentRow>(find.byType(ContentRow));
+      expect(row.itemWidth, 236);
+      expect(row.itemHeight, 76);
+      expect(find.byType(ContinueReadingCard), findsOneWidget);
+      expect(find.byType(ContinueCard), findsNothing); // not the anime card
 
-        await tester.tap(find.text('Novel Title'));
-        expect(resumed?.showId, 'show2');
-      },
-    );
+      await tester.tap(find.text('Novel Title'));
+      expect(resumed?.showId, 'show2');
+    });
   });
 
   // ── Part A: ContinueSection gating (login / box-open guard) ──────────────
@@ -354,8 +361,7 @@ void main() {
       expect(find.text('Continue Reading'), findsNothing);
     });
 
-    testWidgets('signed out renders nothing in a reading mode',
-        (tester) async {
+    testWidgets('signed out renders nothing in a reading mode', (tester) async {
       await pumpGated(tester, loggedIn: false, mode: ContentMode.novel);
       expect(find.text('Continue Watching'), findsNothing);
       expect(find.text('Continue Reading'), findsNothing);
@@ -397,74 +403,71 @@ void main() {
       await sl.reset();
     });
 
-    testWidgets(
-      'anime mode with the box open renders ContinueWatchingRow, not '
-      'ContinueReadingRow',
-      (tester) async {
-        late Directory dir;
-        await tester.runAsync(() async {
-          dir = await Directory.systemTemp.createTemp('continue_section_live');
-          Hive.init(dir.path);
-          await WatchHistory.init();
-          await ReadHistory.init();
-        });
-        sl.registerSingleton<WatchHistory>(
-          WatchHistory(SupabaseService(), () => null),
-        );
-        sl.registerSingleton<ReadHistory>(
-          ReadHistory(SupabaseService(), () => null),
-        );
-        await tester.runAsync(
-          () => sl<WatchHistory>().save(
-            HistoryEntry(
-              sourceId: 'src',
-              showId: 'show1',
-              showTitle: 'Anime Show',
-              showUrl: '/show1',
-              category: 'sub',
-              episodeId: 'e1',
-              episodeNumber: 1,
-              episodeUrl: '/e1',
-              position: const Duration(minutes: 1),
-              duration: const Duration(minutes: 24),
-              updatedAt: 1,
+    testWidgets('anime mode with the box open renders ContinueWatchingRow, not '
+        'ContinueReadingRow', (tester) async {
+      late Directory dir;
+      await tester.runAsync(() async {
+        dir = await Directory.systemTemp.createTemp('continue_section_live');
+        Hive.init(dir.path);
+        await WatchHistory.init();
+        await ReadHistory.init();
+      });
+      sl.registerSingleton<WatchHistory>(
+        WatchHistory(SupabaseService(), () => null),
+      );
+      sl.registerSingleton<ReadHistory>(
+        ReadHistory(SupabaseService(), () => null),
+      );
+      await tester.runAsync(
+        () => sl<WatchHistory>().save(
+          HistoryEntry(
+            sourceId: 'src',
+            showId: 'show1',
+            showTitle: 'Anime Show',
+            showUrl: '/show1',
+            category: 'sub',
+            episodeId: 'e1',
+            episodeNumber: 1,
+            episodeUrl: '/e1',
+            position: const Duration(minutes: 1),
+            duration: const Duration(minutes: 24),
+            updatedAt: 1,
+          ),
+        ),
+      );
+      sl.registerSingleton<ContentModeCubit>(
+        _FakeContentModeCubit(ContentMode.anime),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                ContinueSection(
+                  loggedIn: true,
+                  onResume: (_) {},
+                  onLongPress: (_) {},
+                  onSeeAll: () {},
+                  onResumeReading: (_) {},
+                  onLongPressReading: (_) {},
+                ),
+              ],
             ),
           ),
-        );
-        sl.registerSingleton<ContentModeCubit>(
-          _FakeContentModeCubit(ContentMode.anime),
-        );
+        ),
+      );
+      await tester.pumpAndSettle();
 
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  ContinueSection(
-                    loggedIn: true,
-                    onResume: (_) {},
-                    onLongPress: (_) {},
-                    onSeeAll: () {},
-                    onResumeReading: (_) {},
-                    onLongPressReading: (_) {},
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
+      expect(find.byType(ContinueWatchingRow), findsOneWidget);
+      expect(find.byType(ContinueReadingRow), findsNothing);
+      expect(find.text('Continue Watching'), findsOneWidget);
 
-        expect(find.byType(ContinueWatchingRow), findsOneWidget);
-        expect(find.byType(ContinueReadingRow), findsNothing);
-        expect(find.text('Continue Watching'), findsOneWidget);
-
-        await tester.runAsync(() async {
-          await Hive.deleteFromDisk();
-          if (await dir.exists()) await dir.delete(recursive: true);
-        });
-      },
-    );
+      await tester.runAsync(() async {
+        await Hive.deleteFromDisk();
+        if (await dir.exists()) await dir.delete(recursive: true);
+      });
+    });
 
     testWidgets(
       'a reading mode with the box open renders ContinueReadingRow, not '
@@ -599,6 +602,75 @@ void main() {
       },
     );
 
+    testWidgets('Shuffle opens a title detail page instead of playback', (
+      tester,
+    ) async {
+      sl.registerSingleton<ContentModeCubit>(
+        _FakeContentModeCubit(ContentMode.anime),
+      );
+      final observer = _RecordingNavigatorObserver();
+
+      await tester.pumpWidget(
+        MaterialApp(navigatorObservers: [observer], home: const MyListScreen()),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.shuffle_rounded), findsNothing);
+      expect(find.byType(MenuAnchor), findsOneWidget);
+      final menuAnchor = tester.widget<MenuAnchor>(find.byType(MenuAnchor));
+      expect(menuAnchor.animated, isTrue);
+      expect(tester.getSize(find.byType(MenuAnchor)), const Size(36, 36));
+      final headerRow = find
+          .ancestor(of: find.byTooltip('More'), matching: find.byType(Row))
+          .first;
+      expect(tester.getSize(headerRow).height, 36);
+      expect(tester.getSize(find.byTooltip('More')), const Size(36, 36));
+      expect(tester.getSize(find.byTooltip('Search…')), const Size(36, 36));
+      expect(
+        tester.widget<Icon>(find.byIcon(Icons.more_vert_rounded)).size,
+        tester.widget<Icon>(find.byIcon(Icons.search_rounded)).size,
+      );
+
+      final menuStyle = menuAnchor.style;
+      expect(
+        menuStyle?.backgroundColor?.resolve(const <WidgetState>{}),
+        AppColors.surface2,
+      );
+      expect(
+        menuStyle?.surfaceTintColor?.resolve(const <WidgetState>{}),
+        Colors.transparent,
+      );
+      expect(
+        menuStyle?.shape?.resolve(const <WidgetState>{}),
+        isA<RoundedRectangleBorder>(),
+      );
+      await tester.tap(find.byIcon(Icons.more_vert_rounded));
+      await tester.pumpAndSettle();
+
+      final before = observer.pushed.length;
+      expect(find.byType(MenuItemButton), findsNWidgets(3));
+      expect(find.text('Shuffle'), findsOneWidget);
+      final shuffleMenuItem = find.ancestor(
+        of: find.text('Shuffle'),
+        matching: find.byType(MenuItemButton),
+      );
+      expect(
+        tester.widget<MenuItemButton>(shuffleMenuItem).onPressed,
+        isNotNull,
+      );
+      expect(find.text('Sort by'), findsOneWidget);
+      expect(find.text('Recently added'), findsOneWidget);
+      expect(find.byType(BottomSheet), findsNothing);
+
+      // MenuAnchor dispatches actions post-frame to restore focus first. Call
+      // its installed callback directly so this test can inspect the pushed
+      // detail route without mounting DetailScreen's unrelated DI graph.
+      tester.widget<MenuItemButton>(shuffleMenuItem).onPressed!();
+
+      expect(observer.pushed.length, before + 1);
+      expect(observer.pushed.last, isA<PageRouteBuilder<void>>());
+    });
+
     testWidgets(
       'manga mode shows only the manga item, hiding anime/movie/novel',
       (tester) async {
@@ -664,25 +736,23 @@ void main() {
       await sl.reset();
     });
 
-    testWidgets(
-      'anime mode, list truly empty — unchanged wording, no button '
-      '(regression)',
-      (tester) async {
-        sl.registerSingleton<MyListStore>(_FakeMyListStore(const []));
-        sl.registerSingleton<ContentModeCubit>(
-          _FakeContentModeCubit(ContentMode.anime),
-        );
+    testWidgets('anime mode, list truly empty — unchanged wording, no button '
+        '(regression)', (tester) async {
+      sl.registerSingleton<MyListStore>(_FakeMyListStore(const []));
+      sl.registerSingleton<ContentModeCubit>(
+        _FakeContentModeCubit(ContentMode.anime),
+      );
 
-        await tester.pumpWidget(authed(const MyListScreen()));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(authed(const MyListScreen()));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Titles you add appear here'), findsOneWidget);
-        expect(find.byType(FilledButton), findsNothing);
-      },
-    );
+      expect(find.text('Titles you add appear here'), findsOneWidget);
+      expect(find.byType(FilledButton), findsNothing);
+    });
 
-    testWidgets('manga mode, list truly empty — reading-specific wording',
-        (tester) async {
+    testWidgets('manga mode, list truly empty — reading-specific wording', (
+      tester,
+    ) async {
       sl.registerSingleton<MyListStore>(_FakeMyListStore(const []));
       sl.registerSingleton<ContentModeCubit>(
         _FakeContentModeCubit(ContentMode.manga),
@@ -695,8 +765,9 @@ void main() {
       expect(find.text('Titles you add appear here'), findsNothing);
     });
 
-    testWidgets('novel mode, list truly empty — reading-specific wording',
-        (tester) async {
+    testWidgets('novel mode, list truly empty — reading-specific wording', (
+      tester,
+    ) async {
       sl.registerSingleton<MyListStore>(_FakeMyListStore(const []));
       sl.registerSingleton<ContentModeCubit>(
         _FakeContentModeCubit(ContentMode.novel),
@@ -764,7 +835,12 @@ void main() {
   // header comment).
 
   group('readerFor routing', () {
-    const chapter = Episode(id: 'c1', title: 'Chapter 1', url: '/c1', number: 1);
+    const chapter = Episode(
+      id: 'c1',
+      title: 'Chapter 1',
+      url: '/c1',
+      number: 1,
+    );
 
     ReadEntry entryOf(ProviderType type) => ReadEntry(
       sourceId: 'src',
@@ -780,13 +856,17 @@ void main() {
     );
 
     test('a manga ReadEntry routes to MangaReaderScreen', () {
-      expect(readerFor(entryOf(ProviderType.manga), chapter),
-          isA<MangaReaderScreen>());
+      expect(
+        readerFor(entryOf(ProviderType.manga), chapter),
+        isA<MangaReaderScreen>(),
+      );
     });
 
     test('a novel ReadEntry routes to NovelReaderScreen', () {
-      expect(readerFor(entryOf(ProviderType.novel), chapter),
-          isA<NovelReaderScreen>());
+      expect(
+        readerFor(entryOf(ProviderType.novel), chapter),
+        isA<NovelReaderScreen>(),
+      );
     });
   });
 }

@@ -1026,6 +1026,7 @@
 		}
 	},
 	"sort": "Clasificar",
+	"shuffle": "Elegir al azar",
 	"giveItAName": "Ponle un nombre",
 	"youAlreadyHaveThatOne": "Ya tienes ese",
 	"thatNameIsTaken": "Ese nombre ya está ocupado.",

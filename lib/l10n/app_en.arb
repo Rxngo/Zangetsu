@@ -1084,6 +1084,7 @@
 		}
 	},
 	"sort": "Sort",
+	"shuffle": "Shuffle",
 	"giveItAName": "Give it a name",
 	"youAlreadyHaveThatOne": "You already have that one",
 	"thatNameIsTaken": "That name is taken",

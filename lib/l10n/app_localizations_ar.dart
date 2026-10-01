@@ -2899,6 +2899,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sort => 'ترتيب';
 
   @override
+  String get shuffle => 'اختر عشوائيًا';
+
+  @override
   String get giveItAName => 'امنحها اسمًا';
 
   @override

@@ -2877,6 +2877,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sort => 'Sort';
 
   @override
+  String get shuffle => 'Shuffle';
+
+  @override
   String get giveItAName => 'Give it a name';
 
   @override

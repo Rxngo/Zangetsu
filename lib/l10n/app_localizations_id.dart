@@ -2894,6 +2894,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get sort => 'Urutkan';
 
   @override
+  String get shuffle => 'Acak';
+
+  @override
   String get giveItAName => 'Beri nama';
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:watch_app/core/models/media_item.dart';
 import 'package:watch_app/core/models/provider_info.dart';
@@ -57,6 +59,17 @@ void main() {
       ['Custom'],
     );
   });
+
+  test(
+    'pickRandomLibraryEntry selects only from the provided visible entries',
+    () {
+      final candidates = [planned, completed];
+      final picked = pickRandomLibraryEntry(candidates, random: Random(7));
+
+      expect(picked, candidates[Random(7).nextInt(candidates.length)]);
+      expect(pickRandomLibraryEntry<MyListEntry>([]), isNull);
+    },
+  );
 
   test(
     'tracker default sort puts the highest score first, not fetch order',

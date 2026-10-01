@@ -2792,6 +2792,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get sort => '种类';
 
   @override
+  String get shuffle => '随机选择';
+
+  @override
   String get giveItAName => '给它起个名字';
 
   @override
@@ -7795,6 +7798,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get sort => '種類';
+
+  @override
+  String get shuffle => '隨機選擇';
 
   @override
   String get giveItAName => '給它取個名字';

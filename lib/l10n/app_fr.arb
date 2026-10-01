@@ -1026,6 +1026,7 @@
 		}
 	},
 	"sort": "Trier",
+	"shuffle": "Choisir au hasard",
 	"giveItAName": "Donnez-lui un nom",
 	"youAlreadyHaveThatOne": "Vous l'avez déjà.",
 	"thatNameIsTaken": "Ce nom est pris",

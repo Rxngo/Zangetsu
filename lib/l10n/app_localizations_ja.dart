@@ -2810,6 +2810,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sort => '選別';
 
   @override
+  String get shuffle => 'ランダムに選ぶ';
+
+  @override
   String get giveItAName => '名前を付けて';
 
   @override

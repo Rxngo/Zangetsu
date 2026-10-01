@@ -2911,6 +2911,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get sort => 'Ordenar';
 
   @override
+  String get shuffle => 'Escolher aleatoriamente';
+
+  @override
   String get giveItAName => 'Dê um nome';
 
   @override

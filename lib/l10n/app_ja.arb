@@ -1026,6 +1026,7 @@
 		}
 	},
 	"sort": "選別",
+	"shuffle": "ランダムに選ぶ",
 	"giveItAName": "名前を付けて",
 	"youAlreadyHaveThatOne": "あなたは既にそれを持っています",
 	"thatNameIsTaken": "その名前は既に使われています",

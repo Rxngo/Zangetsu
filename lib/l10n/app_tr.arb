@@ -1084,6 +1084,7 @@
 		}
 	},
 	"sort": "Sırala",
+	"shuffle": "Rastgele seç",
 	"giveItAName": "Bir ad ver",
 	"youAlreadyHaveThatOne": "Böyle bir tane zaten var",
 	"thatNameIsTaken": "Bu ad alınmış",

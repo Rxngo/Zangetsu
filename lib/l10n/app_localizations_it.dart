@@ -2899,6 +2899,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get sort => 'Ordinare';
 
   @override
+  String get shuffle => 'Scegli a caso';
+
+  @override
   String get giveItAName => 'Dagli un nome';
 
   @override

@@ -2891,6 +2891,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sort => 'Sırala';
 
   @override
+  String get shuffle => 'Rastgele seç';
+
+  @override
   String get giveItAName => 'Bir ad ver';
 
   @override
