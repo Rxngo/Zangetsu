@@ -83,7 +83,7 @@ import '../schedule/schedule_screen.dart';
 import '../shell/dock_icons.dart';
 import '../../core/zmode/source_matcher.dart';
 import '../../core/zmode/metadata_repository.dart';
-import '../../core/zmode/match_store.dart';
+import '../../core/zmode/playback_resolver.dart';
 import '../../core/zmode/zmode_ids.dart';
 import 'streaming_services_row.dart';
 import 'cubit/home_cubit.dart';
@@ -269,8 +269,9 @@ class _HomeViewState extends State<_HomeView>
   /// banner's caption blank the whole time and the carousel rotating on. The
   /// caption is genres, a count and a year; the catalogue supplies all three
   /// up front, and the source is only needed for episode *urls*, which the
-  /// banner never reads. The match still finishes in the background, so the
-  /// title is already paired by the time anyone taps Play.
+  /// banner never reads. Once that partial result arrives, the unused source
+  /// match is abandoned so Home cannot keep provider work running underneath
+  /// a detail screen.
   ///
   /// A source-backed title never calls `onPartial` — it has nothing to search
   /// for — and completes on the second branch exactly as it always did.
@@ -282,7 +283,14 @@ class _HomeViewState extends State<_HomeView>
         }
 
         // _detailOf swallows its errors, so this always settles.
-        unawaited(_detailOf(m.url, m.sourceId, onPartial: settle).then(settle));
+        unawaited(
+          _detailOf(
+            m.url,
+            m.sourceId,
+            onPartial: settle,
+            abandoned: () => first.isCompleted,
+          ).then(settle),
+        );
         final d = await first.future;
         if (d == null) return null;
         return HeroMeta(
@@ -317,20 +325,21 @@ class _HomeViewState extends State<_HomeView>
     if (rows.isEmpty) return;
     final e = rows.first;
     if (e.episodeUrl.isEmpty) return;
-    // In Z Mode a title has no source of its own; without a match already
-    // stored this would search every installed source. See DetailScreen.
-    if (e.sourceId == ZmodeIds.sourceId) {
-      final c = ZmodeIds.parseShow(e.showUrl);
-      if (c == null ||
-          !sl.isRegistered<MatchStore>() ||
-          sl<MatchStore>().bestFor(c) == null) {
-        return;
-      }
-    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       ProviderManager.inBackground(
-        () => _repo.sources(e.episodeUrl, sourceId: e.sourceId, fast: true),
+        () {
+          // Z Mode's source id is only a catalogue pseudo-id. Use the actual
+          // source remembered for this title and stop there: a speculative
+          // startup warm must never turn into an Auto Resolve sweep.
+          if (e.sourceId == ZmodeIds.sourceId) {
+            if (!sl.isRegistered<PlaybackResolver>()) {
+              return Future.value(<VideoSource>[]);
+            }
+            return sl<PlaybackResolver>().prewarmRememberedSource(e.episodeUrl);
+          }
+          return _repo.sources(e.episodeUrl, sourceId: e.sourceId, fast: true);
+        },
       ).catchError((_) => <VideoSource>[]);
     });
   }
@@ -361,9 +370,15 @@ class _HomeViewState extends State<_HomeView>
     String url,
     String sourceId, {
     void Function(MediaDetail partial)? onPartial,
+    bool Function()? abandoned,
   }) async {
     try {
-      return await _repo.detail(url, sourceId: sourceId, onPartial: onPartial);
+      return await _repo.detail(
+        url,
+        sourceId: sourceId,
+        onPartial: onPartial,
+        abandoned: abandoned,
+      );
     } catch (_) {
       return null;
     }

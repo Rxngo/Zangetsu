@@ -90,3 +90,67 @@ VideoSource? pickDefault(
   // 'auto'/'highest', or nothing carried a resolution: the existing default.
   return pool.first;
 }
+
+/// Gives late CloudStream links a short chance to include the user's preferred
+/// quality before [pickDefault] chooses an initial stream. This happens before
+/// playback starts, so it never switches servers (and their audio/subtitles)
+/// underneath the viewer. If the preference doesn't arrive within [maxWait],
+/// the available links are returned and the saved preference remains intact.
+Future<List<VideoSource>> waitForPreferredQuality({
+  required List<VideoSource> initial,
+  required String preferredQuality,
+  required AudioKind preferredKind,
+  required Future<({List<VideoSource> sources, bool done})> Function() poll,
+  bool Function()? isStillCurrent,
+  Duration maxWait = const Duration(seconds: 2),
+  Duration pollInterval = const Duration(milliseconds: 250),
+}) async {
+  if (initial.isEmpty ||
+      preferredQuality == 'auto' ||
+      maxWait <= Duration.zero) {
+    return initial;
+  }
+
+  final target = resolutionPx(preferredQuality);
+  var collected = List<VideoSource>.of(initial);
+  final seen = initial.map((source) => source.url).toSet();
+  final timer = Stopwatch()..start();
+
+  bool preferredQualityAvailable() {
+    if (preferredQuality == 'highest') return false;
+    if (target == null) return true;
+    final inPreferredKind = preferredKind == AudioKind.unknown
+        ? collected
+        : sourcesForKind(collected, preferredKind);
+    if (preferredKind != AudioKind.unknown && inPreferredKind.isEmpty) {
+      return false;
+    }
+    return inPreferredKind.any(
+      (source) => resolutionPx(source.quality) == target,
+    );
+  }
+
+  while (timer.elapsed < maxWait) {
+    if (isStillCurrent != null && !isStillCurrent()) return collected;
+    if (preferredQualityAvailable()) return collected;
+    final remaining = maxWait - timer.elapsed;
+    late final ({List<VideoSource> sources, bool done}) result;
+    try {
+      result = await poll().timeout(
+        remaining,
+        onTimeout: () => (sources: const <VideoSource>[], done: true),
+      );
+    } catch (_) {
+      return collected;
+    }
+    for (final source in result.sources) {
+      if (seen.add(source.url)) collected.add(source);
+    }
+    if (preferredQualityAvailable() || result.done) return collected;
+
+    final pause = maxWait - timer.elapsed;
+    if (pause <= Duration.zero) break;
+    await Future<void>.delayed(pollInterval < pause ? pollInterval : pause);
+  }
+  return collected;
+}

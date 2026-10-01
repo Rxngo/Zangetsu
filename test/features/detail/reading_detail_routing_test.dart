@@ -651,9 +651,8 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
 
-      sl.registerSingleton<SourceRepository>(
-        _StubSourceRepository(_animeDetail),
-      );
+      final sourceRepository = _StubSourceRepository(_animeDetail);
+      sl.registerSingleton<SourceRepository>(sourceRepository);
       sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
 
       final observer = _RecordingNavigatorObserver();
@@ -664,9 +663,17 @@ void main() {
         ),
       );
       await tester.pump(); // let the cubit's load() resolve
+      // The detail prefetch starts after a 700ms stay-delay. Keep this check
+      // just below that threshold: Play should still work before prefetch fires.
+      await tester.pump(const Duration(milliseconds: 699));
 
       expect(find.text('Play'), findsWidgets);
       expect(find.text('Read'), findsNothing);
+      expect(
+        sourceRepository.prefetchCalls,
+        isEmpty,
+        reason: 'opening detail must not resolve links before Play is tapped',
+      );
 
       final before = observer.pushed.length;
       // No pump() after this tap on purpose — see _RecordingNavigatorObserver.

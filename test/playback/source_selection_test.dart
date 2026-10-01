@@ -2,26 +2,41 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:watch_app/core/models/video_source.dart';
 import 'package:watch_app/core/playback/source_selection.dart';
 
-VideoSource _s(String q, AudioKind k) =>
-    VideoSource(url: 'https://x/$q', quality: q, container: SourceContainer.hls, kind: k);
+VideoSource _s(String q, AudioKind k) => VideoSource(
+  url: 'https://x/$q',
+  quality: q,
+  container: SourceContainer.hls,
+  kind: k,
+);
 
 void main() {
   test('sortByQuality orders high→low, unknown last', () {
-    final out = sortByQuality([_s('480p', AudioKind.sub), _s('1080p', AudioKind.sub),
-      _s('', AudioKind.sub), _s('720p', AudioKind.sub)]);
+    final out = sortByQuality([
+      _s('480p', AudioKind.sub),
+      _s('1080p', AudioKind.sub),
+      _s('', AudioKind.sub),
+      _s('720p', AudioKind.sub),
+    ]);
     expect(out.map((s) => s.quality).toList(), ['1080p', '720p', '480p', '']);
   });
 
   test('availableKinds lists distinct kinds present', () {
-    final kinds = availableKinds([_s('720p', AudioKind.sub), _s('720p', AudioKind.dub),
-      _s('480p', AudioKind.sub)]);
+    final kinds = availableKinds([
+      _s('720p', AudioKind.sub),
+      _s('720p', AudioKind.dub),
+      _s('480p', AudioKind.sub),
+    ]);
     expect(kinds.contains(AudioKind.sub), true);
     expect(kinds.contains(AudioKind.dub), true);
     expect(kinds.length, 2);
   });
 
   test('pickDefault prefers requested kind at highest quality', () {
-    final all = [_s('480p', AudioKind.sub), _s('1080p', AudioKind.dub), _s('1080p', AudioKind.sub)];
+    final all = [
+      _s('480p', AudioKind.sub),
+      _s('1080p', AudioKind.dub),
+      _s('1080p', AudioKind.sub),
+    ];
     final picked = pickDefault(all, prefer: AudioKind.sub);
     expect(picked!.kind, AudioKind.sub);
     expect(picked.quality, '1080p');
@@ -36,6 +51,57 @@ void main() {
     final all = [_s('720p', AudioKind.sub), _s('720p', AudioKind.dub)];
     expect(sourcesForKind(all, AudioKind.dub).single.kind, AudioKind.dub);
   });
+
+  test('waits briefly for a saved quality before using early links', () async {
+    var polls = 0;
+    final resolved = await waitForPreferredQuality(
+      initial: [_s('720p', AudioKind.sub)],
+      preferredQuality: '1080p',
+      preferredKind: AudioKind.sub,
+      poll: () async {
+        polls++;
+        return (sources: [_s('1080p', AudioKind.sub)], done: false);
+      },
+      pollInterval: Duration.zero,
+    );
+
+    expect(polls, 1);
+    expect(resolved.map((source) => source.quality), ['720p', '1080p']);
+  });
+
+  test(
+    'does not satisfy a quality preference with the other audio cut',
+    () async {
+      var polls = 0;
+      final resolved = await waitForPreferredQuality(
+        initial: [_s('720p', AudioKind.sub)],
+        preferredQuality: '1080p',
+        preferredKind: AudioKind.sub,
+        poll: () async {
+          polls++;
+          return (
+            sources: [
+              VideoSource(
+                url: 'https://x/${polls == 1 ? 'dub' : 'sub'}/1080p',
+                quality: '1080p',
+                container: SourceContainer.hls,
+                kind: polls == 1 ? AudioKind.dub : AudioKind.sub,
+              ),
+            ],
+            done: polls == 2,
+          );
+        },
+        pollInterval: Duration.zero,
+      );
+
+      expect(polls, 2);
+      expect(resolved.map((source) => source.kind), [
+        AudioKind.sub,
+        AudioKind.dub,
+        AudioKind.sub,
+      ]);
+    },
+  );
 
   // A resolution preference has to pick the STARTING source, because for a
   // provider that ships one file per quality there is nothing to switch once
@@ -68,7 +134,11 @@ void main() {
 
     test('preference never escapes the requested audio kind', () {
       final mixed = [_s('1080p', AudioKind.dub), _s('480p', AudioKind.sub)];
-      final picked = pickDefault(mixed, prefer: AudioKind.sub, preferQuality: '1080p');
+      final picked = pickDefault(
+        mixed,
+        prefer: AudioKind.sub,
+        preferQuality: '1080p',
+      );
       expect(picked!.kind, AudioKind.sub);
       expect(picked.quality, '480p');
     });

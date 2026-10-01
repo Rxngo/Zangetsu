@@ -322,6 +322,12 @@ class SourceMatcher {
     int? malId,
     bool Function()? abandoned,
   }) async {
+    if (abandoned?.call() ?? false) {
+      debugPrint(
+        '[source-matcher] _resolve · abandoned before source selection',
+      );
+      return null;
+    }
     final candidates = _candidates(c.kind);
     // A per-title pin ("Wrong title?" or the picker) is a firm choice — it
     // wins over everything else, including an explicit kind default.

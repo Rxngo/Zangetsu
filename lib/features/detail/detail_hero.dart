@@ -149,10 +149,11 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
   // User-facing play/pause intent (separate from the scroll-driven collapse
   // pause). Seeded from the "Autoplay trailer" setting: off → start paused.
   bool _paused = false;
-  // True while another screen is stacked on top (player / another title). Gates
-  // autostart too, so a trailer that resolves after the page got covered stays
-  // put instead of playing out of sight.
-  bool _covered = false;
+  final TrailerRouteLifecycle _routeLifecycle = TrailerRouteLifecycle();
+  PlayerLifecycleGate _playerLifecycle = PlayerLifecycleGate();
+  Future<void> _playerTeardown = Future<void>.value();
+  String? _resolvedUrl;
+  bool _resolvedUrlIsHd = false;
 
   @override
   void initState() {
@@ -174,16 +175,23 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
   // top — pause so a muted trailer isn't left decoding video out of sight.
   @override
   void didPushNext() {
-    _covered = true;
-    _player?.pause();
+    if (!_routeLifecycle.cover()) return;
+    AppLogger.instance.log(
+      '[detail-hero] covered trailer=${_player != null} ready=$_ready',
+    );
+    unawaited(_disposePlayer(waitForSurfaceFrame: true));
   }
 
   // Back on top — resume unless the user paused it, it's scrolled past, or it
   // failed. Mirrors the autostart gate so autoplay behaves exactly as before.
   @override
   void didPopNext() {
-    _covered = false;
-    if (!_paused && !widget.collapsed && !_errored) _player?.play();
+    if (!_routeLifecycle.uncover()) return;
+    AppLogger.instance.log(
+      '[detail-hero] uncovered trailer=${_player != null} ready=$_ready '
+      'paused=$_paused errored=$_errored',
+    );
+    _restoreTrailer();
   }
 
   /// Extract a stream for the banner and start it muted + looping. HD toggle on
@@ -201,7 +209,21 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
       setState(() => _errored = true);
       return;
     }
+    _resolvedUrl = url;
+    _resolvedUrlIsHd = hdUrl != null;
+    if (_routeLifecycle.canCreatePlayer) {
+      await _openResolvedUrl(url, usedHd: _resolvedUrlIsHd);
+    }
+  }
+
+  Future<void> _openResolvedUrl(String url, {required bool usedHd}) async {
+    await _playerTeardown;
+    await playerRouteTeardownBarrier.waitUntilIdle();
+    if (!mounted || !_routeLifecycle.canCreatePlayer || _errored) return;
     final player = Player();
+    final lifecycle = PlayerLifecycleGate();
+    _playerLifecycle = lifecycle;
+    final openToken = lifecycle.beginOpen();
     final controller = VideoController(player);
     _player = player;
     _videoController = controller;
@@ -209,22 +231,23 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
     // so media_kit's video output/texture exists BEFORE we play. Otherwise libmpv
     // (esp. on iOS) can sit paused until a relayout/tap and the trailer never
     // auto-starts — that was the "have to tap the banner to start it" bug.
-    if (mounted) setState(() {});
-
-    await player.setVolume(_muted ? 0 : 100);
-    // Loop the single trailer media (Netflix-style).
-    await player.setPlaylistMode(PlaylistMode.single);
+    if (mounted && _routeLifecycle.canUpdateUi) setState(() {});
 
     // Reveal the player on the first "playing" event so we cross-fade in
     // rather than showing a black first frame.
     _playingSub = player.stream.playing.listen((playing) {
-      if (!mounted) return;
+      if (!mounted || player != _player) return;
       if (playing && !_ready) setState(() => _ready = true);
     });
     // Belt-and-braces loop: also restart on completion (covers engines where
     // PlaylistMode.single doesn't auto-restart a single media).
     _completedSub = player.stream.completed.listen((done) {
-      if (done && mounted && !widget.collapsed && !_paused && !_covered) {
+      if (done &&
+          mounted &&
+          !widget.collapsed &&
+          !_paused &&
+          !_routeLifecycle.isCovered &&
+          player == _player) {
         _player?.seek(Duration.zero);
         _player?.play();
       }
@@ -235,22 +258,33 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
       // don't honor the autoplay flag until the first user interaction. Open
       // paused, then explicitly play() the moment the media is loaded and the
       // widget is still mounted, so the trailer starts on its own with no touch.
-      final autostart = !_paused && !widget.collapsed && !_covered;
-      await player.open(Media(url), play: autostart);
-      if (!mounted) return;
+      await lifecycle.trackOpen(openToken, () async {
+        await player.setVolume(_muted ? 0 : 100);
+        // Loop the single trailer media (Netflix-style).
+        await player.setPlaylistMode(PlaylistMode.single);
+        await player.open(Media(url), play: false);
+      });
+      if (!mounted || player != _player || !lifecycle.canContinue(openToken)) {
+        return;
+      }
       // Autostart only when the hero is on-screen AND the user hasn't paused
       // (via the button or the "Autoplay trailer" setting being off). If it's
       // paused or already scrolled past, stay put — the play button and the
       // collapsed handler in didUpdateWidget start it later.
-      if (autostart) {
+      if (!_paused &&
+          !widget.collapsed &&
+          !_routeLifecycle.isCovered &&
+          player == _player) {
         await player.play();
         // Best-effort HD: 1080p is a throttled adaptive stream that can stall.
         // If it doesn't actually start rolling, swap to the reliable 360p muxed
         // stream so the banner never sits frozen on a single frame.
-        if (hdUrl != null) unawaited(_fallBackIfHdStalls(player));
+        if (usedHd) {
+          unawaited(_fallBackIfHdStalls(player, lifecycle, openToken));
+        }
       }
     } catch (_) {
-      if (!mounted) return;
+      if (!mounted || player != _player) return;
       setState(() => _errored = true);
     }
   }
@@ -258,7 +292,11 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
   /// Watchdog for the opt-in HD banner: if playback hasn't progressed within a
   /// few seconds (YouTube throttled the 1080p stream), re-open with the light
   /// 360p muxed stream. No-op if HD started fine.
-  Future<void> _fallBackIfHdStalls(Player player) async {
+  Future<void> _fallBackIfHdStalls(
+    Player player,
+    PlayerLifecycleGate lifecycle,
+    int openToken,
+  ) async {
     try {
       await player.stream.position
           .firstWhere((p) => p > Duration.zero)
@@ -271,9 +309,16 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
       );
       if (!mounted || player != _player || low == null || low.isEmpty) return;
       try {
-        final autostart = !_paused && !widget.collapsed && !_covered;
-        await player.open(Media(low), play: autostart);
-        if (autostart) await player.play();
+        await lifecycle.trackOpen(
+          openToken,
+          () => player.open(Media(low), play: false),
+        );
+        if (!_paused &&
+            !widget.collapsed &&
+            !_routeLifecycle.isCovered &&
+            player == _player) {
+          await player.play();
+        }
       } catch (_) {
         /* leave the cover as the backdrop */
       }
@@ -285,7 +330,9 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
     super.didUpdateWidget(old);
     // Re-resolve from scratch if the id changes (different title).
     if (old.videoId != widget.videoId) {
-      _disposePlayer();
+      _resolvedUrl = null;
+      _resolvedUrlIsHd = false;
+      unawaited(_disposePlayer());
       _ready = false;
       _errored = false;
       _resolveAndOpen();
@@ -295,6 +342,8 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
     if (widget.collapsed != old.collapsed && !_errored) {
       if (widget.collapsed) {
         _player?.pause();
+      } else if (_player == null && _resolvedUrl != null) {
+        unawaited(_openResolvedUrl(_resolvedUrl!, usedHd: _resolvedUrlIsHd));
       } else if (!_paused) {
         _player?.play();
       }
@@ -322,20 +371,61 @@ class _HeroTrailerState extends State<_HeroTrailer> with RouteAware {
     }
   }
 
-  void _disposePlayer() {
+  Future<void> _disposePlayer({bool waitForSurfaceFrame = false}) {
+    final player = _player;
+    if (player == null) return _playerTeardown;
+
+    final lifecycle = _playerLifecycle;
     _playingSub?.cancel();
     _completedSub?.cancel();
     _playingSub = null;
     _completedSub = null;
     _videoController = null;
-    _player?.dispose();
     _player = null;
+    _ready = false;
+    if (mounted && _routeLifecycle.canUpdateUi) setState(() {});
+    AppLogger.instance.log('[detail-hero] retiring native trailer player');
+
+    final previousTeardown = _playerTeardown;
+    _playerTeardown = previousTeardown
+        .then((_) async {
+          // Give Flutter one frame to unmount the Video texture before stopping
+          // and disposing its native player.
+          if (waitForSurfaceFrame && mounted) {
+            await WidgetsBinding.instance.endOfFrame;
+          }
+          await lifecycle.close(
+            stop: player.stop,
+            dispose: () async {
+              await player.dispose();
+              AppLogger.instance.log(
+                '[detail-hero] native trailer player retired',
+              );
+            },
+          );
+        })
+        .catchError((Object error) {
+          AppLogger.instance.log(
+            '[detail-hero] player teardown failed: $error',
+          );
+        });
+    return _playerTeardown;
+  }
+
+  void _restoreTrailer() {
+    if (widget.collapsed || _errored) return;
+    if (_player == null && _resolvedUrl != null) {
+      unawaited(_openResolvedUrl(_resolvedUrl!, usedHd: _resolvedUrlIsHd));
+    } else if (!_paused) {
+      _player?.play();
+    }
   }
 
   @override
   void dispose() {
     appRouteObserver.unsubscribe(this);
-    _disposePlayer();
+    _routeLifecycle.beginDispose();
+    unawaited(_disposePlayer());
     super.dispose();
   }
 

@@ -66,11 +66,11 @@ void main() {
   }
 
   SourceMatcher matcherFor(SourceRepository src) => SourceMatcher(
-        sources: src,
-        store: store,
-        prefs: prefs,
-        candidates: (_) => (src as _ProgSrc).loadedSources,
-      );
+    sources: src,
+    store: store,
+    prefs: prefs,
+    candidates: (_) => (src as _ProgSrc).loadedSources,
+  );
 
   group('resolveProgressive', () {
     test('yields first hit before slow source answers', () async {
@@ -103,16 +103,14 @@ void main() {
       expect(events.last.done, isTrue);
       // The done event carries the union in candidate order, not the last
       // hit alone — the binding constraint with the full resolve.
-      expect(
-        events.last.streams.map((s) => s.url).toList(),
-        [
-          'https://a/s1',
-          'https://a/s2',
-          'https://b/s1',
-          'https://b/s2',
-          'https://b/s3',
-        ],
-      );
+      expect(events.last.streams.map((s) => s.url).toList(), [
+        'https://a/s1',
+        'https://a/s2',
+        'https://b/s1',
+        'https://b/s2',
+        'https://b/s3',
+      ]);
+      expect(src.fastFlags, everyElement(isTrue));
       // Winner bookkeeping runs on the FIRST hit only: the late arrival must
       // not overwrite last-played or collect a score bump.
       expect(store.lastPlayed(show), 'src-a');
@@ -135,11 +133,30 @@ void main() {
       expect(events.length, 1);
       expect(events.single.done, isTrue);
       expect(events.single.match.sourceId, 'src-a');
-      expect(
-        events.single.streams.map((s) => s.url).toList(),
-        ['https://a/s1', 'https://a/s2'],
-      );
+      expect(events.single.streams.map((s) => s.url).toList(), [
+        'https://a/s1',
+        'https://a/s2',
+      ]);
       expect(src.log, ['sources:https://a/2:src-a']);
+    });
+
+    test('aborts an in-flight cached winner lookup immediately', () async {
+      final src = _ProgSrc.fastSlow(bSourcesDelay: Duration.zero);
+      final r = resolver(sources: src, matcher: matcherFor(src));
+      await r.resolveProgressive(ep2).toList();
+      src.log.clear();
+      src.aSourcesDelay = const Duration(seconds: 5);
+
+      final sw = Stopwatch()..start();
+      final pending = r.resolveProgressive(ep2).toList();
+      Future<void>.delayed(const Duration(milliseconds: 50), r.abortSweeps);
+
+      await expectLater(pending, throwsA(isA<PlaybackAborted>()));
+      expect(
+        sw.elapsed,
+        lessThan(const Duration(seconds: 1)),
+        reason: 'leaving must not wait for the provider lookup to return',
+      );
     });
 
     test('yields in candidate order when the early source is slower', () async {
@@ -157,16 +174,13 @@ void main() {
       expect(events.first.streams.length, 2);
       expect(events[1].match.sourceId, 'src-b');
       expect(events.last.done, isTrue);
-      expect(
-        events.last.streams.map((s) => s.url).toList(),
-        [
-          'https://a/s1',
-          'https://a/s2',
-          'https://b/s1',
-          'https://b/s2',
-          'https://b/s3',
-        ],
-      );
+      expect(events.last.streams.map((s) => s.url).toList(), [
+        'https://a/s1',
+        'https://a/s2',
+        'https://b/s1',
+        'https://b/s2',
+        'https://b/s3',
+      ]);
     });
 
     test('pinned source is honored, never substituted', () async {
@@ -293,13 +307,13 @@ class _ProgSrc implements SourceRepository {
     this.bSourcesDelay = const Duration(seconds: 5),
     this.aEpisodesDelay = Duration.zero,
   }) : aEps = const [
-          Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
-          Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://a/2'),
-        ],
-        bEps = const [
-          Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://b/1'),
-          Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://b/2'),
-        ];
+         Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
+         Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://a/2'),
+       ],
+       bEps = const [
+         Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://b/1'),
+         Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://b/2'),
+       ];
 
   final List<Episode> aEps;
   final List<Episode> bEps;
@@ -309,7 +323,7 @@ class _ProgSrc implements SourceRepository {
 
   /// Stream-fetch latency per source (the candidate-order test slows src-a
   /// below src-b; the pin-gate test speeds src-b up).
-  final Duration aSourcesDelay;
+  Duration aSourcesDelay;
   final Duration bSourcesDelay;
 
   /// Episode-list latency for src-a (the pin-gate test slows the pinned
@@ -318,15 +332,16 @@ class _ProgSrc implements SourceRepository {
 
   /// Every episode-list and stream fetch, per source.
   final log = <String>[];
+  final fastFlags = <bool>[];
 
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
 
   @override
   List<({String id, String name})> get loadedSources => [
-        (id: 'src-a', name: 'A'),
-        (id: 'src-b', name: 'B'),
-      ];
+    (id: 'src-a', name: 'A'),
+    (id: 'src-b', name: 'B'),
+  ];
 
   @override
   List<({String id, String name})> get pickableSources => loadedSources;
@@ -341,35 +356,71 @@ class _ProgSrc implements SourceRepository {
   String displayName(String sourceId) => sourceId;
 
   @override
-  Future<List<MediaItem>> search(String q, {String category = 'sub', String? sourceId}) async {
+  Future<List<MediaItem>> search(
+    String q, {
+    String category = 'sub',
+    String? sourceId,
+  }) async {
     if (sourceId == 'src-a') {
-      return [MediaItem(id: 'a', title: 'FMA', url: 'https://a/show', type: ProviderType.anime, sourceId: 'src-a')];
+      return [
+        MediaItem(
+          id: 'a',
+          title: 'FMA',
+          url: 'https://a/show',
+          type: ProviderType.anime,
+          sourceId: 'src-a',
+        ),
+      ];
     }
     if (sourceId == 'src-b') {
-      return [MediaItem(id: 'b', title: 'FMA', url: 'https://b/show', type: ProviderType.anime, sourceId: 'src-b')];
+      return [
+        MediaItem(
+          id: 'b',
+          title: 'FMA',
+          url: 'https://b/show',
+          type: ProviderType.anime,
+          sourceId: 'src-b',
+        ),
+      ];
     }
     return const [];
   }
 
   @override
-  Future<List<Episode>> episodes(String url, {String category = 'sub', String? sourceId}) async {
+  Future<List<Episode>> episodes(
+    String url, {
+    String category = 'sub',
+    String? sourceId,
+  }) async {
     log.add('episodes:$url:$sourceId');
     if (sourceId == 'src-a') {
       if (aEpisodesDelay != Duration.zero) {
         await Future<void>.delayed(aEpisodesDelay);
       }
-      return aHasEp2 ? aEps : const [Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1')];
+      return aHasEp2
+          ? aEps
+          : const [
+              Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
+            ];
     }
     if (sourceId == 'src-b') return bEps;
     return const [];
   }
 
   @override
-  Future<List<VideoSource>> sources(String episodeUrl, {String? sourceId, bool fast = false}) async {
+  Future<List<VideoSource>> sources(
+    String episodeUrl, {
+    String? sourceId,
+    bool fast = false,
+  }) async {
     log.add('sources:$episodeUrl:$sourceId');
+    fastFlags.add(fast);
     if (sourceId == 'src-a') {
       await Future<void>.delayed(aSourcesDelay);
-      return const [VideoSource(url: 'https://a/s1'), VideoSource(url: 'https://a/s2')];
+      return const [
+        VideoSource(url: 'https://a/s1'),
+        VideoSource(url: 'https://a/s2'),
+      ];
     }
     if (sourceId == 'src-b') {
       await Future<void>.delayed(bSourcesDelay);

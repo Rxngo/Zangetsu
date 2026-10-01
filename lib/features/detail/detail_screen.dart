@@ -50,6 +50,8 @@ import '../../core/models/media_detail.dart';
 import 'chapter_meta.dart';
 import '../../core/tv/tv_episode_range_chips.dart';
 import 'episode_filter.dart';
+import '../player/player_lifecycle.dart';
+import 'trailer_route_lifecycle.dart';
 import '../../core/models/media_item.dart';
 import '../../core/models/media_extras.dart';
 import '../../core/models/person.dart';
@@ -81,6 +83,7 @@ import '../../core/provider/provider_registry.dart';
 import '../../core/reading/chapter_nav.dart';
 import '../../core/reading/read_history.dart';
 import '../../core/reading/read_store.dart';
+import '../../core/logging/app_logger.dart';
 import '../../core/repository/catalogue_repository.dart';
 import '../../core/repository/source_actions.dart' as source_actions;
 import '../../core/repository/source_repository.dart';
@@ -515,53 +518,19 @@ class _DetailViewState extends State<_DetailView>
   /// Background-resolve [epUrl]'s sources once for this title, so the next Play
   /// reuses the work.
   ///
-  /// Only once the viewer has demonstrably STAYED. This used to start on the
-  /// first frame, and the comment claimed leaving cancelled it — it did not.
-  /// `SourceRepository.prefetch` is `void` fire-and-forget with nothing to
-  /// cancel, so a resolve started on open kept running after the back button,
-  /// and a resolve is a full source sweep: with two dead sources (fourkhdhub
-  /// and hdhub4u each blowing the 20s budget) that is ~40s of provider work per
-  /// open. Opening titles quickly therefore left one live sweep per screen,
-  /// each queued behind the last, and the next screen waited for all of them.
-  /// The tv detail screen has never prefetched, which is why tv does not show
-  /// this.
-  ///
-  /// Waiting for the viewer to still be here is the whole fix: someone who
-  /// leaves pays nothing, and someone who stays gets the warm menu as before.
+  /// Only start after the viewer has demonstrably stayed on the page. The
+  /// prefetch is scoped to the selected source; Z Mode only prefetches when a
+  /// source is already matched, so opening a detail page never starts an
+  /// Auto Resolve sweep across every installed provider.
   void _maybePrefetch(String epUrl, String sourceId) {
     if (_prefetchedEpUrl == epUrl) return;
     final zMode = sourceId == ZmodeIds.sourceId;
-    // In Z Mode the title has no source of its own, so this used to do nothing
-    // at all and every Play paid the full resolve — measured across 139 plays
-    // on 2.2.0: 7.3s median, 20s at p90, and 51 of them over ten seconds.
-    //
-    // Only worth starting when a source is already matched for this title.
-    // Then the resolve skips the sweep and goes straight to that source, which
-    // is 94% of plays; without a match it would search every installed source
-    // for a title the viewer may never play, which is not ours to spend.
     if (zMode && _zModeMatchedSource() == null) return;
     _prefetchedEpUrl = epUrl;
-    // One frame is not evidence the viewer wants this. Wait for the viewer to
-    // still be here before spending a whole source sweep on them. A Timer, not
-    // Future.delayed, so dispose can cancel it — a pending timer at teardown is
-    // a leaked callback, and dispose is exactly when this is usually moot.
     _prefetchTimer?.cancel();
     _prefetchTimer = Timer(_prefetchStayDelay, () {
       if (!mounted) return;
       if (zMode) {
-        // Same call Play makes, so the winner and the stream URLs land in the
-        // caches it reads. Fire-and-forget: a failure here must never surface,
-        // Play just does the work itself as before.
-        //
-        // Aimed at the MATCHED source, not at the Z pseudo-id. Passing the
-        // pseudo-id is what made this fan out: a title pinned to fourkhdhub
-        // warmed fourkhdhub AND vegamovies AND hdhub4u on every single detail
-        // open, three full stream enumerations competing for one phone's
-        // bandwidth to warm a list the viewer will play from one source. Naming
-        // the source asks that one first and only sweeps if it turns out to have
-        // nothing - which is what a per-source screen means. Nothing is removed:
-        // the fallback sweep is unchanged (metadata_repository.dart:916), and
-        // Play never came through this path at all.
         final matched = _zModeMatchedSource();
         ProviderManager.inBackground(
           () => sl<CatalogueRepository>().sources(
@@ -1154,12 +1123,7 @@ class _DetailViewState extends State<_DetailView>
           // is the `zm` pseudo-source while the chapter list and reader key by
           // the real source — writing under `zm` stored the mark where nothing
           // reads, so the row never dimmed until tracker progress arrived.
-          await read.setRead(
-            readSource,
-            readShowId,
-            ep.id,
-            read: nowWatched,
-          );
+          await read.setRead(readSource, readShowId, ep.id, read: nowWatched);
         } else {
           await resume.setWatched(
             widget.item.sourceId,
@@ -2005,11 +1969,8 @@ class _DetailViewState extends State<_DetailView>
     final resume = _resumeTarget(eps);
     final readResume = isReading ? _readResumeIndex(eps) : null;
     final resumeIdx = isReading ? readResume!.index : resume.index;
-    // Warm the stream for the episode Play will start, in the background, so
-    // tapping Play is near-instant. Deferred to after this frame so it can't
-    // affect the detail screen's rendering/scroll. Skipped for reading types
-    // — prefetch resolves VIDEO sources, and merely opening a manga/novel
-    // detail must never fire that against a chapter URL.
+    // Warm the episode Play/Continue will start, but only after the viewer has
+    // remained on the detail page. Reading providers do not resolve video.
     if (!isReading && eps.isNotEmpty) {
       _maybePrefetch(eps[resumeIdx].url, item.sourceId);
     }

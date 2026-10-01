@@ -336,6 +336,24 @@ void main() {
       expect(repo.searched, isEmpty, reason: 'no source searched after leaving');
     });
 
+    test('a pinned source is not queried once the caller has gone', () async {
+      final repo = _FakeSources({
+        'allanime': [_hit('allanime', 'Naruto')],
+      }, candidates: {'allanime'});
+      final m = SourceMatcher(
+        sources: repo,
+        store: store,
+        prefs: prefs,
+        candidates: (_) => two,
+      );
+      await m.pinManual(fma, _hit('allanime', 'Naruto'));
+
+      final r = await m.resolve(fma, title: 'Naruto', abandoned: () => true);
+
+      expect(r, isNull, reason: 'nobody is waiting for this pinned match');
+      expect(repo.searched, isEmpty, reason: 'no source searched after leaving');
+    });
+
     test('a sweep the viewer stays for still matches', () async {
       final repo = _FakeSources({
         'allanime': [_hit('allanime', 'Naruto')],

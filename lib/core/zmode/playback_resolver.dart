@@ -508,11 +508,19 @@ class PlaybackResolver {
     // is what Play passes on that path today (prefetch/TTL/first-link).
     final hit = _winners[flightKey];
     if (hit != null) {
-      final streams = await _sources.sources(
-        hit.episodeUrl,
-        sourceId: hit.sourceId,
-        fast: true,
-      );
+      // A cached winner is resolved on the foreground Play path. Race the
+      // provider call with the sweep abort so leaving the player does not
+      // wait for a slow native/network lookup to return.
+      final streams = await Future.any<List<VideoSource>>([
+        _sources.sources(
+          hit.episodeUrl,
+          sourceId: hit.sourceId,
+          fast: true,
+        ),
+        abortFuture.then<List<VideoSource>>(
+          (_) => throw const PlaybackAborted(),
+        ),
+      ]);
       if (gen != _sweepGen) throw const PlaybackAborted();
       if (streams.isNotEmpty) {
         yield ProgressiveResolve(
@@ -557,7 +565,10 @@ class PlaybackResolver {
           p,
           sourceId,
           t,
-          fast: false,
+          // Playback needs the first usable link, not every mirror. CloudStream
+          // can return early while its native link session keeps resolving;
+          // the player picks up those later links through pollSources.
+          fast: true,
           category: category,
           onTitleMatch: () => hadTitleMatch = true,
           onMiss: (reason) => note(sourceId, reason),
@@ -1396,6 +1407,31 @@ class PlaybackResolver {
       return const [];
     }
     return _sources.sources(ep.url, sourceId: match.sourceId, fast: fast);
+  }
+
+  /// Warms Continue Watching from the source already remembered for this
+  /// title, without starting an Auto Resolve sweep.
+  ///
+  /// A background prewarm is speculative work: if the remembered source no
+  /// longer has the episode, leave playback to handle that after a real tap.
+  /// Contacting fallback sources here makes merely opening Home run provider
+  /// searches the viewer never requested.
+  Future<List<VideoSource>> prewarmRememberedSource(
+    String zmEpisodeUrl, {
+    String category = 'sub',
+  }) async {
+    final parsed = ZmodeIds.parseEpisode(zmEpisodeUrl);
+    if (parsed == null) return const [];
+    final remembered = _store.bestFor(parsed.show);
+    if (remembered == null) return const [];
+    final title = await _titleLookup(parsed.show);
+    await _hasEpisode(
+      parsed,
+      remembered.sourceId,
+      title,
+      category: category,
+    );
+    return const [];
   }
 
   /// [body] with the blocking Cloudflare solver disabled, when the JS provider

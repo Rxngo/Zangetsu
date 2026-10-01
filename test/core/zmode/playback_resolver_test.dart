@@ -278,6 +278,39 @@ void main() {
     expect(out.match.sourceId, 'src-a');
   });
 
+  test('Continue Watching prewarm asks only the remembered source', () async {
+    await store.pin(_show, const SourceMatch(
+      sourceId: 'src-a',
+      showUrl: 'https://a/show',
+      showId: 'a',
+      showTitle: 'FMA',
+      pinned: true,
+    ));
+    final src = _SweepSrc(
+      aEps: const [
+        Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1'),
+        Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://a/2'),
+      ],
+      bEps: const [
+        Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://b/1'),
+        Episode(id: '2', title: 'Ep 2', number: 2, url: 'https://b/2'),
+      ],
+    );
+    final matcher = SourceMatcher(
+      sources: src,
+      store: store,
+      prefs: prefs,
+      candidates: (_) => src.loadedSources,
+    );
+    final r = resolver(sources: src, matcher: matcher);
+
+    final streams = await r.prewarmRememberedSource(_ep2);
+
+    expect(streams, isEmpty);
+    expect(src.log.where((call) => call.startsWith('sources:')), isEmpty);
+    expect(src.log.where((call) => call.endsWith(':src-b')), isEmpty);
+  });
+
   test('throws EpisodeNotAvailable when episode missing everywhere', () async {
     final src = _SweepSrc(
       aEps: const [Episode(id: '1', title: 'Ep 1', number: 1, url: 'https://a/1')],
