@@ -198,6 +198,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get custom => 'Perso';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'Par défaut';
 
   @override
@@ -1946,6 +1949,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get findEpisode => 'Trouver un épisode';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => 'Actualiser les chapitres';

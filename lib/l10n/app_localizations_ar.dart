@@ -198,6 +198,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get custom => 'مخصص';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'الافتراضي';
 
   @override
@@ -1940,6 +1943,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get findEpisode => 'ابحث عن حلقة';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => 'تحديث الفصول';

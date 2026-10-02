@@ -465,11 +465,12 @@ class _HomeViewState extends State<_HomeView>
   /// Long-press info card for a Continue Reading item — the manga/novel twin of
   /// [_showContinueInfo]: Read + Remove + My List, backed by [ReadHistory].
   void _showContinueReadingInfo(ReadEntry e) {
+    final showUrl = e.detailUrl;
     final stub = MediaItem(
       id: e.showId,
       title: e.title,
       cover: e.cover,
-      url: e.showId,
+      url: showUrl,
       type: e.type,
       sourceId: e.sourceId,
     );
@@ -479,7 +480,7 @@ class _HomeViewState extends State<_HomeView>
       context,
       title: e.title,
       cover: e.cover,
-      detail: _detailOf(e.showId, e.sourceId),
+      detail: _detailOf(showUrl, e.sourceId),
       inMyList: _myList.contains(stub),
       playLabel: 'Read',
       progress: progress,
@@ -2246,6 +2247,7 @@ Widget readerFor(ReadEntry e, Episode chapter) {
     return MangaReaderScreen(
       sourceId: e.sourceId,
       showId: e.showId,
+      showUrl: e.detailUrl,
       showTitle: e.title,
       cover: e.cover,
       chapters: [chapter],
@@ -2256,6 +2258,7 @@ Widget readerFor(ReadEntry e, Episode chapter) {
   return NovelReaderScreen(
     sourceId: e.sourceId,
     showId: e.showId,
+    showUrl: e.detailUrl,
     showTitle: e.title,
     cover: e.cover,
     chapters: [chapter],

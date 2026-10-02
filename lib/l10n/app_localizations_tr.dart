@@ -198,6 +198,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get custom => 'Özel';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'Varsayılan';
 
   @override
@@ -1939,6 +1942,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get findEpisode => 'Bölüm bul';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => 'Bölümleri yenile';

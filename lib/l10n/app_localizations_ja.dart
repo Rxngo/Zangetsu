@@ -198,6 +198,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get custom => 'カスタム';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'デフォルト';
 
   @override
@@ -1883,6 +1886,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get findEpisode => '話を探す';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => '章を更新';

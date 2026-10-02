@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/provider_info.dart';
 import '../privacy/incognito_mode.dart';
 import '../supabase/supabase_service.dart';
+import '../zmode/zmode_ids.dart';
 
 /// Parse a persisted [ReadEntry.type] name. Only 'manga'/'novel' are
 /// meaningful here; anything else — including a row saved before this field
@@ -25,6 +26,7 @@ class ReadEntry {
   ReadEntry({
     required this.sourceId,
     required this.showId,
+    this.showUrl,
     required this.title,
     this.cover,
     required this.chapterId,
@@ -37,6 +39,7 @@ class ReadEntry {
   });
 
   final String sourceId, showId, title, chapterId, chapterUrl;
+  final String? showUrl;
   final String? cover;
   final double? chapterNumber;
   final int pos, total, updatedMs;
@@ -44,6 +47,23 @@ class ReadEntry {
   /// manga or novel — which reader [showId]'s chapters open in. See
   /// [readEntryTypeFromName] for the missing/legacy-row default.
   final ProviderType type;
+
+  /// URL used to reopen the title's detail page. Metadata-backed titles have
+  /// a stable ID such as `mal:42`/`al:42` but must be routed by their `zm://`
+  /// URL. Older rows did not store that URL, so recover it from those canonical
+  /// IDs; ordinary source rows keep their previous showId fallback.
+  String get detailUrl {
+    if (showUrl != null && showUrl!.isNotEmpty) return showUrl!;
+    final kind = switch (type) {
+      ProviderType.manga => ZKind.manga,
+      ProviderType.novel => ZKind.novel,
+      _ => null,
+    };
+    if (kind != null && RegExp(r'^(?:al|mal):\d+$').hasMatch(showId)) {
+      return ZmodeIds.showUrl(ZCanonical(kind, showId));
+    }
+    return showId;
+  }
 
   /// Same finished rule as [ReadStore]: total == 1000 is the novel
   /// scroll-permille convention (>=950 counts as done); otherwise last
@@ -69,6 +89,7 @@ class ReadEntry {
   Map<String, dynamic> toJson() => {
     'sourceId': sourceId,
     'showId': showId,
+    'showUrl': detailUrl,
     'title': title,
     'cover': cover,
     'chapterId': chapterId,
@@ -83,6 +104,7 @@ class ReadEntry {
   factory ReadEntry.fromJson(Map<String, dynamic> m) => ReadEntry(
     sourceId: m['sourceId'] as String,
     showId: m['showId'] as String,
+    showUrl: m['showUrl'] as String?,
     title: m['title'] as String? ?? '',
     cover: m['cover'] as String?,
     chapterId: m['chapterId'] as String? ?? '',

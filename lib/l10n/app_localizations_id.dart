@@ -198,6 +198,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get custom => 'Kustom';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'Bawaan';
 
   @override
@@ -1939,6 +1942,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get findEpisode => 'Cari episode';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => 'Muat ulang bab';

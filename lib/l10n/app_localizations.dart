@@ -495,6 +495,12 @@ abstract class AppLocalizations {
   /// **'Custom'**
   String get custom;
 
+  /// No description provided for @customRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom range'**
+  String get customRange;
+
   /// No description provided for @defaultLabel.
   ///
   /// In en, this message translates to:
@@ -3705,6 +3711,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find episode'**
   String get findEpisode;
+
+  /// No description provided for @findChapter.
+  ///
+  /// In en, this message translates to:
+  /// **'Find chapter'**
+  String get findChapter;
 
   /// No description provided for @refreshChapters.
   ///

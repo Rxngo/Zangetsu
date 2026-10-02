@@ -1,5 +1,11 @@
 {
+  "ar": [
+    "customRange",
+    "findChapter"
+  ],
+
   "de": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -18,6 +24,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -117,6 +124,7 @@
   ],
 
   "es": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -135,6 +143,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -234,6 +243,7 @@
   ],
 
   "fr": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -252,6 +262,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -350,7 +361,13 @@
     "keepDownloadsPrivateSubtitle"
   ],
 
+  "id": [
+    "customRange",
+    "findChapter"
+  ],
+
   "it": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -369,6 +386,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -468,6 +486,7 @@
   ],
 
   "ja": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -486,6 +505,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -584,7 +604,18 @@
     "keepDownloadsPrivateSubtitle"
   ],
 
+  "pt": [
+    "customRange",
+    "findChapter"
+  ],
+
+  "tr": [
+    "customRange",
+    "findChapter"
+  ],
+
   "zh": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -603,6 +634,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",
@@ -702,6 +734,7 @@
   ],
 
   "zh_TW": [
+    "customRange",
     "searchOk",
     "streamingServices",
     "streamingServicesSubtitle",
@@ -720,6 +753,7 @@
     "androidPlayerUnavailable",
     "offlineTitle",
     "offlineBody",
+    "findChapter",
     "signInToSource",
     "markAsRead",
     "episodeAirsIn",

@@ -198,6 +198,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get custom => 'Custom';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => 'Default';
 
   @override
@@ -1925,6 +1928,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get findEpisode => 'Find episode';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => 'Refresh chapters';

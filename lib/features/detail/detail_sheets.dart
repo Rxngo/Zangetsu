@@ -431,6 +431,40 @@ class _DownloadSheetState extends State<_DownloadSheet> {
       _filtered.isNotEmpty &&
       _filtered.every((e) => _selectedIds.contains(e.id));
 
+  Future<void> _pickCustomRange() async {
+    final episodes = _seasonEps;
+    if (episodes.isEmpty) return;
+
+    final range = await showModalBottomSheet<({int from, int to})>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => ChapterDownloadRangeSheet(
+        chapters: episodes,
+        initialFromIndex: 0,
+        initialToIndex: (episodes.length - 1).clamp(0, 9),
+        unavailableUrls: const {},
+        isChapter: false,
+      ),
+    );
+    if (range == null || !mounted) return;
+
+    final updated = replaceSeasonSelectionWithRange(
+      selectedIds: _selectedIds,
+      seasonEpisodes: episodes,
+      fromIndex: range.from,
+      toIndex: range.to,
+    );
+    setState(() {
+      _selectedIds
+        ..clear()
+        ..addAll(updated);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.minimal) return _buildMinimal(context);
@@ -510,9 +544,27 @@ class _DownloadSheetState extends State<_DownloadSheet> {
                   ),
                   style: AppText.overline,
                 ),
-                _textBtn(
-                  _allSeasonSelected ? context.l10n.clear : context.l10n.selectAll,
-                  _allSeasonSelected ? _clearSeason : _selectAllInSeason,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: context.l10n.customRange,
+                      onPressed: _seasonEps.isEmpty ? null : _pickCustomRange,
+                      visualDensity: VisualDensity.compact,
+                      constraints: const BoxConstraints.tightFor(
+                        width: 36,
+                        height: 36,
+                      ),
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.tune_rounded, size: 20),
+                    ),
+                    _textBtn(
+                      _allSeasonSelected
+                          ? context.l10n.clear
+                          : context.l10n.selectAll,
+                      _allSeasonSelected ? _clearSeason : _selectAllInSeason,
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -354,6 +354,34 @@ void main() {
     expect(ReadEntry.fromJson(legacy).type, ProviderType.novel);
   });
 
+  test('toJson/fromJson preserves a separate metadata show URL', () {
+    final json = entry('mal:42', type: ProviderType.manga).toJson()
+      ..['showUrl'] = 'zm://manga/mal:42';
+
+    final back = ReadEntry.fromJson(json);
+
+    expect(back.toJson()['showUrl'], 'zm://manga/mal:42');
+  });
+
+  test('legacy metadata reading entries reconstruct their detail URL', () {
+    final legacy = entry('al:99', type: ProviderType.novel).toJson()
+      ..remove('showUrl');
+
+    expect(ReadEntry.fromJson(legacy).toJson()['showUrl'], 'zm://novel/al:99');
+  });
+
+  test('legacy source reading entries keep their existing URL fallback', () {
+    final legacy = entry(
+      'https://manga.example/title/42',
+      type: ProviderType.manga,
+    ).toJson()..remove('showUrl');
+
+    expect(
+      ReadEntry.fromJson(legacy).toJson()['showUrl'],
+      'https://manga.example/title/42',
+    );
+  });
+
   test('save() then reading back from the box preserves a manga entry\'s '
       'type (Hive round trip, not just toJson/fromJson in memory)',
       () async {

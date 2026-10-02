@@ -32,6 +32,7 @@ class _EpisodesTab extends StatefulWidget {
     this.onRefresh,
     required this.onDownload,
     this.onDownloadMany,
+    this.resumeChapter,
     this.onSwitchSource,
     this.isReading = false,
   });
@@ -96,6 +97,10 @@ class _EpisodesTab extends StatefulWidget {
   /// Queue a run of chapters in one go. Null for video, where downloading is
   /// per-episode through the source picker.
   final Future<void> Function(List<Episode> eps)? onDownloadMany;
+
+  /// Reading resume target from ReadStore / ReadHistory. Batch download starts
+  /// here instead of at chapter one; an unfinished chapter is included.
+  final Episode? resumeChapter;
 
   /// True for reading types — the section header reads "Chapters" instead
   /// of "Episodes" (single-season case only; multi-season keeps the season
@@ -377,23 +382,52 @@ class _EpisodesTabState extends State<_EpisodesTab> {
     );
   }
 
-  /// "Download next N" over the chapters that aren't saved yet, counting from
-  /// the top of the list as displayed — so it follows the user's sort order
-  /// instead of guessing at chapter numbers the source may not provide.
+  /// Opens the chapter batch sheet. "Next N" follows the reader's saved
+  /// resume target, while "All" retains its original whole-list behavior.
   void _openBulkDownload(List<Episode> eps) {
     final store = sl<ChapterDownloadStore>();
-    final pending = eps
-        .where((e) => !store.isDownloaded(widget.downloadSourceId, e.url))
-        .toList();
+    final downloader = sl<ChapterDownloader>();
+    final unavailableUrls = <String>{};
+    for (final chapter in eps) {
+      final id = ChapterDownload.idFor(widget.downloadSourceId, chapter.url);
+      if (store.isDownloaded(widget.downloadSourceId, chapter.url) ||
+          downloader.isBusy(id)) {
+        unavailableUrls.add(chapter.url);
+      }
+    }
+    final pending = selectChapterDownloadRange(
+      chapters: eps,
+      fromIndex: 0,
+      toIndex: eps.length - 1,
+      unavailableUrls: unavailableUrls,
+    );
 
     if (pending.isEmpty) {
       showAppToast(context, context.l10n.everyChapterIsAlreadyDownloaded);
       return;
     }
 
-    // Only offer counts that mean something — "Next 25" on a 6-chapter list is
-    // just "All" wearing a hat.
-    final counts = [10, 25, 50].where((n) => n < pending.length).toList();
+    final resume = widget.resumeChapter;
+    final startIndex = resolveChapterDownloadStartIndex(
+      chapters: eps,
+      resumeChapterId: resume?.id,
+      resumeChapterUrl: resume?.url,
+      resumeChapterNumber: resume?.number,
+    );
+    // We only need to know whether each offered preset can be filled. Capping
+    // this probe at the largest preset avoids allocating the entire tail of a
+    // very long chapter list merely to build the sheet.
+    final fromResume = selectNextChapterDownloads(
+      chapters: eps,
+      startIndex: startIndex,
+      count: 50,
+      unavailableUrls: unavailableUrls,
+    );
+    final counts = [
+      for (final n in [10, 25, 50])
+        if (fromResume.length >= n && !(startIndex == 0 && pending.length == n))
+          n,
+    ];
 
     showModalBottomSheet<void>(
       context: context,
@@ -433,20 +467,76 @@ class _EpisodesTabState extends State<_EpisodesTab> {
               ),
             ),
             for (final n in counts)
-              ListTile(
-                leading: Icon(
-                  Icons.file_download_outlined,
-                  color: AppColors.accent,
-                ),
-                title: Text(
-                  context.l10n.nextCount(n),
-                  style: AppText.body.copyWith(color: AppColors.textPrimary),
-                ),
-                onTap: () {
-                  Navigator.pop(sheetContext);
-                  _enqueueAll(pending.take(n).toList());
+              Builder(
+                builder: (context) {
+                  final chapters = selectNextChapterDownloads(
+                    chapters: eps,
+                    startIndex: startIndex,
+                    count: n,
+                    unavailableUrls: unavailableUrls,
+                  );
+                  final first = eps.indexOf(chapters.first);
+                  final last = eps.indexOf(chapters.last);
+                  return ListTile(
+                    leading: Icon(
+                      Icons.file_download_outlined,
+                      color: AppColors.accent,
+                    ),
+                    title: Text(
+                      context.l10n.nextCount(n),
+                      style: AppText.body.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${chapterNumberLabel(eps, first)} – '
+                      '${chapterNumberLabel(eps, last)}',
+                      style: AppText.caption.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      _enqueueAll(chapters);
+                    },
+                  );
                 },
               ),
+            ListTile(
+              leading: Icon(Icons.tune_rounded, color: AppColors.accent),
+              title: Text(
+                context.l10n.custom,
+                style: AppText.body.copyWith(color: AppColors.textPrimary),
+              ),
+              onTap: () async {
+                Navigator.pop(sheetContext);
+                final range = await showModalBottomSheet<({int from, int to})>(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: AppColors.surface,
+                  barrierColor: Colors.black54,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (_) => ChapterDownloadRangeSheet(
+                    chapters: eps,
+                    initialFromIndex: startIndex,
+                    initialToIndex: (startIndex + 9).clamp(0, eps.length - 1),
+                    unavailableUrls: unavailableUrls,
+                  ),
+                );
+                if (range == null || !mounted) return;
+                final chapters = selectChapterDownloadRange(
+                  chapters: eps,
+                  fromIndex: range.from,
+                  toIndex: range.to,
+                  unavailableUrls: unavailableUrls,
+                );
+                if (chapters.isNotEmpty) _enqueueAll(chapters);
+              },
+            ),
             ListTile(
               leading: Icon(
                 Icons.download_for_offline_outlined,

@@ -26,6 +26,8 @@ import '../../core/ui/episode_unavailable_dialog.dart';
 import '../../core/zmode/playback_resolver.dart';
 import 'episode_sources_sheet.dart';
 import 'epub_export_sheet.dart';
+import 'chapter_download_range_sheet.dart';
+import 'chapter_download_selection.dart';
 import '../../core/ui/jump_prompt.dart';
 import '../../core/app_mode.dart';
 import '../../core/cache/app_image_cache.dart';
@@ -1242,7 +1244,7 @@ class _DetailViewState extends State<_DetailView>
         widget.item.type == ProviderType.novel ||
         widget.item.type == ProviderType.manga;
     final resume = reading
-        ? _readResumeIndex(episodes)
+        ? _readResumeIndex(episodes, sourceId: _readingSourceId(detail))
         : (index: _resumeIndex(episodes), hasResume: _hasVideoResume(episodes));
     var peek = false;
     if (shouldAskBeforeJump(
@@ -1434,7 +1436,7 @@ class _DetailViewState extends State<_DetailView>
             .push(
               MaterialPageRoute(
                 builder: (_) => NovelReaderScreen(
-                  sourceId: detail.sourceId,
+                  sourceId: _readingSourceId(detail),
                   // item.id, NOT detail.id: the chapter list and the action
                   // sheet both read this title's marks under item.id, so writing
                   // them under the source's own id put them where nothing looks.
@@ -1442,6 +1444,7 @@ class _DetailViewState extends State<_DetailView>
                   // source's show id), which is why a chapter dimmed on some
                   // titles and never on others.
                   showId: widget.item.id,
+                  showUrl: widget.item.url,
                   showTitle: detail.title,
                   cover: detail.cover ?? widget.item.cover,
                   chapters: chapters,
@@ -1458,7 +1461,7 @@ class _DetailViewState extends State<_DetailView>
             .push(
               MaterialPageRoute(
                 builder: (_) => MangaReaderScreen(
-                  sourceId: detail.sourceId,
+                  sourceId: _readingSourceId(detail),
                   // item.id, NOT detail.id: the chapter list and the action
                   // sheet both read this title's marks under item.id, so writing
                   // them under the source's own id put them where nothing looks.
@@ -1466,6 +1469,7 @@ class _DetailViewState extends State<_DetailView>
                   // source's show id), which is why a chapter dimmed on some
                   // titles and never on others.
                   showId: widget.item.id,
+                  showUrl: widget.item.url,
                   showTitle: detail.title,
                   cover: detail.cover ?? widget.item.cover,
                   chapters: chapters,
@@ -1577,19 +1581,24 @@ class _DetailViewState extends State<_DetailView>
   /// [ReadHistory] — the cloud-synced last-read chapter — the same way
   /// [_resumeTarget] falls back to the tracker's watched count for video.
   /// Only when both come up empty does this say "start over" (chapter 0).
-  ({int index, bool hasResume}) _readResumeIndex(List<Episode> chapters) {
+  String _readingSourceId(MediaDetail detail) =>
+      detail.sourceId.isNotEmpty ? detail.sourceId : widget.item.sourceId;
+
+  ({int index, bool hasResume}) _readResumeIndex(
+    List<Episode> chapters, {
+    required String sourceId,
+  }) {
     if (chapters.isEmpty) return (index: 0, hasResume: false);
     final store = sl<ReadStore>();
     int? highestMarked;
     for (var j = 0; j < chapters.length; j++) {
-      if (store.get(widget.item.sourceId, widget.item.id, chapters[j].id) !=
-          null) {
+      if (store.get(sourceId, widget.item.id, chapters[j].id) != null) {
         highestMarked = j;
       }
     }
     if (highestMarked != null) {
       if (!store.finished(
-        widget.item.sourceId,
+        sourceId,
         widget.item.id,
         chapters[highestMarked].id,
       )) {
@@ -1603,7 +1612,7 @@ class _DetailViewState extends State<_DetailView>
           highestMarked;
       return (index: next, hasResume: true);
     }
-    final entry = sl<ReadHistory>().get(widget.item.sourceId, widget.item.id);
+    final entry = sl<ReadHistory>().get(sourceId, widget.item.id);
     if (entry != null) {
       var idx = chapters.indexWhere((c) => c.id == entry.chapterId);
       if (idx < 0) idx = chapters.indexWhere((c) => c.url == entry.chapterUrl);
@@ -1967,7 +1976,10 @@ class _DetailViewState extends State<_DetailView>
     // ResumeStore never carries a mark for a chapter, so it would always
     // (harmlessly but wrongly) say "start over".
     final resume = _resumeTarget(eps);
-    final readResume = isReading ? _readResumeIndex(eps) : null;
+    final readingSourceId = _readingSourceId(detail);
+    final readResume = isReading
+        ? _readResumeIndex(eps, sourceId: readingSourceId)
+        : null;
     final resumeIdx = isReading ? readResume!.index : resume.index;
     // Warm the episode Play/Continue will start, but only after the viewer has
     // remained on the detail page. Reading providers do not resolve video.
@@ -2463,6 +2475,9 @@ class _DetailViewState extends State<_DetailView>
             onDownloadMany: isReading
                 ? (eps) => _downloadChapters(eps, detail)
                 : null,
+            resumeChapter: readResume == null || eps.isEmpty
+                ? null
+                : eps[readResume.index],
             // Only a catalogue title has another source to fall back on.
             onSwitchSource: ZmodeIds.isZ(item.url) ? _switchSource : null,
             isReading: isReading,

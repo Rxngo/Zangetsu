@@ -24,6 +24,7 @@ import 'package:watch_app/core/models/episode.dart';
 import 'package:watch_app/core/models/media_detail.dart';
 import 'package:watch_app/core/models/media_item.dart';
 import 'package:watch_app/core/models/provider_info.dart';
+import 'package:watch_app/core/models/video_source.dart';
 import 'package:watch_app/core/models/watch_status.dart';
 import 'package:watch_app/core/playback/list_status_store.dart';
 import 'package:watch_app/core/playback/my_list.dart';
@@ -61,6 +62,7 @@ class _StubSourceRepository implements SourceRepository {
   _StubSourceRepository(this._detail);
   final MediaDetail _detail;
   final List<String> prefetchCalls = [];
+  final List<String> sourceCalls = [];
 
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
@@ -86,6 +88,18 @@ class _StubSourceRepository implements SourceRepository {
     void Function(MediaDetail partial)? onPartial,
     bool Function()? abandoned,
   }) async => _detail;
+
+  @override
+  Future<List<VideoSource>> sources(
+    String episodeUrl, {
+    String? sourceId,
+    bool fast = false,
+  }) async {
+    sourceCalls.add(episodeUrl);
+    return const [
+      VideoSource(url: 'https://test/video.m3u8', quality: '1080p'),
+    ];
+  }
 
   @override
   void prefetch(String url, {String? sourceId}) {
@@ -121,7 +135,6 @@ class _FakeMyListStore implements MyListStore {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   bool contains(MediaItem m) => false;
 
@@ -136,7 +149,6 @@ class _FakeListStatusStore implements ListStatusStore {
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   WatchStatus? statusOf(MediaItem m) => null;
@@ -153,7 +165,6 @@ class _FakeResumeStore implements ResumeStore {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   ResumeMark? get(String sourceId, String showId, String episodeId) => null;
 }
@@ -166,8 +177,11 @@ class _FakeReadStore extends ReadStore {
   final Map<String, ({int pos, int total})> marks;
 
   @override
-  ({int pos, int total})? get(String sourceId, String showId, String chapterId) =>
-      marks[chapterId];
+  ({int pos, int total})? get(
+    String sourceId,
+    String showId,
+    String chapterId,
+  ) => marks[chapterId];
 
   @override
   bool finished(String sourceId, String showId, String chapterId) {
@@ -177,7 +191,6 @@ class _FakeReadStore extends ReadStore {
     return m.pos >= m.total - 1;
   }
 }
-
 
 /// Records the showId used for READS and for WRITES separately.
 ///
@@ -191,7 +204,8 @@ class _KeyedReadStore extends ReadStore {
   final Set<String> _done = {};
 
   @override
-  ({int pos, int total})? get(String s, String showId, String chapterId) => null;
+  ({int pos, int total})? get(String s, String showId, String chapterId) =>
+      null;
 
   @override
   bool finished(String s, String showId, String chapterId) {
@@ -209,6 +223,37 @@ class _KeyedReadStore extends ReadStore {
     writtenShowIds.add(showId);
     final k = '$showId::$chapterId';
     read ? _done.add(k) : _done.remove(k);
+  }
+}
+
+/// Verifies reading resume uses the resolved provider source, not the
+/// metadata/catalogue pseudo-source on [MediaItem].
+class _SourceKeyedReadStore extends ReadStore {
+  _SourceKeyedReadStore({
+    required this.sourceId,
+    required this.showId,
+    required this.marks,
+  });
+
+  final String sourceId;
+  final String showId;
+  final Map<String, ({int pos, int total})> marks;
+
+  @override
+  ({int pos, int total})? get(
+    String sourceId,
+    String showId,
+    String chapterId,
+  ) {
+    if (sourceId != this.sourceId || showId != this.showId) return null;
+    return marks[chapterId];
+  }
+
+  @override
+  bool finished(String sourceId, String showId, String chapterId) {
+    final mark = get(sourceId, showId, chapterId);
+    if (mark == null || mark.total <= 0) return false;
+    return mark.total == 1000 ? mark.pos >= 950 : mark.pos >= mark.total - 1;
   }
 }
 
@@ -232,7 +277,6 @@ class _FakeProviderRegistry implements ProviderRegistry {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   ProviderRegistryEntry? entryFor(String sourceId) => null;
 
@@ -248,7 +292,6 @@ class _FakeCloudStreamManager extends ChangeNotifier
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   BaseProvider? get(String sourceId) => null;
@@ -267,7 +310,6 @@ class _FakeDownloadManager extends ChangeNotifier implements DownloadManager {
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   DownloadRecord? recordFor(String sourceId, String showId, String episodeId) =>
@@ -292,11 +334,18 @@ class _FakeTrailerService extends TrailerService {
 /// Hive-backed in reality; overrides just the getters _openPlayer's
 /// preserved anime path reads, matching the real defaults.
 class _FakePlaybackPrefs extends PlaybackPrefs {
+  _FakePlaybackPrefs({this.batchStyle = 'classic'});
+
+  final String batchStyle;
+
   @override
   bool get autoAddToMyList => false;
 
   @override
   String get defaultCategory => 'sub';
+
+  @override
+  String get batchDownloadStyle => batchStyle;
 }
 
 // ── Test data ────────────────────────────────────────────────────────────────
@@ -443,7 +492,8 @@ void main() {
     await ChapterDownloadStore.init();
     sl.registerSingleton<ChapterDownloadStore>(ChapterDownloadStore());
     sl.registerLazySingleton<ChapterDownloader>(
-      () => ChapterDownloader(sl<SourceRepository>(), sl<ChapterDownloadStore>()),
+      () =>
+          ChapterDownloader(sl<SourceRepository>(), sl<ChapterDownloadStore>()),
     );
     // Empty by default (no saved reading position) — the novel test below
     // just needs this registered so _readResumeIndex's sl<ReadStore>() call
@@ -556,6 +606,150 @@ void main() {
       expect(reader.chapters.length, 2); // still the full chapter list
     },
   );
+
+  testWidgets(
+    'Next 10 batch starts after the finished chapter using the resolved source',
+    (tester) async {
+      tester.view.physicalSize = const Size(800, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final episodes = List.generate(
+        15,
+        (i) => Episode(
+          id: 'bulk-${i + 1}',
+          title: 'Chapter ${i + 1}',
+          number: (i + 1).toDouble(),
+          url: '/bulk-${i + 1}',
+        ),
+      );
+      final item = MediaItem(
+        id: _novelItem.id,
+        title: _novelItem.title,
+        url: _novelItem.url,
+        type: ProviderType.novel,
+        sourceId: 'catalogue-pseudo-source',
+      );
+      final detail = _novelDetail.copyWith(
+        sourceId: 'resolved-reader-source',
+        episodes: episodes,
+      );
+
+      sl.unregister<ReadStore>();
+      sl.registerSingleton<ReadStore>(
+        _SourceKeyedReadStore(
+          sourceId: 'resolved-reader-source',
+          showId: item.id,
+          marks: {'bulk-3': (pos: 19, total: 20)},
+        ),
+      );
+      sl.registerSingleton<SourceRepository>(_StubSourceRepository(detail));
+      sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
+
+      await tester.pumpWidget(MaterialApp(home: DetailScreen(item: item)));
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.bySemanticsLabel('Download chapters'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Next 10'), findsOneWidget);
+      expect(find.text('4 – 13'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'classic streaming custom range changes only the current season selection',
+    (tester) async {
+      tester.view.physicalSize = const Size(800, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final episodes = List.generate(
+        12,
+        (i) => Episode(
+          id: 'stream-${i + 1}',
+          title: 'Episode ${i + 1}',
+          url: '/stream-${i + 1}',
+          number: (i + 1).toDouble(),
+        ),
+      );
+      final detail = _animeDetail.copyWith(episodes: episodes);
+      final repository = _StubSourceRepository(detail);
+      sl.registerSingleton<SourceRepository>(repository);
+      sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
+
+      await tester.pumpWidget(
+        const MaterialApp(home: DetailScreen(item: _animeItem)),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.text('Download E1'));
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Custom range'), findsOneWidget);
+      await tester.tap(find.byTooltip('Custom range'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Start'));
+      await tester.pumpAndSettle();
+      expect(find.text('Find episode'), findsOneWidget);
+      await tester.enterText(find.byType(TextField).last, 'Episode 5');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('E5 · Episode 5'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('End'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, 'Episode 7');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('E7 · Episode 7'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Download').last);
+      await tester.pumpAndSettle();
+
+      expect(find.text('3 of 12 episodes'), findsOneWidget);
+      // Opening the custom picker doesn't resolve any new links or change
+      // the already-selected quality/source.
+      expect(repository.sourceCalls, ['/stream-1']);
+    },
+  );
+
+  testWidgets('minimal streaming download keeps its existing From picker', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    final episodes = List.generate(
+      12,
+      (i) => Episode(
+        id: 'minimal-${i + 1}',
+        title: 'Episode ${i + 1}',
+        url: '/minimal-${i + 1}',
+        number: (i + 1).toDouble(),
+      ),
+    );
+    final detail = _animeDetail.copyWith(episodes: episodes);
+    sl.unregister<PlaybackPrefs>();
+    sl.registerSingleton<PlaybackPrefs>(
+      _FakePlaybackPrefs(batchStyle: 'minimal'),
+    );
+    sl.registerSingleton<SourceRepository>(_StubSourceRepository(detail));
+    sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
+
+    await tester.pumpWidget(
+      const MaterialApp(home: DetailScreen(item: _animeItem)),
+    );
+    await tester.pump();
+    await tester.pump();
+    await tester.tap(find.text('Download E1'));
+    await tester.pumpAndSettle();
+
+    expect(find.byTooltip('Custom range'), findsNothing);
+    expect(find.text('From E1'), findsOneWidget);
+  });
 
   testWidgets(
     'Continue on a multi-group source opens the same group, not the same '
@@ -739,7 +933,10 @@ void main() {
 
       // One portrait cover per chapter, at the agreed size.
       expect(find.byKey(chapterCover), findsNWidgets(2));
-      expect(tester.getSize(find.byKey(chapterCover).first), const Size(44, 62));
+      expect(
+        tester.getSize(find.byKey(chapterCover).first),
+        const Size(44, 62),
+      );
 
       // No ▶ anywhere on a reading page — not in the row, and the hero button
       // uses the book glyph.
@@ -760,82 +957,80 @@ void main() {
     },
   );
 
-  testWidgets(
-    'marking a chapter read writes the key the chapter list reads',
-    (tester) async {
-      // Reading state is keyed by item.id; video by item.url. Writing a
-      // chapter under the video key stored it where nothing looks, so the
-      // row stayed undimmed and the mark seemed not to take.
-      tester.view.physicalSize = const Size(800, 2400);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
+  testWidgets('marking a chapter read writes the key the chapter list reads', (
+    tester,
+  ) async {
+    // Reading state is keyed by item.id; video by item.url. Writing a
+    // chapter under the video key stored it where nothing looks, so the
+    // row stayed undimmed and the mark seemed not to take.
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
 
-      sl.registerSingleton<SourceRepository>(
-        _StubSourceRepository(novelWithDates(null)),
-      );
-      sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
-      final store = _KeyedReadStore();
-      sl.unregister<ReadStore>();
-      sl.registerSingleton<ReadStore>(store);
+    sl.registerSingleton<SourceRepository>(
+      _StubSourceRepository(novelWithDates(null)),
+    );
+    sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
+    final store = _KeyedReadStore();
+    sl.unregister<ReadStore>();
+    sl.registerSingleton<ReadStore>(store);
 
-      await tester.pumpWidget(
-        const MaterialApp(home: DetailScreen(item: _novelItem)),
-      );
-      await tester.pump();
-      await tester.pump();
+    await tester.pumpWidget(
+      const MaterialApp(home: DetailScreen(item: _novelItem)),
+    );
+    await tester.pump();
+    await tester.pump();
 
-      expect(store.readShowIds, isNotEmpty, reason: 'row read some key');
-      final rowKey = store.readShowIds.first;
+    expect(store.readShowIds, isNotEmpty, reason: 'row read some key');
+    final rowKey = store.readShowIds.first;
 
-      await tester.longPress(find.byKey(chapterCover).first);
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Mark as read'));
-      await tester.pumpAndSettle();
+    await tester.longPress(find.byKey(chapterCover).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Mark as read'));
+    await tester.pumpAndSettle();
 
-      expect(store.writtenShowIds, isNotEmpty, reason: 'the mark was written');
-      expect(store.writtenShowIds.first, rowKey);
+    expect(store.writtenShowIds, isNotEmpty, reason: 'the mark was written');
+    expect(store.writtenShowIds.first, rowKey);
 
-      // The confirmation toast sets a 2s timer; let it expire or the binding
-      // fails the test for a pending timer after teardown.
-      await tester.pump(const Duration(seconds: 3));
-    },
-  );
+    // The confirmation toast sets a 2s timer; let it expire or the binding
+    // fails the test for a pending timer after teardown.
+    await tester.pump(const Duration(seconds: 3));
+  });
 
-  testWidgets(
-    'long-pressing a chapter opens the READING actions menu',
-    (tester) async {
-      // Chapters render as _ChapterRow, not _EpisodeRow. Wiring the menu into
-      // the episode row alone left reading with no long-press at all — the
-      // callback reached the tab and stopped one widget short of the leaf.
-      tester.view.physicalSize = const Size(800, 2400);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
+  testWidgets('long-pressing a chapter opens the READING actions menu', (
+    tester,
+  ) async {
+    // Chapters render as _ChapterRow, not _EpisodeRow. Wiring the menu into
+    // the episode row alone left reading with no long-press at all — the
+    // callback reached the tab and stopped one widget short of the leaf.
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
 
-      sl.registerSingleton<SourceRepository>(
-        _StubSourceRepository(novelWithDates(null)),
-      );
-      sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
+    sl.registerSingleton<SourceRepository>(
+      _StubSourceRepository(novelWithDates(null)),
+    );
+    sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
 
-      await tester.pumpWidget(
-        const MaterialApp(home: DetailScreen(item: _novelItem)),
-      );
-      await tester.pump();
-      await tester.pump();
+    await tester.pumpWidget(
+      const MaterialApp(home: DetailScreen(item: _novelItem)),
+    );
+    await tester.pump();
+    await tester.pump();
 
-      await tester.longPress(find.byKey(chapterCover).first);
-      await tester.pumpAndSettle();
+    await tester.longPress(find.byKey(chapterCover).first);
+    await tester.pumpAndSettle();
 
-      expect(find.text('Mark as read'), findsOneWidget);
-      expect(find.text('Mark this and all above as read'), findsOneWidget);
-      // Those two rows and nothing else — everything above them is playback.
-      expect(find.text('Play with…'), findsNothing);
-      expect(find.text('Play mirror'), findsNothing);
-      expect(find.text('Reload links'), findsNothing);
-      expect(find.text('Where to watch'), findsNothing);
-      expect(find.text('Where to read'), findsNothing);
-      expect(find.text('Mark as watched'), findsNothing);
-    },
-  );
+    expect(find.text('Mark as read'), findsOneWidget);
+    expect(find.text('Mark this and all above as read'), findsOneWidget);
+    // Those two rows and nothing else — everything above them is playback.
+    expect(find.text('Play with…'), findsNothing);
+    expect(find.text('Play mirror'), findsNothing);
+    expect(find.text('Reload links'), findsNothing);
+    expect(find.text('Where to watch'), findsNothing);
+    expect(find.text('Where to read'), findsNothing);
+    expect(find.text('Mark as watched'), findsNothing);
+  });
 
   testWidgets(
     'the chapter row drops its meta line when the source has no date',

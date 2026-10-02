@@ -198,6 +198,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get custom => '自定义';
 
   @override
+  String get customRange => 'Custom range';
+
+  @override
   String get defaultLabel => '默认';
 
   @override
@@ -1871,6 +1874,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get findEpisode => '查找剧集';
+
+  @override
+  String get findChapter => 'Find chapter';
 
   @override
   String get refreshChapters => '刷新章节';
