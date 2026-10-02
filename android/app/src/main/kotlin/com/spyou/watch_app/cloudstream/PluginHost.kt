@@ -826,7 +826,12 @@ class PluginHost(private val context: Context) {
 
     fun load(apiName: String, url: String, category: String = "sub"): Map<String, Any?>? {
         val api = apiByName(apiName) ?: return null
-        val lr = runBlocking { runCatching { api.load(url) }.getOrNull() } ?: return null
+        // Capped like search/home: a dead source's load() never answers, and
+        // without this the pool thread — and Dart's await — wait forever.
+        // Null (timeout or throw) degrades to an empty detail upstream.
+        val lr = runBlocking {
+            withTimeoutOrNull(LOAD_TIMEOUT_MS) { runCatching { api.load(url) }.getOrNull() }
+        } ?: return null
         return lr.toDetailMap(apiName, category)
     }
 
@@ -1166,6 +1171,11 @@ class PluginHost(private val context: Context) {
 
         /** Per-source deadline for [search] so a dead source can't hold a worker. */
         private const val SEARCH_TIMEOUT_MS = 10000L
+
+        /** Deadline for [load] so a dead source can't hold a worker (and Dart's
+         *  await) forever. Generous on purpose: detail is a one-shot wait, and
+         *  a healthy source answers in seconds. */
+        private const val LOAD_TIMEOUT_MS = 60_000L
 
         /** Fast (playback) loadLinks: grace window after the first link to gather a
          * few alternatives before returning, and a hard cap if no link arrives. */
