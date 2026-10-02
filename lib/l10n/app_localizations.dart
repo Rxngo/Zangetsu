@@ -5296,6 +5296,12 @@ abstract class AppLocalizations {
   /// **'Popularity'**
   String get popularity;
 
+  /// No description provided for @favourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites'**
+  String get favourites;
+
   /// No description provided for @sourceMaterial.
   ///
   /// In en, this message translates to:

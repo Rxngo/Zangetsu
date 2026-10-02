@@ -2789,6 +2789,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get popularity => 'الشعبية';
 
   @override
+  String get favourites => 'Favourites';
+
+  @override
   String get sourceMaterial => 'العمل الأصلي';
 
   @override

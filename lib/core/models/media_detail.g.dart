@@ -67,6 +67,7 @@ MediaDetail _$MediaDetailFromJson(Map<String, dynamic> json) => MediaDetail(
   sourceMaterial: json['sourceMaterial'] as String?,
   country: json['country'] as String?,
   popularity: (json['popularity'] as num?)?.toInt(),
+  favourites: (json['favourites'] as num?)?.toInt(),
   nativeTitle: json['nativeTitle'] as String?,
   synonyms:
       (json['synonyms'] as List<dynamic>?)?.map((e) => e as String).toList() ??
@@ -109,6 +110,7 @@ Map<String, dynamic> _$MediaDetailToJson(MediaDetail instance) =>
       'sourceMaterial': instance.sourceMaterial,
       'country': instance.country,
       'popularity': instance.popularity,
+      'favourites': instance.favourites,
       'nativeTitle': instance.nativeTitle,
       'synonyms': instance.synonyms,
       'isAdult': instance.isAdult,

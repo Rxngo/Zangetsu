@@ -62,7 +62,7 @@ class AniListCatalogue implements AnimeCatalogue {
       // airingAt as well as the number: an episode count with no date is a
       // fact nobody needs, a countdown is the reason to open the page.
       'nextAiringEpisode{episode airingAt} '
-      'averageScore popularity format duration source countryOfOrigin '
+      'averageScore popularity favourites format duration source countryOfOrigin '
       'isAdult synonyms startDate{year month day} endDate{year month day} '
       // Ranked, so the page can show the ones voters actually agreed on and
       // drop the long tail of 3% tags.
@@ -355,6 +355,7 @@ class AniListCatalogue implements AnimeCatalogue {
       sourceMaterial: _prettyEnum(map['source'] as String?),
       country: map['countryOfOrigin'] as String?,
       popularity: map['popularity'] as int?,
+      favourites: map['favourites'] as int?,
       nativeTitle: t['native'] as String?,
       synonyms: [for (final x in (map['synonyms'] as List? ?? const [])) '$x'],
       isAdult: map['isAdult'] == true,

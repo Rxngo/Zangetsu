@@ -2796,6 +2796,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get popularity => 'Populeritas';
 
   @override
+  String get favourites => 'Favourites';
+
+  @override
   String get sourceMaterial => 'Materi asal';
 
   @override

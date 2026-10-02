@@ -2813,6 +2813,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get popularity => 'Popularidade';
 
   @override
+  String get favourites => 'Favourites';
+
+  @override
   String get sourceMaterial => 'Material de origem';
 
   @override

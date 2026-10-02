@@ -2793,6 +2793,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get popularity => 'Popülerlik';
 
   @override
+  String get favourites => 'Favourites';
+
+  @override
   String get sourceMaterial => 'Kaynak eser';
 
   @override

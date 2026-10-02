@@ -5,7 +5,8 @@
     "tvDecoderHardwareOnly",
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
-    "findChapter"
+    "findChapter",
+    "favourites"
   ],
 
   "de": [
@@ -39,6 +40,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -162,6 +164,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -285,6 +288,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -383,7 +387,8 @@
     "tvDecoderHardwareOnly",
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
-    "findChapter"
+    "findChapter",
+    "favourites"
   ],
 
   "it": [
@@ -417,6 +422,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -540,6 +546,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -638,7 +645,8 @@
     "tvDecoderHardwareOnly",
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
-    "findChapter"
+    "findChapter",
+    "favourites"
   ],
 
   "tr": [
@@ -647,7 +655,8 @@
     "tvDecoderHardwareOnly",
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
-    "findChapter"
+    "findChapter",
+    "favourites"
   ],
 
   "zh": [
@@ -681,6 +690,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",
@@ -804,6 +814,7 @@
     "duration",
     "score",
     "popularity",
+    "favourites",
     "sourceMaterial",
     "country",
     "aired",

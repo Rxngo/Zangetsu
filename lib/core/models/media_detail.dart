@@ -129,6 +129,10 @@ class MediaDetail extends Equatable {
   /// How many people have it on a list. Ranking signal, not a score.
   final int? popularity;
 
+  /// How many people favourited it. Only AniList publishes this; the other
+  /// catalogues leave it null and the row stays hidden.
+  final int? favourites;
+
   /// The title in its own script.
   final String? nativeTitle;
 
@@ -174,6 +178,7 @@ class MediaDetail extends Equatable {
     this.sourceMaterial,
     this.country,
     this.popularity,
+    this.favourites,
     this.nativeTitle,
     this.synonyms = const [],
     this.isAdult = false,
@@ -219,6 +224,7 @@ class MediaDetail extends Equatable {
     String? sourceMaterial,
     String? country,
     int? popularity,
+    int? favourites,
     String? nativeTitle,
     List<String>? synonyms,
     bool? isAdult,
@@ -258,6 +264,7 @@ class MediaDetail extends Equatable {
     sourceMaterial: sourceMaterial ?? this.sourceMaterial,
     country: country ?? this.country,
     popularity: popularity ?? this.popularity,
+    favourites: favourites ?? this.favourites,
     nativeTitle: nativeTitle ?? this.nativeTitle,
     synonyms: synonyms ?? this.synonyms,
     isAdult: isAdult ?? this.isAdult,
@@ -300,6 +307,7 @@ class MediaDetail extends Equatable {
     sourceMaterial,
     country,
     popularity,
+    favourites,
     nativeTitle,
     synonyms,
     isAdult,

@@ -527,6 +527,8 @@ class _DetailsTab extends StatelessWidget {
         _DetailRow(label: l10n.score, value: '${d.score! / 10} / 10'),
       if (d.popularity != null)
         _DetailRow(label: l10n.popularity, value: _thousands(d.popularity!)),
+      if (d.favourites != null)
+        _DetailRow(label: l10n.favourites, value: _thousands(d.favourites!)),
       if (d.sourceMaterial != null)
         _DetailRow(label: l10n.sourceMaterial, value: d.sourceMaterial!),
       if (d.country != null)

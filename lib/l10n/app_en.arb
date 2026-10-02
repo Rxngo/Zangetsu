@@ -1004,6 +1004,7 @@
 	"duration": "Duration",
 	"score": "Score",
 	"popularity": "Popularity",
+	"favourites": "Favourites",
 	"sourceMaterial": "Source",
 	"country": "Country",
 	"aired": "Aired",
