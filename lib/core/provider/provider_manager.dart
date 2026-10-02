@@ -495,7 +495,13 @@ class _JsHost {
       final wantCf = payload['browser'] == true || payload['cf'] == true;
       final host = Uri.parse(url).host;
       final hdr = headers.map((k, v) => MapEntry(k, v.toString()));
-      _ensureCfRestored(); // reuse a clearance solved in a previous session
+      // OWNER-DISABLED 2026-10-03: Zangetsu-provider Cloudflare handling is
+      // off (owner request). The lines below used to attach a cached
+      // clearance, retry protocol blocks over the native lane, and solve +
+      // replay real challenges. With them off, a challenged host's raw
+      // challenge page is handed to the provider as content. To re-enable,
+      // uncomment the OWNER-DISABLED lines in this function.
+      // _ensureCfRestored(); // reuse a clearance solved in a previous session
       // A cached clearance is attached; one is NOT solved for up front, even
       // when the provider asks via { browser: true }.
       //
@@ -514,56 +520,54 @@ class _JsHost {
       //
       // [wantCf] is still read: it labels the request in the log, so a source
       // that expects Cloudflare is still identifiable when one misbehaves.
-      _applyCf(host, hdr);
+      // OWNER-DISABLED 2026-10-03 (see above): no clearance is attached.
+      // _applyCf(host, hdr);
       // Did the original request carry a clearance? If so and it STILL gets
       // challenged below, that clearance is stale (e.g. a persisted cookie that
       // expired) and must be dropped rather than reused.
-      final sentClearance = _cfCookie.containsKey(host);
+      // OWNER-DISABLED 2026-10-03 (see above): nothing is ever attached now.
+      // final sentClearance = _cfCookie.containsKey(host);
       debugPrint('[fetch] $method $url${wantCf ? ' (cf)' : ''}');
       var resp = await _request(url, method, hdr, body, follow, tMs);
-      // Auto-recover from a Cloudflare challenge even without the opt-in flag:
-      // solve (once) and replay with the clearance. CRUCIALLY, also replay when
-      // the cookie was JUST solved by a concurrent fetch for this host — without
-      // this, that fetch returns the challenge ("couldn't load") and only a
-      // manual retry (which reuses the now-cached cookie) succeeds.
-      // A protocol block is not a challenge, so try the lane that can speak to
-      // it before the Cloudflare path treats it as one. Only ever after a
-      // request has already failed, so nothing that works today changes.
-      if (Platform.isAndroid && follow && _looksLikeBlocked(resp)) {
-        final viaNative = await _retryOverNative(url, method, hdr, body);
-        if (viaNative != null && (viaNative.statusCode ?? 0) < 400) {
-          debugPrint('[fetch] retried over native lane -> ${viaNative.statusCode}');
-          resp = viaNative;
-        }
-      }
-      if (_looksLikeCfChallenge(resp) && !_suppressCfSolve) {
-        // A challenge despite a clearance WE sent means it's stale → forget it
-        // (memory + disk) so the solve re-runs. A cookie a concurrent fetch just
-        // solved (sentClearance == false) is fresh — keep it and just replay.
-        if (sentClearance && _cfCookie.containsKey(host)) {
-          _cfCookie.remove(host);
-          _cfStore.forget(host);
-        }
-        if (!_cfCookie.containsKey(host) && !_cfRecentlyFailed(host)) {
-          await _solveCf(url, host);
-        }
-        if (_cfCookie.containsKey(host)) {
-          _applyCf(host, hdr);
-          resp = await _request(url, method, hdr, body, follow, tMs);
-        } else {
-          // Challenged, and we finished without a clearance — the solve failed,
-          // timed out, or is in its cool-off. Record it so the UI can offer a
-          // manual solve; the automatic path used to fail silently, leaving the
-          // source looking merely broken with nothing to press.
-          CfSolveNeeded.needsSolve(host, url, sourceId: srcId);
-        }
-      } else if (_looksLikeCfChallenge(resp) && _suppressCfSolve) {
-        // Same challenge, but this call is a `search` — the solve is
-        // deliberately skipped (see [_suppressCfSolve]) rather than popping
-        // the blocking WebView mid-sweep. Stash it so the UI can offer a
-        // solve instead of the source just silently returning nothing.
-        CfSolveNeeded.needsSolve(host, url, sourceId: srcId);
-      }
+      // OWNER-DISABLED 2026-10-03 (see above): no blocked-lane retry, no
+      // challenge solve + replay, no needs-solve recording. The raw response
+      // goes straight to the provider.
+      // if (Platform.isAndroid && follow && _looksLikeBlocked(resp)) {
+      //   final viaNative = await _retryOverNative(url, method, hdr, body);
+      //   if (viaNative != null && (viaNative.statusCode ?? 0) < 400) {
+      //     debugPrint('[fetch] retried over native lane -> ${viaNative.statusCode}');
+      //     resp = viaNative;
+      //   }
+      // }
+      // if (_looksLikeCfChallenge(resp) && !_suppressCfSolve) {
+      // OWNER-DISABLED 2026-10-03 (see above): whole challenge block off.
+      //   A challenge despite a clearance WE sent means it's stale → forget it
+      //   (memory + disk) so the solve re-runs. A cookie a concurrent fetch just
+      //   solved (sentClearance == false) is fresh — keep it and just replay.
+      // if (sentClearance && _cfCookie.containsKey(host)) {
+      //   _cfCookie.remove(host);
+      //   _cfStore.forget(host);
+      // }
+      // if (!_cfCookie.containsKey(host) && !_cfRecentlyFailed(host)) {
+      //   await _solveCf(url, host);
+      // }
+      // if (_cfCookie.containsKey(host)) {
+      //   _applyCf(host, hdr);
+      //   resp = await _request(url, method, hdr, body, follow, tMs);
+      // } else {
+      //   // Challenged, and we finished without a clearance — the solve failed,
+      //   // timed out, or is in its cool-off. Record it so the UI can offer a
+      //   // manual solve; the automatic path used to fail silently, leaving the
+      //   // source looking merely broken with nothing to press.
+      //   CfSolveNeeded.needsSolve(host, url, sourceId: srcId);
+      // }
+      // } else if (_looksLikeCfChallenge(resp) && _suppressCfSolve) {
+      //   // Same challenge, but this call is a `search` — the solve is
+      //   // deliberately skipped (see [_suppressCfSolve]) rather than popping
+      //   // the blocking WebView mid-sweep. Stash it so the UI can offer a
+      //   // solve instead of the source just silently returning nothing.
+      //   CfSolveNeeded.needsSolve(host, url, sourceId: srcId);
+      // }
       debugPrint(
         '[fetch] <- ${resp.statusCode} ${(resp.data?.toString().length ?? 0)}B $url',
       );
