@@ -257,7 +257,7 @@ class PeopleService {
             cover: (poster != null && poster.isNotEmpty)
                 ? '$_img/w342$poster'
                 : null,
-            subtitle: c['character'] as String?,
+            subtitle: _tmdbRole(c),
           ),
         );
       }
@@ -289,6 +289,20 @@ class PeopleService {
   }
 
   // ── Text helpers ────────────────────────────────────────────────────────────
+
+  /// TMDB never says Main or Supporting — the closest it gives is billing
+  /// `order` (position in the credits), so top-billed reads as Main and the
+  /// rest as Supporting. The played character's name is kept after it, so
+  /// nothing shown today is lost; a credit with no order keeps today's
+  /// name-only line exactly.
+  static String? _tmdbRole(Map c) {
+    final played = c['character'] as String?;
+    final hasName = played != null && played.isNotEmpty;
+    final order = (c['order'] as num?)?.toInt();
+    if (order == null) return hasName ? played : null;
+    final role = order <= 2 ? 'Main' : 'Supporting';
+    return hasName ? '$role · $played' : role;
+  }
 
   static String? _titleCase(String? s) {
     if (s == null || s.isEmpty) return null;
