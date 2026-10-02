@@ -22,6 +22,32 @@ import '../zmode/zmode_ids.dart';
 ProviderType readEntryTypeFromName(String? name) =>
     name == ProviderType.manga.name ? ProviderType.manga : ProviderType.novel;
 
+/// Show URL written onto new history rows. Prefers the metadata (zm://) URL
+/// so a Continue Reading card reopens the metadata detail — streaming cards
+/// already carry theirs, which is why those always land on metadata. Falls
+/// back to the given url for pure-source titles, which keep today's
+/// behaviour exactly.
+String preferredHistoryUrl(
+  ProviderType type, {
+  int? malId,
+  String? showId,
+  String? showUrl,
+}) {
+  if (showUrl != null && ZmodeIds.isZ(showUrl)) return showUrl;
+  final kind = switch (type) {
+    ProviderType.manga => ZKind.manga,
+    ProviderType.novel => ZKind.novel,
+    _ => null,
+  };
+  if (kind != null) {
+    if (malId != null) return ZmodeIds.showUrl(ZCanonical(kind, 'mal:$malId'));
+    if (showId != null && RegExp(r'^(?:al|mal):\d+$').hasMatch(showId)) {
+      return ZmodeIds.showUrl(ZCanonical(kind, showId));
+    }
+  }
+  return showUrl ?? showId ?? '';
+}
+
 class ReadEntry {
   ReadEntry({
     required this.sourceId,

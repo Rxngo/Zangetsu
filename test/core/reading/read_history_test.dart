@@ -382,6 +382,50 @@ void main() {
     );
   });
 
+  test('preferredHistoryUrl prefers the metadata URL from a MAL id', () {
+    expect(
+      preferredHistoryUrl(
+        ProviderType.manga,
+        malId: 42,
+        showId: 'src:abc',
+        showUrl: 'https://manga.example/title/42',
+      ),
+      'zm://manga/mal:42',
+    );
+    expect(
+      preferredHistoryUrl(
+        ProviderType.novel,
+        malId: 7,
+        showId: 'src:xyz',
+        showUrl: 'https://novel.example/title/7',
+      ),
+      'zm://novel/mal:7',
+    );
+  });
+
+  test('preferredHistoryUrl keeps an existing metadata URL untouched', () {
+    expect(
+      preferredHistoryUrl(
+        ProviderType.manga,
+        malId: 99,
+        showId: 'src:abc',
+        showUrl: 'zm://manga/mal:42',
+      ),
+      'zm://manga/mal:42',
+    );
+  });
+
+  test('preferredHistoryUrl keeps the source URL when no id exists', () {
+    expect(
+      preferredHistoryUrl(
+        ProviderType.manga,
+        showId: 'src:abc',
+        showUrl: 'https://manga.example/title/42',
+      ),
+      'https://manga.example/title/42',
+    );
+  });
+
   test('save() then reading back from the box preserves a manga entry\'s '
       'type (Hive round trip, not just toJson/fromJson in memory)',
       () async {

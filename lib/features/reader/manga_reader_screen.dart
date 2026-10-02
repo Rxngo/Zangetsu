@@ -1140,7 +1140,15 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
       ReadEntry(
         sourceId: widget.sourceId,
         showId: widget.showId,
-        showUrl: widget.showUrl,
+        // Metadata link when the title has one, so the Continue Reading
+        // card reopens the metadata detail like streaming cards do —
+        // otherwise it reopens whichever source page the session began on.
+        showUrl: preferredHistoryUrl(
+          ProviderType.manga,
+          malId: widget.malId,
+          showId: widget.showId,
+          showUrl: widget.showUrl,
+        ),
         title: widget.showTitle,
         cover: widget.cover,
         chapterId: ep.id,
