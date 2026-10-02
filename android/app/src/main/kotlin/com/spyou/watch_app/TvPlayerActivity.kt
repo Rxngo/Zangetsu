@@ -1744,21 +1744,18 @@ class TvPlayerActivity : Activity() {
     }
 
     /**
-     * Force each cue onto the user's vertical preference (0=top … 100=bottom).
-     * Media3's [SubtitleView.setBottomPaddingFraction] only shifts cues that
-     * leave line unset — most VTT/SRT/ASS cues set their own line, so without
-     * this remapping Low/Middle/High look identical.
+     * Force each cue onto the user's vertical preference (0=top … 100=bottom),
+     * keeping simultaneous cues on separate rows. Media3's
+     * [SubtitleView.setBottomPaddingFraction] only shifts cues that leave line
+     * unset — most VTT/SRT/ASS cues set their own line, so without this remapping
+     * Low/Middle/High look identical. See [SubtitleCuePositioning].
      */
-    private fun repositionCues(cues: List<Cue>): List<Cue> {
-        if (cues.isEmpty()) return cues
-        val line = subPositionPref.coerceIn(0, 100) / 100f
-        return cues.map { cue ->
-            cue.buildUpon()
-                .setLine(line, Cue.LINE_TYPE_FRACTION)
-                .setLineAnchor(Cue.ANCHOR_TYPE_END)
-                .build()
-        }
-    }
+    private fun repositionCues(cues: List<Cue>): List<Cue> =
+        SubtitleCuePositioning.position(
+            cues,
+            positionPercent = subPositionPref,
+            textSizeFraction = SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * subScale,
+        )
 
     private fun buildCaptionPos() {
         menuTitle("Position")

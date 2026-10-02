@@ -87,6 +87,12 @@ class ExoPlayerView(
     private val handler = Handler(Looper.getMainLooper())
     /** PlaybackPrefs subtitlePosition 0=top … 100=bottom; drives cue line remapping. */
     private var captionPositionPref = 95
+    /**
+     * PlaybackPrefs subtitleScale. A field, not a local of [applyCaptionStyle],
+     * because [repositionCues] needs it as the height of one line and is also
+     * called from the cue listener, which has no `call` to read it from.
+     */
+    private var captionScale = 1f
     private val tick = object : Runnable {
         override fun run() {
             emitState()
@@ -209,6 +215,7 @@ class ExoPlayerView(
 
     private fun applyCaptionStyle(call: MethodCall) {
         val scale = (call.argument<Number>("scale") ?: 1.0).toDouble()
+        captionScale = scale.toFloat()
         val fontPath = call.argument<String>("fontPath")
         val fg = (call.argument<Number>("fgColor") ?: -1).toInt()
         val bg = (call.argument<Number>("bgColor") ?: 0).toInt()
@@ -242,16 +249,12 @@ class ExoPlayerView(
         playerView.subtitleView?.setCues(repositionCues(player.currentCues.cues))
     }
 
-    private fun repositionCues(cues: List<Cue>): List<Cue> {
-        if (cues.isEmpty()) return cues
-        val line = captionPositionPref.coerceIn(0, 100) / 100f
-        return cues.map { cue ->
-            cue.buildUpon()
-                .setLine(line, Cue.LINE_TYPE_FRACTION)
-                .setLineAnchor(Cue.ANCHOR_TYPE_END)
-                .build()
-        }
-    }
+    private fun repositionCues(cues: List<Cue>): List<Cue> =
+        SubtitleCuePositioning.position(
+            cues,
+            positionPercent = captionPositionPref,
+            textSizeFraction = SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * captionScale,
+        )
 
     override fun getView(): View = playerView
 
