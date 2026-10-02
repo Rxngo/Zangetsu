@@ -1,6 +1,10 @@
 {
   "ar": [
     "customRange",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "findChapter"
   ],
 
@@ -20,6 +24,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -139,6 +147,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -258,6 +270,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -363,6 +379,10 @@
 
   "id": [
     "customRange",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "findChapter"
   ],
 
@@ -382,6 +402,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -501,6 +525,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -606,11 +634,19 @@
 
   "pt": [
     "customRange",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "findChapter"
   ],
 
   "tr": [
     "customRange",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "findChapter"
   ],
 
@@ -630,6 +666,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
@@ -749,6 +789,10 @@
     "reportSent",
     "reportSentBody",
     "readerFullscreen",
+    "tvDecoderMode",
+    "tvDecoderHardwareOnly",
+    "tvDecoderHardwareFirst",
+    "tvDecoderSoftwareFirst",
     "androidPlayer",
     "androidPlayerUnavailable",
     "offlineTitle",
