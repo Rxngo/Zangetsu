@@ -228,6 +228,35 @@ class _PlaybackSettingsScreenState extends State<PlaybackSettingsScreen> {
     ('480p', '480p'),
   ];
 
+  static List<(TvDecoderMode, String)> _tvDecoderModeOptions(
+    AppLocalizations l10n,
+  ) => [
+    (TvDecoderMode.hardwareOnly, l10n.tvDecoderHardwareOnly),
+    (TvDecoderMode.hardwareFirst, l10n.tvDecoderHardwareFirst),
+    (TvDecoderMode.softwareFirst, l10n.tvDecoderSoftwareFirst),
+  ];
+
+  static String _tvDecoderModeLabel(
+    TvDecoderMode mode,
+    AppLocalizations l10n,
+  ) => switch (mode) {
+    TvDecoderMode.hardwareOnly => l10n.tvDecoderHardwareOnly,
+    TvDecoderMode.hardwareFirst => l10n.tvDecoderHardwareFirst,
+    TvDecoderMode.softwareFirst => l10n.tvDecoderSoftwareFirst,
+  };
+
+  Future<void> _pickTvDecoderMode() async {
+    final l10n = context.l10n;
+    final picked = await _pick<TvDecoderMode>(
+      title: l10n.tvDecoderMode,
+      options: _tvDecoderModeOptions(l10n),
+      current: _prefs.tvDecoderMode,
+    );
+    if (picked == null) return;
+    await _prefs.setTvDecoderMode(picked);
+    if (mounted) setState(() {});
+  }
+
   static const List<(String, String)> _audioOptions = [('sub', 'Sub'), ('dub', 'Dub')];
 
   static const List<(double, String)> _speedOptions = [
@@ -889,15 +918,14 @@ class _PlaybackSettingsScreenState extends State<PlaybackSettingsScreen> {
                   },
                 ),
               if (sl<AppMode>().isTv && !isAppleTv && _prefs.nativeTvPlayer)
-                _toggleRow(
+                SettingsTile(
                   icon: Icons.surround_sound_outlined,
-                  title: context.l10n.softwareAudioDolbyDTS,
-                  subtitle: context.l10n.softwareAudioSubtitle,
-                  value: _prefs.tvSoftwareDecoding,
-                  onChanged: (v) async {
-                    await _prefs.setTvSoftwareDecoding(v);
-                    if (mounted) setState(() {});
-                  },
+                  title: context.l10n.tvDecoderMode,
+                  subtitle: _tvDecoderModeLabel(
+                    _prefs.tvDecoderMode,
+                    context.l10n,
+                  ),
+                  onTap: _pickTvDecoderMode,
                 ),
               // Seek preview (online) removed — the streaming engine was flaky
               // and re-downloaded video just for thumbnails. Download-file

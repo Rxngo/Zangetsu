@@ -1305,6 +1305,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nativeTVPlayer => 'مشغّل التلفاز الأصلي';
 
   @override
+  String get tvDecoderMode => 'TV decoder priority';
+
+  @override
+  String get tvDecoderHardwareOnly => 'Hardware only';
+
+  @override
+  String get tvDecoderHardwareFirst => 'Hardware first (software fallback)';
+
+  @override
+  String get tvDecoderSoftwareFirst => 'Software first (hardware fallback)';
+
+  @override
   String get softwareAudioDolbyDTS => 'صوت برمجي (Dolby/DTS)';
 
   @override

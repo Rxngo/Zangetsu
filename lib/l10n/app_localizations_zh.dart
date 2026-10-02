@@ -1254,6 +1254,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get nativeTVPlayer => '系统电视播放器';
 
   @override
+  String get tvDecoderMode => 'TV decoder priority';
+
+  @override
+  String get tvDecoderHardwareOnly => 'Hardware only';
+
+  @override
+  String get tvDecoderHardwareFirst => 'Hardware first (software fallback)';
+
+  @override
+  String get tvDecoderSoftwareFirst => 'Software first (hardware fallback)';
+
+  @override
   String get softwareAudioDolbyDTS => '软件音频（Dolby/DTS）';
 
   @override

@@ -78,7 +78,10 @@ class TvPlayerActivity : Activity() {
         const val EXTRA_SUB_URLS = "subUrls"
         const val EXTRA_SUB_LANGS = "subLangs"
         const val EXTRA_SUB_LABELS = "subLabels"
-        const val EXTRA_SW_DECODE = "softwareDecoding"
+        const val EXTRA_DECODER_MODE = "decoderMode"
+        const val DECODER_MODE_HARDWARE_ONLY = 0
+        const val DECODER_MODE_HARDWARE_FIRST = 1
+        const val DECODER_MODE_SOFTWARE_FIRST = 2
         const val EXTRA_ACCENT = "accentColor"
         // Buffer preset (Settings → Playback), resolved Dart-side. Absent/0 =
         // ExoPlayer defaults, which is what this activity used before.
@@ -2555,21 +2558,23 @@ class TvPlayerActivity : Activity() {
     }
 
     /**
-     * OFF (default) → plain DefaultRenderersFactory (hardware only), identical to
-     * before. ON → NextRenderersFactory, which adds the hardware MediaCodec
-     * renderers first (via super) and appends FFmpeg audio/video only as a
-     * fallback. EXTENSION_RENDERER_MODE_ON keeps hardware preferred, so H.264/HEVC
-     * video + AAC audio are untouched — FFmpeg only decodes tracks the TV can't
-     * (Dolby AC3/E-AC3, DTS → were silent). Opt-in because software decoding can
-     * be unstable on some TVs (CloudStream disables it on TV by default too).
+     * The TV-only preference selects renderer priority. Hardware-only remains
+     * the default; extension decoders are available only when explicitly
+     * selected, with either hardware-first (ON) or software-first (PREFER)
+     * ordering. Decoder fallback allows ExoPlayer to try the other renderer if
+     * the preferred decoder cannot initialize.
      */
     private fun renderersFactory(): RenderersFactory =
-        if (intent.getBooleanExtra(EXTRA_SW_DECODE, false)) {
-            NextRenderersFactory(this)
+        when (intent.getIntExtra(EXTRA_DECODER_MODE, DECODER_MODE_HARDWARE_ONLY)) {
+            DECODER_MODE_HARDWARE_FIRST -> NextRenderersFactory(this)
                 .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
                 .setEnableDecoderFallback(true)
-        } else {
-            DefaultRenderersFactory(this)
+
+            DECODER_MODE_SOFTWARE_FIRST -> NextRenderersFactory(this)
+                .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
+                .setEnableDecoderFallback(true)
+
+            else -> DefaultRenderersFactory(this)
         }
 
     private fun fmt(ms: Long): String {

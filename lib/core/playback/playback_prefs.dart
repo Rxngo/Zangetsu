@@ -66,6 +66,39 @@ String? resolveVideoOutput({
 /// its own build was compiled with.
 enum DecoderPlatform { android, apple, windows, linux, other }
 
+/// Decoder priority used only by the fully-native Android TV player.
+///
+/// [wireValue] is passed over the Flutter method channel and must stay aligned
+/// with the matching constants in TvPlayerActivity. Keep the first two values
+/// compatible with the old boolean setting: 0 was hardware-only and 1 enabled
+/// hardware-first FFmpeg fallback.
+enum TvDecoderMode {
+  hardwareOnly(0),
+  hardwareFirst(1),
+  softwareFirst(2);
+
+  const TvDecoderMode(this.wireValue);
+
+  final int wireValue;
+
+  static TvDecoderMode fromStorage(
+    Object? stored, {
+    required bool legacySoftwareDecoding,
+  }) {
+    final storedValue = switch (stored) {
+      int value => value,
+      num value when value == value.toInt() => value.toInt(),
+      _ => null,
+    };
+    return switch (storedValue) {
+      0 => hardwareOnly,
+      1 => hardwareFirst,
+      2 => softwareFirst,
+      _ => legacySoftwareDecoding ? hardwareFirst : hardwareOnly,
+    };
+  }
+}
+
 DecoderPlatform get currentDecoderPlatform {
   if (Platform.isAndroid) return DecoderPlatform.android;
   if (Platform.isIOS || Platform.isMacOS) return DecoderPlatform.apple;
@@ -239,15 +272,20 @@ class PlaybackPrefs {
   Future<void> setNativeTvPlayer(bool value) =>
       _box.put('nativeTvPlayer', value);
 
-  /// Enable FFmpeg software audio decoding in the native TV player, so TVs that
-  /// lack hardware Dolby (AC3/E-AC3) or DTS play those tracks instead of going
-  /// silent. Off by default — CloudStream disables it on TV by default too
-  /// ("because of crashes"), so it's strictly opt-in. Hardware decoders stay
-  /// preferred (EXTENSION_RENDERER_MODE_ON); FFmpeg only fills the gap.
-  bool get tvSoftwareDecoding =>
-      _box.get('tvSoftwareDecoding', defaultValue: false) as bool;
-  Future<void> setTvSoftwareDecoding(bool value) =>
-      _box.put('tvSoftwareDecoding', value);
+  /// Decoder priority for native Android TV playback. The legacy boolean is
+  /// read only when this setting has not yet been saved, preserving the old
+  /// hardware-first fallback behavior for existing users.
+  TvDecoderMode get tvDecoderMode => TvDecoderMode.fromStorage(
+    _box.get('tvDecoderMode'),
+    legacySoftwareDecoding:
+        _box.get('tvSoftwareDecoding', defaultValue: false) == true,
+  );
+
+  Future<void> setTvDecoderMode(TvDecoderMode value) async {
+    await _box.put('tvDecoderMode', value.wireValue);
+    // Keep older app versions' setting meaningful if the user downgrades.
+    await _box.put('tvSoftwareDecoding', value != TvDecoderMode.hardwareOnly);
+  }
 
   /// Whether to resume a title from its saved position automatically.
   bool get autoResume => _box.get('autoResume', defaultValue: true) as bool;

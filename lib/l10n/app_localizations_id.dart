@@ -1301,6 +1301,18 @@ class AppLocalizationsId extends AppLocalizations {
   String get nativeTVPlayer => 'Pemutar TV bawaan';
 
   @override
+  String get tvDecoderMode => 'TV decoder priority';
+
+  @override
+  String get tvDecoderHardwareOnly => 'Hardware only';
+
+  @override
+  String get tvDecoderHardwareFirst => 'Hardware first (software fallback)';
+
+  @override
+  String get tvDecoderSoftwareFirst => 'Software first (hardware fallback)';
+
+  @override
   String get softwareAudioDolbyDTS => 'Audio perangkat lunak (Dolby/DTS)';
 
   @override

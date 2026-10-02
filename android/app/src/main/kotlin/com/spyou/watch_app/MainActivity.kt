@@ -1601,7 +1601,10 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
             call.argument<String>("drmKey")?.let { intent.putExtra(TvPlayerActivity.EXTRA_DRM_KEY, it) }
             call.argument<Number>("accentColor")?.let { intent.putExtra(TvPlayerActivity.EXTRA_ACCENT, it.toInt()) }
             intent.putExtra(TvPlayerActivity.EXTRA_POSITION, (call.argument<Number>("positionMs") ?: 0).toLong())
-            intent.putExtra(TvPlayerActivity.EXTRA_SW_DECODE, call.argument<Boolean>("softwareDecoding") ?: false)
+            intent.putExtra(
+                TvPlayerActivity.EXTRA_DECODER_MODE,
+                (call.argument<Number>("decoderMode") ?: 0).toInt(),
+            )
             intent.putExtra(TvPlayerActivity.EXTRA_EP_COUNT, (call.argument<Number>("episodeCount") ?: 1).toInt())
             intent.putExtra(TvPlayerActivity.EXTRA_START_INDEX, (call.argument<Number>("startIndex") ?: 0).toInt())
             call.argument<String>("category")?.let { intent.putExtra(TvPlayerActivity.EXTRA_CATEGORY, it) }

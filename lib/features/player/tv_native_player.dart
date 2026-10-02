@@ -209,7 +209,7 @@ class TvNativePlayer {
       'category': category,
       'availableCategories': availableCategories,
       'accentColor': AppColors.accent.toARGB32(),
-      'softwareDecoding': prefs.tvSoftwareDecoding,
+      'decoderMode': prefs.tvDecoderMode.wireValue,
       // Playback + subtitle-style defaults from the shared prefs.
       'defaultSpeed': prefs.defaultSpeed,
       'volumeBoost': prefs.volumeBoost,

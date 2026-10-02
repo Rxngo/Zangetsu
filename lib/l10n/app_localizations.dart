@@ -2487,6 +2487,30 @@ abstract class AppLocalizations {
   /// **'Native TV player'**
   String get nativeTVPlayer;
 
+  /// No description provided for @tvDecoderMode.
+  ///
+  /// In en, this message translates to:
+  /// **'TV decoder priority'**
+  String get tvDecoderMode;
+
+  /// No description provided for @tvDecoderHardwareOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware only'**
+  String get tvDecoderHardwareOnly;
+
+  /// No description provided for @tvDecoderHardwareFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware first (software fallback)'**
+  String get tvDecoderHardwareFirst;
+
+  /// No description provided for @tvDecoderSoftwareFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Software first (hardware fallback)'**
+  String get tvDecoderSoftwareFirst;
+
   /// No description provided for @softwareAudioDolbyDTS.
   ///
   /// In en, this message translates to:
