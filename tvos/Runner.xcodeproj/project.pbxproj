@@ -15,6 +15,7 @@
 		97C1470F1CF9000082B4168C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000082B4168C /* Assets.xcassets */; };
 		AAF20000000000000000F00D /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = AAF30000000000000000F00D /* FlutterGeneratedPluginSwiftPackage */; };
 		AAF40000000000000000TSVC /* TvSystemPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF40000000000000000TSVR /* TvSystemPlayerViewController.swift */; };
+		B1A2C3D4E5F607182930AB01 /* TVAssetResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A2C3D4E5F607182930AB02 /* TVAssetResourceLoader.swift */; };
 		D33B80241A90C80B086E74EC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33693F3A102AE7F17674C59D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		97C146FF1CF9000082B4168E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAA000000000000000000003 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		AAF40000000000000000TSVR /* TvSystemPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvSystemPlayerViewController.swift; sourceTree = "<group>"; };
+		B1A2C3D4E5F607182930AB02 /* TVAssetResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVAssetResourceLoader.swift; sourceTree = "<group>"; };
 		D5B54B831B9FA8B9B8627B31 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F58F0CBEBC9E30994DF695C7 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +89,7 @@
 			children = (
 				97C146FA1CF9000082B4168C /* AppDelegate.swift */,
 				AAF40000000000000000TSVR /* TvSystemPlayerViewController.swift */,
+				B1A2C3D4E5F607182930AB02 /* TVAssetResourceLoader.swift */,
 				AAA000000000000000000003 /* Runner-Bridging-Header.h */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
@@ -294,6 +297,7 @@
 			files = (
 				97C146FB1CF9000082B4168C /* AppDelegate.swift in Sources */,
 				AAF40000000000000000TSVC /* TvSystemPlayerViewController.swift in Sources */,
+				B1A2C3D4E5F607182930AB01 /* TVAssetResourceLoader.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
