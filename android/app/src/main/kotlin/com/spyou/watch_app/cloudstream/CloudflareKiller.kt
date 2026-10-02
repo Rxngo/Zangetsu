@@ -10,6 +10,7 @@ import com.lagradost.cloudstream3.CloudStreamApp
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -200,6 +201,43 @@ object CfWebViewSolver {
     private const val INTERACTED_TIMEOUT_SECONDS = 90L
 
     fun solve(url: String): Result? {
+        // OWNER-DISABLED 2026-10-03: visible solver off (owner request). Every
+        // caller already handles null as "no clearance" (native replies
+        // success(null), Dart marks the host failed and falls back, plugins
+        // use their own fallback), so challenged hosts simply fail instead of
+        // opening the overlay. To re-enable, delete this return.
+        android.util.Log.i("CfSolver", "solve() disabled, host=${runCatching { android.net.Uri.parse(url).host }.getOrNull()}")
+        return null
+        // (original body below, kept for a one-undo revert)
+        // One solve per host at a time: concurrent triggers (prefetch + play,
+        // two mirrors at once) used to stack a "Verifying…" screen per caller,
+        // each eating all touches — it read as a frozen app. The second caller
+        // now waits for the first solve's result (bounded below) and shares it;
+        // clearance cookies are per-host, so the shared result is the right one.
+        val host = runCatching { android.net.Uri.parse(url).host }.getOrNull()
+            ?: return solveNow(url)
+        val mine = CompletableFuture<Result?>()
+        val ongoing = inFlight.putIfAbsent(host, mine)
+        if (ongoing != null) {
+            return try {
+                ongoing.get(SOLVE_TIMEOUT_SECONDS + 5, TimeUnit.SECONDS)
+            } catch (_: Exception) {
+                null
+            }
+        }
+        return try {
+            val result = solveNow(url)
+            mine.complete(result)
+            result
+        } finally {
+            inFlight.remove(host, mine)
+        }
+    }
+
+    /** Solves in flight by host. Removed as each solve settles. */
+    private val inFlight = ConcurrentHashMap<String, CompletableFuture<Result?>>()
+
+    private fun solveNow(url: String): Result? {
         android.util.Log.i("CfSolver", "solve() host=${runCatching { android.net.Uri.parse(url).host }.getOrNull()}")
         // Prefer the foreground Activity: the solver WebView must be attached to
         // a real window and rendered, or Cloudflare's JS challenge never runs.
@@ -467,7 +505,10 @@ object CfWebViewSolver {
         chip.addView(spinner, slp)
 
         val label = android.widget.TextView(context)
-        label.text = "Verifying protected source…"
+        // Worded as an instruction, not a status: the old "Verifying…." read
+        // as a frozen app and viewers closed it mid-solve — which kills the
+        // clearance and the playback behind it.
+        label.text = "Checking source — don't close"
         label.setTextColor(0xFFFFFFFF.toInt())
         label.textSize = 14f
         chip.addView(label)
