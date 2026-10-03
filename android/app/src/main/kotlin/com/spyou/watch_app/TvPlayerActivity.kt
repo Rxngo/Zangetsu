@@ -1714,12 +1714,9 @@ class TvPlayerActivity : Activity() {
     }
 
     private fun applySubtitleStyleLive() {
-        val tf = when {
-            !subFontPath.isNullOrBlank() ->
-                runCatching { android.graphics.Typeface.createFromFile(subFontPath) }.getOrNull()
-                    ?: android.graphics.Typeface.DEFAULT
-            else -> android.graphics.Typeface.DEFAULT
-        }
+        // Custom font first, system behind it — otherwise a font without
+        // Arabic glyphs renders boxes (see subtitleTypeface).
+        val tf = subtitleTypeface(subFontPath.takeUnless { it.isNullOrBlank() })
         playerView.subtitleView?.apply {
             setApplyEmbeddedStyles(false)
             setApplyEmbeddedFontSizes(false)

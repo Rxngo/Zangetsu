@@ -228,7 +228,7 @@ class ExoPlayerView(
         captionPositionPref = (call.argument<Number>("positionPref") ?: 95)
             .toInt()
             .coerceIn(0, 100)
-        val tf = fontPath?.let { runCatching { Typeface.createFromFile(it) }.getOrNull() }
+        val tf = subtitleTypeface(fontPath)
         val style = CaptionStyleCompat(
             fg,
             bg,
