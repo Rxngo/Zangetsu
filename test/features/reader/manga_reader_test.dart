@@ -948,6 +948,225 @@ void main() {
       await disposeHarness(tester);
     });
 
+    testWidgets(
+      'a second finger cancels an in-progress page swipe and pinches the page',
+      (tester) async {
+        await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+        await tester.pumpWidget(harness());
+        await settle(tester);
+
+        final pageView = tester.widget<PageView>(
+          find.byKey(const ValueKey('manga-pageview')),
+        );
+        final controller = pageView.controller!;
+        final center = tester.getCenter(
+          find.byKey(const ValueKey('manga-pageview')),
+        );
+
+        // The first finger has already crossed PageView's horizontal drag
+        // slop. A child scale recognizer can no longer reclaim this arena.
+        final first = await tester.startGesture(center, pointer: 31);
+        for (var i = 0; i < 4; i++) {
+          await first.moveBy(const Offset(-16, 0));
+          await tester.pump(const Duration(milliseconds: 20));
+        }
+        expect(controller.position.pixels, greaterThan(0));
+
+        // Kotatsu keeps seeing the raw touch stream: when the second finger
+        // joins, this becomes a pinch, not a page turn.
+        final second = await tester.startGesture(
+          center + const Offset(0, 80),
+          pointer: 32,
+        );
+        await tester.pump();
+        await first.moveBy(const Offset(-300, 0));
+        await tester.pump();
+        await first.up();
+        await second.up();
+        await settle(tester);
+
+        expect(controller.page, closeTo(0, 0.01));
+        expect(
+          tester
+              .widget<Transform>(
+                find.byKey(const ValueKey('manga-page-transform-0')),
+              )
+              .transform
+              .getMaxScaleOnAxis(),
+          greaterThan(1.2),
+        );
+
+        await disposeHarness(tester);
+      },
+    );
+
+    testWidgets('a two-finger pinch never advances the paged reader', (
+      tester,
+    ) async {
+      await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+      await tester.pumpWidget(harness());
+      await settle(tester);
+
+      final pageView = find.byKey(const ValueKey('manga-pageview'));
+      final controller = tester.widget<PageView>(pageView).controller!;
+      final center = tester.getCenter(pageView);
+      final width = tester.getSize(pageView).width;
+      final first = await tester.startGesture(
+        center + const Offset(0, -40),
+        pointer: 34,
+      );
+      final second = await tester.startGesture(
+        center + const Offset(0, 40),
+        pointer: 35,
+      );
+
+      // Both fingers drift sideways together far enough to turn a page if the
+      // horizontal pager keeps ownership, then spread to make it a pinch.
+      final sharedStep = Offset(-width * 0.65 / 4, 0);
+      for (var i = 0; i < 4; i++) {
+        await first.moveBy(sharedStep);
+        await second.moveBy(sharedStep);
+        await tester.pump(const Duration(milliseconds: 20));
+      }
+      for (var i = 0; i < 4; i++) {
+        await first.moveBy(const Offset(0, -15));
+        await second.moveBy(const Offset(0, 15));
+        await tester.pump(const Duration(milliseconds: 20));
+      }
+      await first.up();
+      await second.up();
+      await settle(tester);
+
+      expect(controller.page, closeTo(0, 0.01));
+      expect(
+        tester
+            .widget<Transform>(
+              find.byKey(const ValueKey('manga-page-transform-0')),
+            )
+            .transform
+            .getMaxScaleOnAxis(),
+        greaterThan(1.2),
+      );
+
+      await disposeHarness(tester);
+    });
+
+    testWidgets('a zoomed page pans without turning the page', (tester) async {
+      await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+      await tester.pumpWidget(harness());
+      await settle(tester);
+
+      final pageView = find.byKey(const ValueKey('manga-pageview'));
+      final controller = tester.widget<PageView>(pageView).controller!;
+      final center = tester.getCenter(pageView);
+      await tester.tapAt(center);
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tapAt(center);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 250));
+
+      final beforePan = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('manga-page-transform-0')),
+          )
+          .transform
+          .storage[12];
+      expect(
+        tester
+            .widget<Transform>(
+              find.byKey(const ValueKey('manga-page-transform-0')),
+            )
+            .transform
+            .getMaxScaleOnAxis(),
+        greaterThan(1.5),
+      );
+
+      final finger = await tester.startGesture(center, pointer: 36);
+      await finger.moveBy(const Offset(40, 0));
+      await tester.pump();
+      await finger.up();
+      await settle(tester);
+
+      final afterPan = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('manga-page-transform-0')),
+          )
+          .transform
+          .storage[12];
+      expect(afterPan, greaterThan(beforePan));
+      expect(controller.page, closeTo(0, 0.01));
+
+      await disposeHarness(tester);
+    });
+
+    testWidgets('double-tap zoom and unzoom animate the page transform', (
+      tester,
+    ) async {
+      await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+      await tester.pumpWidget(harness());
+      await settle(tester);
+
+      final pageView = find.byKey(const ValueKey('manga-pageview'));
+      final center = tester.getCenter(pageView);
+      final pageTransform = find.byKey(
+        const ValueKey('manga-page-transform-0'),
+      );
+      double scale() =>
+          tester.widget<Transform>(pageTransform).transform.getMaxScaleOnAxis();
+
+      await tester.tapAt(center);
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tapAt(center);
+      await tester.pump(); // Start the newly-created ticker at t=0.
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(scale(), greaterThan(1.0));
+      expect(scale(), lessThan(2.0));
+
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(scale(), closeTo(2.0, 0.01));
+
+      await tester.tapAt(center);
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tapAt(center);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(scale(), greaterThan(1.0));
+      expect(scale(), lessThan(2.0));
+
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(scale(), closeTo(1.0, 0.01));
+
+      await disposeHarness(tester);
+    });
+
+    testWidgets('a one-finger horizontal swipe still turns a page', (
+      tester,
+    ) async {
+      await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+      await tester.pumpWidget(harness());
+      await settle(tester);
+
+      final controller = tester
+          .widget<PageView>(find.byKey(const ValueKey('manga-pageview')))
+          .controller!;
+      final center = tester.getCenter(
+        find.byKey(const ValueKey('manga-pageview')),
+      );
+      final finger = await tester.startGesture(center, pointer: 33);
+      for (var i = 0; i < 10; i++) {
+        await finger.moveBy(const Offset(-50, 0));
+        await tester.pump(const Duration(milliseconds: 20));
+      }
+      await finger.up();
+      await tester.pumpAndSettle();
+
+      expect(controller.page, closeTo(1, 0.01));
+
+      await disposeHarness(tester);
+    });
+
     testWidgets('rtl direction renders a reversed PageView', (tester) async {
       await tester.runAsync(() => sl<ReaderPrefs>().setDirection('rtl'));
       await tester.pumpWidget(harness());

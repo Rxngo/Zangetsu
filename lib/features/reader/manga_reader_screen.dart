@@ -230,6 +230,26 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
   /// page being read. See [_reanchorToCurrentPage].
   Offset? _lastDoubleTapPos;
   final Map<int, TransformationController> _zoomControllers = {};
+  late final AnimationController _doubleTapZoomController;
+  TransformationController? _animatedZoomTarget;
+  Animation<Matrix4>? _doubleTapZoomAnimation;
+
+  /// Paged mode observes raw pointers outside the gesture arena. That matters
+  /// when PageView has already accepted a one-finger drag before finger two
+  /// lands: a child ScaleGestureRecognizer cannot take that pointer back, but
+  /// the reader can still freeze the pager and keep scaling the page.
+  final Map<int, Offset> _pagedPointerPositions = {};
+  final GlobalKey _pagedViewportKey = GlobalKey();
+  int? _pagedGestureStartPosition;
+  TransformationController? _pagedGestureController;
+  Size _pagedGestureViewport = Size.zero;
+  Offset _pagedGestureViewportOrigin = Offset.zero;
+  _PagedPinchStart? _pagedPinchStart;
+  _PagedPanStart? _pagedPanStart;
+  bool _pagedPinchActive = false;
+  bool _pagedZoomed = false;
+
+  bool get _lockPagedScroll => _pagedPinchActive || _pagedZoomed;
 
   // Webtoon (vertical) pinch-zoom. The strip stays a lazy ListView for
   // one-finger scrolling; a two-finger pinch drives this scale/offset which a
@@ -265,6 +285,10 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     _pageIndexVN.addListener(_refreshTranslationForPageChanges);
     _index = widget.startIndex;
     _pageController = PageController();
+    _doubleTapZoomController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 240),
+    )..addListener(_tickDoubleTapZoom);
     // Built here, NOT lazily: createTicker reads TickerMode off the
     // context, and a `late final` initialiser would run that on first
     // access — which, if auto-scroll was never used, is dispose(), where
@@ -322,6 +346,9 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     _verticalController.removeListener(_onVerticalScroll);
     _verticalController.dispose();
     _pageController.dispose();
+    _doubleTapZoomController
+      ..removeListener(_tickDoubleTapZoom)
+      ..dispose();
     for (final c in _zoomControllers.values) {
       c.dispose();
     }
@@ -977,6 +1004,13 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     // _pageIndexVN. The next-chapter overlay and chrome's page counter each
     // listen for this themselves.
     _pageIndex = page;
+    if (!_pagedPinchActive) {
+      final zoomed =
+          (_zoomControllers[page]?.value.getMaxScaleOnAxis() ?? 1.0) > 1.01;
+      if (zoomed != _pagedZoomed) {
+        setState(() => _pagedZoomed = zoomed);
+      }
+    }
     // A slider drag drives this too (jumpToPage fires onPageChanged) —
     // _commitSeek does the preload/save exactly once when the drag ends.
     if (_seeking) return;
@@ -1757,10 +1791,16 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     // context.l10n.nextChapter2 footer button is the common path). Going BACKWARDS is
     // not completion, so it just saves the real position.
     _saveProgress(flush: true, complete: newIndex > _index);
+    _cancelDoubleTapZoom();
     for (final c in _zoomControllers.values) {
       c.dispose();
     }
     _zoomControllers.clear();
+    _pagedPointerPositions.clear();
+    _pagedGestureStartPosition = null;
+    _pagedGestureController = null;
+    _pagedPinchStart = null;
+    _pagedPanStart = null;
     setState(() {
       _index = newIndex;
       _pages = null;
@@ -1782,6 +1822,8 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
       _wScale = 1.0;
       _wOffset = Offset.zero;
       _wZooming = false;
+      _pagedPinchActive = false;
+      _pagedZoomed = false;
     });
     _load();
   }
@@ -1933,18 +1975,63 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
   }
 
   void _toggleZoom(TransformationController ctrl) {
-    if (ctrl.value != Matrix4.identity()) {
-      ctrl.value = Matrix4.identity();
+    _cancelDoubleTapZoom();
+    if (ctrl.value.getMaxScaleOnAxis() > 1.01) {
+      _animateDoubleTapZoom(ctrl, Matrix4.identity());
       return;
     }
     final pos = _lastDoubleTapPos;
+    late final Matrix4 target;
     if (pos == null) {
-      ctrl.value = Matrix4.identity()..scaleByDouble(2.0, 2.0, 2.0, 1.0);
+      target = Matrix4.identity()..scaleByDouble(2.0, 2.0, 2.0, 1.0);
+    } else {
+      target = Matrix4.identity()
+        ..translateByDouble(-pos.dx, -pos.dy, 0, 1.0)
+        ..scaleByDouble(2.0, 2.0, 2.0, 1.0);
+    }
+    if (mounted && !_pagedZoomed) setState(() => _pagedZoomed = true);
+    _animateDoubleTapZoom(ctrl, target);
+  }
+
+  void _animateDoubleTapZoom(TransformationController ctrl, Matrix4 target) {
+    _animatedZoomTarget = ctrl;
+    _doubleTapZoomAnimation =
+        Matrix4Tween(begin: Matrix4.copy(ctrl.value), end: target)
+            .chain(CurveTween(curve: Curves.easeInOutCubic))
+            .animate(_doubleTapZoomController);
+    _doubleTapZoomController
+      ..value = 0
+      ..forward();
+  }
+
+  void _tickDoubleTapZoom() {
+    final ctrl = _animatedZoomTarget;
+    final animation = _doubleTapZoomAnimation;
+    if (ctrl == null || animation == null) return;
+    final tracked = _zoomControllers.values.any(
+      (candidate) => identical(candidate, ctrl),
+    );
+    if (!tracked) {
+      _cancelDoubleTapZoom();
       return;
     }
-    ctrl.value = Matrix4.identity()
-      ..translateByDouble(-pos.dx, -pos.dy, 0, 1.0)
-      ..scaleByDouble(2.0, 2.0, 2.0, 1.0);
+
+    ctrl.value = animation.value;
+    if (!_doubleTapZoomController.isCompleted) return;
+
+    _animatedZoomTarget = null;
+    _doubleTapZoomAnimation = null;
+    final remainsZoomed = ctrl.value.getMaxScaleOnAxis() > 1.01;
+    if (mounted && _pagedZoomed != remainsZoomed) {
+      setState(() => _pagedZoomed = remainsZoomed);
+    }
+  }
+
+  void _cancelDoubleTapZoom([TransformationController? ctrl]) {
+    if (ctrl != null && !identical(ctrl, _animatedZoomTarget)) return;
+    _doubleTapZoomController.stop();
+    _animatedZoomTarget = null;
+    _doubleTapZoomAnimation = null;
   }
 
   @override
@@ -2140,28 +2227,241 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     final spreads = _activeSpreads();
     final extra = _hasTransitionPage ? 1 : 0;
     if (spreads == null) {
-      return PageView.builder(
-        key: const ValueKey('manga-pageview'),
-        controller: _pageController,
-        reverse: direction == 'rtl',
-        itemCount: pages.length + extra,
-        onPageChanged: _onPageChanged,
-        itemBuilder: (context, index) => index >= pages.length
-            ? _chapterEndPage()
-            : _pagedItem(pages[index], index),
+      return _pagedGestureLayer(
+        PageView.builder(
+          key: const ValueKey('manga-pageview'),
+          controller: _pageController,
+          reverse: direction == 'rtl',
+          physics: _lockPagedScroll ? const _PagedPinchLockPhysics() : null,
+          itemCount: pages.length + extra,
+          onPageChanged: _onPageChanged,
+          itemBuilder: (context, index) => index >= pages.length
+              ? _chapterEndPage()
+              : _pagedItem(pages[index], index),
+        ),
       );
     }
     // Double-page landscape: each PageView page is a spread. `onPageChanged`
     // still maps the spread index back to a real page (see there).
-    return PageView.builder(
-      key: const ValueKey('manga-pageview'),
-      controller: _pageController,
-      reverse: direction == 'rtl',
-      itemCount: spreads.length + extra,
-      onPageChanged: _onPageChanged,
-      itemBuilder: (context, index) => index >= spreads.length
-          ? _chapterEndPage()
-          : _spreadItem(spreads[index], pages),
+    return _pagedGestureLayer(
+      PageView.builder(
+        key: const ValueKey('manga-pageview'),
+        controller: _pageController,
+        reverse: direction == 'rtl',
+        physics: _lockPagedScroll ? const _PagedPinchLockPhysics() : null,
+        itemCount: spreads.length + extra,
+        onPageChanged: _onPageChanged,
+        itemBuilder: (context, index) => index >= spreads.length
+            ? _chapterEndPage()
+            : _spreadItem(spreads[index], pages),
+      ),
+    );
+  }
+
+  Widget _pagedGestureLayer(Widget pageView) => SizedBox.expand(
+    key: _pagedViewportKey,
+    child: Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: _onPagedPointerDown,
+      onPointerMove: _onPagedPointerMove,
+      onPointerUp: _onPagedPointerEnd,
+      onPointerCancel: _onPagedPointerEnd,
+      child: pageView,
+    ),
+  );
+
+  void _capturePagedGestureStart() {
+    _pagedGestureStartPosition = _pageController.hasClients
+        ? _pageController.page?.round()
+        : null;
+  }
+
+  void _onPagedItemPointerDown(
+    TransformationController controller,
+    Size viewport,
+    PointerDownEvent event,
+  ) {
+    if (event.kind != PointerDeviceKind.touch) return;
+    _cancelDoubleTapZoom(controller);
+
+    final viewportObject = _pagedViewportKey.currentContext?.findRenderObject();
+    final viewportPosition = viewportObject is RenderBox
+        ? viewportObject.globalToLocal(event.position)
+        : event.localPosition;
+    if (_pagedPointerPositions.isEmpty) _capturePagedGestureStart();
+    _pagedPointerPositions[event.pointer] = viewportPosition;
+
+    if (_pagedGestureController == null) {
+      _pagedGestureController = controller;
+      _pagedGestureViewport = viewport;
+      _pagedGestureViewportOrigin = viewportPosition - event.localPosition;
+      final zoomed = controller.value.getMaxScaleOnAxis() > 1.01;
+      if (zoomed != _pagedZoomed) {
+        setState(() => _pagedZoomed = zoomed);
+      }
+    }
+
+    _tryBeginPagedPinch();
+    _tryBeginPagedPan();
+  }
+
+  void _onPagedPointerDown(PointerDownEvent event) {
+    if (event.kind != PointerDeviceKind.touch) return;
+    if (_pagedPointerPositions.isEmpty) _capturePagedGestureStart();
+    _pagedPointerPositions[event.pointer] = event.localPosition;
+    _tryBeginPagedPinch();
+    _tryBeginPagedPan();
+  }
+
+  void _onPagedPointerMove(PointerMoveEvent event) {
+    if (event.kind != PointerDeviceKind.touch ||
+        !_pagedPointerPositions.containsKey(event.pointer)) {
+      return;
+    }
+    _pagedPointerPositions[event.pointer] = event.localPosition;
+    if (_pagedPointerPositions.length >= 2) {
+      _tryBeginPagedPinch();
+      _updatePagedPinch();
+    } else {
+      _tryBeginPagedPan();
+      _updatePagedPan();
+    }
+  }
+
+  void _onPagedPointerEnd(PointerEvent event) {
+    if (event.kind != PointerDeviceKind.touch ||
+        !_pagedPointerPositions.containsKey(event.pointer)) {
+      return;
+    }
+    _pagedPointerPositions.remove(event.pointer);
+    if (_pagedPinchActive && _pagedPointerPositions.length < 2) {
+      final scale = _pagedGestureController?.value.getMaxScaleOnAxis() ?? 1.0;
+      setState(() {
+        _pagedPinchActive = false;
+        _pagedZoomed = scale > 1.01;
+      });
+      _pagedPinchStart = null;
+      _pagedPanStart = null;
+      _tryBeginPagedPan();
+    }
+    if (_pagedPointerPositions.isEmpty) {
+      _pagedGestureStartPosition = null;
+      _pagedGestureController = null;
+      _pagedGestureViewport = Size.zero;
+      _pagedGestureViewportOrigin = Offset.zero;
+      _pagedPinchStart = null;
+      _pagedPanStart = null;
+    }
+  }
+
+  void _tryBeginPagedPinch() {
+    if (_pagedPinchActive ||
+        _pagedPointerPositions.length < 2 ||
+        _pagedGestureController == null) {
+      return;
+    }
+    final points = _pagedPointerPositions.values.take(2).toList();
+    final first = points[0] - _pagedGestureViewportOrigin;
+    final second = points[1] - _pagedGestureViewportOrigin;
+    final span = (first - second).distance;
+    if (span <= 0) return;
+
+    final focal = (first + second) / 2;
+    final controller = _pagedGestureController!;
+    _pagedPinchStart = _PagedPinchStart(
+      scale: controller.value.getMaxScaleOnAxis(),
+      span: span,
+      focalScene: controller.toScene(focal),
+      viewport: _pagedGestureViewport,
+    );
+    _pagedPanStart = null;
+    setState(() => _pagedPinchActive = true);
+
+    final startPosition = _pagedGestureStartPosition;
+    if (startPosition != null && _pageController.hasClients) {
+      final currentPosition = _pageController.page;
+      if (currentPosition == null ||
+          (currentPosition - startPosition).abs() > 0.001) {
+        // A drag may already have moved the current page partway through the
+        // viewport. Return to the page where finger one began before scaling.
+        _pageController.jumpToPage(startPosition);
+      }
+    }
+  }
+
+  void _tryBeginPagedPan() {
+    final controller = _pagedGestureController;
+    if (_pagedPanStart != null ||
+        _pagedPinchActive ||
+        _pagedPointerPositions.length != 1 ||
+        !_pagedZoomed ||
+        controller == null) {
+      return;
+    }
+    final pointer = _pagedPointerPositions.entries.first;
+    final position = pointer.value - _pagedGestureViewportOrigin;
+    final matrix = controller.value;
+    _pagedPanStart = _PagedPanStart(
+      pointer: position,
+      translation: Offset(matrix.storage[12], matrix.storage[13]),
+    );
+  }
+
+  void _updatePagedPinch() {
+    final controller = _pagedGestureController;
+    final start = _pagedPinchStart;
+    if (controller == null ||
+        start == null ||
+        _pagedPointerPositions.length < 2) {
+      return;
+    }
+    final points = _pagedPointerPositions.values.take(2).toList();
+    final first = points[0] - _pagedGestureViewportOrigin;
+    final second = points[1] - _pagedGestureViewportOrigin;
+    final span = (first - second).distance;
+    final scale = (start.scale * span / start.span).clamp(1.0, 4.0).toDouble();
+    final focal = (first + second) / 2;
+    final translation = _clampPagedTranslation(
+      focal - start.focalScene * scale,
+      start.viewport,
+      scale,
+    );
+    controller.value = Matrix4.identity()
+      ..translateByDouble(translation.dx, translation.dy, 0, 1.0)
+      ..scaleByDouble(scale, scale, scale, 1.0);
+  }
+
+  void _updatePagedPan() {
+    final controller = _pagedGestureController;
+    final start = _pagedPanStart;
+    if (controller == null ||
+        start == null ||
+        _pagedPointerPositions.length != 1) {
+      return;
+    }
+    final scale = controller.value.getMaxScaleOnAxis();
+    if (scale <= 1.01) return;
+    final pointer =
+        _pagedPointerPositions.values.first - _pagedGestureViewportOrigin;
+    final translation = _clampPagedTranslation(
+      start.translation + pointer - start.pointer,
+      _pagedGestureViewport,
+      scale,
+    );
+    controller.value = Matrix4.identity()
+      ..translateByDouble(translation.dx, translation.dy, 0, 1.0)
+      ..scaleByDouble(scale, scale, scale, 1.0);
+  }
+
+  Offset _clampPagedTranslation(
+    Offset translation,
+    Size viewport,
+    double scale,
+  ) {
+    if (scale <= 1.0) return Offset.zero;
+    return Offset(
+      translation.dx.clamp(viewport.width * (1 - scale), 0.0).toDouble(),
+      translation.dy.clamp(viewport.height * (1 - scale), 0.0).toDouble(),
     );
   }
 
@@ -2465,7 +2765,10 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
         .where((k) => (k - current).abs() > 3)
         .toList();
     for (final k in stale) {
-      _zoomControllers.remove(k)?.dispose();
+      final controller = _zoomControllers.remove(k);
+      if (controller == null) continue;
+      _cancelDoubleTapZoom(controller);
+      controller.dispose();
     }
   }
 
@@ -2486,63 +2789,73 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
       child: LayoutBuilder(
         builder: (context, constraints) {
           final width = _decodeWidth(context);
+          final viewport = constraints.biggest;
+          final image = Center(
+            child: _cropIfEnabled(
+              _withPageTranslation(
+                _drawnLocally(page)
+                    ? Image(
+                        image: _pageProvider(page, width),
+                        fit: fit,
+                        // Same gap as the strip had: nothing at all while
+                        // the page decodes.
+                        frameBuilder: (context, child, frame, wasSync) {
+                          if (frame != null) _loaded.add(index);
+                          if (wasSync || frame != null) return child;
+                          return Center(
+                            child: _shimmerSlot(context, label: '${index + 1}'),
+                          );
+                        },
+                        errorBuilder: (_, _, _) => const Icon(
+                          Icons.broken_image_outlined,
+                          color: Colors.white24,
+                        ),
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: page.url,
+                        httpHeaders: page.headers,
+                        memCacheWidth: width,
+                        maxWidthDiskCache: width,
+                        fit: fit,
+                        // Static, not an animated spinner — see ColoredBox usage in
+                        // poster_card.dart/continue_card.dart for the same convention.
+                        placeholder: (_, _) => SizedBox.expand(
+                          child: ColoredBox(color: AppColors.surface2),
+                        ),
+                        errorWidget: (_, _, _) => const Icon(
+                          Icons.broken_image_outlined,
+                          color: Colors.white38,
+                          size: 48,
+                        ),
+                      ),
+                page: page,
+                index: index,
+                fit: fit,
+              ),
+              page.url,
+            ),
+          );
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTapUp: (d) => _dispatchTap(d.globalPosition),
             onDoubleTapDown: (d) => _lastDoubleTapPos = d.localPosition,
             onDoubleTap: () => _toggleZoom(ctrl),
             onLongPress: () => _showPageActions(page),
-            child: InteractiveViewer(
-              transformationController: ctrl,
-              minScale: 1.0,
-              maxScale: 4.0,
-              child: Center(
-                child: _cropIfEnabled(
-                  _withPageTranslation(
-                    _drawnLocally(page)
-                        ? Image(
-                            image: _pageProvider(page, width),
-                            fit: fit,
-                            // Same gap as the strip had: nothing at all while
-                            // the page decodes.
-                            frameBuilder: (context, child, frame, wasSync) {
-                              if (frame != null) _loaded.add(index);
-                              if (wasSync || frame != null) return child;
-                              return Center(
-                                child: _shimmerSlot(
-                                  context,
-                                  label: '${index + 1}',
-                                ),
-                              );
-                            },
-                            errorBuilder: (_, _, _) => const Icon(
-                              Icons.broken_image_outlined,
-                              color: Colors.white24,
-                            ),
-                          )
-                        : CachedNetworkImage(
-                            imageUrl: page.url,
-                            httpHeaders: page.headers,
-                            memCacheWidth: width,
-                            maxWidthDiskCache: width,
-                            fit: fit,
-                            // Static, not an animated spinner — see ColoredBox usage in
-                            // poster_card.dart/continue_card.dart for the same convention.
-                            placeholder: (_, _) => SizedBox.expand(
-                              child: ColoredBox(color: AppColors.surface2),
-                            ),
-                            errorWidget: (_, _, _) => const Icon(
-                              Icons.broken_image_outlined,
-                              color: Colors.white38,
-                              size: 48,
-                            ),
-                          ),
-                    page: page,
-                    index: index,
-                    fit: fit,
+            child: Listener(
+              behavior: HitTestBehavior.opaque,
+              onPointerDown: (event) =>
+                  _onPagedItemPointerDown(ctrl, viewport, event),
+              child: AnimatedBuilder(
+                animation: ctrl,
+                builder: (context, child) => ClipRect(
+                  child: Transform(
+                    key: ValueKey('manga-page-transform-$index'),
+                    alignment: Alignment.topLeft,
+                    transform: ctrl.value,
+                    child: child,
                   ),
-                  page.url,
                 ),
+                child: image,
               ),
             ),
           );
@@ -4319,6 +4632,53 @@ class _PageSlot {
 
   /// Last page of its chapter — where the transition card goes.
   bool get isChapterEnd => pageInChapter == chapterPages - 1;
+}
+
+class _PagedPinchStart {
+  const _PagedPinchStart({
+    required this.scale,
+    required this.span,
+    required this.focalScene,
+    required this.viewport,
+  });
+
+  final double scale;
+  final double span;
+  final Offset focalScene;
+  final Size viewport;
+}
+
+class _PagedPanStart {
+  const _PagedPanStart({required this.pointer, required this.translation});
+
+  final Offset pointer;
+  final Offset translation;
+}
+
+/// Stops both an already-active drag and its release fling while the user is
+/// pinching/drag-panning a page. `NeverScrollableScrollPhysics` alone rejects
+/// new drags but leaves an existing drag's user offset untouched.
+class _PagedPinchLockPhysics extends PageScrollPhysics {
+  const _PagedPinchLockPhysics({super.parent});
+
+  @override
+  _PagedPinchLockPhysics applyTo(ScrollPhysics? ancestor) =>
+      _PagedPinchLockPhysics(parent: buildParent(ancestor));
+
+  @override
+  bool get allowUserScrolling => false;
+
+  @override
+  bool get allowImplicitScrolling => false;
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics position, double offset) => 0;
+
+  @override
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) => null;
 }
 
 class _TwoFingerScaleRecognizer extends ScaleGestureRecognizer {
