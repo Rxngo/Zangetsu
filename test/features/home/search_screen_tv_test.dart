@@ -236,12 +236,39 @@ void main() {
     await tester.pumpWidget(_buildUnderTest(bloc));
     await tester.pump();
 
-    // Leanback-safe field: focus lands without raising the IME.
+    // Leanback-safe field: nav chrome autofocuses; edit node stays unfocused.
     expect(find.byType(TvTextField), findsOneWidget);
     final field = tester.widget<TextField>(find.byType(TextField));
     expect(find.byType(TextField), findsOneWidget);
-    expect(field.autofocus, isTrue);
+    expect(field.autofocus, isFalse);
+    expect(field.focusNode!.hasFocus, isFalse);
   });
+
+  testWidgets(
+    'SearchScreenTv OK focuses the same query field and opens the IME '
+    '(no type-dialog popup)',
+    (tester) async {
+      final bloc = _FakeSearchBloc(SearchState());
+      addTearDown(bloc.close);
+
+      await tester.pumpWidget(_buildUnderTest(bloc));
+      await tester.pump();
+
+      final editNode = tester
+          .widget<TextField>(find.byType(TextField))
+          .focusNode!;
+      expect(editNode.hasFocus, isFalse);
+      expect(find.byType(AlertDialog), findsNothing);
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.select);
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(editNode.hasFocus, isTrue);
+      expect(tester.testTextInput.isVisible, isTrue);
+    },
+  );
 
   testWidgets('SearchScreenTv shows idle state when bloc is idle', (
     tester,
@@ -364,17 +391,20 @@ void main() {
       );
       await tester.pump();
 
-      final fieldNode = tester
+      // Autofocus lands on the nav chrome (not the edit node), so the IME
+      // stays closed and arrows can leave the field.
+      final editNode = tester
           .widget<TextField>(find.byType(TextField))
           .focusNode!;
-      fieldNode.requestFocus();
-      await tester.pumpAndSettle();
-      expect(tester.binding.focusManager.primaryFocus, same(fieldNode));
+      expect(editNode.hasFocus, isFalse);
+      final before = tester.binding.focusManager.primaryFocus;
+      expect(before, isNotNull);
 
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await tester.pumpAndSettle();
 
-      expect(tester.binding.focusManager.primaryFocus, isNot(same(fieldNode)));
+      expect(tester.binding.focusManager.primaryFocus, isNot(same(before)));
+      expect(editNode.hasFocus, isFalse);
     },
   );
 
@@ -399,17 +429,18 @@ void main() {
       );
       await tester.pump();
 
-      final fieldNode = tester
+      final editNode = tester
           .widget<TextField>(find.byType(TextField))
           .focusNode!;
-      fieldNode.requestFocus();
-      await tester.pumpAndSettle();
-      expect(tester.binding.focusManager.primaryFocus, same(fieldNode));
+      expect(editNode.hasFocus, isFalse);
+      final before = tester.binding.focusManager.primaryFocus;
+      expect(before, isNotNull);
 
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await tester.pumpAndSettle();
 
-      expect(tester.binding.focusManager.primaryFocus, isNot(same(fieldNode)));
+      expect(tester.binding.focusManager.primaryFocus, isNot(same(before)));
+      expect(editNode.hasFocus, isFalse);
     },
   );
 

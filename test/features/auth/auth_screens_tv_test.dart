@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:watch_app/core/appwrite/appwrite_service.dart';
 import 'package:watch_app/core/supabase/supabase_service.dart';
 import 'package:watch_app/core/tv/tv_focusable.dart';
+import 'package:watch_app/core/tv/tv_text_field.dart';
 import 'package:watch_app/features/auth/auth_cubit.dart';
 import 'package:watch_app/features/auth/auth_screens_tv.dart';
 import 'package:watch_app/features/auth/migration_bridge.dart';
@@ -74,7 +75,7 @@ void main() {
   );
 
   testWidgets(
-    'LoginScreenTv email field has autofocus=true',
+    'LoginScreenTv email field autofocuses chrome without opening the IME',
     (tester) async {
       final cubit = _FakeAuthCubit(const AuthState());
       addTearDown(cubit.close);
@@ -82,11 +83,15 @@ void main() {
       await tester.pumpWidget(_buildLogin(cubit));
       await tester.pump();
 
-      // The first TextField (email) must declare autofocus so the Android TV
-      // leanback keyboard is triggered as soon as the screen is pushed.
+      // Nav chrome autofocuses; the edit node stays unfocused so leanback
+      // does not trap D-pad on push. OK later opens the keyboard inline.
       final fields =
           tester.widgetList<TextField>(find.byType(TextField)).toList();
-      expect(fields.first.autofocus, isTrue);
+      expect(fields.first.autofocus, isFalse);
+      expect(fields.first.focusNode!.hasFocus, isFalse);
+      expect(find.byType(TvTextField), findsWidgets);
+      expect(tester.binding.focusManager.primaryFocus, isNotNull);
+      expect(tester.testTextInput.isVisible, isFalse);
     },
   );
 
@@ -202,7 +207,7 @@ void main() {
   );
 
   testWidgets(
-    'SignupScreenTv first field (name) has autofocus=true',
+    'SignupScreenTv first field (name) autofocuses chrome without opening the IME',
     (tester) async {
       final cubit = _FakeAuthCubit(const AuthState());
       addTearDown(cubit.close);
@@ -212,7 +217,10 @@ void main() {
 
       final fields =
           tester.widgetList<TextField>(find.byType(TextField)).toList();
-      expect(fields.first.autofocus, isTrue);
+      expect(fields.first.autofocus, isFalse);
+      expect(fields.first.focusNode!.hasFocus, isFalse);
+      expect(tester.binding.focusManager.primaryFocus, isNotNull);
+      expect(tester.testTextInput.isVisible, isFalse);
     },
   );
 
