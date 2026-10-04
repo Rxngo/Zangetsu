@@ -238,6 +238,16 @@ dependencies {
     implementation("com.google.android.gms:play-services-cast-framework:21.5.0")
     implementation("androidx.mediarouter:mediarouter:1.6.0")
 
+    // Manga-page OCR uses Google Play services' unbundled recognizers, so the
+    // script models are installed on demand instead of being packaged in the APK.
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-chinese:16.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-devanagari:16.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-japanese:16.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.1")
+    // Translation language models are downloaded by ML Kit after reader consent.
+    implementation("com.google.mlkit:translate:17.0.3")
+
     // Torrent streaming engine (native libtorrent). Per-ABI native libs; the
     // in-app updater ships the matching per-ABI APK, so no fat-APK bloat.
     implementation("org.libtorrent4j:libtorrent4j:2.1.0-31")

@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:watch_app/core/hive/safe_box.dart';
 
+import 'manga_translation/manga_page_translation_models.dart';
 import 'tap_zones.dart';
 
 /// Persistent reader settings — the manga/novel analogue of PlaybackPrefs.
@@ -250,6 +251,47 @@ class ReaderPrefs {
   String get colorFilter =>
       _box.get('colorFilter', defaultValue: 'none') as String;
   Future<void> setColorFilter(String value) => _box.put('colorFilter', value);
+
+  /// Source language used by manga page translation.
+  String get mangaTranslationSourceLanguage =>
+      _box.get('mangaTranslationSourceLanguage', defaultValue: 'ja') as String;
+  Future<void> setMangaTranslationSourceLanguage(String value) =>
+      _box.put('mangaTranslationSourceLanguage', value);
+
+  /// Target language used by manga page translation.
+  String get mangaTranslationTargetLanguage =>
+      _box.get('mangaTranslationTargetLanguage', defaultValue: 'en') as String;
+  Future<void> setMangaTranslationTargetLanguage(String value) =>
+      _box.put('mangaTranslationTargetLanguage', value);
+
+  /// Translation engine used for manga pages. Unknown stored values fall back
+  /// to online so a future or corrupted preference remains usable.
+  MangaTranslationEngine get mangaTranslationEngine {
+    final stored =
+        _box.get('mangaTranslationEngine', defaultValue: 'online') as String;
+    return MangaTranslationEngine.values.firstWhere(
+      (engine) => engine.name == stored,
+      orElse: () => MangaTranslationEngine.online,
+    );
+  }
+
+  Future<void> setMangaTranslationEngine(MangaTranslationEngine value) =>
+      _box.put('mangaTranslationEngine', value.name);
+
+  /// Online provider used for manga page translation.
+  MangaOnlineTranslationProvider get mangaOnlineTranslationProvider {
+    final stored =
+        _box.get('mangaOnlineTranslationProvider', defaultValue: 'google')
+            as String;
+    return MangaOnlineTranslationProvider.values.firstWhere(
+      (provider) => provider.name == stored,
+      orElse: () => MangaOnlineTranslationProvider.google,
+    );
+  }
+
+  Future<void> setMangaOnlineTranslationProvider(
+    MangaOnlineTranslationProvider value,
+  ) => _box.put('mangaOnlineTranslationProvider', value.name);
 
   // ── Shared comfort (both readers) ──────────────────────────────────────
   /// Screen brightness override, 0..1, or -1 for "system" — i.e. no

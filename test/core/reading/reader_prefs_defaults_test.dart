@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+import 'package:watch_app/core/reading/manga_translation/manga_page_translation_models.dart';
 import 'package:watch_app/core/reading/reader_prefs.dart';
 
 void main() {
@@ -34,6 +35,13 @@ void main() {
       expect(p.brightness, -1); // system/off — reader has never touched this
       expect(p.orientation, 'system'); // no lock — today's behavior
       expect(p.keepScreenOn, isTrue); // pre-existing, unaffected
+      expect(p.mangaTranslationSourceLanguage, 'ja');
+      expect(p.mangaTranslationTargetLanguage, 'en');
+      expect(p.mangaTranslationEngine, MangaTranslationEngine.online);
+      expect(
+        p.mangaOnlineTranslationProvider,
+        MangaOnlineTranslationProvider.google,
+      );
     });
 
     test('novel defaults', () async {
@@ -82,13 +90,16 @@ void main() {
       },
     );
 
-    test('legacy direction/background getters keep working untouched', () async {
-      await ReaderPrefs.init();
-      final p = ReaderPrefs();
-      await p.setDirection('rtl');
-      await p.setBackground('dark');
-      expect(p.direction, 'rtl');
-      expect(p.background, 'dark');
-    });
+    test(
+      'legacy direction/background getters keep working untouched',
+      () async {
+        await ReaderPrefs.init();
+        final p = ReaderPrefs();
+        await p.setDirection('rtl');
+        await p.setBackground('dark');
+        expect(p.direction, 'rtl');
+        expect(p.background, 'dark');
+      },
+    );
   });
 }

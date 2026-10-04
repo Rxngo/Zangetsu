@@ -9153,6 +9153,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New video downloads stay inside Zangetsu instead of the Downloads folder. They are deleted when you uninstall Zangetsu. Chapters and exports are unaffected.'**
   String get keepDownloadsPrivateSubtitle;
+
+  /// No description provided for @mangaPageTranslationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate page'**
+  String get mangaPageTranslationTitle;
+
+  /// No description provided for @mangaTranslationSourceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Source language'**
+  String get mangaTranslationSourceLanguage;
+
+  /// No description provided for @mangaTranslationTargetLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Target language'**
+  String get mangaTranslationTargetLanguage;
+
+  /// No description provided for @mangaTranslationEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get mangaTranslationEngine;
+
+  /// No description provided for @mangaTranslationSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation'**
+  String get mangaTranslationSection;
+
+  /// No description provided for @mangaTranslationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Manga page translation'**
+  String get mangaTranslationSettings;
+
+  /// No description provided for @mangaTranslationProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Online provider'**
+  String get mangaTranslationProvider;
+
+  /// No description provided for @mangaTranslationGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get mangaTranslationGoogle;
+
+  /// No description provided for @mangaTranslationGemini.
+  ///
+  /// In en, this message translates to:
+  /// **'Gemini'**
+  String get mangaTranslationGemini;
+
+  /// No description provided for @mangaTranslationGroq.
+  ///
+  /// In en, this message translates to:
+  /// **'Groq'**
+  String get mangaTranslationGroq;
+
+  /// No description provided for @mangaTranslationApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'API key'**
+  String get mangaTranslationApiKey;
+
+  /// No description provided for @mangaTranslationApiKeyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set API key'**
+  String get mangaTranslationApiKeyTitle;
+
+  /// No description provided for @mangaTranslationApiKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your provider API key'**
+  String get mangaTranslationApiKeyHint;
+
+  /// No description provided for @mangaTranslationAddApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Add API key'**
+  String get mangaTranslationAddApiKey;
+
+  /// No description provided for @mangaTranslationChangeApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Change key'**
+  String get mangaTranslationChangeApiKey;
+
+  /// No description provided for @mangaTranslationRemoveApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove API key'**
+  String get mangaTranslationRemoveApiKey;
+
+  /// No description provided for @mangaTranslationApiKeySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'API key saved securely'**
+  String get mangaTranslationApiKeySaved;
+
+  /// No description provided for @mangaTranslationApiKeyMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an API key for this provider to translate.'**
+  String get mangaTranslationApiKeyMissing;
+
+  /// No description provided for @mangaTranslationProviderBillingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only recognized text is sent to this provider. Usage may be subject to your provider account\'s limits and charges.'**
+  String get mangaTranslationProviderBillingNote;
+
+  /// No description provided for @mangaTranslationInvalidApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'The provider rejected this API key. Check it and try again.'**
+  String get mangaTranslationInvalidApiKey;
+
+  /// No description provided for @mangaTranslationRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'The provider limit was reached. Check your provider account or try again later.'**
+  String get mangaTranslationRateLimited;
+
+  /// No description provided for @mangaTranslationProviderError.
+  ///
+  /// In en, this message translates to:
+  /// **'The provider could not translate this page. Check your connection and provider setup.'**
+  String get mangaTranslationProviderError;
+
+  /// No description provided for @mangaTranslationInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The provider returned an unreadable translation. Try again.'**
+  String get mangaTranslationInvalidResponse;
+
+  /// No description provided for @mangaTranslationApiKeySaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the API key securely. Try again.'**
+  String get mangaTranslationApiKeySaveFailed;
+
+  /// No description provided for @mangaTranslationOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get mangaTranslationOnline;
+
+  /// No description provided for @mangaTranslationOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get mangaTranslationOffline;
+
+  /// No description provided for @mangaTranslationAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate chapter'**
+  String get mangaTranslationAction;
+
+  /// No description provided for @mangaTranslationTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn translation off'**
+  String get mangaTranslationTurnOff;
+
+  /// No description provided for @mangaTranslationRetryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry failed pages'**
+  String get mangaTranslationRetryFailed;
+
+  /// No description provided for @mangaTranslationContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue translation'**
+  String get mangaTranslationContinue;
+
+  /// No description provided for @mangaTranslationStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop translation'**
+  String get mangaTranslationStop;
+
+  /// No description provided for @mangaTranslationInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Translating…'**
+  String get mangaTranslationInProgress;
+
+  /// No description provided for @mangaTranslationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation ready'**
+  String get mangaTranslationSuccess;
+
+  /// No description provided for @mangaTranslationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation failed'**
+  String get mangaTranslationError;
+
+  /// No description provided for @mangaTranslationNoResult.
+  ///
+  /// In en, this message translates to:
+  /// **'No translation result was returned'**
+  String get mangaTranslationNoResult;
+
+  /// No description provided for @mangaTranslationModelConsentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepare translation?'**
+  String get mangaTranslationModelConsentTitle;
+
+  /// No description provided for @mangaTranslationOnlineModelConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'The on-device OCR component may need to download before this page can be read. The page image stays on your device. Online translation sends only recognized text to the translation service.'**
+  String get mangaTranslationOnlineModelConsent;
+
+  /// No description provided for @mangaTranslationOfflineModelConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'On-device OCR and language models may need to download. The page image and recognized text stay on your device, and translation runs offline.'**
+  String get mangaTranslationOfflineModelConsent;
+
+  /// No description provided for @mangaTranslationDownloadingOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading OCR'**
+  String get mangaTranslationDownloadingOcr;
+
+  /// No description provided for @mangaTranslationDownloadingOfflineModels.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading OCR and translation models'**
+  String get mangaTranslationDownloadingOfflineModels;
+
+  /// No description provided for @mangaTranslationDownloadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This may take a little while. Translation will start automatically when the download finishes.'**
+  String get mangaTranslationDownloadingMessage;
+
+  /// No description provided for @mangaTranslationRestartRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart required'**
+  String get mangaTranslationRestartRequiredTitle;
+
+  /// No description provided for @mangaTranslationRestartRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Close and reopen Zangetsu to finish setting up on-device OCR, then try again.'**
+  String get mangaTranslationRestartRequiredMessage;
+
+  /// No description provided for @mangaTranslationSearchLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Search languages'**
+  String get mangaTranslationSearchLanguages;
+
+  /// No description provided for @mangaTranslationNoLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'No languages available'**
+  String get mangaTranslationNoLanguages;
+
+  /// No description provided for @mangaTranslationNoLanguageMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching languages'**
+  String get mangaTranslationNoLanguageMatch;
 }
 
 class _AppLocalizationsDelegate
