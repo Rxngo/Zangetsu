@@ -503,18 +503,34 @@ final class TvSystemPlayerViewController: AVPlayerViewController, AVPlayerViewCo
             probeHlsMediaEpoch(playlist: u)
         }
 
-        let needsResourceLoader = TVAssetResourceLoader.requiresResourceLoader(headers: headers)
+        // AVURLAssetHTTPUserAgentKey is tvOS 16+; on 15, route UA through the resource loader.
+        let hasUserAgent = headers.contains {
+            $0.key.caseInsensitiveCompare("User-Agent") == .orderedSame
+        }
+        let canUseNativeUserAgent: Bool
+        if #available(tvOS 16.0, *) {
+            canUseNativeUserAgent = true
+        } else {
+            canUseNativeUserAgent = false
+        }
+        let needsResourceLoader =
+            TVAssetResourceLoader.requiresResourceLoader(headers: headers)
+            || (hasUserAgent && !canUseNativeUserAgent)
         let assetURL = needsResourceLoader ? (TVAssetResourceLoader.assetURL(for: u) ?? u) : u
         var assetOptions: [String: Any] = [:]
         if !needsResourceLoader,
            let userAgent = headers.first(where: {
                $0.key.caseInsensitiveCompare("User-Agent") == .orderedSame
            })?.value {
-            assetOptions[AVURLAssetHTTPUserAgentKey] = userAgent
+            if #available(tvOS 16.0, *) {
+                assetOptions[AVURLAssetHTTPUserAgentKey] = userAgent
+            }
         }
         if !needsResourceLoader, TVAssetResourceLoader.shouldOverrideMIMEType(mimeType),
            let mimeType {
-            assetOptions[AVURLAssetOverrideMIMETypeKey] = mimeType
+            if #available(tvOS 17.0, *) {
+                assetOptions[AVURLAssetOverrideMIMETypeKey] = mimeType
+            }
         }
         let asset = AVURLAsset(url: assetURL, options: assetOptions.isEmpty ? nil : assetOptions)
         if needsResourceLoader, assetURL != u {
