@@ -1,6 +1,9 @@
+import 'dart:ui' show Color;
+
 import 'package:hive/hive.dart';
 import 'package:watch_app/core/hive/safe_box.dart';
 
+import 'manga_translation/manga_page_translation_models.dart';
 import 'tap_zones.dart';
 
 /// Persistent reader settings — the manga/novel analogue of PlaybackPrefs.
@@ -10,6 +13,10 @@ import 'tap_zones.dart';
 /// `num`.
 class ReaderPrefs {
   static const String boxName = 'reader_prefs';
+  static const double defaultMangaTranslationFontSize = 14.0;
+  static const Color defaultMangaTranslationTextColor = Color(0xFFFFFFFF);
+  static const Color defaultMangaTranslationBackgroundColor = Color(0xFF000000);
+  static const double defaultMangaTranslationBackgroundOpacity = 1.0;
 
   /// Opens the prefs box. Call once during app bootstrap before constructing.
   static Future<void> init() async {
@@ -56,8 +63,7 @@ class ReaderPrefs {
 
   /// Whether to keep the screen awake while reading. Shared by both readers
   /// via `ReaderComfortMixin`.
-  bool get keepScreenOn =>
-      _box.get('keepScreenOn', defaultValue: true) as bool;
+  bool get keepScreenOn => _box.get('keepScreenOn', defaultValue: true) as bool;
   Future<void> setKeepScreenOn(bool value) => _box.put('keepScreenOn', value);
 
   /// Hide the status and navigation bars while reading. Shared by both
@@ -113,8 +119,7 @@ class ReaderPrefs {
   /// On by default: someone reading a webtoon in paged mode gets a bad time
   /// and no clue why. A per-series direction override still wins — an explicit
   /// choice shouldn't be second-guessed.
-  bool get autoWebtoon =>
-      _box.get('autoWebtoon', defaultValue: true) as bool;
+  bool get autoWebtoon => _box.get('autoWebtoon', defaultValue: true) as bool;
   Future<void> setAutoWebtoon(bool value) => _box.put('autoWebtoon', value);
 
   /// Novel page background, 0 (black) to 1 (the theme's own colour).
@@ -186,8 +191,7 @@ class ReaderPrefs {
     };
   }
 
-  Future<void> setReadingMode(String value) =>
-      _box.put('readingMode', value);
+  Future<void> setReadingMode(String value) => _box.put('readingMode', value);
 
   // ── Tap zones ───────────────────────────────────────────────────────────
   /// What tapping each part of the page does, per reading mode. Stored as JSON
@@ -251,14 +255,104 @@ class ReaderPrefs {
       _box.get('colorFilter', defaultValue: 'none') as String;
   Future<void> setColorFilter(String value) => _box.put('colorFilter', value);
 
+  /// Source language used by manga page translation.
+  String get mangaTranslationSourceLanguage =>
+      _box.get('mangaTranslationSourceLanguage', defaultValue: 'ja') as String;
+  Future<void> setMangaTranslationSourceLanguage(String value) =>
+      _box.put('mangaTranslationSourceLanguage', value);
+
+  /// Target language used by manga page translation.
+  String get mangaTranslationTargetLanguage =>
+      _box.get('mangaTranslationTargetLanguage', defaultValue: 'en') as String;
+  Future<void> setMangaTranslationTargetLanguage(String value) =>
+      _box.put('mangaTranslationTargetLanguage', value);
+
+  /// Translation engine used for manga pages. Unknown stored values fall back
+  /// to online so a future or corrupted preference remains usable.
+  MangaTranslationEngine get mangaTranslationEngine {
+    final stored =
+        _box.get('mangaTranslationEngine', defaultValue: 'online') as String;
+    return MangaTranslationEngine.values.firstWhere(
+      (engine) => engine.name == stored,
+      orElse: () => MangaTranslationEngine.online,
+    );
+  }
+
+  Future<void> setMangaTranslationEngine(MangaTranslationEngine value) =>
+      _box.put('mangaTranslationEngine', value.name);
+
+  /// Preferred manga translation font size in logical pixels. Long text may
+  /// still scale down to remain inside its detected OCR region.
+  double get mangaTranslationFontSize =>
+      (_box.get(
+                'mangaTranslationFontSize',
+                defaultValue: defaultMangaTranslationFontSize,
+              )
+              as num)
+          .toDouble()
+          .clamp(8.0, 32.0);
+  Future<void> setMangaTranslationFontSize(double value) =>
+      _box.put('mangaTranslationFontSize', value.clamp(8.0, 32.0));
+
+  /// Text color used for translated manga page regions, stored as ARGB32.
+  Color get mangaTranslationTextColor => Color(
+    (_box.get(
+              'mangaTranslationTextColor',
+              defaultValue: defaultMangaTranslationTextColor.toARGB32(),
+            )
+            as num)
+        .toInt(),
+  );
+  Future<void> setMangaTranslationTextColor(Color value) =>
+      _box.put('mangaTranslationTextColor', value.toARGB32());
+
+  /// Background color used behind translated manga page regions, stored as
+  /// ARGB32. Background opacity is controlled independently.
+  Color get mangaTranslationBackgroundColor => Color(
+    (_box.get(
+              'mangaTranslationBackgroundColor',
+              defaultValue: defaultMangaTranslationBackgroundColor.toARGB32(),
+            )
+            as num)
+        .toInt(),
+  );
+  Future<void> setMangaTranslationBackgroundColor(Color value) =>
+      _box.put('mangaTranslationBackgroundColor', value.toARGB32());
+
+  /// Opacity of the background behind translated manga page regions.
+  double get mangaTranslationBackgroundOpacity =>
+      (_box.get(
+                'mangaTranslationBackgroundOpacity',
+                defaultValue: defaultMangaTranslationBackgroundOpacity,
+              )
+              as num)
+          .toDouble()
+          .clamp(0.0, 1.0);
+  Future<void> setMangaTranslationBackgroundOpacity(double value) =>
+      _box.put('mangaTranslationBackgroundOpacity', value.clamp(0.0, 1.0));
+
+  /// Online provider used for manga page translation.
+  MangaOnlineTranslationProvider get mangaOnlineTranslationProvider {
+    final stored =
+        _box.get('mangaOnlineTranslationProvider', defaultValue: 'google')
+            as String;
+    return MangaOnlineTranslationProvider.values.firstWhere(
+      (provider) => provider.name == stored,
+      orElse: () => MangaOnlineTranslationProvider.google,
+    );
+  }
+
+  Future<void> setMangaOnlineTranslationProvider(
+    MangaOnlineTranslationProvider value,
+  ) => _box.put('mangaOnlineTranslationProvider', value.name);
+
   // ── Shared comfort (both readers) ──────────────────────────────────────
   /// Screen brightness override, 0..1, or -1 for "system" — i.e. no
   /// override, matching the player's own default and today's reader
   /// behavior (the reader has never touched brightness before this).
-  double get brightness =>
-      (_box.get('brightness', defaultValue: -1.0) as num)
-          .toDouble()
-          .clamp(-1.0, 1.0);
+  double get brightness => (_box.get('brightness', defaultValue: -1.0) as num)
+      .toDouble()
+      .clamp(-1.0, 1.0);
   Future<void> setBrightness(double value) =>
       _box.put('brightness', value.clamp(-1.0, 1.0));
 

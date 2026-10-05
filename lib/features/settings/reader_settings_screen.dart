@@ -1,11 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/di/injector.dart';
 import '../../core/reading/reader_prefs.dart';
+import '../../core/reading/manga_translation/manga_page_translation_models.dart';
+import '../../core/reading/manga_translation/manga_page_translation_service.dart';
+import '../../core/reading/manga_translation/manga_translation_languages.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
+import '../../core/ui/app_toast.dart';
 import '../../l10n/l10n.dart';
 import '../../core/ui/settings_widgets.dart';
+import '../reader/manga_page_translation_settings_sheet.dart';
+import '../reader/manga_translation_appearance_sheet.dart';
 import 'tap_zones_screen.dart';
 
 /// Global reader defaults — manga and novel. These are the same
@@ -27,6 +35,8 @@ class ReaderSettingsScreen extends StatefulWidget {
 
 class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
   ReaderPrefs get _prefs => sl<ReaderPrefs>();
+  final MangaPageTranslationService _translationService =
+      MangaPageTranslationService();
 
   static const List<(String, String)> _directionOptions = [
     ('ltr', 'Left to right'),
@@ -164,6 +174,85 @@ class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
     if (picked == null) return;
     await onPicked(picked);
     if (mounted) setState(() {});
+  }
+
+  Future<void> _openMangaTranslationSettings() async {
+    try {
+      final sourceLanguages = MangaTranslationLanguages.ocrIntersection(
+        await _translationService.supportedOcrLanguages(),
+      );
+      final offlineLanguages = MangaTranslationLanguages.offlineIntersection(
+        await _translationService.supportedOfflineLanguages(),
+      );
+      if (!mounted) return;
+      if (sourceLanguages.isEmpty) {
+        showAppToast(context, context.l10n.mangaTranslationError);
+        return;
+      }
+
+      final prefs = _prefs;
+      await showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (context) => MangaPageTranslationSettingsSheet(
+          sourceLanguages: sourceLanguages,
+          onlineTargetLanguages: MangaTranslationLanguages.online,
+          offlineTargetLanguages: offlineLanguages,
+          initialSourceLanguage: prefs.mangaTranslationSourceLanguage,
+          initialTargetLanguage: prefs.mangaTranslationTargetLanguage,
+          initialEngine: prefs.mangaTranslationEngine,
+          initialProvider: prefs.mangaOnlineTranslationProvider,
+          settingsOnly: true,
+          onSelectionChanged: (source, target, engine, provider) {
+            unawaited(
+              _persistMangaTranslationSelection(
+                prefs,
+                source,
+                target,
+                engine,
+                provider,
+              ),
+            );
+          },
+          onCheckProviderKey: _translationService.isProviderConfigured,
+          onSaveProviderKey: _translationService.saveProviderKey,
+          onDeleteProviderKey: _translationService.removeProviderKey,
+        ),
+      );
+    } on Object {
+      if (mounted) showAppToast(context, context.l10n.mangaTranslationError);
+    }
+  }
+
+  Future<void> _openMangaTranslationAppearanceSettings() async {
+    final prefs = _prefs;
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => MangaTranslationAppearanceSheet(prefs: prefs),
+    );
+  }
+
+  Future<void> _persistMangaTranslationSelection(
+    ReaderPrefs prefs,
+    String source,
+    String target,
+    MangaTranslationEngine engine,
+    MangaOnlineTranslationProvider provider,
+  ) async {
+    try {
+      await prefs.setMangaTranslationSourceLanguage(source);
+      await prefs.setMangaTranslationTargetLanguage(target);
+      await prefs.setMangaTranslationEngine(engine);
+      await prefs.setMangaOnlineTranslationProvider(provider);
+    } on Object {
+      // A failed preference write should not block the rest of Reader settings.
+    }
   }
 
   /// A boolean row — same shape as `PlaybackSettingsScreen._toggleRow`.
@@ -351,6 +440,17 @@ class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
                   await prefs.setFullscreen(v);
                   if (mounted) setState(() {});
                 },
+              ),
+              SettingsTile(
+                icon: Icons.translate_rounded,
+                title: context.l10n.mangaTranslationSettings,
+                onTap: _openMangaTranslationSettings,
+              ),
+              SettingsTile(
+                icon: Icons.palette_outlined,
+                title: context.l10n.mangaTranslationAppearance,
+                subtitle: context.l10n.mangaTranslationAppearanceSubtitle,
+                onTap: _openMangaTranslationAppearanceSettings,
               ),
             ],
           ),

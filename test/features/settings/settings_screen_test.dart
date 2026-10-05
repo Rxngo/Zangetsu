@@ -12,6 +12,7 @@ import 'package:watch_app/core/appwrite/appwrite_service.dart';
 import 'package:watch_app/core/download/download_prefs.dart';
 import 'package:watch_app/core/playback/playback_prefs.dart';
 import 'package:watch_app/core/playback/search_prefs.dart';
+import 'package:watch_app/core/reading/manga_translation/manga_page_translation_models.dart';
 import 'package:watch_app/core/reading/reader_prefs.dart';
 import 'package:watch_app/core/torrent/torrent_prefs.dart';
 import 'package:watch_app/core/provider/provider_registry.dart';
@@ -72,6 +73,48 @@ class _StubSimkl implements SimklService {
   bool get isConnected => false;
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
+}
+
+class _MangaTranslationReaderPrefs extends ReaderPrefs {
+  String sourceLanguage = 'ja';
+  String targetLanguage = 'en';
+  MangaTranslationEngine engine = MangaTranslationEngine.online;
+  MangaOnlineTranslationProvider provider =
+      MangaOnlineTranslationProvider.google;
+
+  @override
+  String get mangaTranslationSourceLanguage => sourceLanguage;
+
+  @override
+  Future<void> setMangaTranslationSourceLanguage(String value) async {
+    sourceLanguage = value;
+  }
+
+  @override
+  String get mangaTranslationTargetLanguage => targetLanguage;
+
+  @override
+  Future<void> setMangaTranslationTargetLanguage(String value) async {
+    targetLanguage = value;
+  }
+
+  @override
+  MangaTranslationEngine get mangaTranslationEngine => engine;
+
+  @override
+  Future<void> setMangaTranslationEngine(MangaTranslationEngine value) async {
+    engine = value;
+  }
+
+  @override
+  MangaOnlineTranslationProvider get mangaOnlineTranslationProvider => provider;
+
+  @override
+  Future<void> setMangaOnlineTranslationProvider(
+    MangaOnlineTranslationProvider value,
+  ) async {
+    provider = value;
+  }
 }
 
 void _mockPathProvider(WidgetTester tester) {
@@ -207,6 +250,101 @@ void main() {
 
     expect(find.text('MANGA'), findsOneWidget);
     expect(find.text('NOVEL'), findsOneWidget);
+  });
+
+  testWidgets('Manga page translation is configurable in Reader settings', (
+    tester,
+  ) async {
+    final translationPrefs = _MangaTranslationReaderPrefs();
+    GetIt.instance
+      ..unregister<ReaderPrefs>()
+      ..registerSingleton<ReaderPrefs>(translationPrefs);
+
+    const translationChannel = MethodChannel('zangetsu/manga_translation');
+    final methodCalls = <String>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      translationChannel,
+      (call) async {
+        methodCalls.add(call.method);
+        return switch (call.method) {
+          'supportedOcrLanguages' ||
+          'supportedOfflineLanguages' => ['ja', 'en', 'hi'],
+          _ => null,
+        };
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        translationChannel,
+        null,
+      ),
+    );
+
+    await _pumpSettings(tester);
+
+    await tester.tap(find.text('Reading'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Reader'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Manga page translation'), findsOneWidget);
+    await tester.tap(find.text('Manga page translation'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Translate page'), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('manga-translation-source')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-target')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-submit')),
+      findsNothing,
+    );
+
+    await tester.tap(find.byKey(const ValueKey('manga-translation-source')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('manga-language-hi')));
+    await tester.pumpAndSettle();
+    Navigator.of(
+      tester.element(find.byKey(const ValueKey('manga-translation-source'))),
+    ).pop();
+    await tester.pumpAndSettle();
+
+    expect(translationPrefs.mangaTranslationSourceLanguage, 'hi');
+    expect(methodCalls, ['supportedOcrLanguages', 'supportedOfflineLanguages']);
+    expect(methodCalls, isNot(contains('recognize')));
+    expect(methodCalls, isNot(contains('translateTexts')));
+    expect(methodCalls, isNot(contains('downloadModels')));
+  });
+
+  testWidgets('Manga translation appearance opens from Reader settings', (
+    tester,
+  ) async {
+    await _pumpSettings(tester);
+
+    await tester.tap(find.text('Reading'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Reader'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Manga translation appearance'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-preview')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-size')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-opacity')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('search cuts across every section (flat filtered list)',

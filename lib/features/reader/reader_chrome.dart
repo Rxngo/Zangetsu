@@ -461,6 +461,7 @@ class ReaderSegmentedControl extends StatelessWidget {
     required this.options,
     required this.selected,
     required this.onSelect,
+    this.enabled = true,
   });
 
   /// Each segment's underlying value + display label. `selected` is compared
@@ -468,10 +469,11 @@ class ReaderSegmentedControl extends StatelessWidget {
   final List<({String value, String label})> options;
   final String selected;
   final ValueChanged<String> onSelect;
+  final bool enabled;
 
   static final _labelStyle = TextStyle(
     fontFamily: AppText.fontFamily,
-          fontFamilyFallback: AppText.fontFamilyFallback,
+    fontFamilyFallback: AppText.fontFamilyFallback,
     fontSize: 12.5,
     fontWeight: FontWeight.w600,
   );
@@ -540,7 +542,7 @@ class ReaderSegmentedControl extends StatelessWidget {
     return Material(
       color: isSelected ? AppColors.accent : Colors.transparent,
       child: InkWell(
-        onTap: () => onSelect(o.value),
+        onTap: enabled ? () => onSelect(o.value) : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
           child: Text(

@@ -456,6 +456,13 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
                 }
             }
 
+        // Manga page OCR/offline translation. Kept on its own method channel so
+        // the reader feature does not alter player or source bridge behavior.
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "zangetsu/manga_translation",
+        ).setMethodCallHandler(MangaTranslationBridge(applicationContext))
+
         // External-player channel: list installed players + hand a stream off to
         // one via ACTION_VIEW (URL + headers + subtitles + title).
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "zangetsu/external_player")

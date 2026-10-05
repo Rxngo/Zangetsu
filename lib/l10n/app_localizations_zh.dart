@@ -5157,6 +5157,182 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get keepDownloadsPrivateSubtitle =>
       'New video downloads stay inside Zangetsu instead of the Downloads folder. They are deleted when you uninstall Zangetsu. Chapters and exports are unaffected.';
+
+  @override
+  String get mangaPageTranslationTitle => 'Translate page';
+
+  @override
+  String get mangaTranslationSourceLanguage => 'Source language';
+
+  @override
+  String get mangaTranslationTargetLanguage => 'Target language';
+
+  @override
+  String get mangaTranslationEngine => 'Engine';
+
+  @override
+  String get mangaTranslationSection => 'Translation';
+
+  @override
+  String get mangaTranslationSettings => 'Manga page translation';
+
+  @override
+  String get mangaTranslationProvider => 'Online provider';
+
+  @override
+  String get mangaTranslationGoogle => 'Google';
+
+  @override
+  String get mangaTranslationGemini => 'Gemini';
+
+  @override
+  String get mangaTranslationGroq => 'Groq';
+
+  @override
+  String get mangaTranslationApiKey => 'API key';
+
+  @override
+  String get mangaTranslationApiKeyTitle => 'Set API key';
+
+  @override
+  String get mangaTranslationApiKeyHint => 'Paste your provider API key';
+
+  @override
+  String get mangaTranslationAddApiKey => 'Add API key';
+
+  @override
+  String get mangaTranslationChangeApiKey => 'Change key';
+
+  @override
+  String get mangaTranslationRemoveApiKey => 'Remove API key';
+
+  @override
+  String get mangaTranslationApiKeySaved => 'API key saved securely';
+
+  @override
+  String get mangaTranslationApiKeyMissing =>
+      'Add an API key for this provider to translate.';
+
+  @override
+  String get mangaTranslationProviderBillingNote =>
+      'Only recognized text is sent to this provider. Usage may be subject to your provider account\'s limits and charges.';
+
+  @override
+  String get mangaTranslationInvalidApiKey =>
+      'The provider rejected this API key. Check it and try again.';
+
+  @override
+  String get mangaTranslationRateLimited =>
+      'The provider limit was reached. Check your provider account or try again later.';
+
+  @override
+  String get mangaTranslationProviderError =>
+      'The provider could not translate this page. Check your connection and provider setup.';
+
+  @override
+  String get mangaTranslationInvalidResponse =>
+      'The provider returned an unreadable translation. Try again.';
+
+  @override
+  String get mangaTranslationApiKeySaveFailed =>
+      'Could not save the API key securely. Try again.';
+
+  @override
+  String get mangaTranslationOnline => 'Online';
+
+  @override
+  String get mangaTranslationOffline => 'Offline';
+
+  @override
+  String get mangaTranslationAction => 'Translate chapter';
+
+  @override
+  String get mangaTranslationTurnOff => 'Turn translation off';
+
+  @override
+  String get mangaTranslationRetryFailed => 'Retry failed pages';
+
+  @override
+  String get mangaTranslationContinue => 'Continue translation';
+
+  @override
+  String get mangaTranslationStop => 'Stop translation';
+
+  @override
+  String get mangaTranslationInProgress => 'Translating…';
+
+  @override
+  String get mangaTranslationSuccess => 'Translation ready';
+
+  @override
+  String get mangaTranslationError => 'Translation failed';
+
+  @override
+  String get mangaTranslationNoResult => 'No translation result was returned';
+
+  @override
+  String get mangaTranslationModelConsentTitle => 'Prepare translation?';
+
+  @override
+  String get mangaTranslationOnlineModelConsent =>
+      'The on-device OCR component may need to download before this page can be read. The page image stays on your device. Online translation sends only recognized text to the translation service.';
+
+  @override
+  String get mangaTranslationOfflineModelConsent =>
+      'On-device OCR and language models may need to download. The page image and recognized text stay on your device, and translation runs offline.';
+
+  @override
+  String get mangaTranslationDownloadingOcr => 'Downloading OCR';
+
+  @override
+  String get mangaTranslationDownloadingOfflineModels =>
+      'Downloading OCR and translation models';
+
+  @override
+  String get mangaTranslationDownloadingMessage =>
+      'This may take a little while. Translation will start automatically when the download finishes.';
+
+  @override
+  String get mangaTranslationRestartRequiredTitle => 'Restart required';
+
+  @override
+  String get mangaTranslationRestartRequiredMessage =>
+      'Close and reopen Zangetsu to finish setting up on-device OCR, then try again.';
+
+  @override
+  String get mangaTranslationSearchLanguages => 'Search languages';
+
+  @override
+  String get mangaTranslationNoLanguages => 'No languages available';
+
+  @override
+  String get mangaTranslationNoLanguageMatch => 'No matching languages';
+
+  @override
+  String get mangaTranslationAppearance => 'Manga translation appearance';
+
+  @override
+  String get mangaTranslationAppearanceSubtitle =>
+      'Text size, text colour and background';
+
+  @override
+  String get mangaTranslationBackgroundColour => 'Background colour';
+
+  @override
+  String get mangaTranslationBackgroundOpacity => 'Background opacity';
+
+  @override
+  String get mangaTranslationPreview => 'Translation preview';
+
+  @override
+  String get mangaTranslationAppearanceFitNote =>
+      'Long text may scale down to stay inside its detected area and avoid overlap.';
+
+  @override
+  String get mangaTranslationShowOriginal => 'Show original page';
+
+  @override
+  String get mangaTranslationShowTranslations => 'Show translations';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
