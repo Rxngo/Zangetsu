@@ -2,45 +2,43 @@ import UIKit
 import Flutter
 
 @main
-class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
     private var tvPlayerChannel: FlutterMethodChannel?
 
     override func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        let flutterViewController = FlutterViewController(project: nil, nibName: nil, bundle: nil)
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = flutterViewController
-        window.makeKeyAndVisible()
-        self.window = window
-
-        GeneratedPluginRegistrant.register(with: self)
-        Self.registerDeviceChannel(with: flutterViewController.binaryMessenger)
-        Self.registerNovelHttp(with: flutterViewController.binaryMessenger)
-        registerTvPlayerChannel(with: flutterViewController)
-
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
+
+    func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
+        GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+
+        let messenger = engineBridge.applicationRegistrar.messenger()
+        Self.registerDeviceChannel(with: messenger)
+        Self.registerNovelHttp(with: messenger)
+        registerTvPlayerChannel(with: messenger)
     }
 
     /// Bidirectional bridge for the native AVKit player.
     /// Dart→native: `launch`, `setFillerInfo`. Native→Dart uses the same
     /// channel via `invokeMethod` (resolveEpisode / saveProgress / …).
-    private func registerTvPlayerChannel(with flutterVC: FlutterViewController) {
+    private func registerTvPlayerChannel(with messenger: FlutterBinaryMessenger) {
         let channel = FlutterMethodChannel(
             name: "zangetsu/tv_player",
-            binaryMessenger: flutterVC.binaryMessenger
+            binaryMessenger: messenger
         )
         tvPlayerChannel = channel
-        channel.setMethodCallHandler { [weak flutterVC] call, result in
-            guard let flutterVC else {
-                result(FlutterError(code: "no_vc", message: "Flutter VC gone", details: nil))
-                return
-            }
+        channel.setMethodCallHandler { call, result in
             switch call.method {
             case "launch":
                 guard let args = call.arguments as? [String: Any] else {
                     result(FlutterError(code: "bad_args", message: "map required", details: nil))
+                    return
+                }
+                guard let flutterVC = Self.flutterViewController() else {
+                    result(FlutterError(code: "no_vc", message: "Flutter VC gone", details: nil))
                     return
                 }
                 if TvSystemPlayerViewController.active != nil {
@@ -62,6 +60,14 @@ class AppDelegate: FlutterAppDelegate {
                 result(FlutterMethodNotImplemented)
             }
         }
+    }
+
+    private static func flutterViewController() -> FlutterViewController? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .compactMap { $0.rootViewController as? FlutterViewController }
+            .first
     }
 
     /// Same channel Android uses for leanback detection. Always true here —
