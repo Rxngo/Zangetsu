@@ -53,7 +53,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "de": [
@@ -224,7 +232,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "es": [
@@ -395,7 +411,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "fr": [
@@ -566,7 +590,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "id": [
@@ -623,7 +655,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "it": [
@@ -794,7 +834,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "ja": [
@@ -965,7 +1013,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "pt": [
@@ -1022,7 +1078,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "tr": [
@@ -1079,7 +1143,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "zh": [
@@ -1250,7 +1322,15 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ],
 
   "zh_TW": [
@@ -1421,6 +1501,14 @@
     "mangaTranslationRestartRequiredMessage",
     "mangaTranslationSearchLanguages",
     "mangaTranslationNoLanguages",
-    "mangaTranslationNoLanguageMatch"
+    "mangaTranslationNoLanguageMatch",
+    "mangaTranslationAppearance",
+    "mangaTranslationAppearanceSubtitle",
+    "mangaTranslationBackgroundColour",
+    "mangaTranslationBackgroundOpacity",
+    "mangaTranslationPreview",
+    "mangaTranslationAppearanceFitNote",
+    "mangaTranslationShowOriginal",
+    "mangaTranslationShowTranslations"
   ]
 }
