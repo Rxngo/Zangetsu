@@ -230,6 +230,34 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
     MediaDetail detail,
     String category,
   ) async {
+    // Same as the phone screen: a finished download plays from disk first.
+    if (index >= 0 && index < episodes.length) {
+      final ep = episodes[index];
+      final dl = await sl<DownloadManager>().finishedForEpisode(
+        sourceId: widget.item.sourceId,
+        showId: widget.item.id,
+        episodeId: ep.id,
+        episodeUrl: ep.url,
+        malId: detail.malId ?? widget.item.malId,
+        episodeNumber: ep.number,
+      );
+      if (dl != null) {
+        if (!mounted) return;
+        await launchDownloadedEpisode(
+          context,
+          dl,
+          episodes: episodes,
+          startIndex: index,
+          fallbackResolveSources: (url) => sl<CatalogueRepository>().sources(
+            url,
+            sourceId: widget.item.sourceId,
+            fast: true,
+          ),
+        );
+        return;
+      }
+    }
+    if (!mounted) return;
     // Same as the phone screen: name the source that stops short of this
     // episode and let the viewer choose the sweep rather than imposing it
     // (see [Episode.unavailable]). Re-applied on top of the TV rewrite.

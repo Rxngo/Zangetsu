@@ -3,6 +3,13 @@ import 'dart:async';
 import '../../core/models/video_source.dart';
 import '../../core/playback/source_selection.dart';
 
+/// Whether a Z-mode episode should be resolved through its progressive sweep.
+/// A preferred local source, when available, should be opened first instead.
+bool shouldUseProgressivePlayback({
+  required bool progressiveAvailable,
+  required bool hasLocalSource,
+}) => progressiveAvailable && !hasLocalSource;
+
 /// Polls a provider's existing resolution session briefly for late mirrors.
 /// Links already returned are retained and duplicate URLs are ignored.
 Future<List<VideoSource>> collectLatePlaybackMirrors({

@@ -4519,6 +4519,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notAvailableOfflineYet => 'Henüz çevrimdışı kullanılamıyor';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'Kuyrukta';
 
   @override

@@ -314,6 +314,17 @@ class _FakeDownloadManager extends ChangeNotifier implements DownloadManager {
   @override
   DownloadRecord? recordFor(String sourceId, String showId, String episodeId) =>
       null;
+
+  @override
+  Future<DownloadRecord?> finishedForEpisode({
+    required String sourceId,
+    required String showId,
+    required String episodeId,
+    String? episodeUrl,
+    int? malId,
+    double? episodeNumber,
+  }) async =>
+      null;
 }
 
 /// Never resolves a trailer — keeps the hero on its static (empty-cover)

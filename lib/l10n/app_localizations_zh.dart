@@ -4377,6 +4377,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notAvailableOfflineYet => '尚不支持离线使用';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => '排队';
 
   @override

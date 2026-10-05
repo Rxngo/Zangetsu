@@ -4522,6 +4522,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get notAvailableOfflineYet => 'Belum tersedia luring';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'Dalam antrean';
 
   @override

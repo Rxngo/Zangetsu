@@ -4544,6 +4544,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notAvailableOfflineYet => 'Pas encore disponible hors ligne';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'En file d\'attente';
 
   @override

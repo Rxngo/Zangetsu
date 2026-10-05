@@ -34,6 +34,17 @@ class _FakeDownloadManager extends ChangeNotifier implements DownloadManager {
       null;
 
   @override
+  Future<DownloadRecord?> finishedForEpisode({
+    required String sourceId,
+    required String showId,
+    required String episodeId,
+    String? episodeUrl,
+    int? malId,
+    double? episodeNumber,
+  }) async =>
+      null;
+
+  @override
   void setup() {}
 
   @override

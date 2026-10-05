@@ -25,6 +25,7 @@ import 'open_related.dart';
 import '../../core/ui/episode_unavailable_dialog.dart';
 import '../../core/zmode/playback_resolver.dart';
 import 'episode_sources_sheet.dart';
+import '../downloads/downloads_screen.dart';
 import 'epub_export_sheet.dart';
 import 'chapter_download_range_sheet.dart';
 import 'chapter_download_selection.dart';
@@ -1209,6 +1210,42 @@ class _DetailViewState extends State<_DetailView>
     /// adaptive default. One-shot — the cubit clears it after this episode.
     VideoSource? initialSource,
   }) async {
+    // A finished download of this exact episode plays from disk — no sweep,
+    // no links, no waiting. Exact keys first, then the source episode URL,
+    // then MAL id + number — so a file saved from a source page is still
+    // found from the metadata page and back.
+    if (initialSource == null && index >= 0 && index < episodes.length) {
+      final ep = episodes[index];
+      final dl = await sl<DownloadManager>().finishedForEpisode(
+        sourceId: widget.item.sourceId,
+        showId: widget.item.id,
+        episodeId: ep.id,
+        episodeUrl: ep.url,
+        malId: detail.malId ?? widget.item.malId,
+        episodeNumber: ep.number,
+      );
+      if (dl != null) {
+        if (!mounted) return;
+        await launchDownloadedEpisode(
+          context,
+          dl,
+          episodes: episodes,
+          startIndex: index,
+          fallbackResolveSources: (url) => sl<CatalogueRepository>().sources(
+            url,
+            sourceId: widget.item.sourceId,
+            fast: true,
+          ),
+          pollSources: (url) => sl<CatalogueRepository>().polledSources(
+            url,
+            sourceId: widget.item.sourceId,
+          ),
+          playerOverride: playerOverride?.package,
+        );
+        return;
+      }
+    }
+    if (!mounted) return;
     // The catalogue lists this episode but the one source we checked stops
     // short of it (see [Episode.unavailable]). Say which source, and let the
     // viewer decide whether to spend the sweep — asking every installed

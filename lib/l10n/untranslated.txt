@@ -6,7 +6,8 @@
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
     "findChapter",
-    "favourites"
+    "favourites",
+    "downloadFileGone"
   ],
 
   "de": [
@@ -59,6 +60,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -183,6 +185,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -307,6 +310,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -388,7 +392,8 @@
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
     "findChapter",
-    "favourites"
+    "favourites",
+    "downloadFileGone"
   ],
 
   "it": [
@@ -441,6 +446,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -565,6 +571,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -646,7 +653,8 @@
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
     "findChapter",
-    "favourites"
+    "favourites",
+    "downloadFileGone"
   ],
 
   "tr": [
@@ -656,7 +664,8 @@
     "tvDecoderHardwareFirst",
     "tvDecoderSoftwareFirst",
     "findChapter",
-    "favourites"
+    "favourites",
+    "downloadFileGone"
   ],
 
   "zh": [
@@ -709,6 +718,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",
@@ -833,6 +843,7 @@
     "markedChaptersAsRead",
     "splashStyle",
     "splashStyleBlurb",
+    "downloadFileGone",
     "downloadFinalizing",
     "zMode",
     "zModeSubtitle",

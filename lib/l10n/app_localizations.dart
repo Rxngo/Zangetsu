@@ -7942,6 +7942,12 @@ abstract class AppLocalizations {
   /// **'Not available offline yet'**
   String get notAvailableOfflineYet;
 
+  /// No description provided for @downloadFileGone.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is gone — it may have been deleted outside the app'**
+  String get downloadFileGone;
+
   /// No description provided for @downloadQueued.
   ///
   /// In en, this message translates to:

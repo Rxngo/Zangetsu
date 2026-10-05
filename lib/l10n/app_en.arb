@@ -2507,6 +2507,7 @@
 	"connectionsPerDownloadSubtitle": "Segment connections an episode uses, and pages fetched at once in a chapter. Higher = faster, more data at once.",
 	"savingToYourFolder": "Saving to your folder…",
 	"notAvailableOfflineYet": "Not available offline yet",
+	"downloadFileGone": "That file is gone — it may have been deleted outside the app",
 	"downloadQueued": "Queued",
 	"downloadPreparing": "Preparing…",
 	"downloadFinalizing": "Processing…",

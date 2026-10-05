@@ -320,6 +320,60 @@ class DownloadManager extends ChangeNotifier {
   DownloadRecord? recordFor(String sourceId, String showId, String episodeId) =>
       _records[_idFor(sourceId, showId, episodeId)];
 
+  /// Finished download for this episode, even when today's title page differs
+  /// from the one it was saved from (source page then, metadata page now —
+  /// the keys embed the opening page). Exact keys first; then the source
+  /// episode URL (identical URL = identical file); then MAL id + episode
+  /// number. Title-only matching is deliberately absent: remakes share
+  /// titles, and playing the wrong file is worse than streaming.
+  Future<DownloadRecord?> finishedForEpisode({
+    required String sourceId,
+    required String showId,
+    required String episodeId,
+    String? episodeUrl,
+    int? malId,
+    double? episodeNumber,
+  }) async {
+    final exact = recordFor(sourceId, showId, episodeId);
+    if (exact != null && await filePresent(exact)) return exact;
+    final candidates = <DownloadRecord>[];
+    for (final r in _records.values) {
+      if (r.status != DownloadStatus.done) continue;
+      if (episodeUrl != null &&
+          episodeUrl.isNotEmpty &&
+          r.episodeUrl == episodeUrl) {
+        candidates.insert(0, r);
+        continue;
+      }
+      if (malId != null &&
+          r.malId == malId &&
+          episodeNumber != null &&
+          r.episodeNumber == episodeNumber) {
+        candidates.add(r);
+      }
+    }
+    for (final r in candidates) {
+      if (await filePresent(r)) return r;
+    }
+    return null;
+  }
+
+  /// True when a finished record's file is still on disk and playable.
+  /// Same leniency as [pruneMissing]: a content:// URI that can't be checked
+  /// counts as present, so a transient SAF failure never reads as deleted.
+  /// Read-only: never prunes, moves, or rewrites anything.
+  Future<bool> filePresent(DownloadRecord rec) async {
+    if (rec.status != DownloadStatus.done) return false;
+    final fp = rec.filePath;
+    if (fp == null || fp.isEmpty) return false;
+    try {
+      if (isUriPath(fp)) return await _documentExists(fp);
+      return await File(fp).exists();
+    } catch (_) {
+      return false;
+    }
+  }
+
   // ── Enqueue ───────────────────────────────────────────────────────────────
 
   /// Persist a [DownloadStatus.queued] record for each episode, then resolve +

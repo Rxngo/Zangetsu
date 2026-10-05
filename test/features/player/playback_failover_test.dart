@@ -68,4 +68,28 @@ void main() {
     expect(fallback?.url, 'https://example.test/unknown');
     expect(fallback?.kind, AudioKind.unknown);
   });
+
+  test('a saved local source takes precedence over progressive resolution', () {
+    expect(
+      shouldUseProgressivePlayback(
+        progressiveAvailable: true,
+        hasLocalSource: true,
+      ),
+      isFalse,
+    );
+    expect(
+      shouldUseProgressivePlayback(
+        progressiveAvailable: true,
+        hasLocalSource: false,
+      ),
+      isTrue,
+    );
+    expect(
+      shouldUseProgressivePlayback(
+        progressiveAvailable: false,
+        hasLocalSource: false,
+      ),
+      isFalse,
+    );
+  });
 }

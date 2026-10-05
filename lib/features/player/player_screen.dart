@@ -141,6 +141,8 @@ class PlayerScreen extends StatefulWidget {
     required this.sourceId,
     required this.resume,
     required this.resolveSources,
+    this.resolveDownloadedSources,
+    this.localOnly = false,
     this.pollSources,
     this.episodes = const [],
     this.startIndex = 0,
@@ -180,6 +182,15 @@ class PlayerScreen extends StatefulWidget {
   final String sourceId;
   final ResumeStore resume;
   final Future<List<VideoSource>> Function(String episodeUrl) resolveSources;
+
+  /// Resolves a finished local download for an episode, if one exists.
+  /// Checked before Z-mode's progressive online resolver.
+  final Future<List<VideoSource>?> Function(String episodeUrl)?
+  resolveDownloadedSources;
+
+  /// A Downloads-screen session must never substitute an online stream if its
+  /// local file disappears between the tile check and player startup.
+  final bool localOnly;
 
   /// Optional reader for links that finish resolving AFTER [resolveSources]
   /// returned. That call comes back on the first usable link so playback starts
@@ -1052,6 +1063,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
       episodes: eps,
       resume: widget.resume,
       resolveSources: widget.resolveSources,
+      resolveDownloadedSources: widget.resolveDownloadedSources,
+      localOnly: widget.localOnly,
       pollSources: widget.pollSources,
       dio: sl<Dio>(),
       history: widget.history,

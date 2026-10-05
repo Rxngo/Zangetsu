@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../../core/ui/app_dialog.dart';
+import '../../core/ui/app_toast.dart';
 import '../../core/ui/settings_widgets.dart';
 
 import '../../core/app_mode.dart';
@@ -25,6 +26,7 @@ import '../../l10n/l10n.dart';
 import '../settings/download_location_screen.dart';
 import '../player/player_screen.dart';
 import '../player/tv_playback_launch.dart';
+import 'downloaded_episode_playback.dart';
 import 'chapter_downloads_screen.dart';
 import 'downloads_screen_tv.dart';
 
@@ -660,42 +662,83 @@ class _ShowGroup extends StatelessWidget {
 /// ExoPlayer paths streaming already uses, so nothing on TV touches media_kit.
 Future<void> launchDownloadedEpisode(
   BuildContext context,
-  DownloadRecord record,
-) async {
+  DownloadRecord record, {
+  List<Episode>? episodes,
+  int startIndex = 0,
+  Future<List<VideoSource>> Function(String episodeUrl)? fallbackResolveSources,
+  Future<({List<VideoSource> sources, bool done})> Function(String episodeUrl)?
+  pollSources,
+  String? playerOverride,
+}) async {
   final path = record.filePath;
   if (path == null) return;
-  final ep = Episode(
-    id: record.episodeId,
-    title: record.episodeTitle,
-    number: record.episodeNumber,
-    url: record.episodeUrl,
+  // A record whose file was removed outside the app must say so — not play.
+  // Without this, the player treats the dead file as a dead mirror and
+  // hunts online links for a download the viewer asked to play offline.
+  final manager = sl<DownloadManager>();
+  if (!await manager.filePresent(record)) {
+    if (context.mounted) {
+      showAppToast(context, context.l10n.downloadFileGone);
+    }
+    return;
+  }
+  if (!context.mounted) return;
+  final queue = downloadedEpisodePlaybackQueue(
+    record: record,
+    episodes: episodes,
+    startIndex: startIndex,
   );
-  // The file is already on disk, so "resolving" is just handing back a source
-  // pointing at it — same shape both players expect from a network resolve.
-  Future<List<VideoSource>> resolveSources(String _) async => [
-    VideoSource(
-      url: path,
-      container: SourceContainer.mp4,
-      // Soft subs saved next to the video (e.g. HiAnime) → load from disk.
-      subtitles: [
-        for (final s in record.subtitles)
-          Subtitle(
-            url: s.path,
-            lang: s.lang,
-            label: s.label,
-            isDefault: s.isDefault,
-          ),
-      ],
-    ),
-  ];
+  final selectedEpisodeUrl = queue.episodes[queue.startIndex].url;
+
+  Future<List<VideoSource>?> resolveDownloadedSources(String episodeUrl) async {
+    Episode? episode;
+    for (final candidate in queue.episodes) {
+      if (candidate.url == episodeUrl) {
+        episode = candidate;
+        break;
+      }
+    }
+    if (episode == null) return null;
+
+    // Keep the selected saved record authoritative even when today's provider
+    // has regenerated its opaque episode id or URL. Other queue entries are
+    // matched against their source/show keys and stable episode metadata.
+    DownloadRecord? downloaded;
+    if (episodeUrl == selectedEpisodeUrl) {
+      downloaded = record;
+    } else {
+      downloaded = await manager.finishedForEpisode(
+        sourceId: record.sourceId,
+        showId: record.showId,
+        episodeId: episode.id,
+        episodeUrl: episode.url,
+        malId: record.malId,
+        episodeNumber: episode.number,
+      );
+    }
+    if (downloaded == null || !await manager.filePresent(downloaded)) {
+      return null;
+    }
+    return [downloadedVideoSource(downloaded)];
+  }
+
+  // External players and TV call this resolver directly. The in-app phone
+  // player checks the dedicated local callback before any progressive sweep.
+  // Downloads itself intentionally has no network fallback.
+  Future<List<VideoSource>> resolveSources(String episodeUrl) async {
+    final local = await resolveDownloadedSources(episodeUrl);
+    if (local != null) return local;
+    return await fallbackResolveSources?.call(episodeUrl) ?? const [];
+  }
+
   final scrobbleTitle = record.malId != null ? record.showTitle : null;
 
   if (sl<AppMode>().isTv) {
     await launchTvPlayback(
       context: context,
       sourceId: record.sourceId,
-      episodes: [ep],
-      startIndex: 0,
+      episodes: queue.episodes,
+      startIndex: queue.startIndex,
       resume: sl<ResumeStore>(),
       resolveSources: resolveSources,
       showUrl: record.showUrl,
@@ -713,10 +756,13 @@ Future<void> launchDownloadedEpisode(
     MaterialPageRoute(
       builder: (_) => PlayerScreen(
         sourceId: record.sourceId,
-        episodes: [ep],
-        startIndex: 0,
+        episodes: queue.episodes,
+        startIndex: queue.startIndex,
         resume: sl<ResumeStore>(),
         resolveSources: resolveSources,
+        resolveDownloadedSources: resolveDownloadedSources,
+        localOnly: fallbackResolveSources == null,
+        pollSources: pollSources,
         history: sl<WatchHistory>(),
         showTitle: record.showTitle,
         cover: record.cover,
@@ -725,6 +771,7 @@ Future<void> launchDownloadedEpisode(
         category: record.category,
         malId: record.malId,
         scrobbleTitle: scrobbleTitle,
+        playerOverride: playerOverride,
       ),
     ),
   );

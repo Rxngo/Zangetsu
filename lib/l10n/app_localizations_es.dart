@@ -4534,6 +4534,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notAvailableOfflineYet => 'Aún no está disponible sin conexión.';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'Puesto en cola';
 
   @override

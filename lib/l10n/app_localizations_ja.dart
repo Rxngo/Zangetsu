@@ -4416,6 +4416,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notAvailableOfflineYet => 'オフラインではまだ利用できません';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'キューに登録';
 
   @override

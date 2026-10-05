@@ -4502,6 +4502,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notAvailableOfflineYet => 'Not available offline yet';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'Queued';
 
   @override

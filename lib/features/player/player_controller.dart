@@ -243,6 +243,9 @@ class PlayerCubit extends Cubit<PlayerState> {
     required this.resume,
     required Future<List<VideoSource>> Function(String episodeUrl)
     resolveSources,
+    Future<List<VideoSource>?> Function(String episodeUrl)?
+    resolveDownloadedSources,
+    this.localOnly = false,
     Future<({List<VideoSource> sources, bool done})> Function(
       String episodeUrl,
     )?
@@ -265,6 +268,7 @@ class PlayerCubit extends Cubit<PlayerState> {
     this.initialSource,
     this.onDrmSource,
   }) : _resolveSources = resolveSources,
+       _resolveDownloadedSources = resolveDownloadedSources,
        _pollSources = pollSources,
        _dio = dio,
        _activeCategory = category ?? 'sub',
@@ -277,6 +281,13 @@ class PlayerCubit extends Cubit<PlayerState> {
   List<Episode> episodes;
   final ResumeStore resume;
   final Future<List<VideoSource>> Function(String episodeUrl) _resolveSources;
+
+  final Future<List<VideoSource>?> Function(String episodeUrl)?
+  _resolveDownloadedSources;
+
+  /// True only for the Downloads screen, where a missing local file is an
+  /// error rather than a request to find an online substitute.
+  final bool localOnly;
 
   /// Reads the links that have arrived since [_resolveSources] returned.
   /// Optional — null keeps the previous behaviour exactly (one batch, no poll).
@@ -492,6 +503,10 @@ class PlayerCubit extends Cubit<PlayerState> {
   // reason to cycle sources (which spuriously showed "No source could be
   // played" over working playback and broke the watch-progress scrobble).
   bool _startedThisSource = false;
+
+  /// True while the open source is a local file (download). Read by
+  /// [_tryNextSource]; set on every [_open].
+  bool _openedLocalFile = false;
 
   /// True once ANY source has actually produced picture in this player
   /// session, unlike [_startedThisSource] which resets on every source switch.
@@ -2089,7 +2104,23 @@ class PlayerCubit extends Cubit<PlayerState> {
     }
     try {
       final epUrl = _episodeUrl(currentEpisode);
-      if (_useProgressive(epUrl)) {
+      final downloaded = await _resolveDownloadedSources?.call(epUrl);
+      if (gen != _gen || isClosed) return;
+      final hasLocalSource = downloaded != null && downloaded.isNotEmpty;
+      final useProgressive = shouldUseProgressivePlayback(
+        progressiveAvailable: _useProgressive(epUrl),
+        hasLocalSource: hasLocalSource,
+      );
+      if (hasLocalSource) {
+        await _openResolved(downloaded, gen);
+      } else if (localOnly) {
+        emit(
+          state.copyWith(
+            loadingSources: false,
+            error: () => 'No playable sources for this episode.',
+          ),
+        );
+      } else if (useProgressive) {
         await _openProgressive(epUrl, gen);
       } else {
         final resolved = await _resolveNoted(epUrl);
@@ -2290,7 +2321,9 @@ class PlayerCubit extends Cubit<PlayerState> {
     // Playback is running — collect the mirrors that resolved after the fast
     // return, so the Sources sheet ends up complete. Started here rather than
     // alongside the open above so it can't compete with the stream starting.
-    unawaited(_pollForMoreSources(_episodeUrl(currentEpisode)));
+    if (!_openedLocalFile) {
+      unawaited(_pollForMoreSources(_episodeUrl(currentEpisode)));
+    }
     if (roomRole == RoomRole.host)
       onLocalPlayback?.call('episode', Duration.zero);
     return true;
@@ -2662,6 +2695,12 @@ class PlayerCubit extends Cubit<PlayerState> {
     }
     _startTimer?.cancel();
     _startedThisSource = false; // reset; set true once this source plays
+    // Remember local-file playback for [_tryNextSource]: only plain paths and
+    // file/content URIs count — http(s), including torrent-resolved local
+    // servers, keeps today's failover behaviour.
+    final scheme = Uri.tryParse(s.url)?.scheme.toLowerCase() ?? '';
+    _openedLocalFile =
+        scheme.isEmpty || scheme == 'file' || scheme == 'content';
     // A source that never produces a frame and emits no error (a 403 HLS
     // playlist mpv retries forever) used to spin forever: the error listener
     // needs an error event and the stall watchdog needs a started source, so
@@ -3015,6 +3054,16 @@ class PlayerCubit extends Cubit<PlayerState> {
   ///
   /// Returns true when something new is playing.
   Future<bool> _tryNextSource() async {
+    // Local-file playback never sweeps the network: a download that won't
+    // open is reported as-is instead of hunting online mirrors for a file
+    // the viewer asked to play offline.
+    if (_openedLocalFile) {
+      debugPrint(
+        '[player] source failover · local file failed — not substituting '
+        'a network source',
+      );
+      return false;
+    }
     final url = showUrl;
     if (url == null ||
         !ZmodeIds.isZ(url) ||

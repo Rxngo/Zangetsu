@@ -4548,6 +4548,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notAvailableOfflineYet => 'غير متاح بدون اتصال بعد';
 
   @override
+  String get downloadFileGone =>
+      'That file is gone — it may have been deleted outside the app';
+
+  @override
   String get downloadQueued => 'في قائمة الانتظار';
 
   @override
