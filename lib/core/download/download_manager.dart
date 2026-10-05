@@ -25,6 +25,7 @@ import 'download_prefs.dart';
 import 'hls_downloader.dart';
 import 'download_record.dart';
 import 'download_service.dart';
+import 'external_subtitle_export.dart';
 import 'video_destination.dart';
 
 /// Owns offline downloads. Direct-file (MP4/MKV) sources go through
@@ -81,6 +82,7 @@ class DownloadManager extends ChangeNotifier {
 
   /// In-memory cache of records, keyed by id (mirrors the Hive box).
   final Map<String, DownloadRecord> _records = {};
+  final Set<String> _publishingExternalSubtitles = {};
   // Live DownloadTask objects for in-session control (pause/resume/move).
   final Map<String, DownloadTask> _tasks = {};
   // Remaining fallback mirrors per record (CloudStream-style try-next): when a
@@ -130,7 +132,24 @@ class DownloadManager extends ChangeNotifier {
     });
     _listenBackgroundService();
     _listenTorrentDownloads();
+    unawaited(_publishPreviouslyDownloadedSubtitles());
     _reconcileServiceResults(); // apply HLS downloads finished while killed
+  }
+
+  /// Existing completed downloads predate public subtitle copies. Publish them
+  /// once in the background too, so users can open those videos directly from
+  /// a file browser without having to download the episode again. The publisher
+  /// checks each video's actual path, so private videos remain private even if
+  /// the setting changes later.
+  Future<void> _publishPreviouslyDownloadedSubtitles() async {
+    if (!Platform.isAndroid) return;
+    for (final rec in _records.values.toList()) {
+      if (rec.status == DownloadStatus.done &&
+          rec.filePath != null &&
+          rec.subtitles.any((s) => s.publicPath == null)) {
+        await _publishExternalSubtitles(rec);
+      }
+    }
   }
 
   /// Apply a new "Parallel downloads" limit live to BOTH paths — the MP4 queue
@@ -975,10 +994,178 @@ class DownloadManager extends ChangeNotifier {
         }
         return;
       }
-      _put(cur.copyWith(subtitles: saved));
+      final updated = cur.copyWith(subtitles: saved);
+      _put(updated);
       notifyListeners();
+      if (updated.status == DownloadStatus.done) {
+        await _publishExternalSubtitles(updated);
+      }
     } catch (_) {/* no subtitles offline — non-fatal */}
   }
+
+  /// Publish a public copy of saved subtitles so file-browser-launched players
+  /// can discover them beside videos in Downloads. The private originals remain
+  /// the app's playback/handoff source. WebVTT is converted only for the public
+  /// copy because MX Player's local subtitle scanner expects common sidecar
+  /// formats such as SRT.
+  Future<void> _publishExternalSubtitles(DownloadRecord rec) async {
+    if (!Platform.isAndroid || isAppleTv) return;
+    final current = _records[rec.id] ?? rec;
+    if (current.status != DownloadStatus.done ||
+        current.filePath == null ||
+        !_publishingExternalSubtitles.add(current.id)) {
+      return;
+    }
+    final processedPaths = current.subtitles.map((s) => s.path).toSet();
+
+    Directory? stagingDir;
+    try {
+      final videoPath = current.filePath!;
+      final privateStorage = await getApplicationDocumentsDirectory();
+      if (!shouldExportSubtitleSidecars(
+        videoPath: videoPath,
+        privateStorageRoot: privateStorage.path,
+      )) {
+        return;
+      }
+      final directory = '$_sharedDir/${_safe(current.showTitle)}';
+      final temp = await getTemporaryDirectory();
+      stagingDir = Directory(
+        '${temp.path}/external_subtitles/${_safe(current.id)}',
+      );
+      await stagingDir.create(recursive: true);
+
+      final duplicateLangs = <String, int>{};
+      for (final subtitle in current.subtitles) {
+        final safeLang = subtitle.lang.trim().replaceAll(
+          RegExp(r'[^A-Za-z0-9_-]'),
+          '_',
+        );
+        duplicateLangs[safeLang] = (duplicateLangs[safeLang] ?? 0) + 1;
+      }
+      final seenLangs = <String, int>{};
+
+      for (final subtitle in current.subtitles) {
+        if (subtitle.publicPath != null &&
+            await _publicSubtitleExists(subtitle.publicPath!)) {
+          continue;
+        }
+        final source = File(subtitle.path);
+        if (!await source.exists()) continue;
+
+        final safeLang = subtitle.lang.trim().replaceAll(
+          RegExp(r'[^A-Za-z0-9_-]'),
+          '_',
+        );
+        final index = (seenLangs[safeLang] ?? 0) + 1;
+        seenLangs[safeLang] = index;
+        final ext = publicSubtitleExtension(subtitle.path);
+        var filename = externalSubtitleFileName(
+          videoPath: videoPath,
+          language: subtitle.lang,
+          extension: ext,
+        );
+        if ((duplicateLangs[safeLang] ?? 0) > 1) {
+          final dot = filename.lastIndexOf('.');
+          filename =
+              '${filename.substring(0, dot)}_$index${filename.substring(dot)}';
+        }
+
+        final staged = File('${stagingDir.path}/$filename');
+        final sourceBytes = await source.readAsBytes();
+        if (subtitle.path.toLowerCase().endsWith('.vtt')) {
+          final converted = webVttToSrt(
+            utf8.decode(sourceBytes, allowMalformed: true),
+          );
+          if (converted.isEmpty) continue;
+          await staged.writeAsString(converted, flush: true);
+        } else {
+          await staged.writeAsBytes(sourceBytes, flush: true);
+        }
+
+        // Android assigns an indexed name when a MediaStore item with the same
+        // name already exists. Remove the previous sidecar first so re-downloads
+        // keep one predictable filename next to the episode.
+        String? existing;
+        try {
+          existing = await _fileDownloader.pathInSharedStorage(
+            staged.path,
+            SharedStorage.downloads,
+            directory: directory,
+          );
+        } catch (_) {}
+        if (existing != null) {
+          try {
+            await _fileDownloader.uri.deleteFile(Uri.parse(existing));
+          } catch (_) {}
+        }
+
+        final publicPath = await _fileDownloader.moveFileToSharedStorage(
+          staged.path,
+          SharedStorage.downloads,
+          directory: directory,
+          mimeType: _subtitleMimeType(ext),
+        );
+        if (publicPath == null) continue;
+
+        // The record could have been deleted while MediaStore was writing.
+        final latest = _records[current.id];
+        if (latest == null || latest.status == DownloadStatus.canceled) {
+          await _deleteMediaFile(publicPath);
+          return;
+        }
+        final subtitles = latest.subtitles
+            .map(
+              (item) => item.path == subtitle.path
+                  ? item.copyWith(publicPath: publicPath)
+                  : item,
+            )
+            .toList();
+        _put(latest.copyWith(subtitles: subtitles));
+        notifyListeners();
+      }
+    } catch (e) {
+      AppLogger.instance.log(
+        '[download] could not publish subtitle sidecar: $e',
+        level: 'W',
+      );
+    } finally {
+      if (stagingDir != null) {
+        try {
+          if (await stagingDir.exists()) {
+            await stagingDir.delete(recursive: true);
+          }
+        } catch (_) {}
+      }
+      _publishingExternalSubtitles.remove(rec.id);
+    }
+
+    // A subtitle fetch can finish while this publisher is waiting on storage.
+    // It will see the in-flight guard and return, so pick up tracks added after
+    // the snapshot without retrying a failed publication forever.
+    final latest = _records[rec.id];
+    if (latest != null &&
+        latest.status == DownloadStatus.done &&
+        latest.subtitles.any((s) => !processedPaths.contains(s.path))) {
+      await _publishExternalSubtitles(latest);
+    }
+  }
+
+  Future<bool> _publicSubtitleExists(String path) async {
+    try {
+      if (isUriPath(path)) return await _documentExists(path);
+      return await File(path).exists();
+    } catch (_) {
+      return false;
+    }
+  }
+
+  String _subtitleMimeType(String extension) => switch (extension) {
+    '.srt' => 'application/x-subrip',
+    '.vtt' => 'text/vtt',
+    '.ass' || '.ssa' => 'text/x-ssa',
+    _ => 'application/octet-stream',
+  };
 
   // ── Controls ───────────────────────────────────────────────────────────────
 
@@ -1081,6 +1268,7 @@ class DownloadManager extends ChangeNotifier {
         final f = File(s.path);
         if (await f.exists()) await f.delete();
       } catch (_) {}
+      if (s.publicPath != null) await _deleteMediaFile(s.publicPath);
     }
     // Delete the actual media file on disk. Two cases:
     //  • SAF custom folder → a content:// URI, removed via UriUtils.
@@ -1455,15 +1643,16 @@ class DownloadManager extends ChangeNotifier {
   /// each. Deleted only once the replacement is safely on disk, so a failed
   /// re-download doesn't cost the copy that already worked.
   Future<void> _markDone(DownloadRecord rec, String? path) async {
-    _put(
-      rec.copyWith(
-        status: DownloadStatus.done,
-        progress: 1,
-        filePath: () => path,
-        bytesTotal: rec.bytesTotal > 0 ? null : await sizeOf(path),
-        supersededPath: () => null,
-      ),
+    final latest = _records[rec.id] ?? rec;
+    final done = latest.copyWith(
+      status: DownloadStatus.done,
+      progress: 1,
+      filePath: () => path,
+      bytesTotal: latest.bytesTotal > 0 ? null : await sizeOf(path),
+      supersededPath: () => null,
     );
+    _put(done);
+    await _publishExternalSubtitles(done);
     final superseded = rec.supersededPath;
     if (superseded != null && superseded.isNotEmpty && superseded != path) {
       await _deleteMediaFile(superseded);

@@ -1480,6 +1480,19 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
         null
     }
 
+    /// Downloaded sidecars live in private app_flutter storage, which the
+    /// FileProvider intentionally does not expose. Copy only the subtitle file
+    /// into its configured cache path, then hand the cache content URI to the
+    /// external player. Cache files remain available after this activity
+    /// returns and Android may evict them when storage is needed.
+    private fun shareSubtitleFile(path: String): Uri? {
+        val shared = stageSubtitleFile(path, cacheDir, ::sharableUri)
+        if (shared == null) {
+            Log.w(TAG, "could not stage subtitle for external playback: $path")
+        }
+        return shared
+    }
+
     @Suppress("UNCHECKED_CAST")
     private fun launchExternal(call: MethodCall, result: MethodChannel.Result) {
         try {
@@ -1514,15 +1527,11 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
                 intent.putExtra("headers", arr.toTypedArray())
                 headers["User-Agent"]?.let { intent.putExtra("User-Agent", it) }
             }
-            // Subtitles: MX-style arrays + VLC single location.
-            if (!subs.isNullOrEmpty()) {
-                val uris = subs.mapNotNull { it["url"] }.map { Uri.parse(it) }
-                if (uris.isNotEmpty()) {
-                    intent.putExtra("subs", uris.toTypedArray())
-                    intent.putExtra("subs.name", subs.map { it["name"] ?: "Subtitle" }.toTypedArray())
-                    intent.putExtra("subtitles_location", subs[0]["url"])
-                }
-            }
+            // Remote subtitle URLs keep their previous extras. Downloaded
+            // sidecars are staged in the FileProvider cache and shared with a
+            // temporary read grant so external apps can actually open them.
+            val externalSubs = resolveExternalSubtitleTracks(subs, ::shareSubtitleFile)
+            attachExternalSubtitles(intent, externalSubs)
 
             // Complete any stale pending launch defensively, then wait for this
             // one's result in onActivityResult.

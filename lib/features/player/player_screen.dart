@@ -976,7 +976,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
         );
       }
       final subs = src.subtitles
-          .map((s) => {'url': s.url, 'name': s.label ?? s.lang})
+          .map(
+            (s) => {
+              'url': s.url,
+              'name': s.label ?? s.lang,
+              'default': s.isDefault.toString(),
+            },
+          )
           .toList();
       final title = [
         widget.showTitle,

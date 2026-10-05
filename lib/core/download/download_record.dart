@@ -28,18 +28,24 @@ class OfflineSubtitle {
     required this.lang,
     this.label,
     required this.path,
+    this.publicPath,
     this.isDefault = false,
   });
 
   final String lang;
   final String? label;
   final String path;
+
+  /// Public sidecar copy, discoverable by players that scan the video folder.
+  /// Null for older records or when publication has not succeeded.
+  final String? publicPath;
   final bool isDefault;
 
   Map<String, dynamic> toMap() => {
     'lang': lang,
     'label': label,
     'path': path,
+    'publicPath': publicPath,
     'default': isDefault,
   };
 
@@ -49,9 +55,18 @@ class OfflineSubtitle {
       lang: m['lang'] as String? ?? 'Sub',
       label: m['label'] as String?,
       path: m['path'] as String? ?? '',
+      publicPath: m['publicPath'] as String?,
       isDefault: m['default'] == true,
     );
   }
+
+  OfflineSubtitle copyWith({String? publicPath}) => OfflineSubtitle(
+    lang: lang,
+    label: label,
+    path: path,
+    publicPath: publicPath ?? this.publicPath,
+    isDefault: isDefault,
+  );
 }
 
 /// A single download, persisted in the Hive `downloads` box (as a Map) so the
