@@ -32,10 +32,10 @@ import '../search/search_meta_filter_helpers.dart';
 /// TV Search: D-pad-navigable layout backed by the same [SearchBloc] provided
 /// by the parent [SearchScreen].
 ///
-/// The query box is a [TvTextField]: focus lands without raising the leanback
-/// IME (which would swallow arrows). OK opens the keyboard; arrows leave the
-/// field for Filters / genres / results. [onSubmitted] dispatches
-/// [SearchRunRequested] to the bloc, identical to the phone path.
+/// The query box is a [TvTextField]: D-pad lands on navigation focus without
+/// raising the leanback IME. OK moves focus into the editable field so the
+/// keyboard opens on the same text box. Arrows leave for Filters / genres /
+/// results.
 ///
 /// Results render as a 6-column focusable poster grid using [TvPosterTile].
 /// OK on a card opens Detail via the same [DetailScreen.route] the phone uses.
@@ -215,7 +215,7 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
     final filterCount = metaFilterActiveCount(_metaFilters);
     final showAdult = sl<PlaybackPrefs>().adultMetadata;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(48, 0, 48, 4),
+      padding: const EdgeInsets.fromLTRB(48, 0, 48, 20),
       child: Row(
         children: [
           TvFocusable(
@@ -528,9 +528,8 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // ── Search field ──────────────────────────────────────────────────
-                  // TvTextField lands focus without opening the leanback IME, so
-                  // D-pad DOWN reaches Filters / chips / results. OK shows the
-                  // keyboard when the user actually wants to type.
+                  // TvTextField: D-pad lands without IME; OK focuses the same
+                  // editable box so leanback opens inline (no popup).
                   Padding(
                     padding: const EdgeInsets.fromLTRB(48, 20, 48, 10),
                     child: Row(
@@ -835,7 +834,7 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
     final items = state.visibleResults;
     if (items.isEmpty) return _noResults(state);
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+      padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: _crossAxisCount,
         // Poster art + title below (outline hugs the art).

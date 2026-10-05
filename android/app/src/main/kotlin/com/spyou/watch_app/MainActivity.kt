@@ -13,6 +13,11 @@ import android.os.storage.StorageManager
 import android.speech.RecognizerIntent
 import android.util.Log
 import android.util.Rational
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -670,6 +675,20 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
                         result.success(i.resolveActivity(packageManager) != null)
                     }
                     "listen" -> startVoiceSearch(call.argument<String>("prompt"), result)
+                    else -> result.notImplemented()
+                }
+            }
+
+        // Soft-IME force-show for TV text fields. Flutter's TextInput.show is
+        // often cancelled on leanback (`PHASE_CLIENT_REPORT_REQUESTED_VISIBLE_TYPES`);
+        // this retries via InputMethodManager + WindowInsetsController.
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "zangetsu/ime")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "show" -> {
+                        showImeForced()
+                        result.success(null)
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -1735,6 +1754,35 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
             pendingVoiceResult = null
             result.success(null)
         }
+    }
+
+    /// Force the leanback / soft keyboard up. Flutter's TextInput.show alone is
+    /// frequently cancelled on TV after a readOnly→editable upgrade; calling
+    /// both IMM and the insets controller covers OEM differences. Must target
+    /// the FlutterView that owns the InputConnection — decorView is ignored.
+    private fun showImeForced() {
+        try {
+            val root = window?.decorView ?: return
+            val view = findFlutterView(root) ?: root
+            view.requestFocus()
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            @Suppress("DEPRECATION")
+            imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
+            WindowCompat.getInsetsController(window, view)
+                .show(WindowInsetsCompat.Type.ime())
+        } catch (e: Exception) {
+            Log.w(TAG, "showImeForced failed: ${e.message}")
+        }
+    }
+
+    private fun findFlutterView(view: View): View? {
+        if (view.javaClass.name.contains("FlutterView")) return view
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                findFlutterView(view.getChildAt(i))?.let { return it }
+            }
+        }
+        return null
     }
 
     // Reads a position/duration extra whether the player stored it as Long or Int.
