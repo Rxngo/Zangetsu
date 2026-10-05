@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:watch_app/core/playback/playback_prefs.dart';
@@ -70,6 +71,33 @@ void main() {
       );
       expect(playbackPrefs.subtitlePreference, 'fr');
       expect(playbackPrefs.translateSubtitleTo, 'de');
+    },
+  );
+
+  test(
+    'manga translation appearance preferences persist independently',
+    () async {
+      await ReaderPrefs.init();
+      final prefs = ReaderPrefs();
+
+      expect(prefs.mangaTranslationFontSize, 14);
+      expect(prefs.mangaTranslationTextColor, Colors.white);
+      expect(prefs.mangaTranslationBackgroundColor, Colors.black);
+      expect(prefs.mangaTranslationBackgroundOpacity, 1);
+
+      await prefs.setMangaTranslationFontSize(21.5);
+      await prefs.setMangaTranslationTextColor(const Color(0xFF123456));
+      await prefs.setMangaTranslationBackgroundColor(const Color(0xFFABCDEF));
+      await prefs.setMangaTranslationBackgroundOpacity(0.35);
+
+      final reloadedPrefs = ReaderPrefs();
+      expect(reloadedPrefs.mangaTranslationFontSize, 21.5);
+      expect(reloadedPrefs.mangaTranslationTextColor, const Color(0xFF123456));
+      expect(
+        reloadedPrefs.mangaTranslationBackgroundColor,
+        const Color(0xFFABCDEF),
+      );
+      expect(reloadedPrefs.mangaTranslationBackgroundOpacity, 0.35);
     },
   );
 

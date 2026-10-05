@@ -5303,6 +5303,32 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get mangaTranslationNoLanguageMatch => 'No matching languages';
+
+  @override
+  String get mangaTranslationAppearance => 'Manga translation appearance';
+
+  @override
+  String get mangaTranslationAppearanceSubtitle =>
+      'Text size, text colour and background';
+
+  @override
+  String get mangaTranslationBackgroundColour => 'Background colour';
+
+  @override
+  String get mangaTranslationBackgroundOpacity => 'Background opacity';
+
+  @override
+  String get mangaTranslationPreview => 'Translation preview';
+
+  @override
+  String get mangaTranslationAppearanceFitNote =>
+      'Long text may scale down to stay inside its detected area and avoid overlap.';
+
+  @override
+  String get mangaTranslationShowOriginal => 'Show original page';
+
+  @override
+  String get mangaTranslationShowTranslations => 'Show translations';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).

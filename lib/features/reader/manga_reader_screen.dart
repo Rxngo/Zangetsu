@@ -1314,7 +1314,17 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
 
   Future<File> _translationPageFile(_MangaTranslationPage target) async {
     final cachedPath = _pageFile[target.page.url];
-    if (cachedPath != null) return File(cachedPath);
+    if (cachedPath != null) {
+      final cachedFile = File(cachedPath);
+      if (await cachedFile.exists()) return cachedFile;
+      // PageFileCache trims old files independently from this reader's
+      // in-memory path map. Do not hand OCR a path that was evicted; clear it
+      // so the normal cache lookup/recovery path below can resolve the page.
+      _pageFile.remove(target.page.url);
+      if (!mounted) {
+        throw StateError('The manga reader closed while resolving a page.');
+      }
+    }
 
     final width = _effectiveDirection(sl<ReaderPrefs>()) == 'vertical'
         ? _webtoonDecodeWidth(context)
@@ -1363,6 +1373,7 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     final hasCurrentChapterSession = _translationChapterIndex == chapterIndex;
     final prefs = sl<ReaderPrefs>();
     if (hasCurrentChapterSession && _chapterTranslationStopped) {
+      if (!await _ensureMangaTranslationProviderConfigured(prefs)) return;
       try {
         await _translateMangaChapter(
           prefs.mangaTranslationSourceLanguage,
@@ -1376,6 +1387,7 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
       return;
     }
     if (hasCurrentChapterSession && _failedTranslationPages.isNotEmpty) {
+      if (!await _ensureMangaTranslationProviderConfigured(prefs)) return;
       try {
         await _retryFailedMangaTranslationPages(
           pages,
@@ -1394,6 +1406,7 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
       setState(() => _showChapterTranslations = !_showChapterTranslations);
       return;
     }
+    if (!await _ensureMangaTranslationProviderConfigured(prefs)) return;
     try {
       await _translateMangaChapter(
         prefs.mangaTranslationSourceLanguage,
@@ -1404,6 +1417,25 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
     } on Object {
       if (mounted) showAppToast(context, context.l10n.mangaTranslationError);
     }
+  }
+
+  Future<bool> _ensureMangaTranslationProviderConfigured(
+    ReaderPrefs prefs,
+  ) async {
+    if (prefs.mangaTranslationEngine == MangaTranslationEngine.offline ||
+        prefs.mangaOnlineTranslationProvider ==
+            MangaOnlineTranslationProvider.google) {
+      return true;
+    }
+    final configured = await _translationService.isProviderConfigured(
+      prefs.mangaOnlineTranslationProvider,
+    );
+    if (!mounted) return false;
+    if (!configured) {
+      showAppToast(context, context.l10n.mangaTranslationApiKeyMissing);
+      return false;
+    }
+    return true;
   }
 
   Future<void> _retryFailedMangaTranslationPages(
@@ -2928,12 +2960,27 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
         result.regions.isEmpty) {
       return image;
     }
+    final translationAppearance = sl<ReaderPrefs>();
     return Stack(
       fit: StackFit.passthrough,
       children: [
         image,
         Positioned.fill(
-          child: MangaPageTranslationOverlay(result: result, fit: fit),
+          child: MangaPageTranslationOverlay(
+            result: result,
+            fit: fit,
+            textStyle: TextStyle(
+              color: translationAppearance.mangaTranslationTextColor,
+              fontSize: translationAppearance.mangaTranslationFontSize,
+              fontWeight: FontWeight.w600,
+            ),
+            backgroundColor: translationAppearance
+                .mangaTranslationBackgroundColor
+                .withValues(
+                  alpha:
+                      translationAppearance.mangaTranslationBackgroundOpacity,
+                ),
+          ),
         ),
       ],
     );
@@ -3616,12 +3663,18 @@ class _MangaReaderScreenState extends State<MangaReaderScreen>
         key: const ValueKey('manga-translation-floating-control'),
         label: label,
         stopLabel: context.l10n.mangaTranslationStop,
+        showTranslations: _showChapterTranslations,
+        showOriginalLabel: context.l10n.mangaTranslationShowOriginal,
+        showTranslationsLabel: context.l10n.mangaTranslationShowTranslations,
         active:
             _chapterTranslationRunning ||
             (hasCurrentChapterResults && _showChapterTranslations),
         running: _chapterTranslationRunning,
         stopRequested: _chapterTranslationStopRequested,
         onTap: () => unawaited(_onFloatingMangaTranslationTap()),
+        onToggleVisibility: () => setState(
+          () => _showChapterTranslations = !_showChapterTranslations,
+        ),
         onStop: _requestMangaTranslationStop,
       ),
     );

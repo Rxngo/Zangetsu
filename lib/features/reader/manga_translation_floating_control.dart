@@ -13,19 +13,27 @@ class MangaTranslationFloatingControl extends StatefulWidget {
     super.key,
     required this.label,
     required this.stopLabel,
+    required this.showTranslations,
+    required this.showOriginalLabel,
+    required this.showTranslationsLabel,
     required this.active,
     required this.running,
     required this.stopRequested,
     required this.onTap,
+    required this.onToggleVisibility,
     required this.onStop,
   });
 
   final String label;
   final String stopLabel;
+  final bool showTranslations;
+  final String showOriginalLabel;
+  final String showTranslationsLabel;
   final bool active;
   final bool running;
   final bool stopRequested;
   final VoidCallback onTap;
+  final VoidCallback onToggleVisibility;
   final VoidCallback onStop;
 
   @override
@@ -135,6 +143,36 @@ class _MangaTranslationFloatingControlState
             ),
           ),
           if (widget.running) ...[
+            const SizedBox(width: 4),
+            Material(
+              color: _inactiveSurface,
+              shape: const CircleBorder(
+                side: BorderSide(color: Color(0x1AFFFFFF)),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: IconButton(
+                key: const ValueKey('manga-translation-visibility-toggle'),
+                tooltip: widget.showTranslations
+                    ? widget.showOriginalLabel
+                    : widget.showTranslationsLabel,
+                constraints: const BoxConstraints.tightFor(
+                  width: 44,
+                  height: 44,
+                ),
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  _wake();
+                  widget.onToggleVisibility();
+                },
+                icon: Icon(
+                  widget.showTranslations
+                      ? Icons.visibility_off_rounded
+                      : Icons.visibility_rounded,
+                  size: 19,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             const SizedBox(width: 4),
             Material(
               color: _inactiveSurface,

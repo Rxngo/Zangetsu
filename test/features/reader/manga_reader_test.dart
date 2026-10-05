@@ -28,6 +28,8 @@ import 'package:watch_app/core/reading/read_history.dart';
 import 'package:watch_app/core/reading/read_store.dart';
 import 'package:watch_app/core/reading/manga_translation/manga_page_translation_models.dart';
 import 'package:watch_app/core/reading/manga_translation/manga_page_translation_service.dart';
+import 'package:watch_app/core/reading/manga_translation/manga_online_translation_service.dart';
+import 'package:watch_app/core/reading/manga_translation/manga_translation_credential_store.dart';
 import 'package:watch_app/core/reading/manga_translation/manga_translation_platform.dart';
 import 'package:watch_app/core/reading/reader_prefs.dart';
 import 'package:watch_app/core/reading/reader_settings.dart';
@@ -473,6 +475,26 @@ class _PageFileCacheFake extends PageFileCache {
   Future<File?> fileFor(String url, Map<String, String>? headers) async {
     requestedUrls.add(url);
     return filesByUrl[url] ?? file;
+  }
+}
+
+class _TranslationSecureStorageFake implements MangaTranslationSecureStorage {
+  _TranslationSecureStorageFake([Map<String, String>? values])
+    : values = values ?? {};
+
+  final Map<String, String> values;
+
+  @override
+  Future<void> delete({required String key}) async {
+    values.remove(key);
+  }
+
+  @override
+  Future<String?> read({required String key}) async => values[key];
+
+  @override
+  Future<void> write({required String key, required String value}) async {
+    values[key] = value;
   }
 }
 
@@ -2095,6 +2117,148 @@ void main() {
       await disposeHarness(tester);
     });
 
+    testWidgets('translation recovers when a cached page file was evicted', (
+      tester,
+    ) async {
+      const pageUrl = 'https://example.com/evicted-translation-page.jpg';
+      final tempDir = await tester.runAsync(
+        () => Directory.systemTemp.createTemp('manga-translation-cache-test'),
+      );
+      expect(tempDir, isNotNull);
+      final oldFile = File('${tempDir!.path}/old-page.png');
+      final recoveredFile = File('${tempDir.path}/recovered-page.png');
+      await tester.runAsync(() async {
+        await oldFile.writeAsBytes(const []);
+        await recoveredFile.writeAsBytes(const []);
+        await sl<ReaderPrefs>().setDirection('ltr');
+      });
+      ani.register(
+        _FakeReadingProvider('ani:m', {
+          'u1': [PageImage(url: pageUrl)],
+        }),
+      );
+      final platform = _TranslationPlatformFake()
+        ..ocrReady = true
+        ..failOnceFilePaths.add(oldFile.path);
+      final pageFileCache = _PageFileCacheFake(recoveredFile)
+        ..filesByUrl[pageUrl] = oldFile;
+      final translationService = MangaPageTranslationService(
+        platform: platform,
+        onlineTranslator:
+            (text, {required sourceLanguage, required targetLanguage}) async =>
+                'translated text',
+      );
+
+      await tester.pumpWidget(
+        harness(
+          translationService: translationService,
+          pageFileCache: pageFileCache,
+        ),
+      );
+      await settle(tester);
+
+      await tester.tap(find.byKey(const ValueKey('manga-pageview')));
+      await settle(tester);
+      await tester.tap(find.byIcon(Icons.more_vert_rounded));
+      await settle(tester);
+      await tester.tap(
+        find.byKey(const ValueKey('reader-menu-translate-page')),
+      );
+      await settle(tester);
+      final submit = find.byKey(const ValueKey('manga-translation-submit'));
+      await tester.ensureVisible(submit);
+      expect(tester.widget<FilledButton>(submit).onPressed, isNotNull);
+      await tester.tap(submit);
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await settle(tester);
+      expect(platform.statusCalls, 1);
+      expect(platform.recognizedFilePaths, [oldFile.path]);
+      expect(find.byTooltip('Retry failed pages'), findsOneWidget);
+
+      Navigator.of(
+        tester.element(find.byType(MangaPageTranslationSettingsSheet)),
+      ).pop();
+      await settle(tester);
+      await tester.runAsync(() async {
+        await oldFile.delete();
+        pageFileCache.filesByUrl[pageUrl] = recoveredFile;
+      });
+      expect(await tester.runAsync(oldFile.exists), isFalse);
+      expect(pageFileCache.filesByUrl[pageUrl], recoveredFile);
+      await tester.tap(
+        find.byKey(const ValueKey('manga-translation-floating-control')),
+      );
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await settle(tester);
+
+      expect(platform.recognizedFilePaths, hasLength(2));
+      expect(platform.recognizedFilePaths.last, recoveredFile.path);
+      expect(find.text('translated text'), findsOneWidget);
+
+      await tester.runAsync(() => tempDir.delete(recursive: true));
+      await disposeHarness(tester);
+    });
+
+    testWidgets('floating translation checks Gemini key before OCR', (
+      tester,
+    ) async {
+      await tester.runAsync(() async {
+        await sl<ReaderPrefs>().setDirection('ltr');
+        await sl<ReaderPrefs>().setMangaOnlineTranslationProvider(
+          MangaOnlineTranslationProvider.gemini,
+        );
+      });
+      ani.register(
+        _FakeReadingProvider('ani:m', {
+          'u1': [const PageImage(url: 'https://example.com/gemini-page.jpg')],
+        }),
+      );
+      final platform = _TranslationPlatformFake()..ocrReady = true;
+      final translationService = MangaPageTranslationService(
+        platform: platform,
+        onlineTranslationService: MangaOnlineTranslationService(
+          credentials: MangaTranslationCredentialStore(
+            storage: _TranslationSecureStorageFake(),
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(harness(translationService: translationService));
+      await settle(tester);
+      await tester.tap(find.byKey(const ValueKey('manga-pageview')));
+      await settle(tester);
+      await tester.tap(find.byIcon(Icons.more_vert_rounded));
+      await settle(tester);
+      await tester.tap(
+        find.byKey(const ValueKey('reader-menu-translate-page')),
+      );
+      await settle(tester);
+      Navigator.of(
+        tester.element(find.byType(MangaPageTranslationSettingsSheet)),
+      ).pop();
+      await settle(tester);
+
+      await tester.tap(
+        find.byKey(const ValueKey('manga-translation-floating-control')),
+      );
+      await settle(tester);
+
+      expect(platform.statusCalls, 0);
+      expect(platform.downloadCalls, 0);
+      expect(platform.recognizeCalls, 0);
+      expect(
+        find.text('Add an API key for this provider to translate.'),
+        findsOneWidget,
+      );
+
+      await tester.pump(const Duration(seconds: 3));
+      await disposeHarness(tester);
+    });
+
     testWidgets('page translation starts only after explicit user action', (
       tester,
     ) async {
@@ -2104,12 +2268,29 @@ void main() {
         'https://example.com/translation-test-2.jpg',
         'https://example.com/translation-test-3.jpg',
       ];
-      const pagePaths = [
-        '/tmp/translation-test-1.png',
-        '/tmp/translation-test-2.png',
-        '/tmp/translation-test-3.png',
+      final fileDir = await tester.runAsync(
+        () => Directory.systemTemp.createTemp('manga-translation-pages'),
+      );
+      expect(fileDir, isNotNull);
+      final testFilesDir = fileDir!;
+      final pagePaths = [
+        for (var index = 1; index <= pageUrls.length; index++)
+          '${testFilesDir.path}/translation-test-$index.png',
       ];
-      await tester.runAsync(() => sl<ReaderPrefs>().setDirection('ltr'));
+      await tester.runAsync(() async {
+        await sl<ReaderPrefs>().setDirection('ltr');
+        await sl<ReaderPrefs>().setMangaTranslationFontSize(21);
+        await sl<ReaderPrefs>().setMangaTranslationTextColor(
+          const Color(0xFF11AA88),
+        );
+        await sl<ReaderPrefs>().setMangaTranslationBackgroundColor(
+          const Color(0xFF224466),
+        );
+        await sl<ReaderPrefs>().setMangaTranslationBackgroundOpacity(0.42);
+        for (final path in pagePaths) {
+          await File(path).writeAsBytes(const []);
+        }
+      });
       ani.register(
         _FakeReadingProvider('ani:m', {
           'u1': [for (final url in pageUrls) PageImage(url: url)],
@@ -2198,6 +2379,9 @@ void main() {
       expect(platform.recognizeCalls, 0);
 
       await tester.tap(find.text('Download'));
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
       await settle(tester);
 
       expect(platform.downloadCalls, 1);
@@ -2208,6 +2392,21 @@ void main() {
         pagePaths[2],
         pagePaths[0],
       ]);
+      final translatedText = tester.widget<Text>(find.text('translated text'));
+      expect(translatedText.style?.fontSize, 21);
+      expect(translatedText.style?.color, const Color(0xFF11AA88));
+      final translationBackground = tester.widget<DecoratedBox>(
+        find
+            .ancestor(
+              of: find.text('translated text'),
+              matching: find.byType(DecoratedBox),
+            )
+            .first,
+      );
+      expect(
+        (translationBackground.decoration as BoxDecoration).color,
+        const Color(0xFF224466).withValues(alpha: 0.42),
+      );
       expect(find.byType(MangaPageTranslationSettingsSheet), findsNothing);
       expect(find.text('translated text'), findsOneWidget);
       expect(pageFileCache.requestedUrls.toSet(), pageUrls.toSet());
@@ -2236,6 +2435,9 @@ void main() {
       expect(onlineTranslationCalls, 2);
 
       await tester.tap(floatingTranslate);
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
       await settle(tester);
       expect(platform.recognizeCalls, 4);
       expect(onlineTranslationCalls, 3);
@@ -2278,6 +2480,7 @@ void main() {
       expect(onlineTranslationCalls, 3);
 
       await disposeHarness(tester);
+      await tester.runAsync(() => testFilesDir.delete(recursive: true));
     });
 
     testWidgets('chapter translation shows each page as it finishes', (
@@ -2341,6 +2544,20 @@ void main() {
       expect(find.text('translated text'), findsOneWidget);
       expect(find.byTooltip('Translating… 1/3'), findsOneWidget);
       expect(find.text('Translating… 1/3'), findsNothing);
+      final visibilityToggle = find.byKey(
+        const ValueKey('manga-translation-visibility-toggle'),
+      );
+      expect(visibilityToggle, findsOneWidget);
+      expect(find.byTooltip('Show original page'), findsOneWidget);
+      await tester.tap(visibilityToggle);
+      await settle(tester);
+      expect(find.text('translated text'), findsNothing);
+      expect(find.byTooltip('Show translations'), findsOneWidget);
+      expect(find.byTooltip('Translating… 1/3'), findsOneWidget);
+      await tester.tap(visibilityToggle);
+      await settle(tester);
+      expect(find.text('translated text'), findsOneWidget);
+      expect(find.byTooltip('Show original page'), findsOneWidget);
       expect(
         tester
             .widget<Material>(
@@ -2373,6 +2590,9 @@ void main() {
             ),
           ],
         ),
+      );
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
       );
       await settle(tester);
       expect(find.text('translated text'), findsOneWidget);
@@ -2434,6 +2654,9 @@ void main() {
       );
       await settle(tester);
       await tester.tap(find.byKey(const ValueKey('manga-translation-submit')));
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
       await settle(tester);
 
       expect(platform.recognizeCalls, 2);
@@ -2456,6 +2679,9 @@ void main() {
           ],
         ),
       );
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
       await settle(tester);
 
       expect(platform.recognizeCalls, 2);
@@ -2464,6 +2690,9 @@ void main() {
       expect(find.text('Continue translation'), findsNothing);
       await tester.tap(
         find.byKey(const ValueKey('manga-translation-floating-control')),
+      );
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
       );
       await settle(tester);
 
@@ -2529,6 +2758,9 @@ void main() {
       expect(platform.recognizeCalls, 0);
 
       platform.downloadCompleter!.complete();
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
       await settle(tester);
 
       expect(find.text('Downloading OCR'), findsNothing);

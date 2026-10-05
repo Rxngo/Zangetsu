@@ -9429,6 +9429,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No matching languages'**
   String get mangaTranslationNoLanguageMatch;
+
+  /// No description provided for @mangaTranslationAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Manga translation appearance'**
+  String get mangaTranslationAppearance;
+
+  /// No description provided for @mangaTranslationAppearanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size, text colour and background'**
+  String get mangaTranslationAppearanceSubtitle;
+
+  /// No description provided for @mangaTranslationBackgroundColour.
+  ///
+  /// In en, this message translates to:
+  /// **'Background colour'**
+  String get mangaTranslationBackgroundColour;
+
+  /// No description provided for @mangaTranslationBackgroundOpacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Background opacity'**
+  String get mangaTranslationBackgroundOpacity;
+
+  /// No description provided for @mangaTranslationPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation preview'**
+  String get mangaTranslationPreview;
+
+  /// No description provided for @mangaTranslationAppearanceFitNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Long text may scale down to stay inside its detected area and avoid overlap.'**
+  String get mangaTranslationAppearanceFitNote;
+
+  /// No description provided for @mangaTranslationShowOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Show original page'**
+  String get mangaTranslationShowOriginal;
+
+  /// No description provided for @mangaTranslationShowTranslations.
+  ///
+  /// In en, this message translates to:
+  /// **'Show translations'**
+  String get mangaTranslationShowTranslations;
 }
 
 class _AppLocalizationsDelegate

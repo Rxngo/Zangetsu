@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:watch_app/core/reading/manga_translation/manga_page_translation_models.dart';
 import 'package:watch_app/core/reading/manga_translation/manga_page_translation_overlay.dart';
@@ -170,6 +171,162 @@ void main() {
 
       expect(find.text('Hello there'), findsOneWidget);
       expect(find.bySemanticsLabel('Hello there'), findsOneWidget);
+    });
+
+    testWidgets('wraps long translations in a page-clamped horizontal bubble', (
+      tester,
+    ) async {
+      const translatedText = 'डेनजी, हमें मिल गया है एक और शैतान।';
+      final smallRegionResult = MangaPageTranslationResult(
+        imageWidth: 100,
+        imageHeight: 100,
+        regions: [
+          MangaTranslatedRegion(
+            originalText: 'We got another devil.',
+            translatedText: translatedText,
+            normalizedBounds: const Rect.fromLTRB(0.25, 0.45, 0.35, 0.5),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              height: 300,
+              child: MangaPageTranslationOverlay(result: smallRegionResult),
+            ),
+          ),
+        ),
+      );
+
+      final background = tester.widget<DecoratedBox>(
+        find
+            .ancestor(
+              of: find.text(translatedText),
+              matching: find.byType(DecoratedBox),
+            )
+            .first,
+      );
+      final translatedTextWidget = tester.widget<Text>(
+        find.text(translatedText),
+      );
+      final translatedParagraph = tester.renderObject<RenderParagraph>(
+        find.text(translatedText),
+      );
+      final translatedPosition = tester.widget<Positioned>(
+        find
+            .ancestor(
+              of: find.text(translatedText),
+              matching: find.byType(Positioned),
+            )
+            .first,
+      );
+      final expectedBounds = mapMangaNormalizedBounds(
+        normalizedBounds: smallRegionResult.regions.single.normalizedBounds,
+        imageSize: const Size(100, 100),
+        outputRect:
+            Offset.zero &
+            tester.getSize(find.byType(MangaPageTranslationOverlay)),
+      );
+      expect(translatedTextWidget.maxLines, isNull);
+      expect(
+        (background.decoration as BoxDecoration).color,
+        const Color(0xFF000000),
+      );
+      final overlayBounds = Rect.fromLTWH(
+        translatedPosition.left!,
+        translatedPosition.top!,
+        translatedPosition.width!,
+        translatedPosition.height!,
+      );
+      final outputSize = tester.getSize(
+        find.byType(MangaPageTranslationOverlay),
+      );
+      expect(overlayBounds.width, greaterThan(expectedBounds!.width));
+      expect(overlayBounds.width, lessThanOrEqualTo(100));
+      expect(overlayBounds.height, greaterThan(expectedBounds.height));
+      expect(
+        translatedParagraph.size.width,
+        greaterThan(expectedBounds.width * 2),
+      );
+      expect(
+        translatedParagraph.size.height,
+        greaterThan(expectedBounds.height),
+      );
+      expect(overlayBounds.left, greaterThanOrEqualTo(0));
+      expect(overlayBounds.top, greaterThanOrEqualTo(0));
+      expect(overlayBounds.right, lessThanOrEqualTo(outputSize.width));
+      expect(overlayBounds.bottom, lessThanOrEqualTo(outputSize.height));
+      expect(find.byType(FittedBox), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('keeps expanded translation bubbles clear of neighbors', (
+      tester,
+    ) async {
+      final crowdedResult = MangaPageTranslationResult(
+        imageWidth: 100,
+        imageHeight: 100,
+        regions: [
+          MangaTranslatedRegion(
+            originalText: 'First original line.',
+            translatedText:
+                'पहला अनुवादित वाक्य काफी लंबा है और अगली बात तक जाता है।',
+            normalizedBounds: const Rect.fromLTRB(0.15, 0.45, 0.25, 0.5),
+          ),
+          MangaTranslatedRegion(
+            originalText: 'Second original line.',
+            translatedText:
+                'दूसरा अनुवाद भी लंबा है और पहले वाक्य के पास ही है।',
+            normalizedBounds: const Rect.fromLTRB(0.35, 0.45, 0.45, 0.5),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              height: 300,
+              child: MangaPageTranslationOverlay(result: crowdedResult),
+            ),
+          ),
+        ),
+      );
+
+      final bubbleRects = crowdedResult.regions.map((region) {
+        final position = tester.widget<Positioned>(
+          find
+              .ancestor(
+                of: find.text(region.translatedText),
+                matching: find.byType(Positioned),
+              )
+              .first,
+        );
+        return Rect.fromLTWH(
+          position.left!,
+          position.top!,
+          position.width!,
+          position.height!,
+        );
+      }).toList();
+      final sourceRects = crowdedResult.regions.map((region) {
+        return mapMangaNormalizedBounds(
+          normalizedBounds: region.normalizedBounds,
+          imageSize: const Size(100, 100),
+          outputRect:
+              Offset.zero &
+              tester.getSize(find.byType(MangaPageTranslationOverlay)),
+        )!;
+      }).toList();
+
+      expect(bubbleRects[0].overlaps(bubbleRects[1]), isFalse);
+      expect(bubbleRects[0].overlaps(sourceRects[1]), isFalse);
+      expect(bubbleRects[1].overlaps(sourceRects[0]), isFalse);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('does not intercept page taps', (tester) async {

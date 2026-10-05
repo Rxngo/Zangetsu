@@ -3064,5 +3064,13 @@
 	"mangaTranslationRestartRequiredMessage": "Close and reopen Zangetsu to finish setting up on-device OCR, then try again.",
 	"mangaTranslationSearchLanguages": "Search languages",
 	"mangaTranslationNoLanguages": "No languages available",
-	"mangaTranslationNoLanguageMatch": "No matching languages"
+	"mangaTranslationNoLanguageMatch": "No matching languages",
+	"mangaTranslationAppearance": "Manga translation appearance",
+	"mangaTranslationAppearanceSubtitle": "Text size, text colour and background",
+	"mangaTranslationBackgroundColour": "Background colour",
+	"mangaTranslationBackgroundOpacity": "Background opacity",
+	"mangaTranslationPreview": "Translation preview",
+	"mangaTranslationAppearanceFitNote": "Long text may scale down to stay inside its detected area and avoid overlap.",
+	"mangaTranslationShowOriginal": "Show original page",
+	"mangaTranslationShowTranslations": "Show translations"
 }

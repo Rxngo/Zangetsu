@@ -321,6 +321,32 @@ void main() {
     expect(methodCalls, isNot(contains('downloadModels')));
   });
 
+  testWidgets('Manga translation appearance opens from Reader settings', (
+    tester,
+  ) async {
+    await _pumpSettings(tester);
+
+    await tester.tap(find.text('Reading'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Reader'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Manga translation appearance'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-preview')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-size')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('manga-translation-appearance-opacity')),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('search cuts across every section (flat filtered list)',
       (tester) async {
     await _pumpSettings(tester);

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../core/di/injector.dart';
-import '../../core/reading/manga_translation/manga_page_translation_models.dart';
 import '../../core/reading/reader_prefs.dart';
+import '../../core/reading/manga_translation/manga_page_translation_models.dart';
 import '../../core/reading/manga_translation/manga_page_translation_service.dart';
 import '../../core/reading/manga_translation/manga_translation_languages.dart';
 import '../../core/theme/app_colors.dart';
@@ -13,6 +13,7 @@ import '../../core/ui/app_toast.dart';
 import '../../l10n/l10n.dart';
 import '../../core/ui/settings_widgets.dart';
 import '../reader/manga_page_translation_settings_sheet.dart';
+import '../reader/manga_translation_appearance_sheet.dart';
 import 'tap_zones_screen.dart';
 
 /// Global reader defaults — manga and novel. These are the same
@@ -224,6 +225,19 @@ class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
     }
   }
 
+  Future<void> _openMangaTranslationAppearanceSettings() async {
+    final prefs = _prefs;
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => MangaTranslationAppearanceSheet(prefs: prefs),
+    );
+  }
+
   Future<void> _persistMangaTranslationSelection(
     ReaderPrefs prefs,
     String source,
@@ -431,6 +445,12 @@ class _ReaderSettingsScreenState extends State<ReaderSettingsScreen> {
                 icon: Icons.translate_rounded,
                 title: context.l10n.mangaTranslationSettings,
                 onTap: _openMangaTranslationSettings,
+              ),
+              SettingsTile(
+                icon: Icons.palette_outlined,
+                title: context.l10n.mangaTranslationAppearance,
+                subtitle: context.l10n.mangaTranslationAppearanceSubtitle,
+                onTap: _openMangaTranslationAppearanceSettings,
               ),
             ],
           ),
