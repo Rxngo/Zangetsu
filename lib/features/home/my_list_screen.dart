@@ -179,22 +179,17 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
     _ => null,
   };
 
-  Timer? _liveSync;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Own My List is Hive; tracker chips cache a fetch. While this screen is
-    // mounted, keep both aligned with other devices — TV never backgrounds.
-    _liveSync = Timer.periodic(const Duration(seconds: 15), (_) {
-      _refreshLibrary();
-    });
+    // Cross-device My List freshness is handled by the app-wide foreground
+    // poll in main.dart (stale-gated). A 15s force-pull here doubled PostgREST
+    // traffic whenever this screen stayed mounted (including the TV branch).
   }
 
   @override
   void dispose() {
-    _liveSync?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     _searchController.dispose();
     super.dispose();
