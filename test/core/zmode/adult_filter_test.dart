@@ -25,6 +25,38 @@ void main() {
     expect(sent.single, contains('isAdult:false'));
   });
 
+  test('adult titles are excluded from home rows by default', () async {
+    final c = catalogue();
+    await c.home(ZKind.anime);
+
+    expect(sent.single, contains('isAdult:false'));
+  });
+
+  test('adult titles are excluded from later home pages by default', () async {
+    final c = catalogue();
+    await c.browseRow(ZKind.anime, 'sort:POPULARITY_DESC', 2);
+
+    expect(sent.single, contains('isAdult:false'));
+  });
+
+  test('allowing adult titles removes the home and page exclusion', () async {
+    sent = [];
+    final c = AniListCatalogue((q, v) async {
+      sent.add(q);
+      return {
+        'Page': {'media': []},
+      };
+    }, adultAllowed: () => true);
+
+    await c.home(ZKind.anime);
+    await c.browseRow(ZKind.anime, 'sort:POPULARITY_DESC', 2);
+
+    expect(sent, hasLength(2));
+    for (final query in sent) {
+      expect(query, isNot(contains('isAdult')));
+    }
+  });
+
   test('excluded even with other filters set', () async {
     final c = catalogue();
     await c.searchFiltered('', ZKind.anime,

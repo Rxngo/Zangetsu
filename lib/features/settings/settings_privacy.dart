@@ -33,6 +33,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       if (ok != true) return;
     }
     await prefs.setAdultMetadata(value);
+    if (sl.isRegistered<HomeCubit>()) {
+      unawaited(sl<HomeCubit>().reloadAfterAdultMetadataChange());
+    }
     if (mounted) setState(() {});
   }
 

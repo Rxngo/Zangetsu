@@ -439,6 +439,21 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  /// Refreshes metadata Home after its adult-visibility policy changes.
+  /// Keeps the already-fetched tracker library, but removes rows from the
+  /// screen and disk before fetching under the new policy. If Z Mode is off,
+  /// invalidate its caches without reloading the active source-backed Home.
+  Future<void> reloadAfterAdultMetadataChange() async {
+    final zModeEnabled = ZModePrefs.enabled;
+    if (zModeEnabled) {
+      ++_gen; // Ignore any older Home request that could still contain adult rows.
+      emit(const HomeState(loading: true));
+    }
+    clearStreamKindCache();
+    await HomeCache.clearSource(ZmodeIds.sourceId);
+    if (zModeEnabled) await load();
+  }
+
   /// Copies prefetched metadata rows into the per-kind cache.
   void rememberStreamKindRows(StreamKind kind, List<HomeSection> sections) {
     if (sections.isEmpty) return;

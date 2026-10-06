@@ -291,6 +291,36 @@ void main() {
     expect(t.fetchCount, 2);
   });
 
+  test(
+    'adult catalogue refresh reloads Home but keeps the tracker cache',
+    () async {
+      final t = _FakeTracker(library: [_entry('One Piece', progress: 1)]);
+      final repo = _StubRepo([_zmSection('Trending')]);
+      final cubit = HomeCubit(repo, trackerHub: TrackerHub([t]));
+      addTearDown(cubit.close);
+
+      await cubit.load();
+      await cubit.reloadAfterAdultMetadataChange();
+
+      expect(repo.homeCount, 2);
+      expect(t.fetchCount, 1);
+      expect(cubit.state.sections?.single.title, 'Trending');
+    },
+  );
+
+  test('adult catalogue change does not reload source-backed Home', () async {
+    await ZModePrefs.setEnabled(false);
+    final repo = _StubRepo([_csSection('Latest')]);
+    final cubit = HomeCubit(repo);
+    addTearDown(cubit.close);
+
+    await cubit.load();
+    await cubit.reloadAfterAdultMetadataChange();
+
+    expect(repo.homeCount, 1);
+    expect(cubit.state.sections?.single.title, 'Latest');
+  });
+
   test('the library is cached: a second load does not re-fetch', () async {
     final t = _FakeTracker(library: [_entry('One Piece', progress: 1)]);
     final cubit = cubitWith(t, sections: [_zmSection('Trending')]);

@@ -121,6 +121,7 @@ class MetadataRepository implements CatalogueRepository {
   /// swap without waiting on AniList/TMDB again; the counterpart kind is
   /// prefetched after each successful home fetch.
   final Map<ZKind, List<HomeSection>> _homeCache = {};
+  int _homeCacheGeneration = 0;
 
   /// Home loads that are running RIGHT NOW, one per kind.
   ///
@@ -136,7 +137,11 @@ class MetadataRepository implements CatalogueRepository {
   /// [initDependencies] so [HomeCubit] can mirror them for instant toggles.
   void Function(ZKind kind, List<HomeSection> rows)? onStreamHomeCached;
 
-  void clearHomeCache() => _homeCache.clear();
+  void clearHomeCache() {
+    _homeCacheGeneration++;
+    _homeCache.clear();
+    _homeInFlight.clear();
+  }
 
   /// Synchronous read of cached home rows — used by [HomeCubit] on Anime ↔
   /// Movie/TV toggles so a prefetched counterpart swaps instantly.
@@ -147,14 +152,17 @@ class MetadataRepository implements CatalogueRepository {
   Future<List<HomeSection>> ensureHomeCached(ZKind kind) async {
     final hit = _homeCache[kind];
     if (hit != null) return hit;
+    final generation = _homeCacheGeneration;
     final sw = Stopwatch()..start();
     debugPrint('[metadata] warm · kind=$kind · fetch');
     final rows = await _homeForKind(kind);
-    if (!_homeFailed(rows)) _homeCache[kind] = rows; // same rule as home()
+    if (generation == _homeCacheGeneration) {
+      if (!_homeFailed(rows)) _homeCache[kind] = rows; // same rule as home()
+      _syncHomeCubitStreamCache(kind, rows);
+    }
     debugPrint(
       '[metadata] warm · kind=$kind · ${rows.length} rows · ${sw.elapsedMilliseconds}ms',
     );
-    _syncHomeCubitStreamCache(kind, rows);
     return rows;
   }
 
@@ -415,12 +423,13 @@ class MetadataRepository implements CatalogueRepository {
       debugPrint('[metadata] home · kind=$k · joined the load already running');
       return running;
     }
-    final started = _loadHome(k);
+    final generation = _homeCacheGeneration;
+    final started = _loadHome(k, generation);
     _homeInFlight[k] = started;
     return started;
   }
 
-  Future<List<HomeSection>> _loadHome(ZKind k) async {
+  Future<List<HomeSection>> _loadHome(ZKind k, int generation) async {
     final sw = Stopwatch()..start();
     debugPrint('[metadata] home · kind=$k · fetch');
     try {
@@ -431,17 +440,19 @@ class MetadataRepository implements CatalogueRepository {
       // cached emptiness instead of retrying, and a quarter of the cache hits
       // in the field were serving zero rows. HomeCubit already refuses to
       // remember empty rows for the same reason.
-      if (!_homeFailed(rows)) _homeCache[k] = rows;
+      if (generation == _homeCacheGeneration) {
+        if (!_homeFailed(rows)) _homeCache[k] = rows;
+        _syncHomeCubitStreamCache(k, rows);
+        _prefetchStreamingCounterpart(k, generation);
+      }
       debugPrint(
         '[metadata] home · kind=$k · ${rows.length} rows · ${sw.elapsedMilliseconds}ms',
       );
-      _syncHomeCubitStreamCache(k, rows);
-      _prefetchStreamingCounterpart(k);
       return rows;
     } finally {
       // Always, including on a throw: the slot must not outlive the load, or
       // every later caller joins a future that already failed.
-      _homeInFlight.remove(k);
+      if (generation == _homeCacheGeneration) _homeInFlight.remove(k);
     }
   }
 
@@ -457,7 +468,8 @@ class MetadataRepository implements CatalogueRepository {
     return rows;
   }
 
-  void _prefetchStreamingCounterpart(ZKind loaded) {
+  void _prefetchStreamingCounterpart(ZKind loaded, int generation) {
+    if (generation != _homeCacheGeneration) return;
     final other = switch (loaded) {
       ZKind.anime => ZKind.movie,
       ZKind.movie => ZKind.anime,
@@ -468,6 +480,7 @@ class MetadataRepository implements CatalogueRepository {
       final sw = Stopwatch()..start();
       try {
         final rows = await _homeForKind(other);
+        if (generation != _homeCacheGeneration) return;
         if (!_homeFailed(rows)) _homeCache[other] = rows; // same rule as home()
         _syncHomeCubitStreamCache(other, rows);
         debugPrint(

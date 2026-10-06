@@ -21,8 +21,15 @@ typedef Gql =
 /// synthetic episode list. Anonymous — no token, so nothing here can touch the
 /// user's list.
 class AniListCatalogue implements AnimeCatalogue {
-  AniListCatalogue(this._gql);
+  AniListCatalogue(this._gql, {bool Function()? adultAllowed})
+    : _adultAllowed = adultAllowed ?? _adultOff;
+
   final Gql _gql;
+  final bool Function() _adultAllowed;
+
+  static bool _adultOff() => false;
+
+  String get _adultExclusion => _adultAllowed() ? '' : ',isAdult:false';
 
   static const _endpoint = 'https://graphql.anilist.co';
 
@@ -173,7 +180,7 @@ class AniListCatalogue implements AnimeCatalogue {
     final query = rows.indexed
         .map((e) {
           final (i, (_, args)) = e;
-          return 'r$i: Page(perPage:30){ media(type:${_type(kind)}${_format(kind)},$args){ $_listFields } }';
+          return 'r$i: Page(perPage:30){ media(type:${_type(kind)}$_adultExclusion${_format(kind)},$args){ $_listFields } }';
         })
         .join(' ');
     final data = await _gql('query{ $query }', const {});
@@ -202,7 +209,7 @@ class AniListCatalogue implements AnimeCatalogue {
   Future<List<MediaItem>> browseRow(ZKind kind, String rowId, int page) async {
     final data = await _gql(
       'query{ Page(page:$page,perPage:30){ '
-      'media(type:${_type(kind)}${_format(kind)},$rowId){ $_listFields } } }',
+      'media(type:${_type(kind)}$_adultExclusion${_format(kind)},$rowId){ $_listFields } }',
       const {},
     );
     return _itemsFromPage(data?['Page'], kind);

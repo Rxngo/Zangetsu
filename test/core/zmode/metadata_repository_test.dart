@@ -346,6 +346,56 @@ void main() {
     expect(g.calls.length, 1, reason: 'the second read came from the cache');
   });
 
+  test('clearing home cache discards an older in-flight result', () async {
+    final oldGate = Completer<void>();
+    var calls = 0;
+    final catalogue = AniListCatalogue((query, variables) async {
+      final aliases = RegExp(
+        r'(r\d+):',
+      ).allMatches(query).map((match) => match.group(1)!);
+      if (aliases.isEmpty) return {'Media': _al()};
+      final call = ++calls;
+      if (call == 1) await oldGate.future;
+      final title = call == 1 ? 'old cached title' : 'fresh safe title';
+      return {
+        for (final alias in aliases)
+          alias: {
+            'media': [
+              {
+                ..._al(),
+                'title': {'romaji': title, 'english': title},
+              },
+            ],
+          },
+      };
+    });
+    final r = _metaRepo(
+      sources: src,
+      store: store,
+      prefs: prefs,
+      browseKind: () => kind,
+      matcher: SourceMatcher(
+        sources: src,
+        store: store,
+        prefs: prefs,
+        candidates: (_) => [(id: 'allanime', name: 'AllAnime')],
+      ),
+      anilist: catalogue,
+    );
+
+    final oldLoad = r.home();
+    r.clearHomeCache();
+    final freshLoad = r.home();
+    oldGate.complete();
+
+    final fresh = await freshLoad;
+    await oldLoad;
+    final cached = await r.home();
+    expect(fresh.first.items.first.title, 'fresh safe title');
+    expect(cached.first.items.first.title, 'fresh safe title');
+    expect(calls, 2);
+  });
+
   test(
     'two callers during one load share it instead of both fetching',
     () async {

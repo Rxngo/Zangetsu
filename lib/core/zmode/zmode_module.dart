@@ -5,6 +5,7 @@ import '../di/injector.dart';
 import '../metadata/streaming_providers.dart';
 import '../mode/content_mode.dart';
 import '../mode/content_mode_cubit.dart';
+import '../playback/playback_prefs.dart';
 import '../playback/source_health_store.dart';
 import '../repository/catalogue_repository.dart';
 import '../repository/catalogue_router.dart';
@@ -61,7 +62,10 @@ Future<void> registerZangetsuMode(GetIt sl) async {
   );
 
   sl.registerSingleton<MetadataRepository>(MetadataRepository(
-    anilist: AniListCatalogue(AniListCatalogue.dioGql(sl<Dio>())),
+    anilist: AniListCatalogue(
+      AniListCatalogue.dioGql(sl<Dio>()),
+      adultAllowed: () => sl<PlaybackPrefs>().adultMetadata,
+    ),
     tmdb: TmdbCatalogue(TmdbCatalogue.dioGet(sl<Dio>())),
     mal: MalCatalogue(sl<Dio>()),
     simkl: SimklCatalogue(sl<Dio>()),

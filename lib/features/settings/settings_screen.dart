@@ -56,6 +56,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/locale/app_language_picker.dart';
 import '../../l10n/l10n.dart';
 import '../home/metadata_switch_sheet.dart';
+import '../home/cubit/home_cubit.dart';
 import '../../l10n/ui_strings.dart';
 import '../../core/ui/subtitle_language_picker.dart';
 import '../../core/theme/app_text.dart';

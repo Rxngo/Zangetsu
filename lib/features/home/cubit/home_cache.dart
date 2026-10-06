@@ -36,6 +36,23 @@ class HomeCache {
 
   static Box? get _box => Hive.isBoxOpen(boxName) ? Hive.box(boxName) : null;
 
+  /// Drops all Home snapshots for [sourceId] after its catalogue visibility
+  /// policy changes. Other providers' warm caches stay intact.
+  static Future<void> clearSource(String sourceId) async {
+    try {
+      final box = _box;
+      if (box == null) return;
+      final prefix = '$sourceId|';
+      for (final key in box.keys.toList()) {
+        if (key is String && key.startsWith(prefix)) {
+          await box.delete(key);
+        }
+      }
+    } catch (_) {
+      // Cache invalidation must never break a setting change or Home load.
+    }
+  }
+
   /// The last good sections for [sourceId]+[kind], or null when there is
   /// nothing usable cached. Never throws.
   static List<HomeSection>? read(String sourceId, String kind) {
