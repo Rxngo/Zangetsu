@@ -23,6 +23,7 @@ import '../zmode/metadata_repository.dart';
 import '../zmode/zmode_ids.dart';
 import 'download_prefs.dart';
 import 'hls_downloader.dart';
+import 'hls_download_journal.dart';
 import 'download_record.dart';
 import 'download_service.dart';
 import 'external_subtitle_export.dart';
@@ -133,7 +134,7 @@ class DownloadManager extends ChangeNotifier {
     _listenBackgroundService();
     _listenTorrentDownloads();
     unawaited(_publishPreviouslyDownloadedSubtitles());
-    _reconcileServiceResults(); // apply HLS downloads finished while killed
+    unawaited(_recoverBackgroundHlsJobs());
   }
 
   /// Existing completed downloads predate public subtitle copies. Publish them
@@ -314,6 +315,43 @@ class DownloadManager extends ChangeNotifier {
       }
       notifyListeners();
     } catch (_) {}
+  }
+
+  /// Reconcile completed work first, then ask the foreground service to resume
+  /// any HLS jobs whose isolate was stopped with the app process.
+  Future<void> _recoverBackgroundHlsJobs() async {
+    await _reconcileServiceResults();
+    try {
+      final journal = await DownloadService.jobJournal();
+      var hasPendingJobs = false;
+      for (final job in await journal.pending()) {
+        final id = job['id'] as String?;
+        final rec = id == null ? null : _records[id];
+        if (rec == null ||
+            rec.isTorrent ||
+            rec.status == DownloadStatus.done ||
+            rec.status == DownloadStatus.failed ||
+            rec.status == DownloadStatus.canceled ||
+            rec.status == DownloadStatus.unsupported) {
+          if (id != null) await journal.remove(id);
+          continue;
+        }
+        hasPendingJobs = true;
+      }
+      if (!hasPendingJobs) return;
+
+      final service = DownloadService.instance;
+      if (await service.isRunning()) {
+        service.invoke('sync');
+      } else {
+        await service.startService();
+      }
+    } catch (e) {
+      AppLogger.instance.log(
+        '[download] could not resume background HLS jobs: $e',
+        level: 'W',
+      );
+    }
   }
 
   @override
@@ -690,6 +728,7 @@ class DownloadManager extends ChangeNotifier {
   Future<void> _startHlsDownload(DownloadRecord rec, VideoSource source) async {
     _put(rec.copyWith(status: DownloadStatus.downloading, progress: 0));
     notifyListeners();
+    HlsDownloadJournal? journal;
     try {
       final docs = await getApplicationDocumentsDirectory();
       final safeShow = _safe(rec.showTitle);
@@ -707,10 +746,7 @@ class DownloadManager extends ChangeNotifier {
         throw UnsupportedError('Background HLS downloads are not available on Apple TV');
       }
 
-      if (!await DownloadService.instance.isRunning()) {
-        await DownloadService.instance.startService();
-      }
-      DownloadService.instance.invoke('download', {
+      final job = <String, dynamic>{
         'id': rec.id,
         'url': source.url,
         'headers': source.headers ?? const <String, String>{},
@@ -725,8 +761,19 @@ class DownloadManager extends ChangeNotifier {
         // How many episodes run at once + segment connections per download.
         'parallel': _downloadPrefs.parallelDownloads,
         'connections': _downloadPrefs.connectionsPerDownload,
-      });
+      };
+      journal = await DownloadService.jobJournal();
+      await journal.save(job);
+      if (_isCanceled(rec.id)) {
+        await journal.remove(rec.id);
+        return;
+      }
+
+      final service = DownloadService.instance;
+      if (!await service.isRunning()) await service.startService();
+      service.invoke('download', job);
     } catch (_) {
+      await journal?.remove(rec.id);
       if (_isCanceled(rec.id)) return;
       if (await _tryNext(rec)) return;
       _put(
@@ -1234,6 +1281,9 @@ class DownloadManager extends ChangeNotifier {
     } catch (_) {}
     if (!isAppleTv) {
       try {
+        await (await DownloadService.jobJournal()).remove(rec.id);
+      } catch (_) {}
+      try {
         DownloadService.instance.invoke('cancel', {'id': rec.id}); // HLS job (if any)
       } catch (_) {}
     }
@@ -1257,6 +1307,9 @@ class DownloadManager extends ChangeNotifier {
       await _fileDownloader.cancelTaskWithId(rec.id);
     } catch (_) {}
     if (!isAppleTv) {
+      try {
+        await (await DownloadService.jobJournal()).remove(rec.id);
+      } catch (_) {}
       try {
         DownloadService.instance.invoke('cancel', {'id': rec.id}); // stop HLS job
       } catch (_) {}

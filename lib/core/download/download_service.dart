@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../platform/apple_tv.dart';
 import 'download_prefs.dart';
+import 'hls_download_journal.dart';
 import 'hls_downloader.dart';
 
 /// Foreground-service host for HLS downloads so they continue with the app
@@ -61,6 +62,12 @@ class DownloadService {
     final docs = await getApplicationDocumentsDirectory();
     return Directory('${docs.path}/$sharedDir/$resultsDirName');
   }
+
+  /// Private job journal shared by the UI isolate and the background service.
+  static Future<HlsDownloadJournal> jobJournal() async {
+    final docs = await getApplicationDocumentsDirectory();
+    return HlsDownloadJournal(Directory('${docs.path}/$sharedDir/.jobs'));
+  }
 }
 
 @pragma('vm:entry-point')
@@ -81,6 +88,9 @@ void downloadServiceOnStart(ServiceInstance service) async {
   final hls = HlsDownloader(dio);
   final queue = <Map<String, dynamic>>[];
   final canceled = <String>{};
+  final queuedIds = <String>{};
+  final runningIds = <String>{};
+  final journalFuture = DownloadService.jobJournal();
   // How many episodes download at once (from the user's setting; last job wins).
   var parallelLimit = 3;
   // Live worker count — [pump] tops it back up to [parallelLimit] as jobs arrive.
@@ -97,69 +107,100 @@ void downloadServiceOnStart(ServiceInstance service) async {
   // safe to run concurrently.
   Future<void> runJob(Map<String, dynamic> job) async {
     final id = job['id'] as String;
-    if (canceled.remove(id)) return;
+    queuedIds.remove(id);
+    runningIds.add(id);
+    HlsDownloadJournal? journal;
+    try {
+      journal = await journalFuture;
+      if (canceled.remove(id)) {
+        await journal.remove(id);
+        return;
+      }
 
-    final url = job['url'] as String;
-    final headers = Map<String, String>.from(job['headers'] as Map? ?? {});
-    final outputPath = job['outputPath'] as String;
-    final quality = job['quality'] as String? ?? 'best';
-    final label = job['label'] as String? ?? 'Episode';
-    final showTitle = job['showTitle'] as String? ?? '';
-    final sharedSubDir = job['sharedSubDir'] as String? ?? DownloadService.sharedDir;
-    final connections = job['connections'] as int?;
+      final url = job['url'] as String;
+      final headers = Map<String, String>.from(job['headers'] as Map? ?? {});
+      final outputPath = job['outputPath'] as String;
+      final quality = job['quality'] as String? ?? 'best';
+      final label = job['label'] as String? ?? 'Episode';
+      final showTitle = job['showTitle'] as String? ?? '';
+      final sharedSubDir = job['sharedSubDir'] as String? ?? DownloadService.sharedDir;
+      final connections = job['connections'] as int?;
 
-    await setNotif('Downloading $showTitle', '$label · 0%');
-    service.invoke('progress', {'id': id, 'progress': 0.0});
+      await setNotif('Downloading $showTitle', '$label · 0%');
+      service.invoke('progress', {'id': id, 'progress': 0.0});
 
-    var lastPct = -1;
-    final failReason = await hls.download(
-      url: url,
-      headers: headers,
-      outputPath: outputPath,
-      preferredQuality: quality,
-      connections: connections,
-      onProgress: (p) {
-        service.invoke('progress', {'id': id, 'progress': p});
-        final pct = (p * 100).floor();
-        if (pct != lastPct) {
-          lastPct = pct;
-          setNotif('Downloading $showTitle', '$label · $pct%');
-        }
-      },
-      canceled: () => canceled.contains(id),
-    );
+      var lastPct = -1;
+      final failReason = await hls.download(
+        url: url,
+        headers: headers,
+        outputPath: outputPath,
+        preferredQuality: quality,
+        connections: connections,
+        onProgress: (p) {
+          service.invoke('progress', {'id': id, 'progress': p});
+          final pct = (p * 100).floor();
+          if (pct != lastPct) {
+            lastPct = pct;
+            setNotif('Downloading $showTitle', '$label · $pct%');
+          }
+        },
+        canceled: () => canceled.contains(id),
+      );
 
-    if (canceled.remove(id)) {
-      await _writeResult(id, status: 'canceled');
-      service.invoke('failed', {'id': id, 'canceled': true});
-      return;
+      if (canceled.remove(id)) {
+        await _writeResult(id, status: 'canceled');
+        await journal.remove(id);
+        service.invoke('failed', {'id': id, 'canceled': true});
+        return;
+      }
+      if (failReason != null) {
+        await _writeResult(id, status: 'failed', error: failReason);
+        await journal.remove(id);
+        service.invoke('failed', {'id': id, 'error': failReason});
+        return;
+      }
+
+      // Hand the local temp back to the main isolate to FINALIZE: remux the
+      // concatenated TS into a real MP4 (Android MediaMuxer) and move it into
+      // shared storage / the user's SAF tree. Neither MediaMuxer nor the SAF/
+      // MediaStore move is reachable from this background isolate.
+      final customUri = job['customUri'] as String?;
+      await _writeResult(
+        id,
+        status: 'done',
+        filePath: outputPath,
+        needsFinalize: true,
+        customUri: customUri,
+        sharedSubDir: sharedSubDir,
+      );
+      await journal.remove(id);
+      service.invoke('done', {
+        'id': id,
+        'filePath': outputPath,
+        'needsFinalize': true,
+        'customUri': customUri,
+        'sharedSubDir': sharedSubDir,
+      });
+    } catch (_) {
+      if (canceled.remove(id)) {
+        await _writeResult(id, status: 'canceled');
+        await journal?.remove(id);
+        service.invoke('failed', {'id': id, 'canceled': true});
+      } else {
+        await _writeResult(
+          id,
+          status: 'failed',
+          error: 'Background download stopped',
+        );
+        await journal?.remove(id);
+        service.invoke('failed', {
+          'id': id,
+          'error': 'Background download stopped',
+        });
+      }
+    } finally {
+      runningIds.remove(id);
     }
-    if (failReason != null) {
-      await _writeResult(id, status: 'failed', error: failReason);
-      service.invoke('failed', {'id': id, 'error': failReason});
-      return;
-    }
-
-    // Hand the local temp back to the main isolate to FINALIZE: remux the
-    // concatenated TS into a real MP4 (Android MediaMuxer) and move it into
-    // shared storage / the user's SAF tree. Neither MediaMuxer nor the SAF/
-    // MediaStore move is reachable from this background isolate.
-    final customUri = job['customUri'] as String?;
-    await _writeResult(
-      id,
-      status: 'done',
-      filePath: outputPath,
-      needsFinalize: true,
-      customUri: customUri,
-      sharedSubDir: sharedSubDir,
-    );
-    service.invoke('done', {
-      'id': id,
-      'filePath': outputPath,
-      'needsFinalize': true,
-      'customUri': customUri,
-      'sharedSubDir': sharedSubDir,
-    });
   }
 
   // One worker: drains queued jobs until the queue is empty, then retires.
@@ -174,7 +215,7 @@ void downloadServiceOnStart(ServiceInstance service) async {
       if (service is AndroidServiceInstance) {
         await service.setAsBackgroundService();
       }
-      await service.stopSelf();
+      if (running == 0 && queue.isEmpty) await service.stopSelf();
     }
   }
 
@@ -192,13 +233,61 @@ void downloadServiceOnStart(ServiceInstance service) async {
     }
   }
 
-  service.on('download').listen((data) {
+  Future<void> queueJob(
+    Map<String, dynamic> job, {
+    required bool persist,
+  }) async {
+    final id = job['id'];
+    if (id is! String ||
+        id.isEmpty ||
+        canceled.contains(id) ||
+        queuedIds.contains(id) ||
+        runningIds.contains(id)) {
+      return;
+    }
+    queuedIds.add(id);
+    try {
+      final journal = await journalFuture;
+      if (persist) await journal.save(job);
+      if (canceled.contains(id)) {
+        queuedIds.remove(id);
+        await journal.remove(id);
+        return;
+      }
+      queue.add(job);
+      pump();
+    } catch (_) {
+      queuedIds.remove(id);
+      try {
+        await (await journalFuture).remove(id);
+      } catch (_) {}
+      await _writeResult(
+        id,
+        status: 'failed',
+        error: 'Could not queue download',
+      );
+      service.invoke('failed', {'id': id, 'error': 'Could not queue download'});
+    }
+  }
+
+  Future<void> restorePendingJobs() async {
+    try {
+      final journal = await journalFuture;
+      for (final job in await journal.pending()) {
+        await queueJob(job, persist: false);
+      }
+    } catch (_) {}
+  }
+
+  service.on('download').listen((data) async {
     if (data == null) return;
+    final id = data['id'] as String?;
+    if (id != null) canceled.remove(id);
     final p = data['parallel'];
     if (p is int) parallelLimit = p;
-    queue.add(data);
-    pump();
+    await queueJob(data, persist: true);
   });
+  service.on('sync').listen((_) => unawaited(restorePendingJobs()));
   // Live setting change: raising the limit mid-batch starts queued episodes
   // right away (pump spawns the extra workers). Lowering it just stops NEW
   // workers spawning — running downloads are never interrupted.
@@ -209,11 +298,20 @@ void downloadServiceOnStart(ServiceInstance service) async {
       pump();
     }
   });
-  service.on('cancel').listen((data) {
+  service.on('cancel').listen((data) async {
     final id = data?['id'] as String?;
-    if (id != null) canceled.add(id);
+    if (id != null) {
+      canceled.add(id);
+      queuedIds.remove(id);
+      queue.removeWhere((job) => job['id'] == id);
+      try {
+        await (await journalFuture).remove(id);
+      } catch (_) {}
+    }
   });
   service.on('stop').listen((_) => service.stopSelf());
+
+  await restorePendingJobs();
 }
 
 /// Persist a completion marker the UI reconciles on next launch (covers
