@@ -331,10 +331,12 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
   /// debounce app-switching so the DB isn't hammered.
   static const Duration _syncFreshness = Duration(minutes: 2);
 
-  /// TV (and a phone left on My List) stays in [AppLifecycleState.resumed]
-  /// for hours, so [_syncOnResume] never fires again. Poll while foregrounded
-  /// so a watch/add/remove on another device lands without relaunching.
-  static const Duration _foregroundPoll = Duration(seconds: 30);
+  /// TV stays in [AppLifecycleState.resumed] for hours, so [_syncOnResume]
+  /// never fires again. Poll while foregrounded so a watch/add/remove on
+  /// another device lands without relaunching — but only when the local cache
+  /// is older than this window (see [pullFromCloudIfStale]). A 30s full
+  /// `select *` on mylist/history burned ~GB/day of PostgREST egress + logs.
+  static const Duration _foregroundPoll = Duration(minutes: 10);
 
   Timer? _foregroundSync;
 
@@ -445,33 +447,28 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
   /// library if it's older than [_syncFreshness] (debounced inside
   /// [MyListStore.pullFromCloudIfStale], so rapid app-switching doesn't hammer
   /// the DB). Also flushes any un-synced My List adds.
-  void _syncOnResume() =>
-      _syncLibrary(maxAge: _syncFreshness, forceMyList: true);
+  void _syncOnResume() => _syncLibrary(maxAge: _syncFreshness);
 
   void _startForegroundSync() {
     _foregroundSync?.cancel();
     // Don't wait for the first period — TV sits in resumed and phone
     // app-switch used to skip a pull for two minutes.
-    _syncLibrary(maxAge: _foregroundPoll, forceMyList: true);
+    _syncLibrary(maxAge: _foregroundPoll);
     _foregroundSync = Timer.periodic(_foregroundPoll, (_) {
-      _syncLibrary(maxAge: _foregroundPoll, forceMyList: true);
+      _syncLibrary(maxAge: _foregroundPoll);
     });
   }
 
-  void _syncLibrary({required Duration maxAge, bool forceMyList = false}) {
+  void _syncLibrary({required Duration maxAge}) {
     if (!sl.isRegistered<AuthCubit>() || !sl<AuthCubit>().state.isLoggedIn) {
       return;
     }
-    if (forceMyList) {
-      unawaited(sl<MyListStore>().pullFromCloud());
-    } else {
-      unawaited(sl<MyListStore>().pullFromCloudIfStale(maxAge: maxAge));
-    }
+    unawaited(sl<MyListStore>().pullFromCloudIfStale(maxAge: maxAge));
     unawaited(sl<WatchHistory>().pullFromCloudIfStale(maxAge: maxAge));
     unawaited(sl<ReadHistory>().pullFromCloudIfStale(maxAge: maxAge));
     // My List categories ride the same trigger — two small SELECTs, and they
     // have to arrive with the list they label.
-    unawaited(sl<CategoryStore>().pullFromCloud());
+    unawaited(sl<CategoryStore>().pullFromCloudIfStale(maxAge: maxAge));
     unawaited(sl<MyListStore>().retryPending());
   }
 
@@ -514,7 +511,7 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
             sl<MyListStore>().pullFromCloudIfStale(maxAge: _syncFreshness),
             sl<WatchHistory>().pullFromCloudIfStale(maxAge: _syncFreshness),
             sl<ReadHistory>().pullFromCloudIfStale(maxAge: _syncFreshness),
-            sl<CategoryStore>().pullFromCloud(),
+            sl<CategoryStore>().pullFromCloudIfStale(maxAge: _syncFreshness),
           ]).timeout(const Duration(seconds: 6));
           unawaited(sl<MyListStore>().retryPending());
         }
@@ -585,6 +582,7 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
         await sl<MyListStore>().pullFromCloud();
         await sl<WatchHistory>().pullFromCloud();
         await sl<ReadHistory>().pullFromCloud();
+        await sl<CategoryStore>().pullFromCloud();
         unawaited(sl<MyListStore>().retryPending());
         if (!sl.isRegistered<AppMode>() ||
             !sl<AppMode>().isTv ||

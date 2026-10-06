@@ -138,6 +138,12 @@ class CategoryStore {
   static const String boxName = 'list_categories';
   static const String _catsKey = '__categories__';
 
+  /// Shared with [MyListStore] / [WatchHistory] — last successful cloud-pull
+  /// timestamps, kept out of [boxName] so they never appear in assignment
+  /// iteration.
+  static const String syncMetaBox = 'library_sync_meta';
+  static const String _syncMetaKey = 'categories_lastPullMs';
+
   /// The signed-in user, or null when logged out / not wired up.
   String? get _uid => _currentUserId?.call();
 
@@ -158,6 +164,7 @@ class CategoryStore {
 
   static Future<void> init() async {
     if (!Hive.isBoxOpen(boxName)) await openBoxSafely(boxName);
+    if (!Hive.isBoxOpen(syncMetaBox)) await openBoxSafely(syncMetaBox);
   }
 
   Box get _box => Hive.box(boxName);
@@ -379,7 +386,10 @@ class CategoryStore {
     // Most pulls find exactly what's already here (nothing changed on another
     // device). Bailing out means no writes and no rebuild — which is what
     // stops the tabs flickering on every launch and resume.
-    if (_sameAsLocal(cats, byKey)) return;
+    if (_sameAsLocal(cats, byKey)) {
+      _markPulled();
+      return;
+    }
 
     // Write the new state BEFORE removing anything. Clearing first left a
     // window on every launch where the tabs vanished and came back a moment
@@ -393,6 +403,32 @@ class CategoryStore {
       if (!byKey.containsKey(key)) await _box.delete(key);
     }
     await _writeAll(cats); // bumps revision, so My List rebuilds
+    _markPulled();
+  }
+
+  /// Pull from cloud only when the last successful pull is older than [maxAge]
+  /// — same throttle as [MyListStore.pullFromCloudIfStale], so the foreground
+  /// poll does not re-download categories every tick.
+  Future<void> pullFromCloudIfStale({
+    Duration maxAge = const Duration(hours: 12),
+  }) async {
+    if (_uid == null || _remote == null) return;
+    int? last;
+    if (Hive.isBoxOpen(syncMetaBox)) {
+      last = Hive.box(syncMetaBox).get(_syncMetaKey) as int?;
+    }
+    if (last != null) {
+      final age = DateTime.now().millisecondsSinceEpoch - last;
+      if (age >= 0 && age < maxAge.inMilliseconds) return; // still fresh
+    }
+    await pullFromCloud();
+  }
+
+  void _markPulled() {
+    if (Hive.isBoxOpen(syncMetaBox)) {
+      Hive.box(syncMetaBox)
+          .put(_syncMetaKey, DateTime.now().millisecondsSinceEpoch);
+    }
   }
 
   /// True when the cloud copy already matches what's on the device, so a pull
