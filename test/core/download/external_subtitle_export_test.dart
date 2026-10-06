@@ -2,6 +2,56 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:watch_app/core/download/external_subtitle_export.dart';
 
 void main() {
+  test('exports subtitles into the same custom destination as the video', () {
+    expect(
+      externalSubtitleDestination(
+        videoPath:
+            'content://com.android.externalstorage.documents/tree/primary%3AZangetsu/document/primary%3AZangetsu%2FE1.mp4',
+        privateStorageRoot: '/data/user/0/app/files',
+        locationUri:
+            'content://com.android.externalstorage.documents/tree/primary%3AZangetsu',
+      ),
+      ExternalSubtitleDestination.safTree,
+    );
+    expect(
+      externalSubtitleDestination(
+        videoPath:
+            '/storage/ABCD-1234/Android/data/app/files/Downloads/Zangetsu/Show/E1.mp4',
+        privateStorageRoot: '/data/user/0/app/files',
+        locationUri: '/storage/ABCD-1234/Android/data/app/files/Downloads',
+      ),
+      ExternalSubtitleDestination.besideVideo,
+    );
+  });
+
+  test('recovers the SAF tree from the saved video URI', () {
+    expect(
+      externalSubtitleTreeUri(
+        'content://com.android.externalstorage.documents/tree/primary%3AZangetsu/document/primary%3AZangetsu%2FE1.mp4',
+      ),
+      'content://com.android.externalstorage.documents/tree/primary%3AZangetsu',
+    );
+  });
+
+  test('keeps private sidecars private and default sidecars in Downloads', () {
+    expect(
+      externalSubtitleDestination(
+        videoPath: '/data/user/0/app/files/Zangetsu/Show/E1.mp4',
+        privateStorageRoot: '/data/user/0/app/files',
+        locationUri: null,
+      ),
+      ExternalSubtitleDestination.privateStorage,
+    );
+    expect(
+      externalSubtitleDestination(
+        videoPath: '/storage/emulated/0/Download/Zangetsu/Show/E1.mp4',
+        privateStorageRoot: '/data/user/0/app/files',
+        locationUri: null,
+      ),
+      ExternalSubtitleDestination.sharedDownloads,
+    );
+  });
+
   test('videos inside app storage never export public subtitle sidecars', () {
     expect(
       shouldExportSubtitleSidecars(

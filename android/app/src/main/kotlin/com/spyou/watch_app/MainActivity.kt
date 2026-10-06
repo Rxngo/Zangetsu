@@ -1323,6 +1323,7 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
                         val localPath = call.argument<String>("localPath")
                         val treeUri = call.argument<String>("treeUri")
                         val filename = call.argument<String>("filename")
+                        val mimeType = call.argument<String>("mimeType") ?: "video/mp4"
                         if (localPath.isNullOrEmpty() || treeUri.isNullOrEmpty() || filename.isNullOrEmpty()) {
                             result.success(null)
                             return@setMethodCallHandler
@@ -1332,7 +1333,7 @@ class MainActivity : AppCompatActivity(), FlutterEngineConfigurator {
                                 val tree = androidx.documentfile.provider.DocumentFile
                                     .fromTreeUri(applicationContext, android.net.Uri.parse(treeUri))
                                 tree?.findFile(filename)?.delete() // replace an old copy
-                                val doc = tree?.createFile("video/mp4", filename)
+                                val doc = tree?.createFile(mimeType, filename)
                                 if (doc != null) {
                                     applicationContext.contentResolver.openOutputStream(doc.uri)?.use { os ->
                                         java.io.File(localPath).inputStream().use { it.copyTo(os) }

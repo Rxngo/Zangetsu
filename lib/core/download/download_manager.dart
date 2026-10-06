@@ -1069,10 +1069,21 @@ class DownloadManager extends ChangeNotifier {
     try {
       final videoPath = current.filePath!;
       final privateStorage = await getApplicationDocumentsDirectory();
-      if (!shouldExportSubtitleSidecars(
+      final destination = externalSubtitleDestination(
         videoPath: videoPath,
         privateStorageRoot: privateStorage.path,
-      )) {
+        locationUri: _downloadPrefs.locationUri,
+      );
+      if (destination == ExternalSubtitleDestination.privateStorage) {
+        return;
+      }
+      final safTreeUri =
+          externalSubtitleTreeUri(videoPath) ??
+          (_downloadPrefs.locationUri?.startsWith('content://') == true
+              ? _downloadPrefs.locationUri
+              : null);
+      if (destination == ExternalSubtitleDestination.safTree &&
+          safTreeUri == null) {
         return;
       }
       final directory = '$_sharedDir/${_safe(current.showTitle)}';
@@ -1130,29 +1141,45 @@ class DownloadManager extends ChangeNotifier {
           await staged.writeAsBytes(sourceBytes, flush: true);
         }
 
-        // Android assigns an indexed name when a MediaStore item with the same
-        // name already exists. Remove the previous sidecar first so re-downloads
-        // keep one predictable filename next to the episode.
-        String? existing;
-        try {
-          existing = await _fileDownloader.pathInSharedStorage(
+        String? publicPath;
+        if (destination == ExternalSubtitleDestination.besideVideo) {
+          final target = File('${File(videoPath).parent.path}/$filename');
+          try {
+            if (await target.exists()) await target.delete();
+            publicPath = (await staged.copy(target.path)).path;
+          } catch (_) {}
+        } else if (destination == ExternalSubtitleDestination.safTree) {
+          publicPath = await _moveIntoTree(
+            staged.path,
+            safTreeUri!,
+            filename,
+            mimeType: _subtitleMimeType(ext),
+          );
+        } else {
+          // Android assigns an indexed name when a MediaStore item with the
+          // same name already exists. Remove it first so re-downloads keep one
+          // predictable filename next to the episode.
+          String? existing;
+          try {
+            existing = await _fileDownloader.pathInSharedStorage(
+              staged.path,
+              SharedStorage.downloads,
+              directory: directory,
+            );
+          } catch (_) {}
+          if (existing != null) {
+            try {
+              await _fileDownloader.uri.deleteFile(Uri.parse(existing));
+            } catch (_) {}
+          }
+
+          publicPath = await _fileDownloader.moveFileToSharedStorage(
             staged.path,
             SharedStorage.downloads,
             directory: directory,
+            mimeType: _subtitleMimeType(ext),
           );
-        } catch (_) {}
-        if (existing != null) {
-          try {
-            await _fileDownloader.uri.deleteFile(Uri.parse(existing));
-          } catch (_) {}
         }
-
-        final publicPath = await _fileDownloader.moveFileToSharedStorage(
-          staged.path,
-          SharedStorage.downloads,
-          directory: directory,
-          mimeType: _subtitleMimeType(ext),
-        );
         if (publicPath == null) continue;
 
         // The record could have been deleted while MediaStore was writing.
@@ -1391,13 +1418,15 @@ class DownloadManager extends ChangeNotifier {
   Future<String?> _moveIntoTree(
     String localPath,
     String treeUri,
-    String filename,
-  ) async {
+    String filename, {
+    String mimeType = 'video/mp4',
+  }) async {
     try {
       return await _deviceChannel.invokeMethod<String>('moveIntoTree', {
         'localPath': localPath,
         'treeUri': treeUri,
         'filename': filename,
+        'mimeType': mimeType,
       });
     } catch (_) {
       return null;

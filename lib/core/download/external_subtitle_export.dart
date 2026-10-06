@@ -1,3 +1,54 @@
+/// Where the public subtitle sidecar should be written for a finished video.
+enum ExternalSubtitleDestination {
+  privateStorage,
+  sharedDownloads,
+  besideVideo,
+  safTree,
+}
+
+/// Routes the public subtitle copy to the same user-visible destination as the
+/// video. Private videos are never exported, even if a public folder is picked.
+ExternalSubtitleDestination externalSubtitleDestination({
+  required String videoPath,
+  required String privateStorageRoot,
+  required String? locationUri,
+}) {
+  if (!shouldExportSubtitleSidecars(
+    videoPath: videoPath,
+    privateStorageRoot: privateStorageRoot,
+  )) {
+    return ExternalSubtitleDestination.privateStorage;
+  }
+
+  final location = locationUri?.trim();
+  if (videoPath.startsWith('content://')) {
+    return externalSubtitleTreeUri(videoPath) != null ||
+            (location != null && location.startsWith('content://'))
+        ? ExternalSubtitleDestination.safTree
+        : ExternalSubtitleDestination.sharedDownloads;
+  }
+  if (location != null &&
+      location.isNotEmpty &&
+      !location.startsWith('content://')) {
+    final root = location.endsWith('/') ? location : '$location/';
+    if (videoPath.startsWith(root)) {
+      return ExternalSubtitleDestination.besideVideo;
+    }
+  }
+  return ExternalSubtitleDestination.sharedDownloads;
+}
+
+/// Recovers the granted SAF tree from a document URI returned for a video.
+String? externalSubtitleTreeUri(String videoPath) {
+  if (!videoPath.startsWith('content://')) return null;
+  final documentIndex = videoPath.indexOf('/document/');
+  final treeIndex = videoPath.indexOf('/tree/');
+  if (documentIndex < 0 || treeIndex < 0 || treeIndex > documentIndex) {
+    return null;
+  }
+  return videoPath.substring(0, documentIndex);
+}
+
 /// Private videos must never get a public subtitle sidecar.
 bool shouldExportSubtitleSidecars({
   required String videoPath,
