@@ -25,12 +25,14 @@ class TvRail extends StatelessWidget {
   final VoidCallback? onSeeAll;
   final bool firstAutofocus;
 
-  static const double _cardWidth = 150;
-  static const double _cardHeight = 225; // 2:3 poster
-
   @override
   Widget build(BuildContext context) {
     final items = section.items;
+    final wide = posterLayout(context) == PosterCardLayout.wide;
+    final titleInside = posterTitleInside(context, wide: wide);
+    final cardScale = posterCardScale(context);
+    final cardWidth = (wide ? 240.0 : 150.0) * cardScale;
+    final cardHeight = (wide ? 135.0 : 225.0) * cardScale;
     return Padding(
       padding: const EdgeInsets.only(top: 26, bottom: 0),
       child: Column(
@@ -50,13 +52,13 @@ class TvRail extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          // Card row. Height = poster + title + a little headroom for the
+          // Card row. Height = poster + portrait title + headroom for the
           // focused card's scale-up (the ListView is Clip.none so the growth and
           // its shadow spill past this box rather than being cropped). Kept snug
           // so rows don't float apart — the old +80 left a big dead band under
           // each title.
           SizedBox(
-            height: _cardHeight + 44,
+            height: cardHeight + (titleInside ? 20 : 44),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               // Don't clip the focused card's scale-up + accent glow. Combined
@@ -74,8 +76,8 @@ class TvRail extends StatelessWidget {
                     padding: const EdgeInsetsDirectional.only(end: 16),
                     child: Center(
                       child: SizedBox(
-                        width: _cardWidth,
-                        height: _cardHeight,
+                        width: cardWidth,
+                        height: cardHeight,
                         child: TvFocusable(
                           onTap: onSeeAll!,
                           waitForKeyUp: true,
@@ -119,11 +121,11 @@ class TvRail extends StatelessWidget {
                 }
                 final item = items[index];
                 // Only the poster ART gets the float focus (white outline hugs
-                // the artwork); the title sits below, outside the outline.
+                // the artwork); title placement follows the user's setting.
                 return Padding(
                   padding: const EdgeInsetsDirectional.only(end: 16),
                   child: SizedBox(
-                    width: _cardWidth,
+                    width: cardWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -140,34 +142,45 @@ class TvRail extends StatelessWidget {
                               : () => onLongPress!(item),
                           semanticLabel: item.title,
                           child: SizedBox(
-                            width: _cardWidth,
-                            height: _cardHeight,
+                            width: cardWidth,
+                            height: cardHeight,
                             child: PosterCard(
                               title: item.title,
+                              logoItem: item,
                               imageUrl: item.cover,
+                              wideImageUrl: item.banner,
                               headers: item.coverHeaders,
-                              cellWidth: _cardWidth,
+                              cellWidth: cardWidth,
+                              genres: item.genres,
+                              isAdult: item.isAdult,
+                              qualityBadge: item.quality,
+                              dubBadge: item.dubBadge,
+                              scoreBadge: item.score,
                               showTitle: false,
                               onTap: null,
                               onLongPress: null,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        // The focusable above already announces the title —
-                        // exclude this sibling so TalkBack doesn't say it twice.
-                        ExcludeSemantics(
-                          child: Text(
-                            item.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: AppColors.textSecondary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                        if (!titleInside) ...[
+                          const SizedBox(height: 10),
+                          // The focusable already announces the title.
+                          ExcludeSemantics(
+                            child: PosterCardTitle(
+                              title: item.title,
+                              logoItem: item,
+                              width: cardWidth,
+                              maxHeight: 20,
+                              maxLines: 1,
+                              inside: false,
+                              textStyle: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
                   ),

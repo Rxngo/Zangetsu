@@ -26,6 +26,7 @@ import 'core/notify/notification_service.dart';
 import 'core/notify/push_service.dart';
 import 'core/ui/home_rows_prefs.dart';
 import 'core/ui/route_observer.dart';
+import 'core/ui/poster_card.dart';
 import 'core/notify/subscription_checker.dart';
 import 'core/notify/subscription_store.dart';
 import 'core/playback/category_store.dart';
@@ -704,7 +705,9 @@ class _WatchAppState extends State<WatchApp> with WidgetsBindingObserver {
               )
             : (child ?? const SizedBox.shrink());
         final isTv = sl.isRegistered<AppMode>() && sl<AppMode>().isTv;
-        return isTv ? TvViewport(child: content) : content;
+        return PosterCardScope(
+          child: isTv ? TvViewport(child: content) : content,
+        );
       },
     );
   }

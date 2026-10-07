@@ -26,6 +26,7 @@ class MediaItem extends Equatable {
   final String url;
   final ProviderType type;
   final String sourceId;
+
   /// Release quality the source claims for this title — "4K", "HD", "CAM"…
   /// Shown as a poster badge. CloudStream is the only ecosystem that reports
   /// one, and plenty of its providers leave it unset, so null is the norm.
@@ -108,6 +109,9 @@ class MediaItem extends Equatable {
   /// without any caller having to ask which kind of row it is holding.
   final int? score;
 
+  /// True only when a catalogue explicitly marks this listing adult.
+  final bool isAdult;
+
   const MediaItem({
     required this.id,
     required this.title,
@@ -132,6 +136,7 @@ class MediaItem extends Equatable {
     this.genres = const [],
     this.status,
     this.score,
+    this.isAdult = false,
   });
 
   factory MediaItem.fromJson(Map<String, dynamic> json) =>
@@ -176,6 +181,7 @@ class MediaItem extends Equatable {
     genres: genres,
     status: status,
     score: score,
+    isAdult: isAdult,
   );
 
   @override
@@ -201,6 +207,7 @@ class MediaItem extends Equatable {
     genres,
     status,
     score,
+    isAdult,
   ];
 }
 
@@ -325,13 +332,42 @@ MediaItem? bestTitleMatch(
 /// could never equal a source's "Pokemon" (`pokemon`) — the same title, never
 /// matching. Only the Latin-1 range that actually shows up in titles.
 const Map<String, String> _foldedLetters = {
-  'á': 'a', 'à': 'a', 'â': 'a', 'ä': 'a', 'ã': 'a', 'å': 'a', 'ā': 'a',
-  'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e', 'ē': 'e',
-  'í': 'i', 'ì': 'i', 'î': 'i', 'ï': 'i', 'ī': 'i',
-  'ó': 'o', 'ò': 'o', 'ô': 'o', 'ö': 'o', 'õ': 'o', 'ø': 'o', 'ō': 'o',
-  'ú': 'u', 'ù': 'u', 'û': 'u', 'ü': 'u', 'ū': 'u',
-  'ñ': 'n', 'ç': 'c', 'ý': 'y', 'ÿ': 'y',
-  'ß': 'ss', 'æ': 'ae', 'œ': 'oe',
+  'á': 'a',
+  'à': 'a',
+  'â': 'a',
+  'ä': 'a',
+  'ã': 'a',
+  'å': 'a',
+  'ā': 'a',
+  'é': 'e',
+  'è': 'e',
+  'ê': 'e',
+  'ë': 'e',
+  'ē': 'e',
+  'í': 'i',
+  'ì': 'i',
+  'î': 'i',
+  'ï': 'i',
+  'ī': 'i',
+  'ó': 'o',
+  'ò': 'o',
+  'ô': 'o',
+  'ö': 'o',
+  'õ': 'o',
+  'ø': 'o',
+  'ō': 'o',
+  'ú': 'u',
+  'ù': 'u',
+  'û': 'u',
+  'ü': 'u',
+  'ū': 'u',
+  'ñ': 'n',
+  'ç': 'c',
+  'ý': 'y',
+  'ÿ': 'y',
+  'ß': 'ss',
+  'æ': 'ae',
+  'œ': 'oe',
 };
 
 /// Lowercase + strip non-alphanumerics, for tolerant title comparison.

@@ -173,6 +173,14 @@ String resolveHwdec({
 /// by a tiny untyped Hive box read anywhere via `sl<PlaybackPrefs>()`. Values
 /// are read with defaults so a fresh install behaves sensibly; numbers are
 /// coerced defensively since Hive may round-trip them as `int`/`double`/`num`.
+enum PosterCardLayout { portrait, wide }
+
+enum PosterCardSize { small, standard, large }
+
+enum PosterTitlePlacement { adaptive, inside, below }
+
+enum PosterTitleStyle { text, artwork }
+
 class PlaybackPrefs {
   static const String boxName = 'playback_prefs';
   static const String androidPlayerId = 'zangetsu.android.player';
@@ -251,7 +259,6 @@ class PlaybackPrefs {
   /// [seekButtons] enables the buttons; [tvSeekSeconds] is the jump size (default 10).
   bool get seekButtons => _box.get('seekButtons', defaultValue: true) as bool;
   Future<void> setSeekButtons(bool value) => _box.put('seekButtons', value);
-
 
   /// Whether to keep the screen awake while playing.
   bool get keepScreenOn => _box.get('keepScreenOn', defaultValue: true) as bool;
@@ -666,15 +673,99 @@ class PlaybackPrefs {
   bool get qualityBadges =>
       _box.get('qualityBadges', defaultValue: true) as bool;
 
-  /// Bumped ONLY by [setQualityBadges], so the badge on a poster can rebuild
-  /// itself the moment the switch flips. Same shape as
-  /// `ThemeController.revision`. Nothing else touches it, so no other setting
-  /// — and no navigation — can make a poster rebuild through this.
-  static final ValueNotifier<int> badgeRevision = ValueNotifier<int>(0);
+  /// Portrait is the default card shape. Wide is opt-in and only changes
+  /// poster-card surfaces, never the home hero or other backdrops.
+  PosterCardLayout get posterCardLayout =>
+      _box.get('posterCardLayout') == PosterCardLayout.wide.name
+      ? PosterCardLayout.wide
+      : PosterCardLayout.portrait;
+
+  PosterCardSize get posterPortraitSize =>
+      _posterCardSize('posterPortraitSize');
+  PosterCardSize get posterLandscapeSize =>
+      _posterCardSize('posterLandscapeSize');
+
+  PosterCardSize _posterCardSize(String key) => switch (_box.get(key)) {
+    'small' => PosterCardSize.small,
+    'large' => PosterCardSize.large,
+    _ => PosterCardSize.standard,
+  };
+
+  static final ValueNotifier<int> posterRevision = ValueNotifier<int>(0);
+
+  Future<void> setPosterCardLayout(PosterCardLayout value) async {
+    await _box.put('posterCardLayout', value.name);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterPortraitSize(PosterCardSize value) async {
+    await _box.put('posterPortraitSize', value.name);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterLandscapeSize(PosterCardSize value) async {
+    await _box.put('posterLandscapeSize', value.name);
+    posterRevision.value++;
+  }
+
+  PosterTitlePlacement get posterTitlePlacement =>
+      switch (_box.get('posterTitlePlacement')) {
+        'inside' => PosterTitlePlacement.inside,
+        'below' => PosterTitlePlacement.below,
+        _ => PosterTitlePlacement.adaptive,
+      };
+
+  PosterTitleStyle get posterTitleStyle =>
+      _box.get('posterTitleStyle') == PosterTitleStyle.artwork.name
+      ? PosterTitleStyle.artwork
+      : PosterTitleStyle.text;
+
+  Future<void> setPosterTitlePlacement(PosterTitlePlacement value) async {
+    await _box.put('posterTitlePlacement', value.name);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterTitleStyle(PosterTitleStyle value) async {
+    await _box.put('posterTitleStyle', value.name);
+    posterRevision.value++;
+  }
+
+  // Existing badges inherit the old single switch until a user picks each
+  // option. New labels start off so updating the app keeps today's cards.
+  bool get posterQualityBadge =>
+      _box.get('posterQualityBadge', defaultValue: qualityBadges) as bool;
+  bool get posterAudioBadge =>
+      _box.get('posterAudioBadge', defaultValue: qualityBadges) as bool;
+  bool get posterScoreBadge =>
+      _box.get('posterScoreBadge', defaultValue: qualityBadges) as bool;
+  bool get posterGenreBadge =>
+      _box.get('posterGenreBadge', defaultValue: false) as bool;
+  bool get posterAdultBadge =>
+      _box.get('posterAdultBadge', defaultValue: false) as bool;
+  bool get posterProgressBadge =>
+      _box.get('posterProgressBadge', defaultValue: false) as bool;
+
+  Future<void> _setPosterBadge(String key, bool value) async {
+    await _box.put(key, value);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterQualityBadge(bool value) =>
+      _setPosterBadge('posterQualityBadge', value);
+  Future<void> setPosterAudioBadge(bool value) =>
+      _setPosterBadge('posterAudioBadge', value);
+  Future<void> setPosterScoreBadge(bool value) =>
+      _setPosterBadge('posterScoreBadge', value);
+  Future<void> setPosterGenreBadge(bool value) =>
+      _setPosterBadge('posterGenreBadge', value);
+  Future<void> setPosterAdultBadge(bool value) =>
+      _setPosterBadge('posterAdultBadge', value);
+  Future<void> setPosterProgressBadge(bool value) =>
+      _setPosterBadge('posterProgressBadge', value);
 
   Future<void> setQualityBadges(bool value) async {
     await _box.put('qualityBadges', value);
-    badgeRevision.value++;
+    posterRevision.value++;
   }
 
   /// Whether to show the accurate AniSkip "Skip opening/ending" button (anime,
@@ -743,8 +834,7 @@ class PlaybackPrefs {
   /// off. Simkl has no such flag, so it is unaffected either way.
   bool get adultMetadata =>
       _box.get('adultMetadata', defaultValue: false) as bool;
-  Future<void> setAdultMetadata(bool value) =>
-      _box.put('adultMetadata', value);
+  Future<void> setAdultMetadata(bool value) => _box.put('adultMetadata', value);
 
   /// Whether Aniyomi sources flagged as NSFW (18+) are shown in the source
   /// list and switcher. Off by default; turning it on requires confirmation.

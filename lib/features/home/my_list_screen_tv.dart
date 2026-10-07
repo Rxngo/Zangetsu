@@ -7,6 +7,7 @@ import '../../core/di/injector.dart';
 import '../../core/mode/content_mode.dart';
 import '../../core/mode/content_mode_cubit.dart';
 import '../../core/models/media_item.dart';
+import '../../core/models/provider_info.dart';
 import '../../core/models/watch_status.dart';
 import '../../core/playback/category_store.dart';
 import '../../core/playback/my_list.dart';
@@ -19,6 +20,7 @@ import '../../core/tracker/tracker.dart';
 import '../../core/tracker/tracker_hub.dart';
 import '../../core/tv/tv_focusable.dart';
 import '../../core/tv/tv_poster_tile.dart';
+import '../../core/ui/poster_card.dart';
 import '../../core/ui/list_status_sheet.dart';
 import '../../core/ui/states.dart';
 import '../../core/ui/tracker_entry_sheet.dart';
@@ -336,9 +338,9 @@ class _MyListScreenTvState extends State<MyListScreenTv> {
       // Top inset keeps focused poster scale/outline inside the grid instead
       // of sliding up under the source-chip row (which paints beneath us).
       padding: const EdgeInsets.fromLTRB(40, 12, 40, 40),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: MyListScreenTv.crossAxisCount,
-        childAspectRatio: 0.56,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: tvPosterGridColumns(context),
+        childAspectRatio: tvPosterGridAspect(context),
         crossAxisSpacing: 18,
         mainAxisSpacing: 22,
       ),
@@ -348,8 +350,16 @@ class _MyListScreenTvState extends State<MyListScreenTv> {
         return TvPosterTile(
           autofocus: autofocusFirst && i == 0,
           title: entry.item.title,
+          logoItem: entry.item,
           imageUrl: entry.item.cover,
+          wideImageUrl: entry.item.banner,
           headers: entry.item.coverHeaders,
+          genres: entry.item.genres,
+          isAdult: entry.item.isAdult,
+          scoreBadge: entry.item.score,
+          progressBadge: entry.progress == null
+              ? null
+              : '${entry.item.type == ProviderType.manga || entry.item.type == ProviderType.novel ? 'Ch' : 'EP'} ${entry.progress}',
           onTap: () => onTap(entry.item),
           onLongPress: () => onLongPress(entry),
         );

@@ -10,6 +10,7 @@ import '../../core/theme/app_text.dart';
 import '../../core/tv/tv_back_button.dart';
 import '../../core/tv/tv_focusable.dart';
 import '../../core/tv/tv_poster_tile.dart';
+import '../../core/ui/poster_card.dart';
 import '../../core/ui/states.dart';
 import '../../l10n/l10n.dart';
 import '../detail/detail_screen.dart';
@@ -52,8 +53,6 @@ class _BrowseSourceScreenTvView extends StatefulWidget {
 }
 
 class _BrowseSourceScreenTvViewState extends State<_BrowseSourceScreenTvView> {
-  static const int _crossAxisCount = 6;
-
   bool _searching = false;
   late final TextEditingController _controller = TextEditingController();
   final FocusNode _fieldFocus = FocusNode();
@@ -168,7 +167,10 @@ class _BrowseSourceScreenTvViewState extends State<_BrowseSourceScreenTvView> {
                   if (state.loading) {
                     return Padding(
                       padding: const EdgeInsets.all(40),
-                      child: SkeletonGrid(crossAxisCount: _crossAxisCount),
+                      child: SkeletonGrid(
+                        crossAxisCount: tvPosterGridColumns(context),
+                        childAspectRatio: tvPosterGridAspect(context),
+                      ),
                     );
                   }
                   if (state.failed || state.sections.isEmpty) {
@@ -207,7 +209,10 @@ class _BrowseSourceScreenTvViewState extends State<_BrowseSourceScreenTvView> {
     if (state.searching) {
       return Padding(
         padding: const EdgeInsets.all(40),
-        child: SkeletonGrid(crossAxisCount: _crossAxisCount),
+        child: SkeletonGrid(
+          crossAxisCount: tvPosterGridColumns(context),
+          childAspectRatio: tvPosterGridAspect(context),
+        ),
       );
     }
     if (state.searchFailed) {
@@ -238,9 +243,9 @@ class _BrowseSourceScreenTvViewState extends State<_BrowseSourceScreenTvView> {
       },
       child: GridView.builder(
         padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: _crossAxisCount,
-          childAspectRatio: 0.56,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: tvPosterGridColumns(context),
+          childAspectRatio: tvPosterGridAspect(context),
           crossAxisSpacing: 18,
           mainAxisSpacing: 22,
         ),
@@ -255,8 +260,13 @@ class _BrowseSourceScreenTvViewState extends State<_BrowseSourceScreenTvView> {
           return TvPosterTile(
             autofocus: i == 0,
             title: item.title,
+            logoItem: item,
             imageUrl: item.cover,
+            wideImageUrl: item.banner,
             headers: item.coverHeaders,
+            genres: item.genres,
+            isAdult: item.isAdult,
+            scoreBadge: item.score,
             qualityBadge: item.quality,
             dubBadge: item.dubBadge,
             onTap: () => _openDetail(item),

@@ -405,11 +405,6 @@ final settingsLeaves = <SettingsLeaf>[
   ),
   SettingsLeaf(
     LeafParent.appearance,
-    (l) => l.posterBadges,
-    keywords: 'quality sub dub badge',
-  ),
-  SettingsLeaf(
-    LeafParent.appearance,
     (l) => l.animateLists,
     keywords: 'fade scroll animation',
   ),
@@ -421,7 +416,8 @@ final settingsLeaves = <SettingsLeaf>[
   SettingsLeaf(
     LeafParent.appearance,
     (l) => l.homeRows,
-    keywords: 'home screen rows reorder hide customize arrangement sections '
+    keywords:
+        'home screen rows reorder hide customize arrangement sections '
         'discover tracker continue watching',
   ),
 

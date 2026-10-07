@@ -14,6 +14,7 @@ import '../../l10n/l10n.dart';
 import '../../core/tv/tv_focusable.dart';
 import '../../core/tv/tv_list_focusable.dart';
 import '../../core/tv/tv_poster_tile.dart';
+import '../../core/ui/poster_card.dart';
 import '../../core/tv/tv_shell_tab_scope.dart';
 import '../../core/tv/tv_text_field.dart';
 import '../../core/ui/dock_visibility.dart';
@@ -66,7 +67,6 @@ class SearchScreenTv extends StatefulWidget {
 
 class _SearchScreenTvState extends State<SearchScreenTv> {
   /// 6 columns fills a 1920-wide TV at ~140 dp card width with comfortable gaps.
-  static const int _crossAxisCount = 6;
 
   bool get _isLibrary => widget.scope == SearchScope.library;
 
@@ -631,7 +631,8 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
                               child: SkeletonGrid(
-                                crossAxisCount: _crossAxisCount,
+                                crossAxisCount: tvPosterGridColumns(context),
+                                childAspectRatio: tvPosterGridAspect(context),
                               ),
                             );
                           case SearchStatus.error:
@@ -835,10 +836,10 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
     if (items.isEmpty) return _noResults(state);
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _crossAxisCount,
-        // Poster art + title below (outline hugs the art).
-        childAspectRatio: 0.56,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: tvPosterGridColumns(context),
+        // Keep the grid geometry aligned with the selected title placement.
+        childAspectRatio: tvPosterGridAspect(context),
         crossAxisSpacing: 18,
         mainAxisSpacing: 22,
       ),
@@ -849,8 +850,13 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
         return TvPosterTile(
           autofocus: i == 0,
           title: item.title,
+          logoItem: item,
           imageUrl: item.cover,
+          wideImageUrl: item.banner,
           headers: item.coverHeaders,
+          genres: item.genres,
+          isAdult: item.isAdult,
+          scoreBadge: item.score,
           tags: _tagsFor(item),
           qualityBadge: item.quality,
           dubBadge: item.dubBadge,
@@ -918,7 +924,11 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
             ),
             SizedBox(
               // Poster (130 × 195 at 2:3) + title + focus-scale headroom.
-              height: 250,
+              height:
+                  (posterLayout(context) == PosterCardLayout.wide
+                      ? 175.0
+                      : 250.0) *
+                  posterCardScale(context),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 // Don't clip the focused card's scale-up + glow.
@@ -930,14 +940,23 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
                   return Padding(
                     padding: const EdgeInsetsDirectional.only(end: 16),
                     child: SizedBox(
-                      width: 130,
+                      width:
+                          (posterLayout(context) == PosterCardLayout.wide
+                              ? 208.0
+                              : 130.0) *
+                          posterCardScale(context),
                       // First tile of the first row gets autofocus so D-pad DOWN
                       // from the field/suggestions lands on a result.
                       child: TvPosterTile(
                         autofocus: gi == 0 && i == 0,
                         title: item.title,
+                        logoItem: item,
                         imageUrl: item.cover,
+                        wideImageUrl: item.banner,
                         headers: item.coverHeaders,
+                        genres: item.genres,
+                        isAdult: item.isAdult,
+                        scoreBadge: item.score,
                         tags: _tagsFor(item),
                         qualityBadge: item.quality,
                         dubBadge: item.dubBadge,

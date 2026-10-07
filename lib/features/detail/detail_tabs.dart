@@ -239,16 +239,18 @@ class _RelationsTab extends StatelessWidget {
   /// trick: the card, the accent label and the tap handler are then the ones
   /// the tab already has, so a season behaves exactly like every other poster
   /// here — including opening its OWN title, with its own tracking.
-  static MediaRelation _asRelation(BuildContext context, SeasonEntry s) =>
-      MediaRelation(
-        title: s.title,
-        cover: s.cover,
-        relation: s.isCurrent
-            ? '${context.l10n.seasonNumber(s.number)} · ${context.l10n.statusWatching}'
-            : context.l10n.seasonNumber(s.number),
-        malId: s.malId,
-        anilistId: s.anilistId,
-      );
+  static MediaRelation _asRelation(
+    BuildContext context,
+    SeasonEntry s,
+  ) => MediaRelation(
+    title: s.title,
+    cover: s.cover,
+    relation: s.isCurrent
+        ? '${context.l10n.seasonNumber(s.number)} · ${context.l10n.statusWatching}'
+        : context.l10n.seasonNumber(s.number),
+    malId: s.malId,
+    anilistId: s.anilistId,
+  );
 
   /// The relations left once the seasons have been lifted out.
   ///
@@ -271,12 +273,14 @@ class _RelationsTab extends StatelessWidget {
     ];
   }
 
-  static const SliverGridDelegate _grid =
+  SliverGridDelegate _grid(BuildContext context) =>
       SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: posterGridColumns(context),
         mainAxisSpacing: 16,
         crossAxisSpacing: 12,
-        childAspectRatio: 0.47,
+        childAspectRatio: posterLayout(context) == PosterCardLayout.wide
+            ? 0.95
+            : 0.47,
       );
 
   @override
@@ -293,7 +297,7 @@ class _RelationsTab extends StatelessWidget {
     if (seasons.isEmpty) {
       return GridView.builder(
         padding: const EdgeInsets.fromLTRB(16, 18, 16, 40),
-        gridDelegate: _grid,
+        gridDelegate: _grid(context),
         itemCount: relations.length,
         itemBuilder: (_, i) => _card(context, relations[i], i),
       );
@@ -305,7 +309,7 @@ class _RelationsTab extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
           sliver: SliverGrid(
-            gridDelegate: _grid,
+            gridDelegate: _grid(context),
             delegate: SliverChildBuilderDelegate(
               (_, i) => _card(context, _asRelation(context, seasons[i]), i),
               childCount: seasons.length,
@@ -317,7 +321,7 @@ class _RelationsTab extends StatelessWidget {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
             sliver: SliverGrid(
-              gridDelegate: _grid,
+              gridDelegate: _grid(context),
               delegate: SliverChildBuilderDelegate(
                 (_, i) => _card(context, rest[i], seasons.length + i),
                 childCount: rest.length,
@@ -346,61 +350,61 @@ class _RelationsTab extends StatelessWidget {
 
   Widget _card(BuildContext context, MediaRelation r, int i) {
     {
-        final visual = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: AspectRatio(
-                aspectRatio: 2 / 3,
-                child: (r.cover != null && r.cover!.isNotEmpty)
-                    ? CachedNetworkImage(
-                        imageUrl: r.cover!,
-                        fit: BoxFit.cover,
-                        placeholder: (_, _) =>
-                            Container(color: AppColors.surface2),
-                        errorWidget: (_, _, _) =>
-                            Container(color: AppColors.surface2),
-                      )
-                    : Container(color: AppColors.surface2),
-              ),
+      final visual = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: AspectRatio(
+              aspectRatio: posterLayout(context) == PosterCardLayout.wide
+                  ? 16 / 9
+                  : 2 / 3,
+              child: (r.cover != null && r.cover!.isNotEmpty)
+                  ? CachedNetworkImage(
+                      imageUrl: r.cover!,
+                      fit: BoxFit.cover,
+                      placeholder: (_, _) =>
+                          Container(color: AppColors.surface2),
+                      errorWidget: (_, _, _) =>
+                          Container(color: AppColors.surface2),
+                    )
+                  : Container(color: AppColors.surface2),
             ),
-            const SizedBox(height: 6),
-            if (r.relation != null && r.relation!.isNotEmpty)
-              Text(
-                r.relation!.toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppText.caption.copyWith(
-                  color: AppColors.accent,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.4,
-                ),
-              ),
+          ),
+          const SizedBox(height: 6),
+          if (r.relation != null && r.relation!.isNotEmpty)
             Text(
-              r.title,
-              maxLines: 2,
+              r.relation!.toUpperCase(),
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppText.caption.copyWith(color: AppColors.textPrimary),
+              style: AppText.caption.copyWith(
+                color: AppColors.accent,
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.4,
+              ),
             ),
-          ],
+          Text(
+            r.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppText.caption.copyWith(color: AppColors.textPrimary),
+          ),
+        ],
+      );
+      // TV path: D-pad-navigable TvFocusable wrapper.
+      if (tvFocus) {
+        final hasRelationTag = r.relation != null && r.relation!.isNotEmpty;
+        return TvFocusable(
+          key: ValueKey('tv-rel-$i'),
+          onTap: () => onOpen(r),
+          semanticLabel: hasRelationTag ? '${r.relation}, ${r.title}' : r.title,
+          // visual is shared with the phone branch below — exclude it here
+          // instead of touching it.
+          child: ExcludeSemantics(child: visual),
         );
-        // TV path: D-pad-navigable TvFocusable wrapper.
-        if (tvFocus) {
-          final hasRelationTag = r.relation != null && r.relation!.isNotEmpty;
-          return TvFocusable(
-            key: ValueKey('tv-rel-$i'),
-            onTap: () => onOpen(r),
-            semanticLabel: hasRelationTag
-                ? '${r.relation}, ${r.title}'
-                : r.title,
-            // visual is shared with the phone branch below — exclude it here
-            // instead of touching it.
-            child: ExcludeSemantics(child: visual),
-          );
-        }
-        return _PressableCard(onTap: () => onOpen(r), child: visual);
+      }
+      return _PressableCard(onTap: () => onOpen(r), child: visual);
     }
   }
 }
@@ -760,14 +764,15 @@ class _CardGridSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cell = (MediaQuery.sizeOf(context).width - 32 - 24) / 3;
+    final cell = posterGridCellWidth(context);
+    final wide = posterLayout(context) == PosterCardLayout.wide;
     return _Shimmer(
       child: GridView.builder(
         padding: const EdgeInsets.fromLTRB(16, 20, 16, 40),
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: posterGridAspect(context),
+          crossAxisCount: posterGridColumns(context),
+          childAspectRatio: wide ? 0.95 : 0.47,
           crossAxisSpacing: 12,
           mainAxisSpacing: 16,
         ),
@@ -777,7 +782,7 @@ class _CardGridSkeleton extends StatelessWidget {
         itemBuilder: (_, _) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _bone(cell, cell * 1.5, 12),
+            _bone(cell, cell * (wide ? 9 / 16 : 1.5), 12),
             const SizedBox(height: 8),
             _bone(cell * 0.75, 11),
           ],

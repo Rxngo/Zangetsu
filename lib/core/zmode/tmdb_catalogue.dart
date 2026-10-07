@@ -360,6 +360,7 @@ class TmdbCatalogue implements VideoCatalogue {
             isTv: isTv,
           ),
           score: _score(m['vote_average']),
+          isAdult: m['adult'] == true,
         ),
       );
     }
