@@ -192,7 +192,7 @@ class DownloadManager extends ChangeNotifier {
         final id = d?['id'] as String?;
         if (id == null) return;
         final rec = _records[id];
-        if (rec == null) return;
+        if (rec == null || rec.status == DownloadStatus.canceled) return;
         _candidates.remove(id);
         var path = d?['filePath'] as String?;
         // The isolate handed back the local .ts temp; remux it to a real .mp4
@@ -278,7 +278,9 @@ class DownloadManager extends ChangeNotifier {
           final m = jsonDecode(await entity.readAsString()) as Map;
           final id = m['id'] as String?;
           final rec = id == null ? null : _records[id];
-          if (rec != null && rec.status != DownloadStatus.done) {
+          if (rec != null &&
+              rec.status != DownloadStatus.done &&
+              rec.status != DownloadStatus.canceled) {
             final status = m['status'] as String?;
             if (status == 'done') {
               _candidates.remove(id);
@@ -559,7 +561,7 @@ class DownloadManager extends ChangeNotifier {
       if (ranked.isEmpty) {
         // Everything this source offers is a manifest. Another source may
         // serve real files — that is worth trying before saying no.
-        if (await _tryAnotherSource(rec)) return;
+        if (await _tryAnotherSource(rec) || _isCanceled(rec.id)) return;
         AppLogger.instance.log(
           '[download] no downloadable source — ${rec.showTitle} · '
           '${rec.episodeTitle} (${sources.length} source(s), all DASH/unusable)',
@@ -577,6 +579,7 @@ class DownloadManager extends ChangeNotifier {
       _candidates[rec.id] = ranked;
       await _enqueueTaskFor(rec, ranked.first);
     } catch (e) {
+      if (_isCanceled(rec.id)) return;
       AppLogger.instance
           .log('download resolve failed (${rec.showTitle}): $e', level: 'E');
       _put(
@@ -587,8 +590,9 @@ class DownloadManager extends ChangeNotifier {
   }
 
   /// Advance [rec] to its next fallback mirror. Returns true if one was
-  /// enqueued, false when mirrors are exhausted.
+  /// enqueued or the record was canceled, false when mirrors are exhausted.
   Future<bool> _tryNext(DownloadRecord rec) async {
+    if (_isCanceled(rec.id)) return true;
     final cands = _candidates[rec.id];
     if (cands != null && cands.length > 1) {
       cands.removeAt(0); // drop the one that just failed
@@ -603,7 +607,8 @@ class DownloadManager extends ChangeNotifier {
     // undownloadable is undownloadable on every server it offers — AnimePahe
     // serves DASH from all of them. Ask the catalogue for another source
     // before giving up.
-    return _tryAnotherSource(rec);
+    final found = await _tryAnotherSource(rec);
+    return found || _isCanceled(rec.id);
   }
 
   /// Records currently mid-sweep, so a record can't start a second one for
@@ -626,6 +631,7 @@ class DownloadManager extends ChangeNotifier {
         rec.episodeUrl,
         (streams) => streams.any((s) => !isDash(s)),
       );
+      if (_isCanceled(rec.id)) return true;
       final ranked = _ranked(next.streams, rec.quality);
       if (ranked.isEmpty) return false;
       AppLogger.instance.log(
@@ -638,6 +644,7 @@ class DownloadManager extends ChangeNotifier {
       await _enqueueTaskFor(rec, ranked.first);
       return true;
     } catch (e) {
+      if (_isCanceled(rec.id)) return true;
       AppLogger.instance.log(
         'download: no downloadable source for ${rec.showTitle}: $e',
         level: 'E',
@@ -1324,6 +1331,13 @@ class DownloadManager extends ChangeNotifier {
   /// Cancel (if active) and forget the record + delete the saved file.
   Future<void> delete(DownloadRecord rec) async {
     _candidates.remove(rec.id);
+    final current = _records[rec.id];
+    if (current != null && current.status != DownloadStatus.canceled) {
+      // Stop late callbacks/resolvers before cleanup awaits give them a chance
+      // to persist progress or completion over the delete operation.
+      _put(current.copyWith(status: DownloadStatus.canceled, progress: 0));
+      notifyListeners();
+    }
     if (rec.isTorrent) {
       try {
         await _torrentSvc.cancel(rec.id);
@@ -1725,12 +1739,22 @@ class DownloadManager extends ChangeNotifier {
   /// each. Deleted only once the replacement is safely on disk, so a failed
   /// re-download doesn't cost the copy that already worked.
   Future<void> _markDone(DownloadRecord rec, String? path) async {
-    final latest = _records[rec.id] ?? rec;
+    var latest = _records[rec.id];
+    if (latest == null || latest.status == DownloadStatus.canceled) {
+      await _deleteMediaFile(path);
+      return;
+    }
+    final bytesTotal = latest.bytesTotal > 0 ? null : await sizeOf(path);
+    latest = _records[rec.id];
+    if (latest == null || latest.status == DownloadStatus.canceled) {
+      await _deleteMediaFile(path);
+      return;
+    }
     final done = latest.copyWith(
       status: DownloadStatus.done,
       progress: 1,
       filePath: () => path,
-      bytesTotal: latest.bytesTotal > 0 ? null : await sizeOf(path),
+      bytesTotal: bytesTotal,
       supersededPath: () => null,
     );
     _put(done);
@@ -1818,6 +1842,7 @@ class DownloadManager extends ChangeNotifier {
         allowMobileData: TorrentPrefs().allowMobileData,
       );
     } catch (e) {
+      if (_isCanceled(rec.id)) return;
       final wifi = e is PlatformException && e.code == 'wifi_only';
       AppLogger.instance
           .log('torrent download start failed (${rec.showTitle}): $e', level: 'E');
