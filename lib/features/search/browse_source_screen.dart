@@ -189,6 +189,7 @@ class _BrowseSourceViewState extends State<_BrowseSourceView> {
     if (uri == null || !uri.hasScheme || uri.host.isEmpty) return null;
     return '${uri.scheme}://${uri.host}/favicon.ico';
   }
+
   bool get _canSolveCloudflare => _baseUrl.isNotEmpty;
   bool get _canOpenInBrowser => _baseUrl.isNotEmpty;
   // Not _baseUrl.isNotEmpty: webViewUrlFor trims, so a whitespace-only base
@@ -569,15 +570,19 @@ class _BrowseSourceViewState extends State<_BrowseSourceView> {
                   final items = section.items;
                   return ContentRow(
                     title: section.title,
-                    itemWidth: 116,
-                    itemHeight: 216,
+                    itemWidth: posterRowWidth(context),
+                    itemHeight: posterRowHeight(context),
                     itemCount: items.length,
                     onSeeAll: () => _openSeeAll(context, section),
                     itemBuilder: (c, j) => PosterCard(
                       title: items[j].title,
+                      logoItem: items[j],
                       imageUrl: items[j].cover,
                       headers: items[j].coverHeaders,
-                      cellWidth: 116,
+                      cellWidth: posterRowWidth(c),
+                      wideImageUrl: items[j].banner,
+                      genres: items[j].genres,
+                      isAdult: items[j].isAdult,
                       qualityBadge: items[j].quality,
                       scoreBadge: items[j].score,
                       dubBadge: items[j].dubBadge,
@@ -640,7 +645,7 @@ class _BrowseSourceViewState extends State<_BrowseSourceView> {
       child: GridView.builder(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: posterGridColumns(context),
           childAspectRatio: posterGridAspect(context),
           crossAxisSpacing: 12,
           mainAxisSpacing: 16,
@@ -663,11 +668,16 @@ class _BrowseSourceViewState extends State<_BrowseSourceView> {
           final item = results[i];
           return PosterCard(
             title: item.title,
+            logoItem: item,
             imageUrl: item.cover,
+            wideImageUrl: item.banner,
+            genres: item.genres,
+            isAdult: item.isAdult,
             headers: item.coverHeaders,
             qualityBadge: item.quality,
             scoreBadge: item.score,
             dubBadge: item.dubBadge,
+            cellWidth: posterGridCellWidth(context),
             onTap: () => _openDetail(context, item),
           );
         },
@@ -803,10 +813,7 @@ class _SourceIdentityHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (tag == null)
-          tile
-        else
-          Hero(tag: tag, child: tile),
+        if (tag == null) tile else Hero(tag: tag, child: tile),
         const SizedBox(width: 13),
         Expanded(
           child: Column(

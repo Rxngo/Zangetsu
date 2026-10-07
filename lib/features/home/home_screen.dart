@@ -327,20 +327,18 @@ class _HomeViewState extends State<_HomeView>
     if (e.episodeUrl.isEmpty) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      ProviderManager.inBackground(
-        () {
-          // Z Mode's source id is only a catalogue pseudo-id. Use the actual
-          // source remembered for this title and stop there: a speculative
-          // startup warm must never turn into an Auto Resolve sweep.
-          if (e.sourceId == ZmodeIds.sourceId) {
-            if (!sl.isRegistered<PlaybackResolver>()) {
-              return Future.value(<VideoSource>[]);
-            }
-            return sl<PlaybackResolver>().prewarmRememberedSource(e.episodeUrl);
+      ProviderManager.inBackground(() {
+        // Z Mode's source id is only a catalogue pseudo-id. Use the actual
+        // source remembered for this title and stop there: a speculative
+        // startup warm must never turn into an Auto Resolve sweep.
+        if (e.sourceId == ZmodeIds.sourceId) {
+          if (!sl.isRegistered<PlaybackResolver>()) {
+            return Future.value(<VideoSource>[]);
           }
-          return _repo.sources(e.episodeUrl, sourceId: e.sourceId, fast: true);
-        },
-      ).catchError((_) => <VideoSource>[]);
+          return sl<PlaybackResolver>().prewarmRememberedSource(e.episodeUrl);
+        }
+        return _repo.sources(e.episodeUrl, sourceId: e.sourceId, fast: true);
+      }).catchError((_) => <VideoSource>[]);
     });
   }
 
@@ -802,15 +800,19 @@ class _HomeViewState extends State<_HomeView>
     return _animated(
       ContentRow(
         title: section.title,
-        itemWidth: 116,
-        itemHeight: 216,
+        itemWidth: posterRowWidth(context),
+        itemHeight: posterRowHeight(context),
         itemCount: items.length,
         onSeeAll: () => _openSeeAll(section),
         itemBuilder: (c, i) => PosterCard(
           title: items[i].title,
+          logoItem: items[i],
           imageUrl: items[i].cover,
           headers: items[i].coverHeaders,
-          cellWidth: 116,
+          cellWidth: posterRowWidth(c),
+          wideImageUrl: items[i].banner,
+          genres: items[i].genres,
+          isAdult: items[i].isAdult,
           qualityBadge: items[i].quality,
           scoreBadge: items[i].score,
           dubBadge: items[i].dubBadge,

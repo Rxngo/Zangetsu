@@ -14,6 +14,7 @@ import '../../core/repository/source_actions.dart' as source_actions;
 import '../../core/repository/source_repository.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/ui/poster_card.dart';
+import '../../core/playback/playback_prefs.dart';
 import '../../core/ui/reveal_item.dart';
 import '../../core/ui/states.dart';
 import '../../core/ui/source_switcher.dart';
@@ -510,7 +511,9 @@ class _MatchLineState extends State<MatchLine> {
                               child: SizedBox(
                                 height: 52,
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.only(start: 14),
+                                  padding: const EdgeInsetsDirectional.only(
+                                    start: 14,
+                                  ),
                                   child: labelRow,
                                 ),
                               ),
@@ -668,7 +671,7 @@ class _WrongTitleViewState extends State<_WrongTitleView> {
     // Matches the Search screen's grid exactly: 3 up, 12 across, 16 down, and
     // the same aspect helper — so a result here is the same object a search
     // result is, at the same size, with the same press animation.
-    final cellWidth = (MediaQuery.sizeOf(context).width - 32 - 24) / 3;
+    final cellWidth = posterGridCellWidth(context);
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -915,13 +918,23 @@ class _Results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final aspect = posterCellAspect(cellWidth);
+    final aspect = posterCellAspect(
+      cellWidth,
+      wide: posterLayout(context) == PosterCardLayout.wide,
+      titleInside: posterTitleInside(
+        context,
+        wide: posterLayout(context) == PosterCardLayout.wide,
+      ),
+    );
     final isTv = sl<AppMode>().isTv;
     if (state.results.isEmpty) {
       if (state.loading) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: SkeletonGrid(crossAxisCount: 3, childAspectRatio: aspect),
+          child: SkeletonGrid(
+            crossAxisCount: posterGridColumns(context),
+            childAspectRatio: aspect,
+          ),
         );
       }
       return EmptyState(
@@ -941,7 +954,7 @@ class _Results extends StatelessWidget {
       scrollCacheExtent: const ScrollCacheExtent.pixels(800),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: posterGridColumns(context),
         childAspectRatio: aspect,
         crossAxisSpacing: 12,
         mainAxisSpacing: 16,
@@ -956,7 +969,11 @@ class _Results extends StatelessWidget {
         final isCurrent = currentUrl != null && r.url == currentUrl;
         Widget cell = PosterCard(
           title: r.title,
+          logoItem: r,
           imageUrl: r.cover,
+          wideImageUrl: r.banner,
+          genres: r.genres,
+          isAdult: r.isAdult,
           headers: r.coverHeaders,
           cellWidth: cellWidth,
           qualityBadge: r.quality,

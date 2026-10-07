@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
 import '../../core/tv/tv_back_button.dart';
 import '../../core/tv/tv_poster_tile.dart';
+import '../../core/ui/poster_card.dart';
 
 /// TV variant of [SeeAllScreen]: a full-screen D-pad-navigable poster grid.
 ///
@@ -47,7 +48,6 @@ class SeeAllScreenTv extends StatefulWidget {
 class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
   /// 6 columns keeps the cards near the home-rail ~140 dp scale on a 1080p TV
   /// (5 rendered them oversized).
-  static const int _crossAxisCount = 6;
 
   late final List<MediaItem> _items = [...widget.items];
   final Set<String> _seen = {};
@@ -92,7 +92,7 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
   /// scrolling. Scheduled post-frame so it never calls setState during build.
   void _maybeLoadFromIndex(int index) {
     if (widget.onLoadMore == null || _loading || _end) return;
-    if (index < _items.length - _crossAxisCount * 2) return;
+    if (index < _items.length - tvPosterGridColumns(context) * 2) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _loadMore();
     });
@@ -156,10 +156,10 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
             controller: paginating ? _controller : null,
             padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
             cacheExtent: 800,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _crossAxisCount,
-              // Poster art + title below (outline hugs the art).
-              childAspectRatio: 0.56,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: tvPosterGridColumns(context),
+              // Match the grid geometry to the chosen title placement.
+              childAspectRatio: tvPosterGridAspect(context),
               crossAxisSpacing: 18,
               mainAxisSpacing: 22,
             ),
@@ -170,8 +170,15 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
               return TvPosterTile(
                 autofocus: i == 0,
                 title: item.title,
+                logoItem: item,
                 imageUrl: item.cover,
+                wideImageUrl: item.banner,
                 headers: item.coverHeaders,
+                genres: item.genres,
+                isAdult: item.isAdult,
+                scoreBadge: item.score,
+                qualityBadge: item.quality,
+                dubBadge: item.dubBadge,
                 tags: widget.tagsFor?.call(item) ?? const [],
                 onTap: () => widget.onTap(item),
                 onLongPress: widget.onLongPress == null

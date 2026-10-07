@@ -123,7 +123,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
         onLoadMore: widget.onLoadMore,
       );
     }
-    final cellW = (MediaQuery.sizeOf(context).width - 32 - 24) / 3;
+    final cellW = posterGridCellWidth(context);
     final paginating = widget.onLoadMore != null;
     // A trailing spinner cell spanning the full row while a page is loading.
     final showSpinner = paginating && _loading;
@@ -138,7 +138,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
         padding: const EdgeInsets.all(16),
         cacheExtent: 800,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: posterGridColumns(context),
           childAspectRatio: posterGridAspect(context),
           crossAxisSpacing: 12,
           mainAxisSpacing: 16,
@@ -150,7 +150,11 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
             index: i,
             child: PosterCard(
               title: item.title,
+              logoItem: item,
               imageUrl: item.cover,
+              wideImageUrl: item.banner,
+              genres: item.genres,
+              isAdult: item.isAdult,
               headers: item.coverHeaders,
               tags: widget.tagsFor?.call(item) ?? const [],
               qualityBadge: item.quality,

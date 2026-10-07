@@ -30,6 +30,7 @@ import '../../core/tracker/tracker_hub.dart';
 import '../../core/ui/buttons.dart';
 import '../../core/ui/list_status_sheet.dart';
 import '../../core/ui/poster_card.dart';
+import '../../core/models/provider_info.dart';
 import '../../core/ui/states.dart';
 import '../../core/ui/tracker_entry_sheet.dart';
 import '../auth/auth_cubit.dart';
@@ -241,8 +242,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
     );
   }
 
-  double _cellW(BuildContext context) =>
-      (MediaQuery.of(context).size.width - 32 - 24) / 3;
+  double _cellW(BuildContext context) => posterGridCellWidth(context);
 
   /// Filters the list you are looking at by title — My List and every tracker
   /// list, in every kind. View state: it belongs to the screen, and a query
@@ -1119,7 +1119,7 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
           physics: const AlwaysScrollableScrollPhysics(),
           cacheExtent: 800,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: posterGridColumns(context),
             childAspectRatio: posterGridAspect(context),
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
@@ -1131,7 +1131,14 @@ class _MyListViewState extends State<_MyListView> with WidgetsBindingObserver {
               index: i,
               child: PosterCard(
                 title: entry.item.title,
+                logoItem: entry.item,
                 imageUrl: entry.item.cover,
+                wideImageUrl: entry.item.banner,
+                genres: entry.item.genres,
+                isAdult: entry.item.isAdult,
+                progressBadge: entry.progress == null
+                    ? null
+                    : '${entry.item.type == ProviderType.manga || entry.item.type == ProviderType.novel ? 'Ch' : 'EP'} ${entry.progress}',
                 headers: entry.item.coverHeaders,
                 cellWidth: cellW,
                 onTap: () => onTap(entry.item),

@@ -473,6 +473,7 @@ class AniListCatalogue implements AnimeCatalogue {
       genres: [for (final g in (m['genres'] as List? ?? const [])) '$g'],
       // Already 0-100 here; the other three scale theirs to match.
       score: m['averageScore'] as int?,
+      isAdult: m['isAdult'] == true,
     );
   }
 

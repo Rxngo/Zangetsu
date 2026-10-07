@@ -643,7 +643,7 @@ class _SearchViewState extends State<_SearchView>
     // sizeOf (not MediaQuery.of) so this rebuilds only when the screen size
     // actually changes, not on every viewInsets change (e.g. every keyboard
     // animation frame).
-    final cellW = (MediaQuery.sizeOf(context).width - 40 - 24) / 3;
+    final cellW = posterGridCellWidth(context);
     // Computed once per outer build, not once per BlocBuilder rebuild below
     // (each fires on every search state emission during a live fan-out).
     final modeSources = _modeSources;
@@ -1780,8 +1780,12 @@ class _SearchViewState extends State<_SearchView>
   /// Horizontal (CloudStream-style) poster row for one source. Capped to
   /// [_kSourcePreviewCap]; the header's "See all" opens the full grid.
   Widget _sourceRow(SourceResultGroup g, double cellW) {
-    const itemW = 124.0;
-    const itemH = 210.0;
+    final itemW = posterLayout(context) == PosterCardLayout.wide
+        ? 184.0
+        : 124.0;
+    final itemH = posterLayout(context) == PosterCardLayout.wide
+        ? 146.0
+        : 210.0;
     final overflows = g.items.length > _kSourcePreviewCap;
     final preview = overflows
         ? g.items.take(_kSourcePreviewCap).toList(growable: false)
@@ -1828,7 +1832,11 @@ class _SearchViewState extends State<_SearchView>
                       index: i,
                       child: PosterCard(
                         title: item.title,
+                        logoItem: item,
                         imageUrl: item.cover,
+                        wideImageUrl: item.banner,
+                        genres: item.genres,
+                        isAdult: item.isAdult,
                         headers: item.coverHeaders,
                         tags: _tagsFor(item),
                         qualityBadge: item.quality,
@@ -1876,7 +1884,7 @@ class _SearchViewState extends State<_SearchView>
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 16),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: posterGridColumns(context),
             childAspectRatio: posterGridAspect(context),
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
@@ -1888,7 +1896,11 @@ class _SearchViewState extends State<_SearchView>
               index: i,
               child: PosterCard(
                 title: item.title,
+                logoItem: item,
                 imageUrl: item.cover,
+                wideImageUrl: item.banner,
+                genres: item.genres,
+                isAdult: item.isAdult,
                 headers: item.coverHeaders,
                 tags: _tagsFor(item),
                 qualityBadge: item.quality,
@@ -2116,7 +2128,7 @@ class _SearchViewState extends State<_SearchView>
       cacheExtent: 800,
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: posterGridColumns(context),
         childAspectRatio: posterGridAspect(context),
         crossAxisSpacing: 12,
         mainAxisSpacing: 16,
@@ -2126,7 +2138,11 @@ class _SearchViewState extends State<_SearchView>
         final item = items[i];
         return PosterCard(
           title: item.title,
+          logoItem: item,
           imageUrl: item.cover,
+          wideImageUrl: item.banner,
+          genres: item.genres,
+          isAdult: item.isAdult,
           headers: item.coverHeaders,
           tags: _tagsFor(item),
           qualityBadge: item.quality,
@@ -2185,7 +2201,7 @@ class _SearchViewState extends State<_SearchView>
       );
     }
 
-    final cellW = (MediaQuery.sizeOf(context).width - 40 - 24) / 3;
+    final cellW = posterGridCellWidth(context);
     return NotificationListener<ScrollNotification>(
       // Infinite scroll for a filtered browse, the way Aniyomi keeps paging one.
       // The bloc ignores the event unless a browse is active and idle, so this
@@ -2297,7 +2313,7 @@ class _SearchViewState extends State<_SearchView>
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: posterGridColumns(context),
                 childAspectRatio: posterGridAspect(context),
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 16,
@@ -2312,7 +2328,11 @@ class _SearchViewState extends State<_SearchView>
                   index: i,
                   child: PosterCard(
                     title: item.title,
+                    logoItem: item,
                     imageUrl: item.cover,
+                    wideImageUrl: item.banner,
+                    genres: item.genres,
+                    isAdult: item.isAdult,
                     headers: item.coverHeaders,
                     tags: _tagsFor(item),
                     qualityBadge: item.quality,
@@ -2469,7 +2489,12 @@ class _SearchViewState extends State<_SearchView>
 /// it anyway. Mirrors `_SourcePickerSheetState._grouped()`'s categories in
 /// source_switcher.dart. A top-level function (not inlined in
 /// [_SearchFilterSheet]) so it's unit-testable without a real [SearchBloc].
-List<({String title, List<({String id, String label, String? repo, String? icon})> rows})>
+List<
+  ({
+    String title,
+    List<({String id, String label, String? repo, String? icon})> rows,
+  })
+>
 searchFilterSections(
   SourceBuckets buckets,
   ContentMode mode,
@@ -3048,7 +3073,12 @@ class _SearchFilterSheet extends StatelessWidget {
   /// short instead of listing every source inline.
   Widget _sourcesSummaryRow(
     BuildContext context,
-    List<({String title, List<({String id, String label, String? repo, String? icon})> rows})>
+    List<
+      ({
+        String title,
+        List<({String id, String label, String? repo, String? icon})> rows,
+      })
+    >
     sections,
     SearchSourcePrefs prefs,
     ContentMode mode,
@@ -3096,7 +3126,12 @@ class _SearchFilterSheet extends StatelessWidget {
   /// [ZangetsuSourcesScreen], same as it always has.
   void _openSourcesSheet(
     BuildContext filterSheetContext,
-    List<({String title, List<({String id, String label, String? repo, String? icon})> rows})>
+    List<
+      ({
+        String title,
+        List<({String id, String label, String? repo, String? icon})> rows,
+      })
+    >
     sections,
     SearchSourcePrefs prefs,
     ContentMode mode,

@@ -3,8 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../core/ui/settings_widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../core/di/injector.dart';
-import '../../core/playback/playback_prefs.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
 import '../../core/ui/app_toast.dart';
@@ -184,13 +182,6 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
           SettingsSectionLabel(context.l10n.display),
           SettingsCard(
             children: [
-              _switchTile(
-                icon: Icons.sell_outlined,
-                title: context.l10n.posterBadges,
-                subtitle: context.l10n.qualityAndSubDubBadges,
-                value: sl<PlaybackPrefs>().qualityBadges,
-                onChanged: sl<PlaybackPrefs>().setQualityBadges,
-              ),
               _switchTile(
                 icon: Icons.auto_awesome_motion_outlined,
                 title: context.l10n.animateLists,

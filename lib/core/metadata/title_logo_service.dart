@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:watch_app/core/hive/safe_box.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,6 +25,7 @@ class TitleLogoService {
   static const String _boxName = 'logo_cache';
 
   final Map<String, String> _mem = {}; // '' = known "no logo"
+  Future<void> _posterLogoQueue = Future<void>.value();
   Box<String>? _boxRef;
   Box<String> get _box => _boxRef ??= Hive.box<String>(_boxName);
 
@@ -34,8 +37,7 @@ class TitleLogoService {
   /// from disk and reopen fresh instead of blocking boot.
   static Future<void> init() async {
     try {
-      await openBoxSafely<String>(_boxName)
-          .timeout(const Duration(seconds: 6));
+      await openBoxSafely<String>(_boxName).timeout(const Duration(seconds: 6));
     } catch (_) {
       try {
         await Hive.deleteBoxFromDisk(_boxName);
@@ -54,7 +56,9 @@ class TitleLogoService {
     for (final it in items) {
       try {
         await logoFor(it);
-      } catch (_) {/* best-effort */}
+      } catch (_) {
+        /* best-effort */
+      }
     }
   }
 
@@ -80,6 +84,20 @@ class TitleLogoService {
       // Network error (e.g. a TMDB reset) — do NOT cache, so a later attempt
       // (this session or a future launch) can still resolve the logo.
       return null;
+    }
+  }
+
+  /// Poster grids can build many cards at once. Keep their opt-in logo
+  /// lookups sequential so a large grid doesn't burst TMDB requests.
+  Future<String?> logoForPoster(MediaItem item) async {
+    final previous = _posterLogoQueue;
+    final done = Completer<void>();
+    _posterLogoQueue = done.future;
+    await previous;
+    try {
+      return await logoFor(item);
+    } finally {
+      done.complete();
     }
   }
 

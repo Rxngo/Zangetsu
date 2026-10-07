@@ -44,6 +44,7 @@ import '../downloads/downloads_screen.dart';
 import '../history/history_screen.dart';
 import 'app_face_screen.dart';
 import 'appearance_screen.dart';
+import 'poster_card_settings_screen.dart';
 import 'home_rows_screen.dart';
 import 'nav_tabs_screen.dart';
 import 'reader_settings_screen.dart';
@@ -1155,6 +1156,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             'home banner card panels face',
         onTap: () => _push(const AppFaceScreen()),
       ),
+    _SettingsEntry(
+      section: SettingsSection.interface,
+      group: 'Look',
+      icon: Icons.view_carousel_outlined,
+      title: 'Poster cards',
+      subtitle: 'Shape and labels for title cards',
+      keywords:
+          'poster landscape portrait wide badges quality sub dub '
+          'score genre age 18 progress customize cards',
+      onTap: () => _push(const PosterCardSettingsScreen()),
+    ),
     if (!_isTv)
       _SettingsEntry(
         section: SettingsSection.interface,

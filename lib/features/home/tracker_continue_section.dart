@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/models/home_row.dart';
 import '../../core/models/provider_info.dart';
+import '../../core/playback/playback_prefs.dart';
 import '../../core/models/watch_status.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
@@ -97,8 +98,6 @@ String trackerContinueCaption(BuildContext context, TrackerListItem e) =>
 /// The poster geometry every tracker row shares — art at 2:3 plus the gap and
 /// two lines of caption. Keeping the three rows on one cell size is what makes
 /// "From your lists" read as one block instead of three components.
-const double _kTrackerCell = 116;
-const double _kTrackerCellHeight = 216;
 
 /// "Continue on the tracker": in-progress entries, most recently updated first.
 ///
@@ -134,8 +133,8 @@ class TrackerContinueSection extends StatelessWidget {
     return ContentRow(
       title: context.l10n.homeRowTrackerContinue(trackerName),
       onSeeAll: onSeeAll,
-      itemWidth: _kTrackerCell,
-      itemHeight: _kTrackerCellHeight,
+      itemWidth: posterRowWidth(context),
+      itemHeight: posterRowHeight(context),
       itemCount: items.length,
       itemBuilder: (c, i) => _TrackerPosterCard(
         entry: items[i],
@@ -182,8 +181,8 @@ class NewEpisodesSection extends StatelessWidget {
       title: context.l10n.homeRowNewEpisodes,
       overline: trackerName,
       onSeeAll: onSeeAll,
-      itemWidth: _kTrackerCell,
-      itemHeight: _kTrackerCellHeight,
+      itemWidth: posterRowWidth(context),
+      itemHeight: posterRowHeight(context),
       itemCount: items.length,
       itemBuilder: (c, i) => _TrackerPosterCard(
         entry: items[i],
@@ -228,10 +227,11 @@ class _TrackerPosterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The caption and title sit OUTSIDE the poster (it draws neither), so
-    // without this the two lines under the art would be dead space. The
-    // poster keeps its own onTap for the press animation and wins the arena
-    // for taps on the art itself, so nothing fires twice.
+    final wide = posterLayout(context) == PosterCardLayout.wide;
+    final titleInside = posterTitleInside(context, wide: wide);
+    final cardWidth = posterRowWidth(context);
+    // The progress caption stays outside the poster. The title follows the
+    // saved placement/style, while this wrapper keeps the whole card tappable.
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -240,20 +240,26 @@ class _TrackerPosterCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: _kTrackerCell * 1.5,
+            height: cardWidth * (wide ? 9 / 16 : 1.5),
             child: Stack(
               children: [
                 Positioned.fill(
                   child: PosterCard(
                     title: entry.item.title,
+                    logoItem: entry.item,
                     imageUrl: entry.item.cover,
                     headers: entry.item.coverHeaders,
-                    cellWidth: _kTrackerCell,
-                    showTitle: false, // the caption below carries it
+                    cellWidth: cardWidth,
+                    wideImageUrl: entry.item.banner,
+                    genres: entry.item.genres,
+                    isAdult: entry.item.isAdult,
+                    progressBadge: entry.progress == null
+                        ? null
+                        : trackerProgressSubtitle(entry),
+                    showTitle: titleInside,
                     onTap: onTap,
                   ),
                 ),
-                // IgnorePointer so the whole card stays one tap target.
                 if (badge != null)
                   Positioned(
                     top: 6,
@@ -273,12 +279,16 @@ class _TrackerPosterCard extends StatelessWidget {
               fontWeight: captionBold ? FontWeight.w700 : null,
             ),
           ),
-          Text(
-            entry.item.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppText.caption.copyWith(color: AppColors.textPrimary),
-          ),
+          if (!titleInside)
+            PosterCardTitle(
+              title: entry.item.title,
+              logoItem: entry.item,
+              width: cardWidth,
+              maxHeight: 20,
+              maxLines: 1,
+              inside: false,
+              textStyle: AppText.caption.copyWith(color: AppColors.textPrimary),
+            ),
         ],
       ),
     );
@@ -358,16 +368,21 @@ class TrackerListSection extends StatelessWidget {
       title: trackerStatusLabel(context, status, reading: reading),
       overline: trackerName,
       onSeeAll: onSeeAll,
-      itemWidth: 116,
-      itemHeight: 216,
+      itemWidth: posterRowWidth(context),
+      itemHeight: posterRowHeight(context),
       itemCount: items.length,
       itemBuilder: (c, i) {
         final e = items[i];
         return PosterCard(
           title: e.item.title,
+          logoItem: e.item,
           imageUrl: e.item.cover,
           headers: e.item.coverHeaders,
-          cellWidth: 116,
+          cellWidth: posterRowWidth(c),
+          wideImageUrl: e.item.banner,
+          genres: e.item.genres,
+          isAdult: e.item.isAdult,
+          progressBadge: e.progress == null ? null : trackerProgressSubtitle(e),
           onTap: () => onOpen(e),
           onLongPress: onLongPress == null ? null : () => onLongPress!(e),
         );

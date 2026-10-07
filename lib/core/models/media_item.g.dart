@@ -33,6 +33,7 @@ MediaItem _$MediaItemFromJson(Map<String, dynamic> json) => MediaItem(
       const [],
   status: $enumDecodeNullable(_$MediaStatusEnumMap, json['status']),
   score: (json['score'] as num?)?.toInt(),
+  isAdult: json['isAdult'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$MediaItemToJson(MediaItem instance) => <String, dynamic>{
@@ -58,6 +59,7 @@ Map<String, dynamic> _$MediaItemToJson(MediaItem instance) => <String, dynamic>{
   'genres': instance.genres,
   'status': _$MediaStatusEnumMap[instance.status],
   'score': instance.score,
+  'isAdult': instance.isAdult,
 };
 
 const _$ProviderTypeEnumMap = {
