@@ -106,16 +106,64 @@ PosterCardLayout posterLayout(BuildContext context) {
   return _posterPrefs?.posterCardLayout ?? PosterCardLayout.portrait;
 }
 
-int posterGridColumns(BuildContext context) =>
-    posterLayout(context) == PosterCardLayout.wide ? 2 : 3;
+PosterCardSize _posterSize(PosterCardLayout layout) {
+  final prefs = _posterPrefs;
+  return layout == PosterCardLayout.wide
+      ? prefs?.posterLandscapeSize ?? PosterCardSize.standard
+      : prefs?.posterPortraitSize ?? PosterCardSize.standard;
+}
+
+double posterCardScale(BuildContext context) =>
+    switch (_posterSize(posterLayout(context))) {
+      PosterCardSize.small => 0.85,
+      PosterCardSize.standard => 1,
+      PosterCardSize.large => 1.15,
+    };
+
+int _columnsForSize(int base, PosterCardSize size) => switch (size) {
+  PosterCardSize.small => base + 1,
+  PosterCardSize.standard => base,
+  PosterCardSize.large => base - 1,
+};
+
+int _responsiveColumns(
+  int desired, {
+  required double availableWidth,
+  required double minimumCellWidth,
+  required double spacing,
+  required int maxColumns,
+}) {
+  final widthLimit = ((availableWidth + spacing) / (minimumCellWidth + spacing))
+      .floor()
+      .clamp(1, maxColumns);
+  return desired.clamp(1, widthLimit).toInt();
+}
+
+int posterGridColumns(BuildContext context) {
+  final wide = posterLayout(context) == PosterCardLayout.wide;
+  final availableWidth = MediaQuery.sizeOf(context).width - 32;
+  final base = wide ? 2 : 3;
+  return _responsiveColumns(
+    _columnsForSize(
+      base,
+      _posterSize(wide ? PosterCardLayout.wide : PosterCardLayout.portrait),
+    ),
+    availableWidth: availableWidth,
+    minimumCellWidth: wide ? 110 : 72,
+    spacing: 12,
+    maxColumns: 6,
+  );
+}
 
 double posterGridCellWidth(BuildContext context) {
   final columns = posterGridColumns(context);
   return (MediaQuery.sizeOf(context).width - 32 - 12 * (columns - 1)) / columns;
 }
 
-double posterRowWidth(BuildContext context) =>
-    posterLayout(context) == PosterCardLayout.wide ? 184 : 116;
+double posterRowWidth(BuildContext context) {
+  final wide = posterLayout(context) == PosterCardLayout.wide;
+  return (wide ? 184 : 116) * posterCardScale(context);
+}
 
 double posterRowHeight(BuildContext context) {
   final wide = posterLayout(context) == PosterCardLayout.wide;
@@ -126,8 +174,19 @@ double posterRowHeight(BuildContext context) {
   );
 }
 
-int tvPosterGridColumns(BuildContext context) =>
-    posterLayout(context) == PosterCardLayout.wide ? 4 : 6;
+int tvPosterGridColumns(BuildContext context) {
+  final wide = posterLayout(context) == PosterCardLayout.wide;
+  return _responsiveColumns(
+    _columnsForSize(
+      wide ? 4 : 6,
+      _posterSize(wide ? PosterCardLayout.wide : PosterCardLayout.portrait),
+    ),
+    availableWidth: MediaQuery.sizeOf(context).width - 80,
+    minimumCellWidth: wide ? 150 : 100,
+    spacing: 18,
+    maxColumns: 10,
+  );
+}
 
 double tvPosterGridAspect(BuildContext context) {
   final wide = posterLayout(context) == PosterCardLayout.wide;

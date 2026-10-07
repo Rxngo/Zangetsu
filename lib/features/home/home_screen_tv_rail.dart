@@ -30,8 +30,9 @@ class TvRail extends StatelessWidget {
     final items = section.items;
     final wide = posterLayout(context) == PosterCardLayout.wide;
     final titleInside = posterTitleInside(context, wide: wide);
-    final cardWidth = wide ? 240.0 : 150.0;
-    final cardHeight = wide ? 135.0 : 225.0;
+    final cardScale = posterCardScale(context);
+    final cardWidth = (wide ? 240.0 : 150.0) * cardScale;
+    final cardHeight = (wide ? 135.0 : 225.0) * cardScale;
     return Padding(
       padding: const EdgeInsets.only(top: 26, bottom: 0),
       child: Column(

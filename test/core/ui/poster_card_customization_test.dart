@@ -34,6 +34,8 @@ void main() {
   test('poster options preserve the existing look by default', () {
     final prefs = PlaybackPrefs();
     expect(prefs.posterCardLayout, PosterCardLayout.portrait);
+    expect(prefs.posterPortraitSize, PosterCardSize.standard);
+    expect(prefs.posterLandscapeSize, PosterCardSize.standard);
     expect(prefs.posterTitlePlacement, PosterTitlePlacement.adaptive);
     expect(prefs.posterTitleStyle, PosterTitleStyle.text);
     expect(prefs.posterQualityBadge, isTrue);
@@ -49,15 +51,19 @@ void main() {
     final before = PlaybackPrefs.posterRevision.value;
 
     await prefs.setPosterCardLayout(PosterCardLayout.wide);
+    await prefs.setPosterPortraitSize(PosterCardSize.large);
+    await prefs.setPosterLandscapeSize(PosterCardSize.small);
     await prefs.setPosterTitlePlacement(PosterTitlePlacement.inside);
     await prefs.setPosterTitleStyle(PosterTitleStyle.artwork);
     await prefs.setPosterGenreBadge(true);
 
     expect(PlaybackPrefs().posterCardLayout, PosterCardLayout.wide);
+    expect(PlaybackPrefs().posterPortraitSize, PosterCardSize.large);
+    expect(PlaybackPrefs().posterLandscapeSize, PosterCardSize.small);
     expect(PlaybackPrefs().posterTitlePlacement, PosterTitlePlacement.inside);
     expect(PlaybackPrefs().posterTitleStyle, PosterTitleStyle.artwork);
     expect(PlaybackPrefs().posterGenreBadge, isTrue);
-    expect(PlaybackPrefs.posterRevision.value, before + 4);
+    expect(PlaybackPrefs.posterRevision.value, before + 6);
   });
 
   test(
@@ -579,14 +585,165 @@ void main() {
     );
   });
 
+  testWidgets('poster size preferences resize portrait and landscape cards', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: PosterCardScope(
+          child: Scaffold(
+            body: Builder(
+              builder: (context) => Column(
+                children: [
+                  Text('grid:${posterGridColumns(context)}'),
+                  Text('row:${posterRowWidth(context).toStringAsFixed(1)}'),
+                  Text('tv:${tvPosterGridColumns(context)}'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    expect(find.text('grid:3'), findsOneWidget);
+    expect(find.text('row:116.0'), findsOneWidget);
+    expect(find.text('tv:6'), findsOneWidget);
+
+    Future<void> saveSize(Future<void> Function() save) async {
+      await tester.runAsync(() async {
+        await save();
+      });
+      await tester.pump();
+    }
+
+    await saveSize(
+      () => PlaybackPrefs().setPosterPortraitSize(PosterCardSize.small),
+    );
+    expect(find.text('grid:4'), findsOneWidget);
+    expect(find.text('row:98.6'), findsOneWidget);
+    expect(find.text('tv:7'), findsOneWidget);
+
+    await saveSize(
+      () => PlaybackPrefs().setPosterPortraitSize(PosterCardSize.large),
+    );
+    expect(find.text('grid:2'), findsOneWidget);
+    expect(find.text('row:133.4'), findsOneWidget);
+    expect(find.text('tv:5'), findsOneWidget);
+
+    await tester.runAsync(
+      () => PlaybackPrefs().setPosterCardLayout(PosterCardLayout.wide),
+    );
+    await tester.pump();
+    expect(find.text('grid:2'), findsOneWidget);
+    expect(find.text('row:184.0'), findsOneWidget);
+    expect(find.text('tv:4'), findsOneWidget);
+
+    await saveSize(
+      () => PlaybackPrefs().setPosterLandscapeSize(PosterCardSize.small),
+    );
+    expect(find.text('grid:3'), findsOneWidget);
+    expect(find.text('row:156.4'), findsOneWidget);
+    expect(find.text('tv:5'), findsOneWidget);
+
+    await saveSize(
+      () => PlaybackPrefs().setPosterLandscapeSize(PosterCardSize.large),
+    );
+    expect(find.text('grid:1'), findsOneWidget);
+    expect(find.text('row:211.6'), findsOneWidget);
+    expect(find.text('tv:3'), findsOneWidget);
+
+    await tester.runAsync(
+      () => PlaybackPrefs().setPosterCardLayout(PosterCardLayout.portrait),
+    );
+    await tester.pump();
+    expect(find.text('grid:2'), findsOneWidget);
+    expect(find.text('row:133.4'), findsOneWidget);
+    expect(find.text('tv:5'), findsOneWidget);
+  });
+
+  testWidgets('Interface exposes independent portrait and landscape sizes', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: PosterCardScope(child: const PosterCardSettingsScreen()),
+      ),
+    );
+
+    expect(find.text('Portrait card size'), findsOneWidget);
+    expect(find.text('Landscape card size'), findsOneWidget);
+    expect(find.text('Small'), findsNWidgets(2));
+    expect(find.text('Default'), findsNWidgets(2));
+    expect(find.text('Large'), findsNWidgets(2));
+    final controls = tester
+        .widgetList<SegmentedButton<PosterCardSize>>(
+          find.byType(SegmentedButton<PosterCardSize>),
+        )
+        .toList();
+    expect(controls, hasLength(2));
+    expect(
+      controls.every((control) => control.onSelectionChanged != null),
+      isTrue,
+    );
+
+    expect(controls.map((control) => control.selected), [
+      {PosterCardSize.standard},
+      {PosterCardSize.standard},
+    ]);
+  });
+
+  testWidgets('small portrait preview fits its available sample cards', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.runAsync(
+      () => PlaybackPrefs().setPosterPortraitSize(PosterCardSize.small),
+    );
+    await tester.pumpWidget(
+      const MaterialApp(home: PosterCardSettingsScreen()),
+    );
+
+    expect(tester.takeException(), isNull);
+    final previews = find.byType(PosterCard);
+    expect(previews, findsNWidgets(3));
+    expect(tester.getSize(previews.first).width, closeTo(73, 0.1));
+  });
+
   testWidgets('Interface exposes poster controls', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: PosterCardScope(child: const PosterCardSettingsScreen()),
       ),
     );
+    await tester.scrollUntilVisible(
+      find.text('Landscape'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('Poster cards'), findsOneWidget);
     expect(find.text('Landscape'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('Title placement'),
+      160,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('Title placement'), findsOneWidget);
     expect(find.text('Title artwork'), findsOneWidget);
   });

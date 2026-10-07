@@ -175,6 +175,8 @@ String resolveHwdec({
 /// coerced defensively since Hive may round-trip them as `int`/`double`/`num`.
 enum PosterCardLayout { portrait, wide }
 
+enum PosterCardSize { small, standard, large }
+
 enum PosterTitlePlacement { adaptive, inside, below }
 
 enum PosterTitleStyle { text, artwork }
@@ -671,17 +673,38 @@ class PlaybackPrefs {
   bool get qualityBadges =>
       _box.get('qualityBadges', defaultValue: true) as bool;
 
-  /// Portrait keeps the released card sizes. Wide is an opt-in card layout;
-  /// it never changes the home hero or other backdrop surfaces.
+  /// Portrait is the default card shape. Wide is opt-in and only changes
+  /// poster-card surfaces, never the home hero or other backdrops.
   PosterCardLayout get posterCardLayout =>
       _box.get('posterCardLayout') == PosterCardLayout.wide.name
       ? PosterCardLayout.wide
       : PosterCardLayout.portrait;
 
+  PosterCardSize get posterPortraitSize =>
+      _posterCardSize('posterPortraitSize');
+  PosterCardSize get posterLandscapeSize =>
+      _posterCardSize('posterLandscapeSize');
+
+  PosterCardSize _posterCardSize(String key) => switch (_box.get(key)) {
+    'small' => PosterCardSize.small,
+    'large' => PosterCardSize.large,
+    _ => PosterCardSize.standard,
+  };
+
   static final ValueNotifier<int> posterRevision = ValueNotifier<int>(0);
 
   Future<void> setPosterCardLayout(PosterCardLayout value) async {
     await _box.put('posterCardLayout', value.name);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterPortraitSize(PosterCardSize value) async {
+    await _box.put('posterPortraitSize', value.name);
+    posterRevision.value++;
+  }
+
+  Future<void> setPosterLandscapeSize(PosterCardSize value) async {
+    await _box.put('posterLandscapeSize', value.name);
     posterRevision.value++;
   }
 

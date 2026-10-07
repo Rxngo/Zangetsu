@@ -924,9 +924,11 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
             ),
             SizedBox(
               // Poster (130 × 195 at 2:3) + title + focus-scale headroom.
-              height: posterLayout(context) == PosterCardLayout.wide
-                  ? 175
-                  : 250,
+              height:
+                  (posterLayout(context) == PosterCardLayout.wide
+                      ? 175.0
+                      : 250.0) *
+                  posterCardScale(context),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 // Don't clip the focused card's scale-up + glow.
@@ -938,9 +940,11 @@ class _SearchScreenTvState extends State<SearchScreenTv> {
                   return Padding(
                     padding: const EdgeInsetsDirectional.only(end: 16),
                     child: SizedBox(
-                      width: posterLayout(context) == PosterCardLayout.wide
-                          ? 208
-                          : 130,
+                      width:
+                          (posterLayout(context) == PosterCardLayout.wide
+                              ? 208.0
+                              : 130.0) *
+                          posterCardScale(context),
                       // First tile of the first row gets autofocus so D-pad DOWN
                       // from the field/suggestions lands on a result.
                       child: TvPosterTile(

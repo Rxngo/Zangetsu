@@ -101,9 +101,17 @@ class _PosterCardSettingsScreenState extends State<PosterCardSettingsScreen> {
           const SettingsSectionLabel('Preview', first: true),
           LayoutBuilder(
             builder: (context, constraints) {
-              final columns = posterGridColumns(context);
+              final gridColumns = posterGridColumns(context);
+              final sampleCount = gridColumns
+                  .clamp(1, _previewItems.length)
+                  .toInt();
               final rowWidth = constraints.maxWidth.clamp(0.0, 440.0);
-              final width = (rowWidth - 32 - 12 * (columns - 1)) / columns;
+              final width =
+                  (rowWidth - 32 - 12 * (gridColumns - 1)) / gridColumns;
+              final previewWidth =
+                  (width * sampleCount + 12 * (sampleCount - 1) + 32)
+                      .clamp(0.0, rowWidth)
+                      .toDouble();
               final height = posterCellHeight(
                 width,
                 wide: wide,
@@ -113,13 +121,13 @@ class _PosterCardSettingsScreenState extends State<PosterCardSettingsScreen> {
                 height: height + 12,
                 child: Center(
                   child: SizedBox(
-                    width: rowWidth,
+                    width: previewWidth,
                     height: height,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         children: [
-                          for (var index = 0; index < columns; index++) ...[
+                          for (var index = 0; index < sampleCount; index++) ...[
                             if (index == 1)
                               const VerticalDivider(
                                 width: 12,
@@ -183,6 +191,28 @@ class _PosterCardSettingsScreenState extends State<PosterCardSettingsScreen> {
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
             child: Text(
               'Landscape uses a backdrop when available. Otherwise the full poster fits without cropping.',
+              style: AppText.caption,
+            ),
+          ),
+          const SettingsSectionLabel('Size'),
+          SettingsCard(
+            children: [
+              _sizeControl(
+                'Portrait card size',
+                prefs.posterPortraitSize,
+                prefs.setPosterPortraitSize,
+              ),
+              _sizeControl(
+                'Landscape card size',
+                prefs.posterLandscapeSize,
+                prefs.setPosterLandscapeSize,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            child: Text(
+              'Card size applies to poster rows and grids throughout the app.',
               style: AppText.caption,
             ),
           ),
@@ -288,4 +318,33 @@ class _PosterCardSettingsScreenState extends State<PosterCardSettingsScreen> {
       ),
     );
   }
+
+  Widget _sizeControl(
+    String title,
+    PosterCardSize size,
+    Future<void> Function(PosterCardSize) save,
+  ) => Padding(
+    padding: const EdgeInsets.all(12),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(title)),
+        SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<PosterCardSize>(
+            segments: const [
+              ButtonSegment(value: PosterCardSize.small, label: Text('Small')),
+              ButtonSegment(
+                value: PosterCardSize.standard,
+                label: Text('Default'),
+              ),
+              ButtonSegment(value: PosterCardSize.large, label: Text('Large')),
+            ],
+            selected: {size},
+            onSelectionChanged: (selected) => _change(save(selected.first)),
+          ),
+        ),
+      ],
+    ),
+  );
 }
