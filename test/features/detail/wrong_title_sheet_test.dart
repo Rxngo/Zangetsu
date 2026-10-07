@@ -481,9 +481,8 @@ void main() {
     sl.registerSingleton<SourceMatcher>(SourceMatcher(
         sources: src, store: store, prefs: prefs, candidates: (_) => src.loadedSources));
 
-    // runAsync: nothing matches, so the matcher records a miss per candidate
-    // (MatchStore.rememberMiss) — real Hive writes, which never drain under
-    // the pump-driven binding.
+    // runAsync: nothing matches, so the matcher sweeps every candidate —
+    // real async work that never drains under the pump-driven binding.
     await t.runAsync(() async {
       await t.pumpWidget(
           harness(const MatchLine(canonical: fma, title: 'nothing like it')));

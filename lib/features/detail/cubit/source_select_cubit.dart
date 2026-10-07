@@ -119,13 +119,12 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
       return SourceSelectState(sources: sources, loading: false, auto: true);
     }
     final match = store.get(canonical, selected);
-    final resolved = match != null || store.missedRecently(canonical, selected);
     return SourceSelectState(
       sources: sources,
       selectedId: selected,
       match: match,
       loading: false,
-      resolved: resolved,
+      resolved: match != null,
     );
   }
 
@@ -151,9 +150,7 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
     final selected = auto ? state.selectedId : selectedFromMatcher;
     final match =
         selected == null ? null : _store.get(_canonical, selected);
-    final resolved = state.resolved ||
-        (selected != null &&
-            (match != null || _store.missedRecently(_canonical, selected)));
+    final resolved = state.resolved || (selected != null && match != null);
     emit(SourceSelectState(
       sources: sources,
       selectedId: selected,

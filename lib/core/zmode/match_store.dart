@@ -45,9 +45,8 @@ class SourceMatch {
 }
 
 /// Per-title, per-source matches, plus which source is currently selected for
-/// each title. One Hive box, two key shapes:
-///  - a match:           `'${c.key}@$sourceId'`      → [SourceMatch.toMap]
-///  - a remembered miss: `'miss:${c.key}@$sourceId'` → `{'at': millis}`
+/// each title. One Hive box:
+///  - a match: `'${c.key}@$sourceId'` → [SourceMatch.toMap]
 ///
 /// Which source PLAYS a title is answered from these entries: a pinned match
 /// is the user's choice for that title (see [pinnedFor]), and only when there
@@ -59,19 +58,15 @@ class SourceMatch {
 /// `c.key` — so an entry written by the old (pre-per-source) scheme, keyed by
 /// bare `c.key`, is simply never looked up again under this one. It re-matches
 /// on next open instead of migrating; no code reads that orphaned key.
+///
+/// Failed searches are not remembered: every episode tap / resolve may ask
+/// sources again. Successful matches ([save] / [pin] / [bestFor]) still win
+/// auto-resolve so we don't re-search a title we already matched.
 class MatchStore {
   MatchStore._(this._box);
   final Box<Map> _box;
 
   static const String boxName = 'zmode_matches';
-  static const String _missPrefix = 'miss:';
-
-  /// How long "this source doesn't have this title" is trusted. A miss is
-  /// recorded so the next open doesn't re-search a source that already said
-  /// no — that re-search is per source, per visit, and it is what made
-  /// opening an unmatched title slow. It expires because sources DO add
-  /// titles, so a miss must never be permanent.
-  static const Duration missTtl = Duration(hours: 12);
 
   static Future<MatchStore> open() async =>
       MatchStore._(await openBoxSafely<Map>(boxName));
@@ -172,29 +167,6 @@ class MatchStore {
 
   Future<void> forget(ZCanonical c, String sourceId) =>
       _box.delete(_key(c, sourceId));
-
-  String _missKey(ZCanonical c, String sourceId) =>
-      '$_missPrefix${c.key}@$sourceId';
-
-  /// True when [sourceId] searched for this title recently and genuinely
-  /// didn't have it — the caller should skip re-searching it. False once
-  /// [missTtl] has passed, so the source gets another chance.
-  bool missedRecently(ZCanonical c, String sourceId) {
-    final at = _box.get(_missKey(c, sourceId))?['at'];
-    if (at is! int) return false;
-    final age = DateTime.now().millisecondsSinceEpoch - at;
-    // A negative age means the clock moved backwards; treat that as expired
-    // rather than trusting a miss from the "future" indefinitely.
-    return age >= 0 && age < missTtl.inMilliseconds;
-  }
-
-  Future<void> rememberMiss(ZCanonical c, String sourceId) => _box.put(
-    _missKey(c, sourceId),
-    {'at': DateTime.now().millisecondsSinceEpoch},
-  );
-
-  Future<void> forgetMiss(ZCanonical c, String sourceId) =>
-      _box.delete(_missKey(c, sourceId));
 
   static const String _lastPrefix = 'last:';
 

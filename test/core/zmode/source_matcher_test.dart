@@ -264,55 +264,42 @@ void main() {
 
 
 
-  group('remembered misses', () {
+  group('no negative miss cache', () {
     // Every candidate answers, none of them with this title.
     _FakeSources noneHaveIt() => _FakeSources({
       'allanime': [_hit('allanime', 'Something Else')],
       'hianime': [_hit('hianime', 'Another Thing')],
     });
 
-    test('a source that said no is not asked again on the next resolve', () async {
+    test('a source that said no is asked again on the next resolve', () async {
       final repo = noneHaveIt();
       final m = SourceMatcher(sources: repo, store: store, prefs: prefs, candidates: (_) => two);
 
       expect(await m.resolve(fma, title: 'Fullmetal Alchemist'), isNull);
-      // Both are asked once: the remembered miss stops allanime being asked a
-      // SECOND time, it does not stop the sweep reaching hianime.
       expect(repo.searched, ['allanime', 'hianime']);
 
-      // Opening the title again used to pay for the same search, every visit.
+      // Episode taps / re-opens must re-search — a prior miss is not sticky.
       repo.searched.clear();
       expect(await m.resolve(fma, title: 'Fullmetal Alchemist'), isNull);
-      expect(repo.searched, isEmpty);
+      expect(repo.searched, ['allanime', 'hianime']);
     });
 
-    test('the miss expires, so a source that later adds the title is found',
-        () async {
-      final repo = noneHaveIt();
+    test('a successful match is still reused without re-searching', () async {
+      final repo = _FakeSources({
+        'allanime': [_hit('allanime', 'Fullmetal Alchemist')],
+        'hianime': [_hit('hianime', 'Another Thing')],
+      });
       final m = SourceMatcher(sources: repo, store: store, prefs: prefs, candidates: (_) => two);
-      await m.resolve(fma, title: 'Fullmetal Alchemist');
-      expect(store.missedRecently(fma, 'allanime'), isTrue);
 
-      // Age the record past the TTL by writing an older timestamp.
-      await store.rememberMiss(fma, 'allanime');
-      expect(store.missedRecently(fma, 'allanime'), isTrue);
-      await store.forgetMiss(fma, 'allanime');
-      expect(store.missedRecently(fma, 'allanime'), isFalse);
+      final first = await m.resolve(fma, title: 'Fullmetal Alchemist');
+      expect(first?.sourceId, 'allanime');
+      expect(repo.searched, ['allanime']);
 
       repo.searched.clear();
-      await m.resolve(fma, title: 'Fullmetal Alchemist');
-      expect(repo.searched, ['allanime'],
-          reason: 'the forgotten source is asked again; hianime still is not');
-    });
-
-    test('a manual pin clears that source\'s miss', () async {
-      final repo = noneHaveIt();
-      final m = SourceMatcher(sources: repo, store: store, prefs: prefs, candidates: (_) => two);
-      await m.resolve(fma, title: 'Fullmetal Alchemist');
-      expect(store.missedRecently(fma, 'allanime'), isTrue);
-
-      await m.pinManual(fma, _hit('allanime', 'Fullmetal Alchemist'));
-      expect(store.missedRecently(fma, 'allanime'), isFalse);
+      final second = await m.resolve(fma, title: 'Fullmetal Alchemist');
+      expect(second?.sourceId, 'allanime');
+      expect(repo.searched, isEmpty,
+          reason: 'cached / auto-resolve winner must still short-circuit');
     });
   });
   group('abandoned sweep', () {

@@ -202,14 +202,6 @@ class SourceMatcher {
     }
 
     if (!matched) {
-      // Remember the no, so the next open of this title skips this source
-      // instead of paying for the same search again (see [MatchStore.missTtl])
-      // — but "couldn't ask" is not "doesn't have it". A source whose search
-      // was suppressed by a Cloudflare challenge comes back EMPTY, and
-      // remembering that would hide it for the whole TTL even after a solve.
-      if (!CfSolveNeeded.sourceFlagged(sourceId)) {
-        await _store.rememberMiss(c, sourceId);
-      }
       debugPrint(
         '[zmode] $sourceId REJECTED "$title"'
         '${results.isEmpty ? " (no results — blocked or genuinely absent)" : " (best was: ${hit?.title ?? "none"})"}',
@@ -229,7 +221,6 @@ class SourceMatcher {
       pinned: false,
     );
     await _store.save(c, m);
-    await _store.forgetMiss(c, sourceId);
     return m;
   }
 
@@ -269,14 +260,8 @@ class SourceMatcher {
       );
       return null;
     }
-    // Asked recently, said no — don't ask again until the miss expires.
-    if (_store.missedRecently(c, sourceId)) {
-      debugPrint(
-        '[source-matcher] matchOn · "$sourceId" → null '
-        '(recently missed, skipping)',
-      );
-      return null;
-    }
+    // No negative cache: a previous miss must not skip this source on the
+    // next episode tap. Successful matches above still short-circuit.
     debugPrint(
       '[source-matcher] matchOn · "$sourceId" → fresh search '
       'for "$title"',
@@ -604,9 +589,6 @@ class SourceMatcher {
       pinned: true,
     );
     await _store.pin(c, m);
-    // The user just proved this source has it, whatever an earlier search
-    // concluded — drop any remembered miss so it is never skipped again.
-    await _store.forgetMiss(c, picked.sourceId);
     _sourceChanged(c);
     return m;
   }
@@ -623,7 +605,6 @@ class SourceMatcher {
       pinned: true,
     );
     await _store.pin(c, m);
-    await _store.forgetMiss(c, picked.sourceId);
     return m;
   }
 }
