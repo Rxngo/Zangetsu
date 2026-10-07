@@ -63,6 +63,7 @@ import 'my_list_screen.dart';
 import 'tracker_continue_section.dart';
 import '../../core/ui/content_row.dart';
 import '../../core/ui/banner_style.dart';
+import '../../core/ui/featured_banner_edge.dart';
 import '../../core/ui/featured_banner_panels.dart';
 import '../../core/ui/featured_carousel.dart';
 import '../../core/ui/featured_hero.dart';
@@ -640,7 +641,7 @@ class _HomeViewState extends State<_HomeView>
   Widget _animated(Widget child) => child;
 
   /// Floating brand header — always positioned on top of the hero or bg.
-  Widget _buildHeader() {
+  Widget _buildHeader({bool edgeBanner = false}) {
     return SafeArea(
       bottom: false,
       child: Padding(
@@ -656,27 +657,38 @@ class _HomeViewState extends State<_HomeView>
             Expanded(
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => showMetadataSwitchSheet(context),
-                  child: Padding(
-                    // Only the padding is new: 22px of artwork is under the
-                    // 48px minimum tap target, and vertical padding alone
-                    // cannot shift a left-aligned image.
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Image.asset(
-                      'assets/icon/wordmark.png',
-                      height: 22,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
+                child: edgeBanner
+                    ? IconButton(
+                        tooltip: 'Zangetsu',
+                        onPressed: () => showMetadataSwitchSheet(context),
+                        icon: Image.asset(
+                          'assets/icon/logo_mark.png',
+                          width: 36,
+                          height: 36,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => showMetadataSwitchSheet(context),
+                        child: Padding(
+                          // Only the padding is new: 22px of artwork is under the
+                          // 48px minimum tap target, and vertical padding alone
+                          // cannot shift a left-aligned image.
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Image.asset(
+                            'assets/icon/wordmark.png',
+                            height: 22,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
               ),
             ),
             const _IncognitoChip(),
-            _headerDownloadButton(),
-            _notificationBell(context),
-            const HomeSearchAction(),
+            _headerDownloadButton(edgeBanner: edgeBanner),
+            _notificationBell(context, edgeBanner: edgeBanner),
+            HomeSearchAction(edgeBanner: edgeBanner),
             const HomeSourceSwitcherSlot(),
           ],
         ),
@@ -712,6 +724,13 @@ class _HomeViewState extends State<_HomeView>
           onToggleList: toggleList,
           meta: _heroMeta,
         );
+      case BannerStyle.edgeId:
+        return FeaturedBannerEdge(
+          items: heroItems,
+          reading: reading,
+          onInfo: _openDetail,
+          meta: _heroMeta,
+        );
       default:
         // Auto-rotating carousel (up to 6 trending items)
         return FeaturedCarousel(
@@ -731,14 +750,15 @@ class _HomeViewState extends State<_HomeView>
   /// [HomeSearchAction]: flat icon, no badge — the screen itself is the
   /// progress view, so there's nothing to surface here. Pushed as a normal
   /// route (with back), unlike the dock tab which suppresses it.
-  Widget _headerDownloadButton() {
+  Widget _headerDownloadButton({bool edgeBanner = false}) {
     return IconButton(
-      icon: const DockIcon(
+      icon: DockIcon(
         DockGlyph.download,
-        color: AppColors.textSecondary,
+        color: edgeBanner ? Colors.white : AppColors.textSecondary,
         size: 22,
       ),
       tooltip: context.l10n.downloads,
+      style: edgeBanner ? _edgeHeaderButtonStyle() : null,
       onPressed: () => Navigator.of(
         context,
       ).push(MaterialPageRoute<void>(builder: (_) => const DownloadsScreen())),
@@ -748,43 +768,51 @@ class _HomeViewState extends State<_HomeView>
   /// Flat bell → Notifications screen. The accent dot shows while any
   /// announcement is unseen and clears itself reactively (the screen calls
   /// markAllSeen, the Hive box updates, the listenable rebuilds).
-  Widget _notificationBell(BuildContext context) {
-    // Built fresh inside the listenable's builder — a captured widget
-    // instance would be canonical and the rebuild would be skipped.
-    Widget bell() => GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => const SubscriptionsScreen()),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(4),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            const DockIcon(
-              DockGlyph.bell,
-              color: AppColors.textSecondary,
-              size: 22,
-            ),
-            if (Hive.isBoxOpen(AnnouncementStore.boxName) &&
-                AnnouncementStore().unseenCount() > 0)
-              Positioned(
-                top: 1,
-                right: 2,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.accent,
-                    border: Border.all(color: AppColors.bg, width: 1.5),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
+  Widget _notificationBell(BuildContext context, {bool edgeBanner = false}) {
+    void openNotifications() => Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const SubscriptionsScreen()),
     );
+
+    Widget icon() => Stack(
+      clipBehavior: Clip.none,
+      children: [
+        DockIcon(
+          DockGlyph.bell,
+          color: edgeBanner ? Colors.white : AppColors.textSecondary,
+          size: 22,
+        ),
+        if (Hive.isBoxOpen(AnnouncementStore.boxName) &&
+            AnnouncementStore().unseenCount() > 0)
+          Positioned(
+            top: 1,
+            right: 2,
+            child: Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.accent,
+                border: Border.all(color: AppColors.bg, width: 1.5),
+              ),
+            ),
+          ),
+      ],
+    );
+
+    // Build the same action fresh inside the listenable's builder so its badge
+    // updates when an announcement is seen.
+    Widget bell() => edgeBanner
+        ? IconButton(
+            tooltip: context.l10n.notifications,
+            style: _edgeHeaderButtonStyle(),
+            onPressed: openNotifications,
+            icon: icon(),
+          )
+        : GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: openNotifications,
+            child: Padding(padding: const EdgeInsets.all(4), child: icon()),
+          );
     // Rebuild the dot when the announcements box changes (e.g. markAllSeen).
     if (!Hive.isBoxOpen(AnnouncementStore.boxName)) return bell();
     return ValueListenableBuilder(
@@ -1737,7 +1765,10 @@ class _HomeViewState extends State<_HomeView>
                                       top: 0,
                                       left: 0,
                                       right: 0,
-                                      child: _buildHeader(),
+                                      child: _buildHeader(
+                                        edgeBanner:
+                                            bannerId == BannerStyle.edgeId,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1867,23 +1898,31 @@ class _HomeViewState extends State<_HomeView>
 /// between the metadata catalogue and the active source, so the header icon
 /// that reaches it doesn't need to.
 class HomeSearchAction extends StatelessWidget {
-  const HomeSearchAction({super.key});
+  const HomeSearchAction({super.key, this.edgeBanner = false});
+
+  final bool edgeBanner;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const DockIcon(
+      icon: DockIcon(
         DockGlyph.search,
-        color: AppColors.textSecondary,
+        color: edgeBanner ? Colors.white : AppColors.textSecondary,
         size: 22,
       ),
       tooltip: context.l10n.search,
+      style: edgeBanner ? _edgeHeaderButtonStyle() : null,
       onPressed: () => Navigator.of(
         context,
       ).push(MaterialPageRoute<void>(builder: (_) => const SearchScreen())),
     );
   }
 }
+
+ButtonStyle _edgeHeaderButtonStyle() => IconButton.styleFrom(
+  backgroundColor: Colors.black.withValues(alpha: 0.5),
+  shape: const CircleBorder(),
+);
 
 /// The header's source switcher. Hidden while Z Mode is on — the active
 /// source doesn't affect anything on screen there (Home is metadata-driven)

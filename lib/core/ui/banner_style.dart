@@ -34,6 +34,7 @@ class BannerStyle {
 
   static const String defaultId = 'card';
   static const String panelsId = 'panels';
+  static const String edgeId = 'edge';
 
   /// [defaultId] first, so the picker leads with what a fresh install wears.
   static const List<BannerStyleOption> options = [
@@ -43,6 +44,7 @@ class BannerStyle {
       blurb: 'The banner you have now',
     ),
     BannerStyleOption(id: panelsId, label: 'Panels', blurb: 'A manga spread'),
+    BannerStyleOption(id: edgeId, label: 'Edge', blurb: 'Full-width artwork'),
   ];
 
   /// Falls back to [defaultId] for anything unknown, so a build that drops an

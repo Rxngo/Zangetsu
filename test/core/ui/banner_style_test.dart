@@ -81,6 +81,13 @@ void main() {
     });
   });
 
+  test('Edge is selectable while Card remains the default', () async {
+    expect(BannerStyle.options.map((o) => o.id), contains('edge'));
+    await BannerStyle.select('edge');
+    expect(BannerStyle.selectedId, 'edge');
+    expect(BannerStyle.defaultId, 'card');
+  });
+
   test('ids are unique — two options sharing one would make the pref lie', () {
     final ids = BannerStyle.options.map((o) => o.id).toList();
     expect(ids.toSet().length, ids.length);

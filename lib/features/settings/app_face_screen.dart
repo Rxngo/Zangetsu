@@ -444,6 +444,56 @@ class _BannerStyleCard extends StatelessWidget {
             ),
           ),
         );
+      case BannerStyle.edgeId:
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: _art,
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
+            Positioned(top: 7, left: 7, child: _previewCircle(12)),
+            Positioned(
+              top: 7,
+              right: 7,
+              child: Row(
+                children: [
+                  _previewCircle(9),
+                  const SizedBox(width: 3),
+                  _previewCircle(9),
+                  const SizedBox(width: 3),
+                  _previewCircle(9),
+                ],
+              ),
+            ),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 44,
+                    height: 7,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Container(
+                    width: 48,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
       default:
         return Container(
           width: 58,
@@ -465,6 +515,15 @@ class _BannerStyleCard extends StatelessWidget {
         );
     }
   }
+
+  Widget _previewCircle(double size) => Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      color: Colors.black.withValues(alpha: 0.5),
+      shape: BoxShape.circle,
+    ),
+  );
 
   Widget _pane() => Container(
     decoration: const BoxDecoration(gradient: _art),
