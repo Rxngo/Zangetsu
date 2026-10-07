@@ -644,54 +644,93 @@ class _HomeViewState extends State<_HomeView>
   Widget _buildHeader({bool edgeBanner = false}) {
     return SafeArea(
       bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-        child: Row(
-          children: [
-            // Brand wordmark — the actual logo lettering (exact font).
-            // Tapping it swaps the metadata provider for wherever you are
-            // (AniList/MyAnimeList, or TMDB/Simkl on movies), which used to
-            // mean digging through Settings. Align sizes to the image, so
-            // the tap area is the wordmark itself and the rest of the row
-            // is untouched.
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: edgeBanner
-                    ? IconButton(
-                        tooltip: 'Zangetsu',
-                        onPressed: () => showMetadataSwitchSheet(context),
-                        icon: Image.asset(
-                          'assets/icon/logo_mark.png',
-                          width: 36,
-                          height: 36,
-                          fit: BoxFit.contain,
-                        ),
-                      )
-                    : GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => showMetadataSwitchSheet(context),
-                        child: Padding(
-                          // Only the padding is new: 22px of artwork is under the
-                          // 48px minimum tap target, and vertical padding alone
-                          // cannot shift a left-aligned image.
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Image.asset(
-                            'assets/icon/wordmark.png',
-                            height: 22,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-              ),
-            ),
-            const _IncognitoChip(),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final splitEdgeHeader = edgeBanner && constraints.maxWidth < 520;
+          final brand = edgeBanner
+              ? IconButton(
+                  tooltip: 'Zangetsu',
+                  onPressed: () => showMetadataSwitchSheet(context),
+                  icon: Image.asset(
+                    'assets/icon/logo_mark.png',
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.contain,
+                  ),
+                )
+              : GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => showMetadataSwitchSheet(context),
+                  child: Padding(
+                    // Only the padding is new: 22px of artwork is under the
+                    // 48px minimum tap target, and vertical padding alone
+                    // cannot shift a left-aligned image.
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Image.asset(
+                      'assets/icon/wordmark.png',
+                      height: 22,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                );
+          final actions = [
             _headerDownloadButton(edgeBanner: edgeBanner),
             _notificationBell(context, edgeBanner: edgeBanner),
             HomeSearchAction(edgeBanner: edgeBanner),
-            const HomeSourceSwitcherSlot(),
-          ],
-        ),
+          ];
+
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: splitEdgeHeader
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(children: [brand, const Spacer(), ...actions]),
+                      ValueListenableBuilder<int>(
+                        valueListenable: ZModePrefs.revision,
+                        builder: (context, _, _) {
+                          final showSource = !ZModePrefs.enabled;
+                          return ValueListenableBuilder<bool>(
+                            valueListenable: IncognitoMode.notifier,
+                            builder: (context, incognito, _) {
+                              if (!showSource && !incognito) {
+                                return const SizedBox.shrink();
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Wrap(
+                                  alignment: WrapAlignment.end,
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: [
+                                    if (incognito) const _IncognitoChip(),
+                                    if (showSource)
+                                      const HomeSourceSwitcherSlot(),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: brand,
+                        ),
+                      ),
+                      const _IncognitoChip(),
+                      ...actions,
+                      const HomeSourceSwitcherSlot(),
+                    ],
+                  ),
+          );
+        },
       ),
     );
   }
