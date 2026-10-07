@@ -59,6 +59,27 @@ class DownloadManager extends ChangeNotifier {
   static const String boxName = 'downloads';
   static const String _sharedDir = 'Zangetsu';
 
+  /// When a source clearly supplies both cuts, keep only the selected one.
+  /// Single-cut and unlabelled lists stay untouched; language tracks on a
+  /// VideoSource are not separate Sub/Dub links and are never filtered here.
+  static List<VideoSource> sourcesForDownloadCategory(
+    List<VideoSource> sources,
+    String category,
+  ) {
+    final wanted = switch (category) {
+      'sub' => AudioKind.sub,
+      'dub' => AudioKind.dub,
+      _ => AudioKind.unknown,
+    };
+    if (wanted == AudioKind.unknown) return sources;
+
+    final hasSub = sources.any((source) => source.kind == AudioKind.sub);
+    final hasDub = sources.any((source) => source.kind == AudioKind.dub);
+    if (!hasSub || !hasDub) return sources;
+
+    return sources.where((source) => source.kind == wanted).toList();
+  }
+
   static Future<void> init() async {
     if (!Hive.isBoxOpen(boxName)) {
       await openBoxSafely<Map>(boxName);
@@ -557,7 +578,7 @@ class DownloadManager extends ChangeNotifier {
     try {
       final sources = await _repo.sources(rec.episodeUrl, sourceId: rec.sourceId);
       if (_isCanceled(rec.id)) return; // canceled while resolving
-      final ranked = _ranked(sources, rec.quality);
+      final ranked = _ranked(sources, rec.quality, category: rec.category);
       if (ranked.isEmpty) {
         // Everything this source offers is a manifest. Another source may
         // serve real files — that is worth trying before saying no.
@@ -629,10 +650,13 @@ class DownloadManager extends ChangeNotifier {
     try {
       final next = await GetIt.I<MetadataRepository>().sourcesWhere(
         rec.episodeUrl,
-        (streams) => streams.any((s) => !isDash(s)),
+        (streams) => sourcesForDownloadCategory(
+          streams,
+          rec.category,
+        ).any((s) => !isDash(s)),
       );
       if (_isCanceled(rec.id)) return true;
-      final ranked = _ranked(next.streams, rec.quality);
+      final ranked = _ranked(next.streams, rec.quality, category: rec.category);
       if (ranked.isEmpty) return false;
       AppLogger.instance.log(
         '[download] ${rec.showTitle} · ${rec.episodeTitle}: swept past the '
@@ -1865,10 +1889,15 @@ class DownloadManager extends ChangeNotifier {
   /// quality. 'best' = highest first; otherwise by CLOSENESS to the requested
   /// height (so 360p gets the smallest file) — ties go to the higher quality.
   /// The full ordered list doubles as the try-next fallback.
-  static List<VideoSource> _ranked(List<VideoSource> sources, String quality) {
+  static List<VideoSource> _ranked(
+    List<VideoSource> sources,
+    String quality, {
+    required String category,
+  }) {
     // Drop what cannot become a file at all, rather than finding out by
     // downloading it.
-    final list = List<VideoSource>.from(sources.where((s) => !isDash(s)));
+    final byCategory = sourcesForDownloadCategory(sources, category);
+    final list = List<VideoSource>.from(byCategory.where((s) => !isDash(s)));
     if (list.isEmpty) return const [];
     if (quality == 'best') {
       list.sort((a, b) => _height(b).compareTo(_height(a)));

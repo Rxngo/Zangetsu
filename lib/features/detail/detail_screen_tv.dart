@@ -487,6 +487,7 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
           ),
           builder: (_) => _SourcePickerSheet(
             title: ep.title.trim().isNotEmpty ? ep.title : detail.title,
+            category: category,
             resolve: () => sl<CatalogueRepository>().sources(
               ep.url,
               sourceId: item.sourceId,

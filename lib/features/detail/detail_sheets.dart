@@ -20,9 +20,14 @@ String _sourceName(AppLocalizations l10n, VideoSource s, int index) {
 // and lists them so the user downloads a specific, real link. Returns the
 // chosen VideoSource via pop. HLS sources are shown disabled (phase 2).
 class _SourcePickerSheet extends StatefulWidget {
-  const _SourcePickerSheet({required this.title, required this.resolve});
+  const _SourcePickerSheet({
+    required this.title,
+    required this.category,
+    required this.resolve,
+  });
 
   final String title;
+  final String category;
   final Future<List<VideoSource>> Function() resolve;
 
   @override
@@ -42,8 +47,15 @@ class _SourcePickerSheetState extends State<_SourcePickerSheet> {
 
   Future<void> _load() async {
     try {
-      final s = await widget.resolve();
-      if (mounted) setState(() => _sources = s);
+      final sources = await widget.resolve();
+      if (mounted) {
+        setState(
+          () => _sources = DownloadManager.sourcesForDownloadCategory(
+            sources,
+            widget.category,
+          ),
+        );
+      }
     } catch (_) {
       if (mounted) setState(() => _loadFailed = true);
     } finally {
