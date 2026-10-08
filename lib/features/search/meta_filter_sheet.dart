@@ -19,26 +19,34 @@ import 'meta_filter_dialog_tv.dart';
 Future<MetaFilters?> showMetaFilterSheet(
   BuildContext context,
   ZKind kind,
-  MetaFilters current,
-) => showModalBottomSheet<MetaFilters>(
+  MetaFilters current, {
+  bool showStatus = true,
+}) => showModalBottomSheet<MetaFilters>(
   context: context,
   backgroundColor: Colors.transparent,
   isScrollControlled: true,
-  builder: (_) => _MetaFilterSheet(kind: kind, initial: current),
+  builder: (_) =>
+      _MetaFilterSheet(kind: kind, initial: current, showStatus: showStatus),
 );
 
 /// D-pad-friendly dialog variant for TV search.
 Future<MetaFilters?> showMetaFilterDialog(
   BuildContext context,
   ZKind kind,
-  MetaFilters current,
-) => showMetaFilterDialogTv(context, kind, current);
+  MetaFilters current, {
+  bool showStatus = true,
+}) => showMetaFilterDialogTv(context, kind, current, showStatus: showStatus);
 
 class _MetaFilterSheet extends StatefulWidget {
-  const _MetaFilterSheet({required this.kind, required this.initial});
+  const _MetaFilterSheet({
+    required this.kind,
+    required this.initial,
+    required this.showStatus,
+  });
 
   final ZKind kind;
   final MetaFilters initial;
+  final bool showStatus;
 
   @override
   State<_MetaFilterSheet> createState() => _MetaFilterSheetState();
@@ -56,7 +64,7 @@ class _MetaFilterSheetState extends State<_MetaFilterSheet> {
       (_f.year != null ? 1 : 0) +
       (_f.season != null ? 1 : 0) +
       (_f.format != null ? 1 : 0) +
-      (_f.status != null ? 1 : 0) +
+      (widget.showStatus && _f.status != null ? 1 : 0) +
       (_f.minScore != null ? 1 : 0) +
       (_f.sort != MetaSort.popularity ? 1 : 0);
 
@@ -145,22 +153,26 @@ class _MetaFilterSheetState extends State<_MetaFilterSheet> {
                     ),
                   ),
                   _pair(
-                    _cell(
-                      l10n.status,
-                      _f.status == null ? l10n.any : _statusLabel(_f.status!),
-                      _f.status != null,
-                      () => _pick<MetaStatus>(
-                        l10n.status,
-                        MetaStatus.values,
-                        _f.status,
-                        _statusLabel,
-                        (v) => setState(
-                          () => _f = _f.status == v
-                              ? _f.copyWith(clearStatus: true)
-                              : _f.copyWith(status: v),
-                        ),
-                      ),
-                    ),
+                    widget.showStatus
+                        ? _cell(
+                            l10n.status,
+                            _f.status == null
+                                ? l10n.any
+                                : _statusLabel(_f.status!),
+                            _f.status != null,
+                            () => _pick<MetaStatus>(
+                              l10n.status,
+                              MetaStatus.values,
+                              _f.status,
+                              _statusLabel,
+                              (v) => setState(
+                                () => _f = _f.status == v
+                                    ? _f.copyWith(clearStatus: true)
+                                    : _f.copyWith(status: v),
+                              ),
+                            ),
+                          )
+                        : null,
                     _cell(
                       l10n.minimumScore,
                       _f.minScore == null ? l10n.any : '${_f.minScore}+',

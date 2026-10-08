@@ -690,6 +690,13 @@ class _HomeScreenTvState extends State<HomeScreenTv> {
           items: first,
           onTap: (m) => Navigator.push(context, DetailScreen.route(m)),
           onLoadMore: (page) => repo.browseMore(more, page),
+          filterKind: ZKind.movie,
+          onSearch: (query, filters, page) => repo.streamingServicePage(
+            s.id,
+            query: query,
+            filters: filters,
+            page: page,
+          ),
         ),
       ),
     );

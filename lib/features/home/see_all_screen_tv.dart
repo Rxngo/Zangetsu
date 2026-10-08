@@ -4,8 +4,13 @@ import '../../core/models/media_item.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
 import '../../core/tv/tv_back_button.dart';
+import '../../core/tv/tv_focusable.dart';
 import '../../core/tv/tv_poster_tile.dart';
 import '../../core/ui/poster_card.dart';
+import '../../core/zmode/metadata_filters.dart';
+import '../../core/zmode/zmode_ids.dart';
+import '../../l10n/l10n.dart';
+import '../search/meta_filter_sheet.dart';
 
 /// TV variant of [SeeAllScreen]: a full-screen D-pad-navigable poster grid.
 ///
@@ -25,6 +30,9 @@ class SeeAllScreenTv extends StatefulWidget {
     this.onLongPress,
     this.tagsFor,
     this.onLoadMore,
+    this.onSearch,
+    this.filterKind,
+    this.initialFilters = const MetaFilters(),
   });
 
   final String title;
@@ -40,6 +48,14 @@ class SeeAllScreenTv extends StatefulWidget {
   /// initial [items] ARE page 1, so the first call requests page 2. Returning an
   /// empty list (or only already-seen items) ends pagination. Null → fixed list.
   final Future<List<MediaItem>> Function(int page)? onLoadMore;
+  final Future<MediaItemPage> Function(
+    String query,
+    MetaFilters filters,
+    int page,
+  )?
+  onSearch;
+  final ZKind? filterKind;
+  final MetaFilters initialFilters;
 
   @override
   State<SeeAllScreenTv> createState() => _SeeAllScreenTvState();
@@ -57,14 +73,20 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
   int _page = 1;
   bool _loading = false;
   bool _end = false;
+  bool _showNextPage = false;
+  bool _searching = false;
+  int _queryGeneration = 0;
+  late MetaFilters _filters;
+  final TextEditingController _queryController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _filters = widget.initialFilters;
     for (final it in _items) {
       _seen.add(_keyOf(it));
     }
-    if (widget.onLoadMore != null) {
+    if (widget.onLoadMore != null || widget.onSearch != null) {
       _controller.addListener(_onScroll);
     }
   }
@@ -72,6 +94,7 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
   @override
   void dispose() {
     _controller.dispose();
+    _queryController.dispose();
     super.dispose();
   }
 
@@ -100,15 +123,31 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
 
   Future<void> _loadMore() async {
     final loader = widget.onLoadMore;
-    if (loader == null || _loading || _end) return;
-    setState(() => _loading = true);
+    if ((loader == null && widget.onSearch == null) || _loading || _end) {
+      return;
+    }
+    final generation = _queryGeneration;
+    setState(() {
+      _loading = true;
+      _showNextPage = false;
+    });
     List<MediaItem> next = const [];
+    MediaItemPage? searchPage;
     try {
-      next = await loader(_page + 1);
+      if (widget.onSearch != null) {
+        searchPage = await widget.onSearch!(
+          _queryController.text.trim(),
+          _filters,
+          _page + 1,
+        );
+        next = searchPage.items;
+      } else {
+        next = await loader!(_page + 1);
+      }
     } catch (_) {
       next = const [];
     }
-    if (!mounted) return;
+    if (!mounted || generation != _queryGeneration) return;
     final fresh = <MediaItem>[];
     for (final it in next) {
       final k = _keyOf(it);
@@ -116,7 +155,12 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
     }
     setState(() {
       _loading = false;
-      if (fresh.isEmpty) {
+      if (searchPage != null) {
+        _page += 1;
+        _items.addAll(fresh);
+        _end = !searchPage.hasMore;
+        _showNextPage = searchPage.hasMore;
+      } else if (fresh.isEmpty) {
         _end = true;
       } else {
         _items.addAll(fresh);
@@ -125,9 +169,66 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
     });
   }
 
+  Future<void> _runQuery(String query) async {
+    final search = widget.onSearch;
+    if (search == null) return;
+    final generation = ++_queryGeneration;
+    setState(() {
+      _items.clear();
+      _seen.clear();
+      _page = 1;
+      _end = false;
+      _loading = true;
+      _showNextPage = false;
+    });
+    var first = const MediaItemPage(items: <MediaItem>[], hasMore: false);
+    try {
+      first = await search(query.trim(), _filters, 1);
+    } catch (_) {
+      first = const MediaItemPage(items: <MediaItem>[], hasMore: false);
+    }
+    if (!mounted || generation != _queryGeneration) return;
+    final fresh = <MediaItem>[];
+    for (final item in first.items) {
+      if (_seen.add(_keyOf(item))) fresh.add(item);
+    }
+    setState(() {
+      _items.addAll(fresh);
+      _loading = false;
+      _end = !first.hasMore;
+      _showNextPage = first.hasMore;
+    });
+  }
+
+  Future<void> _openFilters() async {
+    final kind = widget.filterKind;
+    if (kind == null) return;
+    final picked = await showMetaFilterDialog(
+      context,
+      kind,
+      _filters,
+      showStatus: false,
+    );
+    if (!mounted || picked == null) return;
+    setState(() => _filters = picked);
+    await _runQuery(_queryController.text);
+  }
+
+  void _toggleSearch() {
+    if (!_searching) {
+      setState(() => _searching = true);
+      return;
+    }
+    final hadQuery = _queryController.text.trim().isNotEmpty;
+    _queryController.clear();
+    FocusScope.of(context).unfocus();
+    setState(() => _searching = false);
+    if (hadQuery) _runQuery('');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final paginating = widget.onLoadMore != null;
+    final paginating = widget.onLoadMore != null || widget.onSearch != null;
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
@@ -140,56 +241,133 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
             const TvBackButton(),
             const SizedBox(width: 16),
             Expanded(
-              child: Text(
-                widget.title,
-                style: AppText.headline,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: _searching
+                  ? TextField(
+                      key: const ValueKey('tv-see-all-search-field'),
+                      controller: _queryController,
+                      autofocus: true,
+                      textInputAction: TextInputAction.search,
+                      style: AppText.headline.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: context.l10n.search2,
+                        hintStyle: AppText.headline.copyWith(
+                          color: AppColors.textTertiary,
+                        ),
+                        border: InputBorder.none,
+                        isDense: true,
+                      ),
+                      onSubmitted: _runQuery,
+                    )
+                  : Text(
+                      widget.title,
+                      style: AppText.headline,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
             ),
+            if (widget.onSearch != null) ...[
+              TvFocusable(
+                key: const ValueKey('tv-see-all-search'),
+                variant: TvFocusVariant.float,
+                semanticLabel: context.l10n.search2,
+                onTap: _toggleSearch,
+                builder: (focused) => Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Icon(
+                    _searching ? Icons.close_rounded : Icons.search_rounded,
+                    color: focused ? AppColors.accent : AppColors.textPrimary,
+                  ),
+                ),
+              ),
+              TvFocusable(
+                key: const ValueKey('tv-see-all-filter'),
+                variant: TvFocusVariant.float,
+                semanticLabel: context.l10n.filters,
+                onTap: _openFilters,
+                builder: (focused) => Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Icon(
+                    Icons.filter_list_rounded,
+                    color: focused || _filters.isNotEmpty
+                        ? AppColors.accent
+                        : AppColors.textPrimary,
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
       body: Stack(
         children: [
-          GridView.builder(
-            controller: paginating ? _controller : null,
-            padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
-            cacheExtent: 800,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: tvPosterGridColumns(context),
-              // Match the grid geometry to the chosen title placement.
-              childAspectRatio: tvPosterGridAspect(context),
-              crossAxisSpacing: 18,
-              mainAxisSpacing: 22,
+          if (widget.onSearch != null && _items.isEmpty)
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_loading)
+                    const CircularProgressIndicator()
+                  else
+                    Text(context.l10n.noResults),
+                  if (_showNextPage && !_loading) ...[
+                    const SizedBox(height: 12),
+                    TvFocusable(
+                      key: const ValueKey('tv-see-all-next-page'),
+                      semanticLabel: context.l10n.next,
+                      onTap: _loadMore,
+                      child: ExcludeFocus(
+                        child: TextButton.icon(
+                          onPressed: _loadMore,
+                          icon: const Icon(Icons.arrow_forward_rounded),
+                          label: Text(context.l10n.next),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ),
-            itemCount: _items.length,
-            itemBuilder: (context, i) {
-              if (paginating) _maybeLoadFromIndex(i);
-              final item = _items[i];
-              return TvPosterTile(
-                autofocus: i == 0,
-                title: item.title,
-                logoItem: item,
-                imageUrl: item.cover,
-                wideImageUrl: item.banner,
-                headers: item.coverHeaders,
-                genres: item.genres,
-                isAdult: item.isAdult,
-                scoreBadge: item.score,
-                qualityBadge: item.quality,
-                dubBadge: item.dubBadge,
-                tags: widget.tagsFor?.call(item) ?? const [],
-                onTap: () => widget.onTap(item),
-                onLongPress: widget.onLongPress == null
-                    ? null
-                    : () => widget.onLongPress!(item),
-              );
-            },
-          ),
+          if (_items.isNotEmpty)
+            GridView.builder(
+              controller: paginating ? _controller : null,
+              padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
+              cacheExtent: 800,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: tvPosterGridColumns(context),
+                // Match the grid geometry to the chosen title placement.
+                childAspectRatio: tvPosterGridAspect(context),
+                crossAxisSpacing: 18,
+                mainAxisSpacing: 22,
+              ),
+              itemCount: _items.length,
+              itemBuilder: (context, i) {
+                if (paginating) _maybeLoadFromIndex(i);
+                final item = _items[i];
+                return TvPosterTile(
+                  autofocus: i == 0,
+                  title: item.title,
+                  logoItem: item,
+                  imageUrl: item.cover,
+                  wideImageUrl: item.banner,
+                  headers: item.coverHeaders,
+                  genres: item.genres,
+                  isAdult: item.isAdult,
+                  scoreBadge: item.score,
+                  qualityBadge: item.quality,
+                  dubBadge: item.dubBadge,
+                  tags: widget.tagsFor?.call(item) ?? const [],
+                  onTap: () => widget.onTap(item),
+                  onLongPress: widget.onLongPress == null
+                      ? null
+                      : () => widget.onLongPress!(item),
+                );
+              },
+            ),
           // Bottom loading indicator while the next page is in flight (only in
           // the paginating configuration, so non-paginating callers are unchanged).
-          if (paginating && _loading)
+          if (paginating && _loading && _items.isNotEmpty)
             const Positioned(
               bottom: 12,
               left: 0,
@@ -199,6 +377,26 @@ class _SeeAllScreenTvState extends State<SeeAllScreenTv> {
                   width: 26,
                   height: 26,
                   child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            ),
+          if (_showNextPage && _items.isNotEmpty)
+            Positioned(
+              bottom: 8,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: TvFocusable(
+                  key: const ValueKey('tv-see-all-next-page'),
+                  semanticLabel: context.l10n.next,
+                  onTap: _loadMore,
+                  child: ExcludeFocus(
+                    child: TextButton.icon(
+                      onPressed: _loadMore,
+                      icon: const Icon(Icons.arrow_forward_rounded),
+                      label: Text(context.l10n.next),
+                    ),
+                  ),
                 ),
               ),
             ),

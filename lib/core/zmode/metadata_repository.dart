@@ -558,6 +558,31 @@ class MetadataRepository implements CatalogueRepository {
     return items;
   }
 
+  /// Search or filter one TMDB streaming-service catalogue. It stays on the
+  /// TMDB catalogue that owns the provider id, even if the global preference
+  /// changes while this page is open.
+  Future<MediaItemPage> streamingServicePage(
+    int providerId, {
+    String query = '',
+    MetaFilters filters = const MetaFilters(),
+    int page = 1,
+  }) async {
+    var safeFilters = filters;
+    if (safeFilters.adult && !_adultAllowed()) {
+      safeFilters = safeFilters.copyWith(adult: false);
+    }
+    final pageResult = query.trim().isEmpty
+        ? await _tmdb.browseProvider(providerId, page, filters: safeFilters)
+        : await _tmdb.searchProvider(
+            providerId,
+            query,
+            filters: safeFilters,
+            page: page,
+          );
+    pageResult.items.forEach(_remember);
+    return pageResult;
+  }
+
   @override
   Future<List<MediaItem>> search(
     String query, {

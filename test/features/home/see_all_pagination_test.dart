@@ -4,6 +4,7 @@ import 'package:watch_app/core/app_mode.dart';
 import 'package:watch_app/core/di/injector.dart';
 import 'package:watch_app/core/models/media_item.dart';
 import 'package:watch_app/core/models/provider_info.dart';
+import 'package:watch_app/core/zmode/zmode_ids.dart';
 import 'package:watch_app/features/home/see_all_screen.dart';
 
 MediaItem _item(String id) => MediaItem(
@@ -116,5 +117,89 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(calls, 1);
+  });
+
+  testWidgets('service catalogue search and filter controls are available', (
+    tester,
+  ) async {
+    final queries = <String>[];
+    await tester.pumpWidget(
+      _wrap(
+        SeeAllScreen(
+          title: 'Netflix',
+          items: _page(0, 2),
+          onTap: (_) {},
+          filterKind: ZKind.movie,
+          onSearch: (query, filters, page) async {
+            queries.add(query);
+            return MediaItemPage(items: _page(20, 1), hasMore: false);
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('see-all-search')), findsOneWidget);
+    expect(find.byKey(const ValueKey('see-all-filter')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('see-all-search')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const ValueKey('see-all-search-field')),
+      'Dune',
+    );
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await tester.pumpAndSettle();
+    expect(queries, ['Dune']);
+
+    await tester.tap(find.byKey(const ValueKey('see-all-filter')));
+    await tester.pumpAndSettle();
+    expect(find.byType(BottomSheet), findsOneWidget);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -500));
+    await tester.pumpAndSettle();
+    expect(find.text('GENRES'), findsOneWidget);
+    expect(find.text('YEAR'), findsOneWidget);
+    expect(find.text('FORMAT'), findsOneWidget);
+    expect(find.text('STATUS'), findsNothing);
+  });
+
+  testWidgets('an empty service search page can continue to later pages', (
+    tester,
+  ) async {
+    final pagesRequested = <int>[];
+    await tester.pumpWidget(
+      _wrap(
+        SeeAllScreen(
+          title: 'Netflix',
+          items: _page(0, 2),
+          onTap: (_) {},
+          filterKind: ZKind.movie,
+          onSearch: (query, filters, page) async {
+            pagesRequested.add(page);
+            return page == 1
+                ? const MediaItemPage(items: [], hasMore: true)
+                : MediaItemPage(items: _page(20, 1), hasMore: false);
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('see-all-search')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const ValueKey('see-all-search-field')),
+      'Dune',
+    );
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await tester.pumpAndSettle();
+
+    expect(pagesRequested, [1]);
+    expect(find.byKey(const ValueKey('see-all-next-page')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('see-all-next-page')));
+    await tester.pumpAndSettle();
+    expect(pagesRequested, [1, 2]);
+    expect(find.text('m20'), findsOneWidget);
   });
 }

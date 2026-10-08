@@ -23,6 +23,11 @@ class TmdbCatalogue implements VideoCatalogue {
   TmdbCatalogue(this._get);
   final TmdbGet _get;
 
+  /// Search checks are requested only after the user submits a query. Keeping
+  /// provider availability for a title avoids repeating one TMDB request per
+  /// result when they refine or repeat that search.
+  final Map<String, Map<String, Set<int>>> _watchProviderCache = {};
+
   /// Production transport. Same shape as `ComingSoonService` — the API key
   /// is attached by the Dio interceptor wired in initDependencies, so this
   /// never adds one itself.
@@ -118,6 +123,252 @@ class TmdbCatalogue implements VideoCatalogue {
   static const String wpPrefix = 'wp:';
 
   static String wpRowId(int providerId) => '$wpPrefix$providerId';
+
+  /// Browse one service while preserving TMDB's server-side filters.
+  Future<MediaItemPage> browseProvider(
+    int providerId,
+    int page, {
+    MetaFilters filters = const MetaFilters(),
+  }) async {
+    final region = StreamingPrefs.region;
+    final onlyTv = filters.format == MetaFormat.tv;
+    final onlyMovie = filters.format == MetaFormat.movie;
+    final both = await Future.wait([
+      if (!onlyMovie)
+        _discoverProviderFiltered(
+          providerId,
+          page,
+          filters,
+          region: region,
+          isTv: true,
+        ),
+      if (!onlyTv)
+        _discoverProviderFiltered(
+          providerId,
+          page,
+          filters,
+          region: region,
+          isTv: false,
+        ),
+    ]);
+    if (both.length == 1) return both.single;
+    return MediaItemPage(
+      items: _interleave(both[0].items, both[1].items),
+      hasMore: both.any((page) => page.hasMore),
+    );
+  }
+
+  Future<MediaItemPage> _discoverProviderFiltered(
+    int providerId,
+    int page,
+    MetaFilters filters, {
+    required String region,
+    required bool isTv,
+  }) async {
+    if (filters.genres.any((genre) => tmdbGenreId(genre, isTv: isTv) == null)) {
+      return const MediaItemPage(items: [], hasMore: false);
+    }
+    final ids = filters.genres
+        .map((genre) => tmdbGenreId(genre, isTv: isTv))
+        .whereType<int>()
+        .toSet();
+    final params = <String, dynamic>{
+      'page': page,
+      'include_adult': filters.adult,
+      'with_watch_providers': '$providerId',
+      'watch_region': region,
+      'sort_by': _sortValue(filters.sort, isTv: isTv),
+      if (ids.isNotEmpty) 'with_genres': ids.join(','),
+      if (filters.year != null)
+        (isTv ? 'first_air_date_year' : 'primary_release_year'): filters.year,
+      if (filters.sort == MetaSort.score || filters.minScore != null)
+        'vote_count.gte': 200,
+      if (filters.minScore != null) 'vote_average.gte': filters.minScore! / 10,
+    };
+    return _safePage(
+      () => _get('/discover/${isTv ? 'tv' : 'movie'}', params),
+      forcedTv: isTv,
+      page: page,
+    );
+  }
+
+  Future<MediaItemPage> _safePage(
+    Future<Map<String, dynamic>?> Function() call, {
+    required bool forcedTv,
+    required int page,
+  }) async {
+    try {
+      final response = await call();
+      final totalPages = response?['total_pages'];
+      return MediaItemPage(
+        items: _items(response, forcedTv: forcedTv),
+        hasMore: totalPages is num && page < totalPages,
+      );
+    } catch (_) {
+      return const MediaItemPage(items: [], hasMore: false);
+    }
+  }
+
+  /// Search TMDB titles, then keep only ones TMDB lists for [providerId] in
+  /// the user's region. TMDB separates text search from provider availability,
+  /// so the availability lookup is on-demand and cached per title.
+  Future<MediaItemPage> searchProvider(
+    int providerId,
+    String query, {
+    MetaFilters filters = const MetaFilters(),
+    int page = 1,
+  }) async {
+    if (query.trim().isEmpty) {
+      return browseProvider(providerId, page, filters: filters);
+    }
+    final region = StreamingPrefs.region;
+    final response = await _get('/search/multi', {
+      'query': query.trim(),
+      'page': page,
+      'include_adult': filters.adult,
+    });
+    final rawResults = response?['results'];
+    if (rawResults is! List) {
+      return const MediaItemPage(items: [], hasMore: false);
+    }
+    final candidates = rawResults
+        .whereType<Map>()
+        .map(Map<String, dynamic>.from)
+        .where((item) => _matchesProviderSearchFilters(item, filters))
+        .toList();
+    candidates.sort((a, b) => _compareSearchResults(a, b, filters.sort));
+
+    final found = <MediaItem>[];
+    // Keep the burst modest: one query yields up to 20 results, but availability
+    // is still checked only for this explicit search, never during Home load.
+    for (var start = 0; start < candidates.length; start += 4) {
+      final end = (start + 4).clamp(0, candidates.length);
+      final batch = candidates.sublist(start, end);
+      final availability = await Future.wait(
+        batch.map((item) => _hasProvider(providerId, item, region)),
+      );
+      for (var i = 0; i < batch.length; i++) {
+        if (availability[i]) {
+          found.addAll(
+            _items({
+              'results': [batch[i]],
+            }, forcedTv: null),
+          );
+        }
+      }
+    }
+    final totalPages = response?['total_pages'];
+    return MediaItemPage(
+      items: found,
+      hasMore: totalPages is num && page < totalPages,
+    );
+  }
+
+  Future<bool> _hasProvider(
+    int providerId,
+    Map<String, dynamic> item,
+    String region,
+  ) async {
+    final mediaType = item['media_type'];
+    final id = item['id'];
+    if ((mediaType != 'movie' && mediaType != 'tv') || id is! int) {
+      return false;
+    }
+    final key = '$mediaType:$id';
+    var byRegion = _watchProviderCache[key];
+    if (byRegion == null) {
+      final response = await _get('/$mediaType/$id/watch/providers', const {});
+      final regions = response?['results'];
+      if (regions is! Map) return false;
+      byRegion = {
+        for (final entry in regions.entries)
+          if (entry.value is Map)
+            entry.key.toString(): {
+              for (final section in (entry.value as Map).values)
+                if (section is List)
+                  for (final provider in section.whereType<Map>())
+                    if (provider['provider_id'] is int)
+                      provider['provider_id'] as int,
+            },
+      };
+      // ponytail: retain only the last 256 title lookups; enough for repeated
+      // searches in one session without an unbounded process-lifetime cache.
+      if (_watchProviderCache.length >= 256) {
+        _watchProviderCache.remove(_watchProviderCache.keys.first);
+      }
+      _watchProviderCache[key] = byRegion;
+    }
+    return byRegion[region]?.contains(providerId) ?? false;
+  }
+
+  static bool _matchesProviderSearchFilters(
+    Map<String, dynamic> item,
+    MetaFilters filters,
+  ) {
+    final mediaType = item['media_type'];
+    final isTv = mediaType == 'tv';
+    if (mediaType != 'movie' && !isTv) return false;
+    if (filters.format == MetaFormat.tv && !isTv) return false;
+    if (filters.format == MetaFormat.movie && isTv) return false;
+    if (filters.minScore != null) {
+      final score = (item['vote_average'] as num?)?.toDouble() ?? 0;
+      final votes = (item['vote_count'] as num?)?.toInt() ?? 0;
+      if (score < filters.minScore! / 10 || votes < 200) return false;
+    }
+    if (filters.year != null) {
+      final date = isTv ? item['first_air_date'] : item['release_date'];
+      if (date is! String || !date.startsWith('${filters.year}-')) return false;
+    }
+    if (filters.genres.isNotEmpty) {
+      final rawGenres = item['genre_ids'];
+      if (rawGenres is! List) return false;
+      final genreIds = rawGenres.whereType<int>().toSet();
+      final wanted = filters.genres
+          .map((genre) => tmdbGenreId(genre, isTv: isTv))
+          .toList();
+      if (wanted.any((id) => id == null || !genreIds.contains(id))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static int _compareSearchResults(
+    Map<String, dynamic> a,
+    Map<String, dynamic> b,
+    MetaSort sort,
+  ) {
+    final compare = switch (sort) {
+      MetaSort.title =>
+        ((a['name'] ?? a['title']) as String? ?? '').toLowerCase().compareTo(
+          ((b['name'] ?? b['title']) as String? ?? '').toLowerCase(),
+        ),
+      MetaSort.newest => _dateValue(b).compareTo(_dateValue(a)),
+      MetaSort.score =>
+        ((b['vote_average'] as num?)?.toDouble() ?? 0).compareTo(
+          (a['vote_average'] as num?)?.toDouble() ?? 0,
+        ),
+      _ => ((b['popularity'] as num?)?.toDouble() ?? 0).compareTo(
+        (a['popularity'] as num?)?.toDouble() ?? 0,
+      ),
+    };
+    return compare;
+  }
+
+  static int _dateValue(Map<String, dynamic> item) =>
+      DateTime.tryParse(
+        (item['first_air_date'] ?? item['release_date']) as String? ?? '',
+      )?.millisecondsSinceEpoch ??
+      0;
+
+  static String _sortValue(MetaSort sort, {required bool isTv}) =>
+      switch (sort) {
+        MetaSort.score => 'vote_average.desc',
+        MetaSort.newest =>
+          isTv ? 'first_air_date.desc' : 'primary_release_date.desc',
+        MetaSort.title => isTv ? 'name.asc' : 'title.asc',
+        _ => 'popularity.desc',
+      };
 
   /// One page of what [providerId] carries in the user's region.
   ///

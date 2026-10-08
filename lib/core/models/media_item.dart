@@ -211,6 +211,15 @@ class MediaItem extends Equatable {
   ];
 }
 
+/// A catalogue page keeps its paging signal even when client-side filters
+/// remove every item from that page.
+class MediaItemPage {
+  const MediaItemPage({required this.items, required this.hasMore});
+
+  final List<MediaItem> items;
+  final bool hasMore;
+}
+
 /// Decorations source catalogues routinely bolt onto a title — a year,
 /// season/part/episode markers, "Watch ... Online" wrapper words, quality or
 /// audio tags — that carry no identifying information. [titleMatches] strips

@@ -18,23 +18,33 @@ import '../../l10n/l10n.dart';
 Future<MetaFilters?> showMetaFilterDialogTv(
   BuildContext context,
   ZKind kind,
-  MetaFilters current,
-) {
+  MetaFilters current, {
+  bool showStatus = true,
+}) {
   return showDialog<MetaFilters>(
     context: context,
     useRootNavigator: true,
     requestFocus: true,
     barrierColor: Colors.black.withValues(alpha: 0.7),
     traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
-    builder: (_) => _MetaFilterDialogTv(kind: kind, initial: current),
+    builder: (_) => _MetaFilterDialogTv(
+      kind: kind,
+      initial: current,
+      showStatus: showStatus,
+    ),
   );
 }
 
 class _MetaFilterDialogTv extends StatefulWidget {
-  const _MetaFilterDialogTv({required this.kind, required this.initial});
+  const _MetaFilterDialogTv({
+    required this.kind,
+    required this.initial,
+    required this.showStatus,
+  });
 
   final ZKind kind;
   final MetaFilters initial;
+  final bool showStatus;
 
   @override
   State<_MetaFilterDialogTv> createState() => _MetaFilterDialogTvState();
@@ -52,7 +62,7 @@ class _MetaFilterDialogTvState extends State<_MetaFilterDialogTv> {
       (_f.year != null ? 1 : 0) +
       (_f.season != null ? 1 : 0) +
       (_f.format != null ? 1 : 0) +
-      (_f.status != null ? 1 : 0) +
+      (widget.showStatus && _f.status != null ? 1 : 0) +
       (_f.minScore != null ? 1 : 0) +
       (_f.sort != MetaSort.popularity ? 1 : 0);
 
@@ -177,25 +187,26 @@ class _MetaFilterDialogTvState extends State<_MetaFilterDialogTv> {
                             ),
                           ),
                         ),
-                        _row(
-                          key: const ValueKey('tv-meta-filter-status'),
-                          title: l10n.status,
-                          value: _f.status == null
-                              ? l10n.any
-                              : metaStatusLabel(_f.status!),
-                          on: _f.status != null,
-                          onTap: () => _pick<MetaStatus>(
+                        if (widget.showStatus)
+                          _row(
+                            key: const ValueKey('tv-meta-filter-status'),
                             title: l10n.status,
-                            values: MetaStatus.values,
-                            current: _f.status,
-                            label: metaStatusLabel,
-                            onPicked: (v) => setState(
-                              () => _f = v == null
-                                  ? _f.copyWith(clearStatus: true)
-                                  : _f.copyWith(status: v),
+                            value: _f.status == null
+                                ? l10n.any
+                                : metaStatusLabel(_f.status!),
+                            on: _f.status != null,
+                            onTap: () => _pick<MetaStatus>(
+                              title: l10n.status,
+                              values: MetaStatus.values,
+                              current: _f.status,
+                              label: metaStatusLabel,
+                              onPicked: (v) => setState(
+                                () => _f = v == null
+                                    ? _f.copyWith(clearStatus: true)
+                                    : _f.copyWith(status: v),
+                              ),
                             ),
                           ),
-                        ),
                         _row(
                           key: const ValueKey('tv-meta-filter-score'),
                           title: l10n.minimumScore,
