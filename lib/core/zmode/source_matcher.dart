@@ -113,6 +113,7 @@ class SourceMatcher {
     String sourceId, {
     required String title,
     String? altTitle,
+    List<String> metadataAliases = const [],
     int? malId,
   }) async {
     // On TV, JS providers may not be loaded in the runtime (loadAll was
@@ -127,17 +128,11 @@ class SourceMatcher {
       return null;
     }
 
-    // Searching one name is how a source that HAS the show still misses it.
-    //
-    // The catalogue hands over two: the romaji name and the English one. This
-    // asked only for the first, so a source indexing by the other came back
-    // with nothing and was recorded as not having the title at all. Measured
-    // on a real device: `animecube -> 0 results for "Otome Kaijuu Caraméliser"`
-    // — a show that source lists as "Kaiju Girl Caramelise".
-    //
-    // The second name is only asked for when the first FINDS NOTHING USABLE,
-    // so a title that already resolves costs exactly what it did before. The
-    // extra request is spent only where the alternative was a guaranteed miss.
+    // A provider may index this show by a title other than the catalogue's
+    // display title. Measured on a real device: animecube returned no results
+    // for "Otome Kaijuu Caraméliser" but listed it as "Kaiju Girl Caramelise".
+    // Retry up to three distinct alternate titles only when the first query
+    // has no validated match, bounding the extra provider calls on misses.
     Future<List<MediaItem>?> searchFor(String q) async {
       try {
         return await _sources.search(q, sourceId: sourceId);
@@ -159,8 +154,9 @@ class SourceMatcher {
       }
     }
 
-    var results = await searchFor(title);
-    if (results == null) return null;
+    final initialResults = await searchFor(title);
+    if (initialResults == null) return null;
+    var results = initialResults;
     // A source that searched fine but title-missed and one that came back
     // empty because it was blocked both just vanish from matching, so say
     // which happened — otherwise "no source has this" is undebuggable.
@@ -169,35 +165,55 @@ class SourceMatcher {
       results,
       title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       wantedMalId: malId,
     );
     var matched =
         hit != null &&
-        titleMatches(hit, title, altTitle: altTitle, wantedMalId: malId);
+        titleMatches(
+          hit,
+          title,
+          altTitle: altTitle,
+          metadataAliases: metadataAliases,
+          wantedMalId: malId,
+        );
 
-    // Only worth a second request when there IS another name and it is
-    // actually different — "One Piece" twice is two round trips for one
-    // answer, and normalizeTitle is the same comparison the acceptance check
-    // uses, so "Re:Zero" and "rezero" count as the same name here too.
-    final alt = altTitle?.trim() ?? '';
-    if (!matched &&
-        alt.isNotEmpty &&
-        normalizeTitle(alt) != normalizeTitle(title)) {
-      debugPrint('[zmode] $sourceId · nothing for "$title", trying "$alt"');
-      final second = await searchFor(alt);
-      if (second == null) return null;
-      debugPrint('[zmode] $sourceId -> ${second.length} results for "$alt"');
-      final altHit = bestTitleMatch(
-        second,
+    if (!matched) {
+      // Search the English name first, then metadata aliases, with a fixed cap
+      // on alternate queries to bound provider calls during an Auto Resolve
+      // sweep.
+      for (final alias in _alternateSearchQueries(
         title,
-        altTitle: altTitle,
-        wantedMalId: malId,
-      );
-      if (altHit != null &&
-          titleMatches(altHit, title, altTitle: altTitle, wantedMalId: malId)) {
-        results = second;
-        hit = altHit;
-        matched = true;
+        altTitle,
+        metadataAliases,
+      )) {
+        debugPrint('[zmode] $sourceId · nothing for "$title", trying "$alias"');
+        final alternateResults = await searchFor(alias);
+        if (alternateResults == null) continue;
+        debugPrint(
+          '[zmode] $sourceId -> ${alternateResults.length} results for "$alias"',
+        );
+        final alternateHit = bestTitleMatch(
+          alternateResults,
+          title,
+          altTitle: altTitle,
+          metadataAliases: metadataAliases,
+          wantedMalId: malId,
+        );
+        if (alternateHit != null &&
+            titleMatches(
+              alternateHit,
+              title,
+              altTitle: altTitle,
+              metadataAliases: metadataAliases,
+              wantedMalId: malId,
+            )) {
+          results = alternateResults;
+          hit = alternateHit;
+          matched = true;
+          break;
+        }
+        hit = alternateHit ?? hit;
       }
     }
 
@@ -224,6 +240,23 @@ class SourceMatcher {
     return m;
   }
 
+  static List<String> _alternateSearchQueries(
+    String title,
+    String? altTitle,
+    List<String> metadataAliases,
+  ) {
+    final seen = {normalizeTitle(title)};
+    final queries = <String>[];
+    for (final candidate in [?altTitle, ...metadataAliases]) {
+      final query = candidate.trim();
+      final key = normalizeTitle(query);
+      if (query.isEmpty || key.isEmpty || !seen.add(key)) continue;
+      queries.add(query);
+      if (queries.length == 3) break;
+    }
+    return queries;
+  }
+
   /// A source's remembered/fresh match — a pinned match always wins (even if
   /// the source was since uninstalled); an unpinned match is trusted only
   /// while the source is still installed (otherwise it's stale — null so the
@@ -234,6 +267,7 @@ class SourceMatcher {
     String sourceId, {
     required String title,
     String? altTitle,
+    List<String> metadataAliases = const [],
     int? malId,
   }) async {
     final saved = _store.get(c, sourceId);
@@ -271,6 +305,7 @@ class SourceMatcher {
       sourceId,
       title: title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       malId: malId,
     );
   }
@@ -293,6 +328,7 @@ class SourceMatcher {
     ZCanonical c, {
     required String title,
     String? altTitle,
+    List<String> metadataAliases = const [],
     int? malId,
     bool Function()? abandoned,
   }) {
@@ -306,6 +342,7 @@ class SourceMatcher {
           c,
           title: title,
           altTitle: altTitle,
+          metadataAliases: metadataAliases,
           malId: malId,
           abandoned: abandoned,
         ).whenComplete(() {
@@ -319,6 +356,7 @@ class SourceMatcher {
     ZCanonical c, {
     required String title,
     String? altTitle,
+    List<String> metadataAliases = const [],
     int? malId,
     bool Function()? abandoned,
   }) async {
@@ -337,7 +375,14 @@ class SourceMatcher {
         '[source-matcher] _resolve · kind=${c.kind} title="$title" '
         'pinned=$pinned',
       );
-      return matchOn(c, pinned, title: title, altTitle: altTitle, malId: malId);
+      return matchOn(
+        c,
+        pinned,
+        title: title,
+        altTitle: altTitle,
+        metadataAliases: metadataAliases,
+        malId: malId,
+      );
     }
     // An explicit kind-wide default (set via the "source went quiet" recovery
     // picker) is honoured as-is — a genuine miss there is reported, not
@@ -348,7 +393,14 @@ class SourceMatcher {
         '[source-matcher] _resolve · kind=${c.kind} title="$title" '
         'kind default=$selId',
       );
-      return matchOn(c, selId, title: title, altTitle: altTitle, malId: malId);
+      return matchOn(
+        c,
+        selId,
+        title: title,
+        altTitle: altTitle,
+        metadataAliases: metadataAliases,
+        malId: malId,
+      );
     }
     final sweep = _sweepCandidates(c.kind);
 
@@ -381,6 +433,7 @@ class SourceMatcher {
         remembered,
         title: title,
         altTitle: altTitle,
+        metadataAliases: metadataAliases,
         malId: malId,
       );
     }
@@ -414,6 +467,7 @@ class SourceMatcher {
         s.id,
         title: title,
         altTitle: altTitle,
+        metadataAliases: metadataAliases,
         malId: malId,
       );
       if (m != null) {
@@ -500,6 +554,7 @@ class SourceMatcher {
     String sourceId, {
     required String title,
     String? altTitle,
+    List<String> metadataAliases = const [],
     int? malId,
   }) async {
     final m = await matchOn(
@@ -507,6 +562,7 @@ class SourceMatcher {
       sourceId,
       title: title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       malId: malId,
     );
     if (m == null) {

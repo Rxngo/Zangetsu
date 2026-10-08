@@ -32,8 +32,9 @@ class _ByQuery implements SourceRepository {
   @override
   String displayName(String sourceId) => sourceId;
   @override
-  List<({String id, String name})> get loadedSources =>
-      [(id: 'src', name: 'src')];
+  List<({String id, String name})> get loadedSources => [
+    (id: 'src', name: 'src'),
+  ];
   @override
   List<({String id, String name})> get pickableSources => loadedSources;
 
@@ -86,26 +87,84 @@ void main() {
   // on a source that lists the show as "Kaiju Girl Caramelise". One name was
   // asked, so a source that HAD it was recorded as not having it.
   test('a source indexing by the English name is now found', () async {
-    final repo = _ByQuery({english: [_item(english)]});
-    final r = await matcher(repo).resolveOn(
-      show,
-      'src',
-      title: romaji,
-      altTitle: english,
-    );
+    final repo = _ByQuery({
+      english: [_item(english)],
+    });
+    final r = await matcher(
+      repo,
+    ).resolveOn(show, 'src', title: romaji, altTitle: english);
     expect(r?.showTitle, english);
     expect(repo.asked, [romaji, english], reason: 'romaji first, then English');
   });
 
-  // The cost has to land only where the alternative was a guaranteed miss.
-  test('a title the first name finds never pays for a second search', () async {
-    final repo = _ByQuery({romaji: [_item(romaji)]});
+  test(
+    'automatic resolve finds a source listing under a metadata alias',
+    () async {
+      const korean = '전직 지존';
+      final repo = _ByQuery({
+        korean: [_item('전직지존')],
+      });
+
+      final r = await matcher(repo).resolve(
+        show,
+        title: romaji,
+        altTitle: english,
+        metadataAliases: const [korean],
+      );
+
+      expect(r?.showTitle, '전직지존');
+      expect(repo.asked, [romaji, english, korean]);
+    },
+  );
+
+  test('an unrelated result for a metadata alias is still rejected', () async {
+    const korean = '전직 지존';
+    final repo = _ByQuery({
+      korean: [_item('Some Other Show')],
+    });
+
     final r = await matcher(repo).resolveOn(
       show,
       'src',
       title: romaji,
       altTitle: english,
+      metadataAliases: const [korean],
     );
+
+    expect(r, isNull);
+    expect(repo.asked, [romaji, english, korean]);
+  });
+
+  test(
+    'automatic alias fallback is capped at three alternate searches',
+    () async {
+      final repo = _ByQuery(const {});
+
+      await matcher(repo).resolveOn(
+        show,
+        'src',
+        title: romaji,
+        altTitle: english,
+        metadataAliases: const [
+          'Alias one',
+          'Alias two',
+          'Alias three',
+          'Alias four',
+        ],
+      );
+
+      expect(repo.asked, [romaji, english, 'Alias one', 'Alias two']);
+    },
+  );
+
+  // The cost has to land only where the alternative was a guaranteed miss.
+  test('a title the first name finds never pays for a second search', () async {
+    final repo = _ByQuery({
+      romaji: [_item(romaji)],
+    });
+    final r = await matcher(
+      repo,
+    ).resolveOn(show, 'src', title: romaji, altTitle: english);
     expect(r?.showTitle, romaji);
     expect(repo.asked, [romaji], reason: 'the second name was never needed');
   });
@@ -132,18 +191,17 @@ void main() {
 
   // Finding something under the other name must not mean accepting anything:
   // the acceptance rule is unchanged, so a different show is still rejected.
-  test('a wrong show returned for the English name is still rejected',
-      () async {
-    final repo = _ByQuery({
-      english: [_item('Some Entirely Different Show')],
-    });
-    final r = await matcher(repo).resolveOn(
-      show,
-      'src',
-      title: romaji,
-      altTitle: english,
-    );
-    expect(r, isNull);
-    expect(repo.asked, [romaji, english], reason: 'it looked, and said no');
-  });
+  test(
+    'a wrong show returned for the English name is still rejected',
+    () async {
+      final repo = _ByQuery({
+        english: [_item('Some Entirely Different Show')],
+      });
+      final r = await matcher(
+        repo,
+      ).resolveOn(show, 'src', title: romaji, altTitle: english);
+      expect(r, isNull);
+      expect(repo.asked, [romaji, english], reason: 'it looked, and said no');
+    },
+  );
 }

@@ -47,15 +47,14 @@ class SourceSelectState {
     bool? loading,
     bool? resolved,
     bool? auto,
-  }) =>
-      SourceSelectState(
-        sources: sources ?? this.sources,
-        selectedId: selectedId ?? this.selectedId,
-        match: match ?? this.match,
-        loading: loading ?? this.loading,
-        resolved: resolved ?? this.resolved,
-        auto: auto ?? this.auto,
-      );
+  }) => SourceSelectState(
+    sources: sources ?? this.sources,
+    selectedId: selectedId ?? this.selectedId,
+    match: match ?? this.match,
+    loading: loading ?? this.loading,
+    resolved: resolved ?? this.resolved,
+    auto: auto ?? this.auto,
+  );
 }
 
 /// Backs the Detail screen's per-title source row: names whichever source
@@ -71,7 +70,8 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
     required String title,
     this.altTitle,
     this.malId,
-  })  : _store = store,
+    this.metadataAliases = const [],
+  }) : _store = store,
        _matcher = matcher,
        _canonical = canonical,
        _title = title,
@@ -134,6 +134,7 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
   final String _title;
   final String? altTitle;
   final int? malId;
+  final List<String> metadataAliases;
 
   /// Keeps [state.sources] in sync with a live [SourceRepository] read.
   /// TV skips boot-time provider load, so the list at widget creation is
@@ -148,17 +149,18 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
     // Auto keeps whatever the last sweep found — this sync only refreshes
     // the installed-sources list, it does not re-sweep.
     final selected = auto ? state.selectedId : selectedFromMatcher;
-    final match =
-        selected == null ? null : _store.get(_canonical, selected);
+    final match = selected == null ? null : _store.get(_canonical, selected);
     final resolved = state.resolved || (selected != null && match != null);
-    emit(SourceSelectState(
-      sources: sources,
-      selectedId: selected,
-      match: match ?? state.match,
-      loading: state.loading,
-      resolved: resolved,
-      auto: auto,
-    ));
+    emit(
+      SourceSelectState(
+        sources: sources,
+        selectedId: selected,
+        match: match ?? state.match,
+        loading: state.loading,
+        resolved: resolved,
+        auto: auto,
+      ),
+    );
   }
 
   /// Re-search this title's source (e.g. after Wrong title? closed without
@@ -171,80 +173,95 @@ class SourceSelectCubit extends Cubit<SourceSelectState> {
       _canonical,
       title: _title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       malId: malId,
     );
     if (isClosed) return;
     final auto = _matcher.sourceForTitle(_canonical) == null;
-    emit(SourceSelectState(
-      sources: state.sources,
-      selectedId: auto ? m?.sourceId : _matcher.sourceForTitle(_canonical),
-      match: m,
-      loading: false,
-      resolved: true,
-      auto: auto,
-    ));
+    emit(
+      SourceSelectState(
+        sources: state.sources,
+        selectedId: auto ? m?.sourceId : _matcher.sourceForTitle(_canonical),
+        match: m,
+        loading: false,
+        resolved: true,
+        auto: auto,
+      ),
+    );
   }
 
   /// The user picked [id] for THIS title only — searches it fresh and pins
   /// whatever it finds, without changing any other title of this kind.
   Future<void> selectSource(String id) async {
-    emit(SourceSelectState(
-      sources: state.sources,
-      selectedId: id,
-      loading: true,
-      resolved: state.resolved,
-    ));
+    emit(
+      SourceSelectState(
+        sources: state.sources,
+        selectedId: id,
+        loading: true,
+        resolved: state.resolved,
+      ),
+    );
     final m = await _matcher.pinTitleToSource(
       _canonical,
       id,
       title: _title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       malId: malId,
     );
     if (isClosed) return;
-    emit(SourceSelectState(
-      sources: state.sources,
-      selectedId: id,
-      match: m,
-      loading: false,
-      resolved: true,
-    ));
+    emit(
+      SourceSelectState(
+        sources: state.sources,
+        selectedId: id,
+        match: m,
+        loading: false,
+        resolved: true,
+      ),
+    );
   }
 
   /// Drop this title's own pin AND the kind's explicit default — genuinely
   /// back to sweeping, not just to whichever fixed source the kind default
   /// names.
   Future<void> selectAuto() async {
-    emit(SourceSelectState(
-      sources: state.sources,
-      selectedId: null,
-      loading: true,
-      resolved: state.resolved,
-      auto: true,
-    ));
+    emit(
+      SourceSelectState(
+        sources: state.sources,
+        selectedId: null,
+        loading: true,
+        resolved: state.resolved,
+        auto: true,
+      ),
+    );
     await _matcher.clearAuto(_canonical);
     final m = await _matcher.resolve(
       _canonical,
       title: _title,
       altTitle: altTitle,
+      metadataAliases: metadataAliases,
       malId: malId,
     );
     if (isClosed) return;
-    emit(SourceSelectState(
-      sources: state.sources,
-      selectedId: m?.sourceId,
-      match: m,
-      loading: false,
-      resolved: true,
-      auto: true,
-    ));
-  }
-
-  void applyPinned(SourceMatch m) => emit(SourceSelectState(
+    emit(
+      SourceSelectState(
         sources: state.sources,
-        selectedId: m.sourceId,
+        selectedId: m?.sourceId,
         match: m,
         loading: false,
         resolved: true,
-      ));
+        auto: true,
+      ),
+    );
+  }
+
+  void applyPinned(SourceMatch m) => emit(
+    SourceSelectState(
+      sources: state.sources,
+      selectedId: m.sourceId,
+      match: m,
+      loading: false,
+      resolved: true,
+    ),
+  );
 }

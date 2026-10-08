@@ -3,14 +3,14 @@ import 'package:watch_app/core/models/media_item.dart';
 import 'package:watch_app/core/models/provider_info.dart';
 
 MediaItem _item(String title, {String? english, int? malId}) => MediaItem(
-      id: title,
-      title: title,
-      englishTitle: english,
-      url: title,
-      type: ProviderType.anime,
-      sourceId: 'src',
-      malId: malId,
-    );
+  id: title,
+  title: title,
+  englishTitle: english,
+  url: title,
+  type: ProviderType.anime,
+  sourceId: 'src',
+  malId: malId,
+);
 
 void main() {
   group('bestTitleMatch', () {
@@ -25,13 +25,22 @@ void main() {
         _item('Mushoku Tensei III: Isekai Ittara Honki Dasu'),
         _item('Mushoku Tensei: Jobless Reincarnation'),
       ];
-      final match = bestTitleMatch(results, 'Mushoku Tensei: Jobless Reincarnation');
+      final match = bestTitleMatch(
+        results,
+        'Mushoku Tensei: Jobless Reincarnation',
+      );
       expect(match!.title, 'Mushoku Tensei: Jobless Reincarnation');
     });
 
     test('matches ignoring punctuation/case', () {
-      final results = [_item('Attack on Titan Final'), _item('ATTACK ON TITAN!')];
-      expect(bestTitleMatch(results, 'attack on titan')!.title, 'ATTACK ON TITAN!');
+      final results = [
+        _item('Attack on Titan Final'),
+        _item('ATTACK ON TITAN!'),
+      ];
+      expect(
+        bestTitleMatch(results, 'attack on titan')!.title,
+        'ATTACK ON TITAN!',
+      );
     });
 
     test('matches on englishTitle too', () {
@@ -39,7 +48,10 @@ void main() {
         _item('Shingeki no Kyojin', english: 'Attack on Titan'),
         _item('Other'),
       ];
-      expect(bestTitleMatch(results, 'Attack on Titan')!.title, 'Shingeki no Kyojin');
+      expect(
+        bestTitleMatch(results, 'Attack on Titan')!.title,
+        'Shingeki no Kyojin',
+      );
     });
 
     test('falls back to the first result when nothing matches', () {
@@ -64,8 +76,7 @@ void main() {
 
     test('ignores a null MAL id and falls through to title match', () {
       final results = [_item('First', malId: 1), _item('Target', malId: 2)];
-      final match =
-          bestTitleMatch(results, 'Target', wantedMalId: null);
+      final match = bestTitleMatch(results, 'Target', wantedMalId: null);
       expect(match!.title, 'Target');
     });
 
@@ -84,26 +95,23 @@ void main() {
       expect(bestTitleMatch(results, 'Reacher')!.title, 'Watch Reacher Online');
     });
 
-    test('does not match an unrelated title that merely contains the substring', () {
-      // The reported bug: "Reacher" must not fall through to a result whose
-      // title happens to contain it as a substring.
-      final results = [_item('The Reluctant Preacher')];
-      final match = bestTitleMatch(results, 'Reacher');
-      expect(match, isNotNull); // falls back to first result (only one here)
-      expect(titleMatches(match!, 'Reacher'), isFalse);
-    });
+    test(
+      'does not match an unrelated title that merely contains the substring',
+      () {
+        // The reported bug: "Reacher" must not fall through to a result whose
+        // title happens to contain it as a substring.
+        final results = [_item('The Reluctant Preacher')];
+        final match = bestTitleMatch(results, 'Reacher');
+        expect(match, isNotNull); // falls back to first result (only one here)
+        expect(titleMatches(match!, 'Reacher'), isFalse);
+      },
+    );
 
     test('matches a decorated title but not the bare franchise name', () {
       final decorated = _item('Spider-Man: Brand New Day (2026)');
       final bare = _item('Spider-Man');
-      expect(
-        titleMatches(decorated, 'Spider-Man: Brand New Day'),
-        isTrue,
-      );
-      expect(
-        titleMatches(bare, 'Spider-Man: Brand New Day'),
-        isFalse,
-      );
+      expect(titleMatches(decorated, 'Spider-Man: Brand New Day'), isTrue);
+      expect(titleMatches(bare, 'Spider-Man: Brand New Day'), isFalse);
     });
 
     test('matches the Romaji alt title when the source indexes by Romaji', () {
@@ -118,20 +126,17 @@ void main() {
         'Mushoku Tensei: Jobless Reincarnation Season 2 Part 2',
         altTitle: 'Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2',
       );
-      expect(match!.title, 'Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2');
+      expect(
+        match!.title,
+        'Mushoku Tensei II: Isekai Ittara Honki Dasu Part 2',
+      );
     });
 
     test('an ampersand matches the same title spelled with "and"', () {
       // Sources write it either way. Dropping the symbol made these normalise
       // to `abovebelow` vs `aboveandbelow` — never equal, on the same film.
-      expect(
-        titleMatches(_item('Above and Below'), 'Above & Below'),
-        isTrue,
-      );
-      expect(
-        titleMatches(_item('Above & Below'), 'Above and Below'),
-        isTrue,
-      );
+      expect(titleMatches(_item('Above and Below'), 'Above & Below'), isTrue);
+      expect(titleMatches(_item('Above & Below'), 'Above and Below'), isTrue);
     });
 
     test('spelling out & does not make unrelated titles collide', () {
@@ -140,7 +145,10 @@ void main() {
     });
 
     test('normalizeTitle agrees on both spellings', () {
-      expect(normalizeTitle('Above & Below'), normalizeTitle('Above and Below'));
+      expect(
+        normalizeTitle('Above & Below'),
+        normalizeTitle('Above and Below'),
+      );
       expect(normalizeTitle('Tom & Jerry'), 'tomandjerry');
     });
 
@@ -152,6 +160,12 @@ void main() {
       expect(normalizeTitle('Café Society'), normalizeTitle('Cafe Society'));
       expect(titleMatches(_item('Pokemon'), 'Pokémon'), isTrue);
       expect(titleMatches(_item('Pokémon'), 'Pokemon'), isTrue);
+    });
+
+    test('normalization preserves non-Latin title scripts', () {
+      expect(normalizeTitle('鋼の錬金術師'), '鋼の錬金術師');
+      expect(normalizeTitle('전직 지존'), '전직지존');
+      expect(titleMatches(_item('전직지존'), '전직 지존'), isTrue);
     });
 
     test('folding does not merge titles that are genuinely different', () {

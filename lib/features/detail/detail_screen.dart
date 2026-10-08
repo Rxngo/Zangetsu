@@ -1903,6 +1903,7 @@ class _DetailViewState extends State<_DetailView>
                   episodesLoading: true,
                 ),
                 partial,
+                sourceMetadataReady: false,
               );
             }
             return const _DetailSkeleton(heroHeight: _expandedHeight);
@@ -1919,7 +1920,12 @@ class _DetailViewState extends State<_DetailView>
             if (fallback != null) {
               return Stack(
                 children: [
-                  _buildBody(context, state, fallback),
+                  _buildBody(
+                    context,
+                    state,
+                    fallback,
+                    sourceMetadataReady: false,
+                  ),
                   Positioned(
                     left: 0,
                     right: 0,
@@ -1991,8 +1997,9 @@ class _DetailViewState extends State<_DetailView>
   Widget _buildBody(
     BuildContext context,
     DetailState state,
-    MediaDetail detail,
-  ) {
+    MediaDetail detail, {
+    bool sourceMetadataReady = true,
+  }) {
     final item = widget.item;
     final cubit = context.read<DetailCubit>();
     final category = state.category;
@@ -2285,12 +2292,22 @@ class _DetailViewState extends State<_DetailView>
                 ),
               // Z Mode: matched source + "Wrong title?", kept with the
               // actions it controls instead of under the synopsis.
-              if (ZmodeIds.isZ(widget.item.url))
+              // The first frame may be built from the tapped catalogue card,
+              // which has no synonyms/native title. Don't start a canonical
+              // source search until full metadata arrives: resolve() shares
+              // in-flight work by title id, so an early search would make the
+              // later alias-aware lookup reuse the incomplete one.
+              if (sourceMetadataReady && ZmodeIds.isZ(widget.item.url))
                 MatchLine(
                   canonical: ZmodeIds.parseShow(widget.item.url)!,
                   title: detail.title,
                   altTitle: detail.englishTitle,
                   malId: detail.malId,
+                  metadataAliases: [
+                    if (detail.englishTitle != null) detail.englishTitle!,
+                    if (detail.nativeTitle != null) detail.nativeTitle!,
+                    ...detail.synonyms,
+                  ],
                 ),
             ],
           ),

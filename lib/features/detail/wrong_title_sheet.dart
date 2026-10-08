@@ -40,12 +40,14 @@ class MatchLine extends StatefulWidget {
     required this.title,
     this.altTitle,
     this.malId,
+    this.metadataAliases = const [],
   });
 
   final ZCanonical canonical;
   final String title;
   final String? altTitle;
   final int? malId;
+  final List<String> metadataAliases;
 
   @override
   State<MatchLine> createState() => _MatchLineState();
@@ -60,6 +62,7 @@ class _MatchLineState extends State<MatchLine> {
     title: widget.title,
     altTitle: widget.altTitle,
     malId: widget.malId,
+    metadataAliases: widget.metadataAliases,
   )..load();
 
   @override
@@ -269,6 +272,8 @@ class _MatchLineState extends State<MatchLine> {
       canonical: widget.canonical,
       title: widget.title,
       sourceId: sourceId,
+      metadataAliases: widget.metadataAliases,
+      malId: widget.malId,
     );
     if (!mounted) return;
     if (picked == null) {
@@ -590,6 +595,8 @@ Future<SourceMatch?> showWrongTitleSheet(
   required ZCanonical canonical,
   required String title,
   required String sourceId,
+  List<String> metadataAliases = const [],
+  int? malId,
 }) {
   return showModalBottomSheet<SourceMatch>(
     context: context,
@@ -602,6 +609,8 @@ Future<SourceMatch?> showWrongTitleSheet(
       canonical: canonical,
       initialQuery: title,
       sourceId: sourceId,
+      metadataAliases: metadataAliases,
+      malId: malId,
     ),
   );
 }
@@ -611,20 +620,30 @@ class _WrongTitleBody extends StatelessWidget {
     required this.canonical,
     required this.initialQuery,
     required this.sourceId,
+    required this.metadataAliases,
+    required this.malId,
   });
   final ZCanonical canonical;
   final String initialQuery;
   final String sourceId;
+  final List<String> metadataAliases;
+  final int? malId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => WrongTitleCubit(
-        sources: sl<SourceRepository>(),
-        matcher: sl<SourceMatcher>(),
-        canonical: canonical,
-        sourceId: sourceId,
-      )..search(initialQuery),
+      create: (_) =>
+          WrongTitleCubit(
+            sources: sl<SourceRepository>(),
+            matcher: sl<SourceMatcher>(),
+            canonical: canonical,
+            sourceId: sourceId,
+          )..search(
+            initialQuery,
+            retryWithMetadataAliases: true,
+            metadataAliases: metadataAliases,
+            malId: malId,
+          ),
       child: _WrongTitleView(initialQuery: initialQuery),
     );
   }

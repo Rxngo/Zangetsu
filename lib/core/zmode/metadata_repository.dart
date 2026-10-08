@@ -650,6 +650,10 @@ class MetadataRepository implements CatalogueRepository {
     final d = _isTmdb(c.kind)
         ? await _viaVideo((x) => x.detail(c), prefer: prefer)
         : await _viaAnime((x) => x.detail(c), prefer: prefer);
+    final metadataAliases = [
+      if (d.nativeTitle != null) d.nativeTitle!,
+      ...d.synonyms,
+    ];
     _titles[c.key] = (title: d.title, alt: d.englishTitle, malId: d.malId);
     AppLogger.instance.log(
       '[metadata] detail catalogue title="${d.title}" eps=${d.episodes.length} '
@@ -678,6 +682,7 @@ class MetadataRepository implements CatalogueRepository {
         c,
         title: d.title,
         altTitle: d.englishTitle,
+        metadataAliases: metadataAliases,
         malId: d.malId,
         // `detail` accepted `abandoned` but never consulted it, so a source
         // sweep outlived the screen that asked for it. Fast back-and-tap
@@ -744,6 +749,7 @@ class MetadataRepository implements CatalogueRepository {
       c,
       title: d.title,
       altTitle: d.englishTitle,
+      metadataAliases: metadataAliases,
       malId: d.malId,
       // `detail` accepted `abandoned` but never consulted it, so a source
       // sweep outlived the screen that asked for it. Fast back-and-tap

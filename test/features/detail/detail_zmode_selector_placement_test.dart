@@ -4,6 +4,7 @@
 // beyond MatchStore/ReaderPrefs, no platform channels) and pumps the PHONE
 // DetailScreen directly.
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -48,8 +49,15 @@ import 'package:watch_app/features/detail/wrong_title_sheet.dart';
 // ── Minimal stubs — same shapes as reading_detail_routing_test.dart ────────
 
 class _StubSourceRepository implements SourceRepository {
-  _StubSourceRepository(this._detail);
+  _StubSourceRepository(
+    this._detail, {
+    this.sourceList = const [],
+    this.detailGate,
+  });
   final MediaDetail _detail;
+  final List<({String id, String name})> sourceList;
+  final Completer<void>? detailGate;
+  final searchQueries = <String>[];
 
   @override
   noSuchMethod(Invocation i) => super.noSuchMethod(i);
@@ -68,7 +76,21 @@ class _StubSourceRepository implements SourceRepository {
     String? sourceId,
     void Function(MediaDetail partial)? onPartial,
     bool Function()? abandoned,
-  }) async => _detail;
+  }) async {
+    if (detailGate != null) await detailGate!.future;
+    onPartial?.call(_detail);
+    return _detail;
+  }
+
+  @override
+  Future<List<MediaItem>> search(
+    String query, {
+    String category = 'sub',
+    String? sourceId,
+  }) async {
+    searchQueries.add(query);
+    return const [];
+  }
 
   @override
   void prefetch(String url, {String? sourceId}) {}
@@ -77,13 +99,16 @@ class _StubSourceRepository implements SourceRepository {
   String get sourceId => 'test';
 
   @override
-  bool hasSource(String id) => false;
+  bool hasSource(String id) => sourceList.any((source) => source.id == id);
 
   @override
   String displayName(String id) => id;
 
   @override
-  List<({String id, String name})> get loadedSources => const [];
+  List<({String id, String name})> get loadedSources => sourceList;
+
+  @override
+  String baseUrlFor(String sourceId) => 'https://example.test';
 }
 
 class _FakeTitlePrefs extends TitlePrefsStore {
@@ -102,7 +127,6 @@ class _FakeMyListStore implements MyListStore {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   bool contains(MediaItem m) => false;
 
@@ -117,7 +141,6 @@ class _FakeListStatusStore implements ListStatusStore {
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   WatchStatus? statusOf(MediaItem m) => null;
@@ -134,7 +157,6 @@ class _FakeResumeStore implements ResumeStore {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   ResumeMark? get(String sourceId, String showId, String episodeId) => null;
 }
@@ -146,7 +168,6 @@ class _FakeProviderRegistry implements ProviderRegistry {
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   ProviderRegistryEntry? entryFor(String sourceId) => null;
@@ -163,7 +184,6 @@ class _FakeCloudStreamManager extends ChangeNotifier
   // provider is loaded before searching it. These fakes are already "loaded".
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
-
 
   @override
   BaseProvider? get(String sourceId) => null;
@@ -183,7 +203,6 @@ class _FakeDownloadManager extends ChangeNotifier implements DownloadManager {
   @override
   Future<bool> ensureSourceLoaded(String sourceId) async => true;
 
-
   @override
   DownloadRecord? recordFor(String sourceId, String showId, String episodeId) =>
       null;
@@ -196,8 +215,7 @@ class _FakeDownloadManager extends ChangeNotifier implements DownloadManager {
     String? episodeUrl,
     int? malId,
     double? episodeNumber,
-  }) async =>
-      null;
+  }) async => null;
 }
 
 class _FakeTrailerService extends TrailerService {
@@ -301,10 +319,13 @@ void main() {
     await ChapterDownloadStore.init();
     sl.registerSingleton<ChapterDownloadStore>(ChapterDownloadStore());
     sl.registerLazySingleton<ChapterDownloader>(
-      () => ChapterDownloader(sl<SourceRepository>(), sl<ChapterDownloadStore>()),
+      () =>
+          ChapterDownloader(sl<SourceRepository>(), sl<ChapterDownloadStore>()),
     );
     sl.registerSingleton<ReadStore>(_FakeReadStore());
-    sl.registerSingleton<ReadHistory>(ReadHistory(SupabaseService(), () => null));
+    sl.registerSingleton<ReadHistory>(
+      ReadHistory(SupabaseService(), () => null),
+    );
     sl.registerSingleton<WatchHistory>(
       WatchHistory(SupabaseService(), () => null),
     );
@@ -330,16 +351,23 @@ void main() {
     }
   });
 
-  Future<void> pumpDetail(WidgetTester tester, MediaItem item, MediaDetail detail) async {
-    final stub = _StubSourceRepository(detail);
+  Future<void> pumpDetail(
+    WidgetTester tester,
+    MediaItem item,
+    MediaDetail detail, {
+    _StubSourceRepository? source,
+  }) async {
+    final stub = source ?? _StubSourceRepository(detail);
     sl.registerSingleton<SourceRepository>(stub);
     sl.registerSingleton<CatalogueRepository>(sl<SourceRepository>());
-    sl.registerSingleton<SourceMatcher>(SourceMatcher(
-      sources: stub,
-      store: sl<MatchStore>(),
-      prefs: sl<ZSourcePrefs>(),
-      candidates: (_) => stub.loadedSources,
-    ));
+    sl.registerSingleton<SourceMatcher>(
+      SourceMatcher(
+        sources: stub,
+        store: sl<MatchStore>(),
+        prefs: sl<ZSourcePrefs>(),
+        candidates: (_) => stub.loadedSources,
+      ),
+    );
 
     tester.view.physicalSize = const Size(800, 2400);
     tester.view.devicePixelRatio = 1.0;
@@ -350,30 +378,74 @@ void main() {
     await tester.pump(); // MatchLine's own build-time resolve, if any
   }
 
-  testWidgets('a zm:// item shows the selector under the action buttons, above the synopsis', (tester) async {
-    await pumpDetail(tester, _zmItem, _zmDetail);
+  testWidgets(
+    'a zm:// item shows the selector under the action buttons, above the synopsis',
+    (tester) async {
+      await pumpDetail(tester, _zmItem, _zmDetail);
 
-    expect(find.byType(MatchLine), findsOneWidget);
+      expect(find.byType(MatchLine), findsOneWidget);
 
-    final matchY = tester.getTopLeft(find.byType(MatchLine)).dy;
-    final downloadY = tester
-        .getTopLeft(find.byIcon(Icons.file_download_outlined).first)
-        .dy;
-    final synopsisY = tester
-        .getTopLeft(find.textContaining('A synopsis long enough'))
-        .dy;
+      final matchY = tester.getTopLeft(find.byType(MatchLine)).dy;
+      final downloadY = tester
+          .getTopLeft(find.byIcon(Icons.file_download_outlined).first)
+          .dy;
+      final synopsisY = tester
+          .getTopLeft(find.textContaining('A synopsis long enough'))
+          .dy;
 
-    // Sits right after the buttons (below Download) and before the synopsis
-    // section that follows it — the old placement (section 4.5) was AFTER
-    // the synopsis instead.
-    expect(matchY, greaterThan(downloadY));
-    expect(matchY, lessThan(synopsisY));
-  });
+      // Sits right after the buttons (below Download) and before the synopsis
+      // section that follows it — the old placement (section 4.5) was AFTER
+      // the synopsis instead.
+      expect(matchY, greaterThan(downloadY));
+      expect(matchY, lessThan(synopsisY));
+    },
+  );
 
   testWidgets('a normal source item never shows the selector', (tester) async {
     await pumpDetail(tester, _plainItem, _plainDetail);
 
     expect(find.byType(MatchLine), findsNothing);
+  });
+
+  testWidgets('waits for full metadata before auto-matching a Z Mode title', (
+    tester,
+  ) async {
+    final detailGate = Completer<void>();
+    const alias = 'The Former Supreme';
+    const mangaItem = MediaItem(
+      id: 'former-supreme',
+      title: 'Jeonjikjijon',
+      url: 'zm://manga/mal:5114',
+      type: ProviderType.manga,
+      sourceId: 'test',
+    );
+    final source = _StubSourceRepository(
+      const MediaDetail(
+        id: 'former-supreme',
+        title: 'Jeonjikjijon',
+        url: 'zm://manga/mal:5114',
+        type: ProviderType.manga,
+        sourceId: 'zm',
+        synonyms: [alias],
+      ),
+      sourceList: const [(id: 'mihon:test', name: 'Test Source')],
+      detailGate: detailGate,
+    );
+
+    await pumpDetail(tester, mangaItem, source._detail, source: source);
+
+    // The tapped card has no synonyms yet. Searching at this point races the
+    // catalogue lookup and prevents its alias-aware result from being reused.
+    expect(find.byType(MatchLine), findsNothing);
+    expect(source.searchQueries, isEmpty);
+
+    detailGate.complete();
+    await tester.pump();
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byType(MatchLine), findsOneWidget);
+    expect(source.searchQueries, ['Jeonjikjijon', alias]);
   });
 }
 
@@ -382,8 +454,11 @@ void main() {
 /// items.
 class _FakeReadStore extends ReadStore {
   @override
-  ({int pos, int total})? get(String sourceId, String showId, String chapterId) =>
-      null;
+  ({int pos, int total})? get(
+    String sourceId,
+    String showId,
+    String chapterId,
+  ) => null;
 
   @override
   bool finished(String sourceId, String showId, String chapterId) => false;

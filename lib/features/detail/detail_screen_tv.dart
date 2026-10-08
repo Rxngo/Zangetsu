@@ -836,6 +836,13 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
                                   title: detail.title,
                                   altTitle: detail.englishTitle,
                                   malId: detail.malId,
+                                  metadataAliases: [
+                                    if (detail.englishTitle != null)
+                                      detail.englishTitle!,
+                                    if (detail.nativeTitle != null)
+                                      detail.nativeTitle!,
+                                    ...detail.synonyms,
+                                  ],
                                 ),
                                 const SizedBox(height: 10),
                               ],
@@ -953,7 +960,9 @@ class _DetailScreenTvState extends State<DetailScreenTv> {
                                 i++
                               )
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.only(end: 4),
+                                  padding: const EdgeInsetsDirectional.only(
+                                    end: 4,
+                                  ),
                                   child: TvFocusable(
                                     key: ValueKey('tv-detail-tab-$i'),
                                     variant: TvFocusVariant.pill,
